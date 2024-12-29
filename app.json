@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "D3Player",
+    "slug": "D3Player",
+    "version": "1.0.0",
+    "platforms": ["ios", "android", "web"],
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/OpenSans-Regular.ttf",
+            "./assets/fonts/OpenSans-Bold.ttf"
+          ]
+        }
+      ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.anonymous.D3Player"
+    },
+    "web" : {
+      "bundler": "metro"
+    },
+    "entryPoint": "./index.js"
+  },
+  "name": "D3Player"
+}
