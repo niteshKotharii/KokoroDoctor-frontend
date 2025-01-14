@@ -15,7 +15,7 @@ import ChatBot from './ChatBot';
 
 type FirstProps = NativeStackScreenProps<RootStackParamList, 'First'>
 
-const First = ({ navigation }: FirstProps) => {
+const First = ({ navigation, route }: FirstProps) => {
   const [isChatbotVisible, setChatbotVisible] = useState(false);
   return (
     <MyLinearGradient style={styles.container}>
@@ -44,12 +44,12 @@ const First = ({ navigation }: FirstProps) => {
         }}>
         <Image
           source={require('../assets/Images/chaticon.png')}
-          style={{ width: 24, height: 24 }}
+          style={{ width: 36, height: 36 }}
         />
       </TouchableOpacity>
-      <View style={{ position: 'absolute', bottom: 50, right: 20, width: 300, height: 300 }}>
+      <View style={{ position: 'absolute', bottom: 50, right: 20, width: 400, height: 400 }}>
         {isChatbotVisible && (
-          <ChatBot
+          <ChatBot navigation={navigation} route={route}
             setChatbotVisible={setChatbotVisible}
           />
         )}

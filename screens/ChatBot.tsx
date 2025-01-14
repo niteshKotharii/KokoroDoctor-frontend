@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Importing Ionicons from expo
-import { LinearGradient } from 'expo-linear-gradient'; // Importing LinearGradient from expo
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, Keyboard } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../navigation/Navigation";
 
@@ -11,44 +11,72 @@ type ChatBotProps = FirstProps & {
     setChatbotVisible: (visible: boolean) => void;
 };
 
-const ChatBot = ({ setChatbotVisible }: ChatBotProps) => {
-    const [messages, setMessages] = useState<{ id: string; text: string; sender: 'user' | 'bot' }[]>([]);
-    const [input, setInput] = useState('');
+type Message = {
+    sender: 'user' | 'bot';
+    text: string;
+};
 
-    const handleSend = async () => {
+const ChatBot = ({ setChatbotVisible }: ChatBotProps) => {
+
+    const [messages, setMessages] = useState<Message[]>([]); // Messages state
+    const [userMessage, setUserMessage] = useState<string>("");
+
+    useEffect(() => {
+        // Set initial message when the chatbot is first rendered
+        setMessages([{ sender: 'bot', text: "Hello, How may I help you today?" }]);
+    }, []);
+
+    const sendMessageToBot = async () => {
         debugger;
-        if (input.trim()) {
-            const userMessage = { id: Date.now().toString(), text: input, sender: 'user' as 'user' };
-            setMessages((prevMessages) => [...prevMessages, userMessage]);
-            const userInput = input;
-            setInput('');
+        if (!userMessage.trim()) return;
     
-            // Fetch bot response from Hugging Face API
-            try {
-                const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
-                    method: 'POST',
-                    headers: {
-                        Authorization: 'Bearer hf_XXXXXXXXXXXXXXXXXXXX', // Replace with your Hugging Face API token
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ inputs: userInput }),
-                });
+        // Add user's message to the chat
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { sender: 'user', text: userMessage },
+        ]);
     
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+        try {
+          // Send user's message to the Rasa backend
+          const response = await fetch("http://localhost:5005/webhooks/rest/webhook", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sender: "user123", message: userMessage }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
     
-                const data = await response.json();
-                const botResponse = data?.generated_text || "I'm sorry, I couldn't understand that.";
-                const botMessage = { id: Date.now().toString(), text: botResponse, sender: 'bot' as 'bot' };
-                setMessages((prevMessages) => [...prevMessages, botMessage]);
-            } catch (error) {
-                const botMessage = { id: Date.now().toString(), text: 'Sorry, I am having trouble understanding you right now.', sender: 'bot' as 'bot' };
-                setMessages((prevMessages) => [...prevMessages, botMessage]);
-                console.error('Error:', error);
-            }
+          const botReplies: { text: string }[] = await response.json(); // Expecting an array of responses
+    
+          // Append bot replies to the chat
+          const botMessages = botReplies.map((reply) => ({
+            sender: 'bot' as const,
+            text: reply.text,
+          }));
+    
+          setMessages((prevMessages) => [...prevMessages, ...botMessages]);
+        } catch (error) {
+          console.error("Error communicating with Rasa:", error);
+    
+          // Add error message to chat
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { sender: 'bot', text: "Error: Unable to connect to the bot." },
+          ]);
         }
-    };
+    
+        // Clear the input field
+        setUserMessage("");
+        Keyboard.dismiss();
+      };
+
+      const renderItem = ({ item }: { item: Message }) => (
+        <View style={[styles.message, item.sender === 'user' ? styles.userMessage : styles.botMessage]}>
+            <Text style={styles.messageText}>{item.text}</Text>
+        </View>
+      );
     
 
     return (
@@ -58,24 +86,21 @@ const ChatBot = ({ setChatbotVisible }: ChatBotProps) => {
             </TouchableOpacity>
             <FlatList
                 data={messages}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <View style={[styles.message, item.sender === 'user' ? styles.userMessage : styles.botMessage]}>
-                        <Text style={styles.messageText}>{item.text}</Text>
-                    </View>
-                )}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
             />
             <View style={styles.inputContainer}>
-                <TextInput
-                    style={styles.input}
-                    value={input}
-                    onChangeText={setInput}
-                    placeholder="Type a message"
-                    placeholderTextColor="#888"
-                />
-                <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
-                    <Text style={styles.sendButtonText}>Send</Text>
-                </TouchableOpacity>
+            <TextInput
+                style={styles.input}
+                value={userMessage}
+                onChangeText={setUserMessage}
+                placeholder="Type your message..."
+                onSubmitEditing={sendMessageToBot} // Trigger sending message on Enter key
+                returnKeyType="send"
+            />
+            <TouchableOpacity style={styles.sendButton} onPress={sendMessageToBot}> 
+                <Text style={styles.sendButtonText}>Send</Text>
+            </TouchableOpacity>
             </View>
         </LinearGradient>
     );
