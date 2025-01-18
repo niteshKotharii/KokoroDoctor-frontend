@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "D3Player",
-    "slug": "D3Player",
+    "name": "Kokoro.doctor",
+    "slug": "Kokoro.doctor",
     "version": "1.0.0",
     "platforms": ["ios", "android", "web"],
     "plugins": [
@@ -16,12 +16,12 @@
       ]
     ],
     "ios": {
-      "bundleIdentifier": "com.anonymous.D3Player"
+      "bundleIdentifier": "com.anonymous.kokoro.doctor"
     },
     "web" : {
       "bundler": "metro"
     },
     "entryPoint": "./index.js"
   },
-  "name": "D3Player"
+  "name": "Kokoro.doctor"
 }

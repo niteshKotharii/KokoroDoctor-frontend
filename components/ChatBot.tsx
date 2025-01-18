@@ -5,9 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../navigation/Navigation";
 
-type FirstProps = NativeStackScreenProps<RootStackParamList, 'First'>;
-
-type ChatBotProps = FirstProps & {
+type ChatBotProps = Partial<NativeStackScreenProps<RootStackParamList, 'First'>> & {
     setChatbotVisible: (visible: boolean) => void;
 };
 

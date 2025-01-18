@@ -11,12 +11,10 @@ import {
 import MyLinearGradient from '../components/MyLinearGradient';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../navigation/Navigation"
-import ChatBot from './ChatBot';
 
 type FirstProps = NativeStackScreenProps<RootStackParamList, 'First'>
 
 const First = ({ navigation, route }: FirstProps) => {
-  const [isChatbotVisible, setChatbotVisible] = useState(false);
   return (
     <MyLinearGradient style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#333" />
@@ -37,23 +35,6 @@ const First = ({ navigation, route }: FirstProps) => {
           style={styles.arrow}
         />
       </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.chatbotButton, { position: 'absolute', bottom: 20, right: 20 }]}
-        onPress={() => {
-          setChatbotVisible(!isChatbotVisible);
-        }}>
-        <Image
-          source={require('../assets/Images/chaticon.png')}
-          style={{ width: 36, height: 36 }}
-        />
-      </TouchableOpacity>
-      <View style={{ position: 'absolute', bottom: 50, right: 20, width: 400, height: 400 }}>
-        {isChatbotVisible && (
-          <ChatBot navigation={navigation} route={route}
-            setChatbotVisible={setChatbotVisible}
-          />
-        )}
-      </View>
     </MyLinearGradient>
   );
 };
@@ -109,18 +90,6 @@ const styles = StyleSheet.create({
   arrow: {
     width: 50,
     height: 50,
-  },
-  chatbotButton: {
-    // backgroundColor: '#007AFF',
-    // paddingVertical: 10,
-    // paddingHorizontal: 20,
-    // borderRadius: 5,
-    // marginBottom: 20,
-  },
-  chatbotButtonText: {
-    // color: '#fff',
-    // fontSize: 18,
-    // fontWeight: 'bold',
   },
 });
 

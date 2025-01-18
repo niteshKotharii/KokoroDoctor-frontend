@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "D3Player.app"
-               BlueprintName = "D3Player"
-               ReferencedContainer = "container:D3Player.xcodeproj">
+               BuildableName = "kokoro.doctor.app"
+               BlueprintName = "kokoro.doctor"
+               ReferencedContainer = "container:kokoro.doctor.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "D3PlayerTests.xctest"
-               BlueprintName = "D3PlayerTests"
-               ReferencedContainer = "container:D3Player.xcodeproj">
+               BuildableName = "kokoro.doctorTests.xctest"
+               BlueprintName = "kokoro.doctorTests"
+               ReferencedContainer = "container:kokoro.doctor.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "D3Player.app"
-            BlueprintName = "D3Player"
-            ReferencedContainer = "container:D3Player.xcodeproj">
+            BuildableName = "kokoro.doctor.app"
+            BlueprintName = "kokoro.doctor"
+            ReferencedContainer = "container:kokoro.doctor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "D3Player.app"
-            BlueprintName = "D3Player"
-            ReferencedContainer = "container:D3Player.xcodeproj">
+            BuildableName = "kokoro.doctor.app"
+            BlueprintName = "kokoro.doctor"
+            ReferencedContainer = "container:kokoro.doctor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
