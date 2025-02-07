@@ -25,7 +25,7 @@ const ChatBotOverlay: React.FC<ChatBotOverlayProps> = ({ navigationRef }) => {
     }, [navigationRef]);
 
   // Screens where chatbot SHOULD be visible
-  const visibleScreens = ['LandingPage', 'Dashboard']; // List of screens where chatbot appears
+  const visibleScreens = ['LandingPage', 'Dashboard', 'Hospitals']; // List of screens where chatbot appears
 
   // If current screen is NOT in the list, don't show chatbot
   if (!currentRoute || !visibleScreens.includes(currentRoute)) {

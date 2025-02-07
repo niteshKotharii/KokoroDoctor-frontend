@@ -20,9 +20,9 @@ import { RootStackParamList } from "../navigation/Navigation"
 import { useChatbot } from "../constants/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
 
-type DashboardProps = NativeStackScreenProps<RootStackParamList, 'Dashboard'>
+type HospitalsProps = NativeStackScreenProps<RootStackParamList, 'Hospitals'>
 
-const Dashboard = ({ navigation, route }: DashboardProps) => {
+const Hospitals = ({ navigation, route }: HospitalsProps) => {
   const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
   const [dropdownVisible, setDropdownVisible] = useState(false); // State to toggle dropdown visibility
   const { setChatbotConfig } = useChatbot();
@@ -46,7 +46,7 @@ const Dashboard = ({ navigation, route }: DashboardProps) => {
 
   const menuItems = [
     { name: "Home", icon: require("../assets/Icons/home (1).png") },
-    { name: "Dashboard", icon: require("../assets/Icons/dashboard.png") },
+    { name: "Hospitals", icon: require("../assets/Icons/dashboard.png") },
     { name: "Doctors", icon: require("../assets/Icons/profile.png") },
     { name: "Messages", icon: require("../assets/Icons/mail.png") },
     { name: "Categories", icon: require("../assets/Icons/category.png") },
@@ -198,12 +198,12 @@ const Dashboard = ({ navigation, route }: DashboardProps) => {
           {/* <blur style={styles.blurView} blurType="light" blurAmount={10} /> */}
           <View style={styles.doctorProfile}>
             <Image
-              source={require("../assets/Images/dr_kislay.jpg")}
+              source={require("../assets/Images/apollo.png")}
               style={styles.doctorImage}
             />
-            <Text style={styles.doctorName}>Dr. Kislay Shrivastava (MBBS, MD, DND Cardiology AIIMS and Apollo hospital)</Text>
-            <Text style={styles.specialist}>Cardiologist</Text>
-            <Text style={styles.workingExperience}>20+ Years</Text>
+            <Text style={styles.doctorName}>Apollo hospital</Text>
+            <Text style={styles.specialist}>Cardialogy Department</Text>
+            <Text style={styles.workingExperience}>Trust of more than 41 years with 10000+ and 73+ hospital network</Text>
             <Text style={styles.doctorRating}>⭐ 4.5</Text>
           </View>
 
@@ -637,4 +637,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Dashboard;
+export default Hospitals;

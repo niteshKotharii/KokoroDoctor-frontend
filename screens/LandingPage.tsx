@@ -52,7 +52,7 @@ const LandingPage = ({ navigation, route }: LandingPageProps) => {
     }else if(menu==='Sr. Doctors'){
       navigation.navigate("Dashboard");
     }else if(menu==='Book Hospital'){
-      navigation.navigate("Dashboard");
+      navigation.navigate("Hospitals");
     }
     else if(menu==='24x7 Cardiac Support'){
       navigation.navigate("Second");

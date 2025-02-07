@@ -8,6 +8,7 @@ import Login from "../screens/Login";
 import Home from "../screens/Home";
 import LandingPage from "../screens/LandingPage";
 import Dashboard from "../screens/Dashboard";
+import Hospitals from "../screens/Hospitals";
 import AboutUs from "../screens/AboutUs";
 import ContactUs from "../screens/ContactUs";
 import DataAssets from "../screens/DataAssets";
@@ -27,6 +28,7 @@ export type RootStackParamList = {
   Login: undefined;
   LandingPage: undefined;
   Dashboard: undefined;
+  Hospitals: undefined;
   AboutUs: undefined;
   ContactUs: undefined;
   Home: undefined;
@@ -66,6 +68,7 @@ const AppNavigation: React.FC<AppNavigationProps> = ({ navigationRef }) => {
        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} /> 
        <Stack.Screen name="LandingPage" component={LandingPage} options={{ headerShown: false }} /> 
        <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }} /> 
+       <Stack.Screen name="Hospitals" component={Hospitals} options={{ headerShown: false }} /> 
        <Stack.Screen name="AboutUs" component={AboutUs} options={{ headerShown: false }} /> 
        <Stack.Screen name="ContactUs" component={ContactUs} options={{ headerShown: false }} /> 
        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} /> 
