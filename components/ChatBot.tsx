@@ -14,12 +14,11 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { Picker as RNPickerSelect } from '@react-native-picker/picker';
 import { useChatbot } from '../constants/ChatbotContext';
-import { Audio } from 'expo-av';
+import * as Speech from 'expo-speech';
 
 type Message = {
     sender: 'user' | 'bot';
     text: string;
-    audio?: string;
 };
 
 type ChatbotConfig = {
@@ -31,10 +30,8 @@ const ChatBot = () => {
     const { chatbotConfig }: { chatbotConfig: ChatbotConfig } = useChatbot();
     const [messages, setMessages] = useState<Message[]>([]); 
     const [userMessage, setUserMessage] = useState<string>("");
-    const [sound, setSound] = useState<Audio.Sound | null>(null);
-    const [playingMessage, setPlayingMessage] = useState<number | null>(null);
-    const [audioHistory, setAudioHistory] = useState<{ index: number; audioUrl: string }[]>([]);
     const [selectedLanguage, setSelectedLanguage] = useState("en");
+    const [playingMessage, setPlayingMessage] = useState<number | null>(null);
 
     useEffect(() => {
         setMessages([{ sender: 'bot', text: "Hello, How may I help you today?" }]);
@@ -43,7 +40,6 @@ const ChatBot = () => {
     const sendMessageToBot = async () => {
         if (!userMessage.trim()) return;
     
-        const messageIndex = messages.length; // Store the index of the user message
         const messageToSend = userMessage;
         setUserMessage("");
     
@@ -56,58 +52,50 @@ const ChatBot = () => {
             const response = await fetch("http://127.0.0.1:5000/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ question: messageToSend, language: "en" }),
+                body: JSON.stringify({ question: messageToSend, language: selectedLanguage }),
             });
             
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     
-            const botReply = await response.json(); // Expecting { audio: 'url', text: 'response' }
+            const botReply = await response.json(); 
     
-            setMessages(prevMessages => [
-                ...prevMessages,
-                { sender: 'bot', text: botReply.text, audio: botReply.audio }
-            ]);
-    
-            // Store new audio in history
-            setAudioHistory(prev => [...prev, { index: messageIndex + 1, audioUrl: botReply.audio }]);
+            setMessages(prevMessages => {
+                const updatedMessages: Message[] = [...prevMessages, { sender: 'bot', text: botReply.text }];
+                const newMessageIndex = updatedMessages.length - 1; // Get the index of the latest bot message
+                setPlayingMessage(newMessageIndex); // Set playingMessage to the new message index
+                Speech.speak(botReply.text, {
+                    language: selectedLanguage,
+                    onDone: () => setPlayingMessage(null),
+                    onStopped: () => setPlayingMessage(null),
+                });
+                return updatedMessages;
+            });
     
         } catch (error) {
             console.error("Error communicating with Bot:", error);
             setMessages(prevMessages => [
                 ...prevMessages,
-                { sender: 'bot', text: "Error: Unable to connect to the bot." },
+                { sender: 'bot', text: (error as Error).message },
             ]);
         }
     
         Keyboard.dismiss();
     };    
     
-    const playPauseAudio = async (index: number) => {
-        const audioEntry = audioHistory.find(entry => entry.index === index);
-        if (!audioEntry) return;
-    
+    const toggleTTS = (index: number, text: string) => {
         if (playingMessage === index) {
-            if (sound) {
-                await sound.pauseAsync();
-            }
+            Speech.stop();
             setPlayingMessage(null);
         } else {
-            if (sound) {
-                await sound.unloadAsync(); // Immediately stop old audio
-            }
-    
-            const { sound: newSound } = await Audio.Sound.createAsync({ uri: audioEntry.audioUrl });
-            setSound(newSound);
+            Speech.speak(text, {
+                language: selectedLanguage,
+                onDone: () => setPlayingMessage(null),
+                onStopped: () => setPlayingMessage(null)
+            });
             setPlayingMessage(index);
-    
-            /**  Add a small delay to ensure the state updates before playing **/
-            setTimeout(async () => {
-                await newSound.playAsync();
-            }, 50);  // 50ms delay ensures the state updates before playback
         }
     };
-          
-
+    
     const renderItem = ({ item, index }: { item: Message; index: number }) => (
         <View style={[styles.messageContainer, item.sender === 'user' ? styles.userMessage : styles.botMessage]}>
             <Image 
@@ -118,7 +106,7 @@ const ChatBot = () => {
                 <Text style={item.sender === 'user' ? styles.userMessageText : styles.botMessageText}>{item.text}</Text>
                 {item.sender === 'bot' && (
                     <View style={styles.botIcons}>
-                        <TouchableOpacity onPress={() => playPauseAudio(index)}>
+                        <TouchableOpacity onPress={() => toggleTTS(index, item.text)}>
                             <MaterialIcons name={playingMessage === index ? "pause" : "volume-up"} size={16} color="gray" />
                         </TouchableOpacity>
                         <TouchableOpacity><MaterialIcons name="thumb-up" size={16} color="gray" /></TouchableOpacity>
@@ -138,7 +126,9 @@ const ChatBot = () => {
                 <Text style={{alignSelf:"center"}}>Select the language in which you want to chat: </Text>
                 <RNPickerSelect
                     selectedValue={selectedLanguage}
-                    onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
+                    onValueChange={(itemValue) => {
+                        console.log(itemValue);
+                        setSelectedLanguage(itemValue)}}
                     style={styles.picker}>
                     <RNPickerSelect.Item label="English" value="en" />
                     <RNPickerSelect.Item label="Hindi" value="hi" />
