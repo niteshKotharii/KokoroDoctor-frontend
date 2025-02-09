@@ -9,9 +9,10 @@ import {
   TextInput,
   Keyboard,
   Text,
-  FlatList
+  FlatList,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Picker as RNPickerSelect } from '@react-native-picker/picker';
 import { useChatbot } from '../constants/ChatbotContext';
 import { Audio } from 'expo-av';
 
@@ -33,6 +34,7 @@ const ChatBot = () => {
     const [sound, setSound] = useState<Audio.Sound | null>(null);
     const [playingMessage, setPlayingMessage] = useState<number | null>(null);
     const [audioHistory, setAudioHistory] = useState<{ index: number; audioUrl: string }[]>([]);
+    const [selectedLanguage, setSelectedLanguage] = useState("en");
 
     useEffect(() => {
         setMessages([{ sender: 'bot', text: "Hello, How may I help you today?" }]);
@@ -131,13 +133,26 @@ const ChatBot = () => {
     
 
     return (
-        <View style={[styles.chatContainer, { height: chatbotConfig.height || 150, left: chatbotConfig.left || 280 }]}>
+        <View style={[styles.chatContainer, { height: chatbotConfig.height || 150, left: chatbotConfig.left || 280 }]}>    
+            <View style={styles.languageSelector}>
+                <Text style={{alignSelf:"center"}}>Select the language in which you want to chat: </Text>
+                <RNPickerSelect
+                    selectedValue={selectedLanguage}
+                    onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
+                    style={styles.picker}>
+                    <RNPickerSelect.Item label="English" value="en" />
+                    <RNPickerSelect.Item label="Hindi" value="hi" />
+                    <RNPickerSelect.Item label="Spanish" value="es" />
+                    <RNPickerSelect.Item label="Telugu" value="te" />
+                </RNPickerSelect>
+            </View>           
             <FlatList
                 data={messages}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
                 contentContainerStyle={styles.messageList}
             />
+
             <View style={styles.chatBox}>
                 <TouchableOpacity onPress={() => Alert.alert("Voice recording started")}> 
                     <MaterialIcons name="mic" size={24} color="black" style={styles.voiceIcon}/>
@@ -212,7 +227,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row-reverse',
     },
     userMessageBox: {
-        maxWidth: '75%',
+        maxWidth: '70%',
         padding: 10,
         borderRadius: 10,
         borderWidth: 1,
@@ -220,7 +235,7 @@ const styles = StyleSheet.create({
         backgroundColor: "pink",
     },
     botMessageBox: {
-        maxWidth: '75%',
+        maxWidth: '80%',
         padding: 10,
         borderRadius: 10,
         borderWidth: 1,
@@ -271,6 +286,20 @@ const styles = StyleSheet.create({
     sendIcon: {
         height: 30,
         width: 30,
+    },
+    languageSelector: {
+        flexDirection: "row",
+        alignItems: "flex-start",
+        alignSelf: "flex-end",
+        marginBottom: 10,
+    },
+    languageLabel: {
+        fontSize: 16,
+        marginRight: 10,
+    },
+    picker: {
+        height: 40,
+        width: 150,
     },
 });
 

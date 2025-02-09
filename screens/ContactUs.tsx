@@ -131,6 +131,18 @@ const ContactUs = ({ navigation, route }: ContactUsprops) => {
                 <TouchableOpacity
                   onPress={() =>
                     Linking.openURL(
+                      "https://www.linkedin.com/company/metafiedkokoro"
+                    )
+                  }
+                >
+                  <Image
+                    source={require("../assets/Icons/LinkedIn.png")}
+                    style={[styles.socialIcon]}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    Linking.openURL(
                       "https://www.instagram.com/kokoro.doc?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==;"
                     )
                   }
@@ -140,13 +152,13 @@ const ContactUs = ({ navigation, route }: ContactUsprops) => {
                     style={styles.socialIcon}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => Linking.openURL(";")}>
+                <TouchableOpacity onPress={() => Linking.openURL("/")}>
                   <Image
                     source={require("../assets/Icons/twitter.png")}
                     style={styles.socialIcon}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => Linking.openURL(";")}>
+                <TouchableOpacity onPress={() => Linking.openURL("/")}>
                   <Image
                     source={require("../assets/Icons/youtube.png")}
                     style={styles.socialIcon}
