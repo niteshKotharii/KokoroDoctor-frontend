@@ -10,6 +10,7 @@ import {
   Keyboard,
   Text,
   FlatList,
+  Animated,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Picker as RNPickerSelect } from '@react-native-picker/picker';
@@ -32,10 +33,24 @@ const ChatBot = () => {
     const [userMessage, setUserMessage] = useState<string>("");
     const [selectedLanguage, setSelectedLanguage] = useState("en");
     const [playingMessage, setPlayingMessage] = useState<number | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const typingDots = new Animated.Value(0);
+    const [typingText, setTypingText] = useState(".");
 
     useEffect(() => {
         setMessages([{ sender: 'bot', text: "Hello, How may I help you today?" }]);
     }, []);
+
+    useEffect(() => {
+        if (isLoading) {
+            const interval = setInterval(() => {
+                setTypingText(prev => (prev === "." ? ".." : prev === ".." ? "..." : "."));
+            }, 500); // Change every 500ms
+
+            return () => clearInterval(interval);
+        }
+    }, [isLoading]);
+
 
     const sendMessageToBot = async () => {
         if (!userMessage.trim()) return;
@@ -47,9 +62,10 @@ const ChatBot = () => {
             ...prevMessages,
             { sender: 'user', text: messageToSend }
         ]);
+        setIsLoading(true);
     
         try {
-            const response = await fetch("http://127.0.0.1:5000/chat", {
+            const response = await fetch("http://127.0.0.1:8000/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ question: messageToSend, language: selectedLanguage }),
@@ -78,7 +94,8 @@ const ChatBot = () => {
                 { sender: 'bot', text: (error as Error).message },
             ]);
         }
-    
+        
+        setIsLoading(false);
         Keyboard.dismiss();
     };    
     
@@ -96,30 +113,41 @@ const ChatBot = () => {
         }
     };
     
-    const renderItem = ({ item, index }: { item: Message; index: number }) => (
-        <View style={[styles.messageContainer, item.sender === 'user' ? styles.userMessage : styles.botMessage]}>
-            <Image 
-                source={item.sender === 'user' ? require("../assets/Images/profile.jpeg") : require("../assets/Images/NewLogo.png")}
-                style={styles.avatar}
-            />
-            <View style={item.sender === 'user' ? styles.userMessageBox : styles.botMessageBox}>
-                <Text style={item.sender === 'user' ? styles.userMessageText : styles.botMessageText}>{item.text}</Text>
-                {item.sender === 'bot' && (
-                    <View style={styles.botIcons}>
-                        <TouchableOpacity onPress={() => toggleTTS(index, item.text)}>
-                            <MaterialIcons name={playingMessage === index ? "pause" : "volume-up"} size={16} color="gray" />
-                        </TouchableOpacity>
-                        <TouchableOpacity><MaterialIcons name="thumb-up" size={16} color="gray" /></TouchableOpacity>
-                        <TouchableOpacity><MaterialIcons name="thumb-down" size={16} color="gray" /></TouchableOpacity>
-                        <TouchableOpacity><MaterialIcons name="share" size={16} color="gray" /></TouchableOpacity>
+    const renderItem = ({ item, index }: { item: Message; index: number }) => {
+        if (isLoading && index === messages.length) {
+            return (
+                <View style={[styles.messageContainer, styles.botMessage]}>
+                    <Image source={require("../assets/Images/NewLogo.png")} style={styles.avatar} />
+                    <View style={styles.botMessageBox}>
+                        <Animated.Text style={styles.typingDots}>{typingText}</Animated.Text>
                     </View>
-                )}
+                </View>
+            );
+        }
+    
+        return (
+            <View style={[styles.messageContainer, item.sender === 'user' ? styles.userMessage : styles.botMessage]}>
+                <Image 
+                    source={item.sender === 'user' ? require("../assets/Images/profile.jpeg") : require("../assets/Images/NewLogo.png")}
+                    style={styles.avatar}
+                />
+                <View style={item.sender === 'user' ? styles.userMessageBox : styles.botMessageBox}>
+                    <Text style={item.sender === 'user' ? styles.userMessageText : styles.botMessageText}>{item.text}</Text>
+                    {item.sender === 'bot' && !isLoading && ( 
+                        <View style={styles.botIcons}>
+                            <TouchableOpacity onPress={() => toggleTTS(index, item.text)}>
+                                <MaterialIcons name={playingMessage === index ? "pause" : "volume-up"} size={16} color="gray" />
+                            </TouchableOpacity>
+                            <TouchableOpacity><MaterialIcons name="thumb-up" size={16} color="gray" /></TouchableOpacity>
+                            <TouchableOpacity><MaterialIcons name="thumb-down" size={16} color="gray" /></TouchableOpacity>
+                            <TouchableOpacity><MaterialIcons name="share" size={16} color="gray" /></TouchableOpacity>
+                        </View>
+                    )}
+                </View>
             </View>
-        </View>
-    );
+        );
+    };    
     
-    
-
     return (
         <View style={[styles.chatContainer, { height: chatbotConfig.height || 150, left: chatbotConfig.left || 280 }]}>    
             <View style={styles.languageSelector}>
@@ -137,7 +165,7 @@ const ChatBot = () => {
                 </RNPickerSelect>
             </View>           
             <FlatList
-                data={messages}
+                data={isLoading ? [...messages, { sender: 'bot', text: "" }] : messages}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
                 contentContainerStyle={styles.messageList}
@@ -290,6 +318,11 @@ const styles = StyleSheet.create({
     picker: {
         height: 40,
         width: 150,
+    },
+    typingDots: {
+        fontSize: 18,
+        letterSpacing: 2,
+        color: "#555",
     },
 });
 
