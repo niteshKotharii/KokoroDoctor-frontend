@@ -197,7 +197,7 @@ const ChatBot = () => {
                     <RNPickerSelect.Item label="Telugu" value="te" />
                 </RNPickerSelect>
                 <Pressable onPress={() => handleBlur()} style={styles.closeIcon}>
-                    <MaterialIcons name="cancel" size={32} color="#9c3535" />
+                    <MaterialIcons name="cancel" size={30} color="#000" />
                 </Pressable>
             </View>           
             <FlatList

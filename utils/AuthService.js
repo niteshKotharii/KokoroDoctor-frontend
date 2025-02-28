@@ -18,7 +18,6 @@ export const useGoogleAuth = () => {
 };
 
 export const signup = async (username, email, password, navigation) => {
-  console.log("Signup", { username, email, password });
   try {
     const response = await axios.post(`${API_URL}/auth/signup`, {
       username,
