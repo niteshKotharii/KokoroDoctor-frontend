@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -15,12 +15,14 @@ import {
   handleGoogleLogin,
   useGoogleAuth,
 } from "../utils/AuthService";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
   const [userInfo, setUserInfo] = useState(null);
+  const {user, setUser} = useContext(AuthContext);
 
   const [request, response, promptAsync] = useGoogleAuth();
 
@@ -71,7 +73,7 @@ const Login = ({ navigation }) => {
         />
 
         {/* Email Login Button */}
-        <TouchableOpacity style={styles.continueButton} onPress={() => {login(email, password, navigation)}}>
+        <TouchableOpacity style={styles.continueButton} onPress={() => {login(email, password, navigation, setUser)}}>
           <Text style={styles.continueButtonText}>Login</Text>
         </TouchableOpacity>
 

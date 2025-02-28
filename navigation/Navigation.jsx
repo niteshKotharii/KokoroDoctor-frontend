@@ -33,7 +33,7 @@ const AppNavigation = ({ navigationRef }) => {
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
-      initialRouteName="Medilocker"
+      initialRouteName="LandingPage"
         screenOptions={{
           headerStyle: {
             backgroundColor: theme.container.backgroundColor,

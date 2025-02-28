@@ -1,21 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Pressable, View, Text, StyleSheet, Image } from "react-native";
-import {getCurrentUser, logOut } from "../utils/AuthService";
-import { useFocusEffect } from "@react-navigation/native";
+import { logOut } from "../utils/AuthService";
+import { AuthContext } from "../contexts/AuthContext";
 
 const LoginSignUp = ({ navigation }) => {
-  const [user, setUser] = useState(null);
-
-  const fetchUser = async () => {
-    const loggedInUser = await getCurrentUser();
-    setUser(loggedInUser);
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchUser();
-    }, [])
-  );
+  const {user, setUser} = useContext(AuthContext);
 
   return (
     <View style={styles.header}>
@@ -25,8 +14,7 @@ const LoginSignUp = ({ navigation }) => {
           <Image source={require("../assets/Images/user-icon.jpg")} style={styles.userIcon} />
           <Text style={styles.username}>{user.username}</Text>
           <Pressable onPress={async () => {
-            await logOut();
-            setUser(null);
+            await logOut(setUser);
           }} style={styles.logoutButton}>
             <Text style={styles.logoutText}>Logout</Text>
           </Pressable>
@@ -51,6 +39,7 @@ const styles = StyleSheet.create({
     height: "10%",
     justifyContent: "center",
     alignItems: "center",
+    marginTop:5,
   },
   authButtons: {
     flexDirection: "row",

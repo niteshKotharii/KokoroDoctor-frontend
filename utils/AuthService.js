@@ -27,17 +27,16 @@ export const signup = async (username, email, password, navigation) => {
     });
     const { user } = response.data;
     await AsyncStorage.setItem("@user", JSON.stringify(user));
-    alert("Success", "Signup successful! Now you can login.");
+    alert("Signup successful! Now you can login.");
     navigation.navigate("Login");
   } catch (error) {
     alert(
-      "Signup Failed",
-      error.response?.data?.detail || "Something went wrong!"
+      `Signup Failed", ${error.response?.data?.detail || "Something went wrong!"}`
     );
   }
 };
 
-export const login = async (email, password, navigation) => {
+export const login = async (email, password, navigation, setUser) => {
   try {
     const response = await axios.post(`${API_URL}/auth/login`, {
       email,
@@ -47,25 +46,21 @@ export const login = async (email, password, navigation) => {
 
     await AsyncStorage.setItem("@token", access_token);
     await AsyncStorage.setItem("@user", JSON.stringify(user));
-    alert("Login Successful", "You are now logged in!");
-    navigation.navigate("NewLandingPage");
+    alert("Login Successful! You are now logged in!");
+    setUser(user);
+    navigation.navigate("LandingPage");
   } catch (error) {
     alert(
-      "Login Failed",
-      error.response?.data?.detail || "Something went wrong!"
+      `Login Failed", ${error.response?.data?.detail || "Something went wrong!"}`
     );
   }
 };
 
-export const logOut = async () => {
+export const logOut = async (setUser) => {
   await AsyncStorage.removeItem("@token");
   await AsyncStorage.removeItem("@user");
   alert("Logged Out", "You have been successfully logged out.");
-};
-
-export const signOut = async (setUserInfo) => {
-  await AsyncStorage.removeItem("@user");
-  setUserInfo(null);
+  setUser(null);
 };
 
 export const getUserInfo = async (token) => {
@@ -89,13 +84,3 @@ export const handleGoogleLogin = async (response, setUserInfo) => {
     getUserInfo(response.authentication.accessToken, setUserInfo);
   }
 };
-
-export const getCurrentUser = async () => {
-  try {
-      const user = await AsyncStorage.getItem('@user');
-      return user ? JSON.parse(user) : null;
-  } catch (error) {
-      console.error("Error retrieving user:", error);
-      return null;
-  }
-}

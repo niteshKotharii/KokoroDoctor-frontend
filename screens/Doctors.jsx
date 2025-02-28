@@ -17,6 +17,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useChatbot } from "../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
 import SideBarNavigation from "../components/SideBarNavigation";
+import LoginSignUp from "../components/LoginSignUp";
 
 const Doctors = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
@@ -27,7 +28,7 @@ const Doctors = ({ navigation, route }) => {
   useFocusEffect(
     useCallback(() => {
       // Reset chatbot height when this screen is focused
-      setChatbotConfig({ height: "23%"});
+      setChatbotConfig({ height: "32%"});
     }, [])
   );
 
@@ -81,7 +82,7 @@ const Doctors = ({ navigation, route }) => {
               </View>
               <View style={styles.Right}>
 
-                <View style={styles.center}>
+                {/* <View style={styles.center}>
                   <View style={styles.center_textbar}>
                     <Text style={styles.centerText}>Welcome!</Text>
                     <Text style={styles.lowertext}>
@@ -131,9 +132,9 @@ const Doctors = ({ navigation, route }) => {
                         size={24}
                         color="#fff"
                       />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     {/* Dropdown Menu */}
-                    {dropdownVisible && (
+                    {/* {dropdownVisible && (
                       <View style={styles.dropdownMenu}>
                         {profileOptions.map((option, index) => (
                           <TouchableOpacity
@@ -145,9 +146,11 @@ const Doctors = ({ navigation, route }) => {
                           </TouchableOpacity>
                         ))}
                       </View>
-                    )}
-                  </View>
-                </View>
+                    )} */}
+                  {/* </View>
+                </View> */}
+
+                <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
                 
                 <View style={styles.middlepart}>
 
@@ -302,6 +305,13 @@ const styles = StyleSheet.create({
   Right: {
     height: "100%",
     width: "100%",
+  },
+  header: {
+    width:"12%",
+    marginLeft: "70%",
+    marginTop: 15,
+    // borderColor: "#FFFFFF",
+    // borderWidth: 1,
   },
   center: {
     marginHorizontal: "2%",

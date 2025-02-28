@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -18,9 +18,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Picker as RNPickerSelect } from '@react-native-picker/picker';
 import { useChatbot } from '../contexts/ChatbotContext';
 import * as Speech from 'expo-speech';
-import { getCurrentUser } from '../utils/AuthService';
+import { AuthContext } from '../contexts/AuthContext';
+import axios from 'axios';
 
 const { width } = Dimensions.get("window");
+
+const BASE_URL = "http://127.0.0.1:5000";
 
 const ChatBot = () => {
     const { chatbotConfig, isChatExpanded, setIsChatExpanded } = useChatbot();
@@ -32,21 +35,13 @@ const ChatBot = () => {
     const [isLoading, setIsLoading] = useState(false);
     const typingDots = new Animated.Value(0);
     const [typingText, setTypingText] = useState(".");
+    const {user, setUser} = useContext(AuthContext);
     
-    // Fetch User
-    const fetchUser = async () => {
-        const user = await getCurrentUser();
-        if(user){
-            setUserId(loggedInUser.email);
+    useEffect(() => {
+        if (user) {
+            setUserId(user.email);
         }
-    };
-    
-    // useEffect to fetch user
-    useEffect(
-        useCallback(() => {
-            fetchUser();
-        }, [])
-    );
+    }, [user]);
 
     // Loading Typing animation
     useEffect(() => {
@@ -71,16 +66,19 @@ const ChatBot = () => {
         setIsLoading(true);
     
         try {
-            const response = await fetch("http://127.0.0.1:5000/chat/send", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({user_id:userId, message: messageToSend, language: selectedLanguage }),
-            })
-            
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    
-            const botReply = await response.json(); 
-    
+            const response = await axios.post(`${BASE_URL}/chat/send`, {
+                user_id:userId, 
+                message: messageToSend, 
+                language: selectedLanguage 
+            }, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+            const botReply = response.data;
+
             setMessages(prevMessages => {
                 const updatedMessages = [...prevMessages, { sender: 'bot', text: botReply.text }];
                 const newMessageIndex = updatedMessages.length - 1; // Get the index of the latest bot message
@@ -107,7 +105,7 @@ const ChatBot = () => {
     
     const getChatHistory = async (userId) => {
         try {
-            const response = await fetch(`http://127.0.0.1:5000/chat/history/${userId}`, {
+            const response = await fetch(`${BASE_URL}/chat/history/${userId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
