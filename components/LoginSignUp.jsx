@@ -1,31 +1,33 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Pressable, View, Text, StyleSheet, Image } from "react-native";
-import { logOut } from "../utils/AuthService";
 import { AuthContext } from "../contexts/AuthContext";
 
 const LoginSignUp = ({ navigation }) => {
-  const {user, setUser} = useContext(AuthContext);
-
+  const {user, logout} = useContext(AuthContext);
   return (
     <View style={styles.header}>
       {user ? (
         // Show user info when logged in
         <View style={styles.userInfo}>
-          <Image source={require("../assets/Images/user-icon.jpg")} style={styles.userIcon} />
-          <Text style={styles.username}>{user.username}</Text>
-          <Pressable onPress={async () => {
-            await logOut(setUser);
-          }} style={styles.logoutButton}>
+          <Image source={user?.picture ? { uri: user.picture } : require("../assets/Images/user-icon.jpg")} style={styles.userIcon}/>
+          <Text style={styles.username}>{user?.name}</Text>
+          <Pressable onPress={logout} style={styles.logoutButton}>
             <Text style={styles.logoutText}>Logout</Text>
           </Pressable>
         </View>
       ) : (
         // Show login/signup buttons when not logged in
         <View style={styles.authButtons}>
-          <Pressable onPress={() => navigation.navigate("Login")} style={styles.authButton}>
+          <Pressable
+            onPress={() => navigation.navigate("Login")}
+            style={styles.authButton}
+          >
             <Text style={styles.authText}>Login</Text>
           </Pressable>
-          <Pressable onPress={() => navigation.navigate("Signup")} style={styles.authButton}>
+          <Pressable
+            onPress={() => navigation.navigate("Signup")}
+            style={styles.authButton}
+          >
             <Text style={styles.authText}>Signup</Text>
           </Pressable>
         </View>

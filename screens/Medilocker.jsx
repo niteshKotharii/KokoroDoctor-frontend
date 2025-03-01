@@ -50,7 +50,6 @@ const Medilocker = ({ navigation }) => {
       const result = await DocumentPicker.getDocumentAsync({
         type: "*/*",
       });
-      console.log("Picked File:", { canceled: result.canceled, assets: result.assets });
   
       if (result.canceled === true) {
         return; // Exit if canceled
@@ -90,7 +89,7 @@ const Medilocker = ({ navigation }) => {
       }, 500);
     } catch (err) {
       alert("Error", "Something went wrong while picking the file.");
-      console.log(err);
+      //console.log(err);
     }
   };
 

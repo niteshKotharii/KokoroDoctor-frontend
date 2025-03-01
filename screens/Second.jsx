@@ -1,6 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, Image } from 'react-native';
 import MyLinearGradient from '../components/MyLinearGradient';
+import SideBarNavigation from '../components/SideBarNavigation';
+import LoginSignUp from '../components/LoginSignUp';
 
 const Second = ({navigation}) => {
   const logos = [
@@ -14,52 +16,46 @@ const Second = ({navigation}) => {
 
   return (
     <MyLinearGradient style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor='#333' />
-      {Platform.OS==='web' && 
-          <View style={styles.webHeader}>
-              <TouchableOpacity onPress={()=>{navigation.navigate('LandingPage')}}>
-                <View style={styles.left}>
-                    <Image source={require('../assets/Images/NewLogo.png')} style={styles.logo}/>
-                    <Text style={styles.buttonText1}>Kokoro.doctor</Text>
-                </View>
-              </TouchableOpacity>
-              <View style={styles.right}>
-                  <TouchableOpacity style={styles.SignUpButton}>
-                      <Text style={styles.whiteText}>Sign Up</Text>
-                  </TouchableOpacity>
-              </View>
+      {/* <StatusBar barStyle="light-content" backgroundColor='#333' /> */}
+      
+      <View style={styles.parent}>
+          <View style={styles.Left}>
+            <SideBarNavigation navigation={navigation} />
           </View>
-      }
-      <View style={styles.contentContainer}>
-        <Text style={styles.title}>
-          Your 24/7 AI Heart Specialist – Right in Your Pocket
-        </Text>
-        <Text style={styles.subtitle}>
-          <Text style={styles.highlight}></Text>
-          Upload Angiography and Heart Reports for 100% Accurate Analysis of Your Heart Health. Monitor, Measure, and Improve Your Condition Anytime, Anywhere.
-
-        </Text>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('Home')}}>
-            <Text style={styles.buttonText}>Check Your Heart Now</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.demoButton]}>
-            <Text style={[styles.buttonText, styles.demoButtonText]}>Upload Reports for Analysis</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      {Platform.OS==='web' && 
-          <View style={styles.bottomContainer}>
-            <Text style={styles.BottomText}>
-              Join Thousands of Heart Patients Who Trust Kokoro.Doctor
+          <View style={styles.Right}>
+            <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
+            <View style={styles.contentContainer}>
+            <Text style={styles.title}>
+              Your 24/7 AI Heart Specialist – Right in Your Pocket
             </Text>
-            <View style={styles.logosContainer}>
-              {logos.map((logo, index) => (
-                <Image key={index} source={logo} style={styles.Bottomlogo} />
-              ))}
+            <Text style={styles.subtitle}>
+              <Text style={styles.highlight}></Text>
+              Upload Angiography and Heart Reports for 100% Accurate Analysis of Your Heart Health. Monitor, Measure, and Improve Your Condition Anytime, Anywhere.
+
+            </Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('Home')}}>
+                <Text style={styles.buttonText}>Check Your Heart Now</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.button, styles.demoButton]}>
+                <Text style={[styles.buttonText, styles.demoButtonText]}>Upload Reports for Analysis</Text>
+              </TouchableOpacity>
             </View>
+            </View>
+            {Platform.OS==='web' && 
+                <View style={styles.bottomContainer}>
+                  <Text style={styles.BottomText}>
+                    Join Thousands of Heart Patients Who Trust Kokoro.Doctor
+                  </Text>
+                  <View style={styles.logosContainer}>
+                    {logos.map((logo, index) => (
+                      <Image key={index} source={logo} style={styles.Bottomlogo} />
+                    ))}
+                  </View>
+                </View>
+            }
           </View>
-      }
+        </View>
     </MyLinearGradient>
   );
 };
@@ -82,32 +78,26 @@ const styles = StyleSheet.create({
       }
     }),
   },
-  webHeader:{
-    flexDirection:"row",
-    justifyContent:"space-between",
-    alignItems:"center",
-    marginBottom:100,
-    marginTop:20,
-    marginHorizontal:30,
+  parent: {
+    flexDirection: "row",
+    height: "100%",
+    width: "100%",
   },
-  logo:{
-    width:25,
-    height:25,
+  Left: {
+    height: "100%",
+    width: "15%",
+    //borderWidth: 1,
   },
-  left:{
-    flexDirection:"row",
-    gap:5,
+  Right: {
+    height: "100%",
+    width: "100%",
   },
-  right:{
-
-  },
-  SignUpButton:{
-    backgroundColor:"black",
-    borderRadius:30,
-    padding:10,
-    width:100,
-    justifyContent:"center",
-    alignItems:"center",
+  header: {
+    width:"12%",
+    marginLeft: "70%",
+    marginTop: 15,
+    // borderColor: "#FFFFFF",
+    // borderWidth: 1,
   },
   whiteText:{
     // color:"black",
@@ -200,10 +190,10 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop:140,
+    marginTop:"8%",
     borderTopWidth:1,
     borderTopColor:"black",
-    marginHorizontal:50,
+    marginHorizontal:"10%",
   },
   BottomText: {
     marginBottom: 20,

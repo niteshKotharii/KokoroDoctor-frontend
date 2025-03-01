@@ -10,25 +10,36 @@ import {
   Alert,
 } from "react-native";
 import MyLinearGradient from "../components/MyLinearGradient";
-import {
-  login,
-  handleGoogleLogin,
-  useGoogleAuth,
-} from "../utils/AuthService";
 import { AuthContext } from "../contexts/AuthContext";
+import { useGoogleAuth } from "../utils/AuthService";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
-  const [userInfo, setUserInfo] = useState(null);
-  const {user, setUser} = useContext(AuthContext);
-
+  const {login, googleLogin} = useContext(AuthContext);
   const [request, response, promptAsync] = useGoogleAuth();
 
   useEffect(() => {
-    handleGoogleLogin(response, setUserInfo);
-  }, [response]);
+    if (response) {
+      googleLogin(response)
+        .then(() => {
+          navigation.navigate("LandingPage");
+        })
+        .catch((error) => {
+          console.error("Google login error:", error);
+        });
+    }
+  }, [response, googleLogin, navigation]);
+
+  // Function to trigger Google login
+  const handleGoogleLogin = () => {
+    if (request) {
+      promptAsync(); // Opens the Google login prompt
+    } else {
+      console.log("Google auth request not ready yet");
+    }
+  };
 
   return (
     <MyLinearGradient style={styles.container}>
@@ -46,7 +57,7 @@ const Login = ({ navigation }) => {
         {/* Google Sign-In Button */}
         <TouchableOpacity
           style={styles.googleButton}
-          onPress={() => promptAsync()}
+          onPress={() => handleGoogleLogin()}
           disabled={!request}
         >
           <Text style={styles.googleButtonText}>Continue with Google</Text>
@@ -73,7 +84,7 @@ const Login = ({ navigation }) => {
         />
 
         {/* Email Login Button */}
-        <TouchableOpacity style={styles.continueButton} onPress={() => {login(email, password, navigation, setUser)}}>
+        <TouchableOpacity style={styles.continueButton} onPress={() => {login(email, password, navigation)}}>
           <Text style={styles.continueButtonText}>Login</Text>
         </TouchableOpacity>
 

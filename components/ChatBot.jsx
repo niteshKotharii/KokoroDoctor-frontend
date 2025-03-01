@@ -39,7 +39,7 @@ const ChatBot = () => {
     
     useEffect(() => {
         if (user) {
-            setUserId(user.email);
+            setUserId(user?.email);
         }
     }, [user]);
 
@@ -114,7 +114,7 @@ const ChatBot = () => {
     
             const botReply = await response.json(); 
     
-            console.log(botReply);
+            // console.log(botReply);
     
         } catch (error) {
             console.error("Error communicating with Bot:", error);
@@ -188,7 +188,6 @@ const ChatBot = () => {
                 <RNPickerSelect
                     selectedValue={selectedLanguage}
                     onValueChange={(itemValue) => {
-                        console.log(itemValue);
                         setSelectedLanguage(itemValue)}}
                     style={styles.picker}>
                     <RNPickerSelect.Item label="English" value="en" />

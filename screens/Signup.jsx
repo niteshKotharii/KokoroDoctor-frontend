@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -10,19 +10,36 @@ import {
   Alert,
 } from "react-native";
 import MyLinearGradient from "../components/MyLinearGradient";
-import { signup, handleGoogleLogin, useGoogleAuth } from "../utils/AuthService";
+import { AuthContext } from "../contexts/AuthContext";
+import { useGoogleAuth } from "../utils/AuthService";
 
 const Signup = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userInfo, setUserInfo] = useState(null);
-
+  const {signup, googleLogin} = useContext(AuthContext);
   const [request, response, promptAsync] = useGoogleAuth();
 
   useEffect(() => {
-    handleGoogleLogin(response, setUserInfo);
-  }, [response]);
+    if (response) {
+      googleLogin(response)
+        .then(() => {
+          navigation.navigate("LandingPage");
+        })
+        .catch((error) => {
+          console.error("Google login error:", error);
+        });
+    }
+  }, [response, googleLogin, navigation]);
+
+  // Function to trigger Google login
+  const handleGoogleLogin = () => {
+    if (request) {
+      promptAsync(); // Opens the Google login prompt
+    } else {
+      console.log("Google auth request not ready yet");
+    }
+  };
 
   return (
     <MyLinearGradient style={styles.container}>
@@ -40,7 +57,7 @@ const Signup = ({ navigation }) => {
         {/* Google Sign-Up Button */}
         <TouchableOpacity
           style={styles.googleButton}
-          onPress={() => promptAsync()}
+          onPress={() => handleGoogleLogin}
           disabled={!request}
         >
           <Text style={styles.googleButtonText}>Sign up with Google</Text>

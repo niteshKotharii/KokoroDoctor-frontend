@@ -9,6 +9,7 @@ import {
   GestureResponderEvent,
   Pressable,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import { useChatbot } from "../contexts/ChatbotContext";
@@ -51,32 +52,32 @@ const LandingPage = ({ navigation, route }) => {
               {/* Center Middle */}
               {!isChatExpanded && (
                 <View style={styles.centerMiddlePart}>
-                <View style={styles.Consultation}>
+                <TouchableOpacity style={styles.Consultation} onPress={() => (navigation.navigate("Doctors"))}>
                   <Image
                     source={require("../assets/Images/Consultation.png")}
                     style={styles.image}
                   />
-                </View>
-                <View style={styles.Upload}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.Upload} onPress={() => (navigation.navigate("Medilocker"))}>
                   <Image
                     source={require("../assets/Images/Medilocker.png")}
                     style={styles.image}
                   />
-                </View>
+                </TouchableOpacity>
 
-                <View style={styles.BookHospital}>
+                <TouchableOpacity style={styles.BookHospital} onPress={() => (navigation.navigate("Hospitals"))}>
                   <Image
                     source={require("../assets/Images/BookHospital.png")}
                     style={styles.image}
                   />
-                </View>
+                </TouchableOpacity>
 
-                <View style={styles.HeartHealth}>
+                <TouchableOpacity style={styles.HeartHealth} onPress={() => (navigation.navigate("Second"))}>
                   <Image
-                      source={require("../assets/Images/HeartHealth.png")}
+                      source={require("../assets/Images/twenty-four_Support.png")}
                       style={styles.image}
                     />
-                </View>
+                </TouchableOpacity>
                 </View>
               )}
             </View>

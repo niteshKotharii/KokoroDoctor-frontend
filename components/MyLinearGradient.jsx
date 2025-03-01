@@ -17,7 +17,7 @@ const MyLinearGradient = ({ children, style }) => {
 
   return (
     <LinearGradient
-      colors={Platform.OS === 'web' ? arr2 : arr1}
+      colors={arr2}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={style}
