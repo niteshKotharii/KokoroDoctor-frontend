@@ -10,7 +10,7 @@ const responsiveFontSize = baseFontSize * scaleFactor;
 const Title = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.incubatedText}>Incubated with Harvard Innovation Labs</Text>
+      <Text style={styles.incubatedText}>Harvard Innovation Lab I-Member presents</Text>
       <Text style={styles.brandName}>
         Kokoro.
         <Text style={styles.doctorText}>Doctor</Text>

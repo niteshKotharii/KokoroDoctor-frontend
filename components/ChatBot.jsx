@@ -23,7 +23,7 @@ import axios from 'axios';
 
 const { width } = Dimensions.get("window");
 
-const BASE_URL = "http://127.0.0.1:5000";
+const BASE_URL = "https://3415rinh89.execute-api.ap-south-1.amazonaws.com/prod";
 
 const ChatBot = () => {
     const { chatbotConfig, isChatExpanded, setIsChatExpanded } = useChatbot();
@@ -66,7 +66,7 @@ const ChatBot = () => {
         setIsLoading(true);
     
         try {
-            const response = await axios.post(`${BASE_URL}/chat/send`, {
+            const response = await axios.post(`${BASE_URL}/chat`, {
                 user_id:userId, 
                 message: messageToSend, 
                 language: selectedLanguage 

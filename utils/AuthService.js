@@ -5,7 +5,7 @@ import * as Google from "expo-auth-session/providers/google";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "https://3415rinh89.execute-api.ap-south-1.amazonaws.com/prod";
 
 // Google Auth Request
 export const useGoogleAuth = () => {
@@ -14,13 +14,13 @@ export const useGoogleAuth = () => {
     iosClientId: "",
     webClientId:
       "569847732356-rl6pnkut18s91cvsfipcuhlkptpoj8fh.apps.googleusercontent.com",
-    useProxy:true,
-    redirectUri:"https://auth.expo.io/mohit41/Kokoro.doctor",
+    redirectUri: "https://kokoro.doctor",
+    useProxy: false,
   });
 };
 
 export const signup = async (username, email, password) => {
-  const response = await axios.post(`${API_URL}/auth/signup`, {
+  const response = await axios.post(`${API_URL}/signup`, {
     username,
     email,
     password,
@@ -31,7 +31,7 @@ export const signup = async (username, email, password) => {
 };
 
 export const login = async (email, password) => {
-  const response = await axios.post(`${API_URL}/auth/login`, {
+  const response = await axios.post(`${API_URL}/login`, {
     email,
     password,
   });
@@ -60,9 +60,11 @@ export const getUserInfo = async (token) => {
   return user;
 };
 
-export const handleGoogleLogin = async (response, setUserInfo) => {
+export const handleGoogleLogin = async (response) => {
   if (response?.type === "success" && response.authentication?.accessToken) {
-    return await getUserInfo(response.authentication.accessToken, setUserInfo);
+    const user = await getUserInfo(response.authentication.accessToken);
+    WebBrowser.dismissBrowser();
+    return user;
   }
   return null;
 };

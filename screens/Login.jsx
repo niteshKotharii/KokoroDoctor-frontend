@@ -24,6 +24,7 @@ const Login = ({ navigation }) => {
     if (response) {
       googleLogin(response)
         .then(() => {
+          WebBrowser.dismissBrowser();
           navigation.navigate("LandingPage");
         })
         .catch((error) => {
@@ -31,11 +32,11 @@ const Login = ({ navigation }) => {
         });
     }
   }, [response, googleLogin, navigation]);
-
+  
   // Function to trigger Google login
   const handleGoogleLogin = () => {
     if (request) {
-      promptAsync(); // Opens the Google login prompt
+      promptAsync({ useProxy: false }); //opens the google login prompt
     } else {
       console.log("Google auth request not ready yet");
     }
