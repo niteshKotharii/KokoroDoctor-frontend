@@ -12,6 +12,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
     "lib": [
       "dom",
       "es2017"
@@ -21,7 +22,7 @@
     "src/**/*",
     "*.tsx",
     "*.ts"
-  ],
+, "App.jsx"  ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts"

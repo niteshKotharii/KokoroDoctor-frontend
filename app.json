@@ -3,7 +3,11 @@
     "name": "Kokoro.doctor",
     "slug": "Kokoro.doctor",
     "version": "1.0.0",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "plugins": [
       [
         "expo-font",
@@ -18,10 +22,13 @@
     "ios": {
       "bundleIdentifier": "com.anonymous.kokoro.doctor"
     },
-    "web" : {
+    "web": {
       "bundler": "metro"
     },
-    "entryPoint": "./index.js"
+    "entryPoint": "./index.js",
+    "android": {
+      "package": "com.anonymous.kokoro.doctor"
+    }
   },
   "name": "Kokoro.doctor"
 }
