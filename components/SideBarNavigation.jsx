@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   top_sidebar: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: "5%",
     marginBottom: 20,
   },
   topimage_sidebar: {
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   title: {
+    width:"85%",
     fontSize: 18,
     color: "rgba(0, 0, 0, 0.46)",
     fontWeight: "bold",
@@ -176,6 +177,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   menuText: {
+    width:"85%",
     fontSize: 16,
     color: "#333",
   },
