@@ -19,7 +19,6 @@ import { Picker as RNPickerSelect } from '@react-native-picker/picker';
 import { useChatbot } from '../contexts/ChatbotContext';
 import * as Speech from 'expo-speech';
 import { AuthContext } from '../contexts/AuthContext';
-import axios from 'axios';
 
 const { width } = Dimensions.get("window");
 
@@ -66,19 +65,24 @@ const ChatBot = () => {
         setIsLoading(true);
     
         try {
-            const response = await axios.post(`${BASE_URL}/chat`, {
-                user_id:userId, 
-                message: messageToSend, 
-                language: selectedLanguage 
-            }, {
+            const response = await fetch(`${BASE_URL}/chat`, {
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json"
-                }
+                },
+                body: JSON.stringify({
+                    user_id: userId,
+                    message: messageToSend,
+                    language: selectedLanguage
+                })
+            });
+        
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        );
-
-            const botReply = response.data;
-
+        
+            const botReply = await response.json();
+        
             setMessages(prevMessages => {
                 const updatedMessages = [...prevMessages, { sender: 'bot', text: botReply.text }];
                 const newMessageIndex = updatedMessages.length - 1; // Get the index of the latest bot message
@@ -95,9 +99,9 @@ const ChatBot = () => {
             console.error("Error communicating with Bot:", error);
             setMessages(prevMessages => [
                 ...prevMessages,
-                { sender: 'bot', text: (error).message },
+                { sender: 'bot', text: error.message },
             ]);
-        }
+        }        
         
         setIsLoading(false);
         Keyboard.dismiss();

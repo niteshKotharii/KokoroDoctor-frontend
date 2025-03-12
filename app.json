@@ -8,6 +8,7 @@
       "android",
       "web"
     ],
+    "newArchEnabled": true,
     "plugins": [
       [
         "expo-font",
@@ -17,7 +18,8 @@
             "./assets/fonts/OpenSans-Bold.ttf"
           ]
         }
-      ]
+      ],
+      "expo-router"
     ],
     "ios": {
       "bundleIdentifier": "com.anonymous.kokoro.doctor"

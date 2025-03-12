@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 
@@ -20,24 +19,44 @@ export const useGoogleAuth = () => {
 };
 
 export const signup = async (username, email, password) => {
-  const response = await axios.post(`${API_URL}/signup`, {
-    username,
-    email,
-    password,
+  const response = await fetch(`${API_URL}/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, email, password }),
   });
-  const { user } = response.data;
+
+  if (!response.ok) {
+    throw new Error("Signup failed");
+  }
+
+  const data = await response.json();
+  const { user } = data;
+  
   await AsyncStorage.setItem("@user", JSON.stringify(user));
   return user;
 };
 
 export const login = async (email, password) => {
-  const response = await axios.post(`${API_URL}/login`, {
-    email,
-    password,
+  const response = await fetch(`${API_URL}/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
   });
-  const { access_token, user } = response.data;
+
+  if (!response.ok) {
+    throw new Error("Login failed");
+  }
+
+  const data = await response.json();
+  const { access_token, user } = data;
+  
   await AsyncStorage.setItem("@token", access_token);
   await AsyncStorage.setItem("@user", JSON.stringify(user));
+
   return { access_token, user };
 };
 

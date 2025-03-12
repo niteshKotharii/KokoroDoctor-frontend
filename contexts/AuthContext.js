@@ -72,9 +72,9 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    if (isLoading) {
-        return (<View>Loading...</View>); // Show loading screen while restoring state
-    }
+    // if (isLoading) {
+    //     return (<View><Text>Loading...</Text></View>); // Show loading screen while restoring state
+    // }
     
     return (
         <AuthContext.Provider value={{
