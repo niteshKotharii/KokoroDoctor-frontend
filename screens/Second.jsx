@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, Image, useWindowDimensions } from 'react-native';
 import MyLinearGradient from '../components/MyLinearGradient';
 import SideBarNavigation from '../components/SideBarNavigation';
 import LoginSignUp from '../components/LoginSignUp';
 
 const Second = ({navigation}) => {
+  const {width} = useWindowDimensions();
   const logos = [
     require('../assets/Icons/Dribbble.png'), 
     require('../assets/Icons/Meta.png'), 
@@ -19,9 +20,11 @@ const Second = ({navigation}) => {
       {/* <StatusBar barStyle="light-content" backgroundColor='#333' /> */}
       
       <View style={styles.parent}>
-          <View style={styles.Left}>
-            <SideBarNavigation navigation={navigation} />
-          </View>
+          {(Platform.OS==='web' && width > 1000) && 
+            <View style={styles.Left}>
+              <SideBarNavigation navigation={navigation} />
+            </View>
+          }
           <View style={styles.Right}>
             <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
             <View style={styles.contentContainer}>
@@ -93,11 +96,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   header: {
-    width:"12%",
-    marginLeft: "70%",
-    marginTop: 15,
-    // borderColor: "#FFFFFF",
-    // borderWidth: 1,
+    ...Platform.select({
+      web:{
+        width:"12%",
+        marginLeft: "70%",
+        marginTop: 15,
+      }
+    })
   },
   whiteText:{
     // color:"black",

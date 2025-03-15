@@ -24,6 +24,7 @@ const SideBarNavigation = ({
     },
 
     { name: "About Us", icon: require("../assets/Icons/CirclesFour.png") },
+    { name: "Pricing", icon: require("../assets/Icons/pricing.png") },
   ];
   const lowerMenuItems = [
     { name: "Settings", icon: require("../assets/Icons/GearSix.png") },
@@ -32,6 +33,7 @@ const SideBarNavigation = ({
   ];
 
   const handleSidebarClick = (menu) => {
+    // setSelectedItem(menu);
     if (menu === "Home") {
       navigation.navigate("LandingPage");
     } else if (menu === "About Us") {
@@ -47,8 +49,6 @@ const SideBarNavigation = ({
     } else {
       navigation.navigate(menu);
     }
-    // setSelectedItem(menu);
-    // onItemPress(menu);
   };
 
   return (
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   menuItemContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 12,
+    paddingVertical: 8,
     paddingHorizontal: 15,
     borderRadius: 5,
     marginBottom: 10,

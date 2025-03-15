@@ -21,15 +21,15 @@ const SearchBar = (props, ref) => {
 
   return (
     <TouchableOpacity 
-      style={[styles.searchContainer, { width: isFocused ? '40%' : '14%' }]} 
+      style={styles.searchContainer} 
       onPress={handleFocus}
       activeOpacity={1}
     >
-      <Icon name="search" size={24} color="#000" style={styles.searchIcon} />
+      <Icon name="search" size={24} color="#1E1F2E" style={styles.searchIcon} />
       <TextInput
         style={styles.searchInput}
         placeholder="Search"
-        placeholderTextColor="#000"
+        placeholderTextColor="#646669"
         value={searchText}
         onChangeText={text => setSearchText(text)}
         onFocus={handleFocus}
@@ -44,8 +44,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
-    borderRadius: 20,
+    borderRadius: 10,
     paddingHorizontal: 10,
+    width: "90%",
+    marginHorizontal:"auto",
   },
   searchIcon: {
     marginRight: 10,

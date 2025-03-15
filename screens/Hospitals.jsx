@@ -11,6 +11,7 @@ import {
   Linking,
   Keyboard,
   Platform,
+  useWindowDimensions,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Picker } from "@react-native-picker/picker";
@@ -18,8 +19,10 @@ import { useChatbot } from "../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import LoginSignUp from "../components/LoginSignUp";
+import SearchBar from "../components/SearchBar";
 
 const Hospitals = ({ navigation, route }) => {
+  const {width} = useWindowDimensions();
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { setChatbotConfig } = useChatbot();
@@ -60,209 +63,220 @@ const Hospitals = ({ navigation, route }) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <ImageBackground
-            source={{
-              uri: "https://s3-alpha-sig.figma.com/img/a87a/3ace/8a094e276846c4e13df3a43f65f0d04f?Expires=1739145600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DxcA~LinUKvodODvPVUZXbxemW5QAUBIh7RMQDc1~VLSV7T0m2E9RlXxSahOpbPhnGXdmGTY97O6DYOtz0CI9NpIwfDlMl-8W8IJJq0ezUFZGscjVaEB3-wEsT8dstoZn8ctXncyzbxJluHOJfF48Fa8ivo8KLX3V4FVKqgChUhXdlJQjmxlfZ17HWol4oJTIx18ggIohcRwt1yp2i9Ocbj~sGMTXj3siSMwhKK7PTy2LDe11UZc1F8JDTbgztNNjFuGK0jCsJv~jPktrFz3g5I-2tsu0XefSBDPfKVS-Jdy0SadGTWcsGBnFW3Ne2xuP8~g4stTHpOD1z9zsMxAAw__",
-            }}
-            style={styles.imageBackground}
-          >
-            <View
-              style={[
-                styles.overlay,
-                { backgroundColor: "rgba(16, 16, 16, 0.7)" },
-              ]}
-            />
+      {(Platform.OS==='web' && width>1000) && (
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <ImageBackground
+              source={{
+                uri: "https://s3-alpha-sig.figma.com/img/a87a/3ace/8a094e276846c4e13df3a43f65f0d04f?Expires=1739145600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DxcA~LinUKvodODvPVUZXbxemW5QAUBIh7RMQDc1~VLSV7T0m2E9RlXxSahOpbPhnGXdmGTY97O6DYOtz0CI9NpIwfDlMl-8W8IJJq0ezUFZGscjVaEB3-wEsT8dstoZn8ctXncyzbxJluHOJfF48Fa8ivo8KLX3V4FVKqgChUhXdlJQjmxlfZ17HWol4oJTIx18ggIohcRwt1yp2i9Ocbj~sGMTXj3siSMwhKK7PTy2LDe11UZc1F8JDTbgztNNjFuGK0jCsJv~jPktrFz3g5I-2tsu0XefSBDPfKVS-Jdy0SadGTWcsGBnFW3Ne2xuP8~g4stTHpOD1z9zsMxAAw__",
+              }}
+              style={styles.imageBackground}
+            >
+              <View
+                style={[
+                  styles.overlay,
+                  { backgroundColor: "rgba(16, 16, 16, 0.7)" },
+                ]}
+              />
 
-            <View style={styles.parent}>
-              <View style={styles.Left}>
-                <SideBarNavigation navigation={navigation} />
-              </View>
-              <View style={styles.Right}>
+              <View style={styles.parent}>
+                <View style={styles.Left}>
+                  <SideBarNavigation navigation={navigation} />
+                </View>
+                <View style={styles.Right}>
 
-                {/* <View style={styles.center}>
-                  <View style={styles.center_textbar}>
-                    <Text style={styles.centerText}>Welcome!</Text>
-                    <Text style={styles.lowertext}>
-                      Here is your sales Medical dashboard
-                    </Text>
-                  </View>
-                  <View style={styles.search_bar}>
-                    <TouchableOpacity onPress={handleSearch}>
-                      <Image
-                        source={require("../assets/Icons/search.png")}
-                        style={styles.chatIcon}
+                  {/* <View style={styles.center}>
+                    <View style={styles.center_textbar}>
+                      <Text style={styles.centerText}>Welcome!</Text>
+                      <Text style={styles.lowertext}>
+                        Here is your sales Medical dashboard
+                      </Text>
+                    </View>
+                    <View style={styles.search_bar}>
+                      <TouchableOpacity onPress={handleSearch}>
+                        <Image
+                          source={require("../assets/Icons/search.png")}
+                          style={styles.chatIcon}
+                        />
+                      </TouchableOpacity>
+                      <TextInput
+                        style={styles.searchInput}
+                        placeholder="Search your query"
+                        placeholderTextColor="#aaa"
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                       />
-                    </TouchableOpacity>
-                    <TextInput
-                      style={styles.searchInput}
-                      placeholder="Search your query"
-                      placeholderTextColor="#aaa"
-                      value={searchQuery}
-                      onChangeText={setSearchQuery}
-                      onFocus={handleFocus}
-                      onBlur={handleBlur}
-                    />
-                  </View>
-                  <View style={styles.notification}>
-                    <TouchableOpacity
-                      onPress={() => Alert.alert("Notification")}
-                    >
-                      <Image
-                        source={require("../assets/Icons/notification1.png")}
-                        style={styles.bellIcon}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.profileContainer}>
-                    <TouchableOpacity
-                      style={styles.profileHeader}
-                      onPress={toggleDropdown}
-                    >
-                      <Image
-                        source={require("../assets/Icons/profile1.png")}
-                        style={styles.profileIcon}
-                      />
-                      <MaterialIcons
-                        name={
-                          dropdownVisible ? "arrow-drop-up" : "arrow-drop-down"
-                        }
-                        size={24}
-                        color="#fff"
-                      />
-                    </TouchableOpacity> */}
-                    {/* Dropdown Menu */}
-                    {/* {dropdownVisible && (
-                      <View style={styles.dropdownMenu}>
-                        {profileOptions.map((option, index) => (
+                    </View>
+                    <View style={styles.notification}>
+                      <TouchableOpacity
+                        onPress={() => Alert.alert("Notification")}
+                      >
+                        <Image
+                          source={require("../assets/Icons/notification1.png")}
+                          style={styles.bellIcon}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.profileContainer}>
+                      <TouchableOpacity
+                        style={styles.profileHeader}
+                        onPress={toggleDropdown}
+                      >
+                        <Image
+                          source={require("../assets/Icons/profile1.png")}
+                          style={styles.profileIcon}
+                        />
+                        <MaterialIcons
+                          name={
+                            dropdownVisible ? "arrow-drop-up" : "arrow-drop-down"
+                          }
+                          size={24}
+                          color="#fff"
+                        />
+                      </TouchableOpacity> */}
+                      {/* Dropdown Menu */}
+                      {/* {dropdownVisible && (
+                        <View style={styles.dropdownMenu}>
+                          {profileOptions.map((option, index) => (
+                            <TouchableOpacity
+                              key={index}
+                              style={styles.dropdownItem}
+                              onPress={() => Alert.alert(option)}
+                            >
+                              <Text style={styles.dropdownText}>{option}</Text>
+                            </TouchableOpacity>
+                          ))}
+                        </View>
+                      )} */}
+                    {/* </View>
+                  </View> */}
+
+                  <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
+                  
+                  <View style={styles.middlepart}>
+
+                    <View style={styles.hospitalSection}>
+                      <View style={styles.hospitalProfile}>
+                        <View style={styles.hospital}>
+                          <Image
+                            source={require("../assets/Images/apollo.png")}
+                            style={styles.hospitalImage}
+                          />
+                          <Text style={styles.hospitalRating}>⭐ 4.5</Text>
+                        </View>
+
+                        <View style={styles.hospitalDetails}>
+                          <Text style={styles.hospitalName}>Apollo hospital</Text>
+                          <Text style={styles.specialist}>
+                            Cardialogy Department
+                          </Text>
+                          <Text style={styles.workingExperience}>
+                            Trust of more than 41 years with 10000+ and 73+
+                            hospital network
+                          </Text>
+                        </View>
+                      </View>
+                      <TouchableOpacity
+                        style={styles.appointmentButton}
+                        onPress={handleCallPress}
+                      >
+                        <Text style={styles.appointmentButtonText}>
+                          Book Online Video Chat
+                        </Text>
+                      </TouchableOpacity>
+                    </View>  
+
+                    <View style={styles.paymentSection}>
+
+                      {/* Payment Methods */}
+                      <View style={styles.paymentMethods}>
+                        {["Card", "EPS", "Giropay"].map((method) => (
                           <TouchableOpacity
-                            key={index}
-                            style={styles.dropdownItem}
-                            onPress={() => Alert.alert(option)}
+                            key={method}
+                            style={[
+                              styles.paymentOption,
+                              selectedMethod === method && styles.selectedOption,
+                            ]}
+                            onPress={() => setSelectedMethod(method)}
                           >
-                            <Text style={styles.dropdownText}>{option}</Text>
+                            <Text style={styles.paymentText}>{method}</Text>
                           </TouchableOpacity>
                         ))}
                       </View>
-                    )} */}
-                  {/* </View>
-                </View> */}
 
-                <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
-                
-                <View style={styles.middlepart}>
-
-                  <View style={styles.hospitalSection}>
-                    <View style={styles.hospitalProfile}>
-                      <View style={styles.hospital}>
-                        <Image
-                          source={require("../assets/Images/apollo.png")}
-                          style={styles.hospitalImage}
-                        />
-                        <Text style={styles.hospitalRating}>⭐ 4.5</Text>
-                      </View>
-
-                      <View style={styles.hospitalDetails}>
-                        <Text style={styles.hospitalName}>Apollo hospital</Text>
-                        <Text style={styles.specialist}>
-                          Cardialogy Department
-                        </Text>
-                        <Text style={styles.workingExperience}>
-                          Trust of more than 41 years with 10000+ and 73+
-                          hospital network
-                        </Text>
-                      </View>
-                    </View>
-                    <TouchableOpacity
-                      style={styles.appointmentButton}
-                      onPress={handleCallPress}
-                    >
-                      <Text style={styles.appointmentButtonText}>
-                        Book Online Video Chat
-                      </Text>
-                    </TouchableOpacity>
-                  </View>  
-
-                  <View style={styles.paymentSection}>
-
-                    {/* Payment Methods */}
-                    <View style={styles.paymentMethods}>
-                      {["Card", "EPS", "Giropay"].map((method) => (
+                      {/* Card Details */}
+                      <View style={styles.inputContainer}>
+                        <View style={styles.inputBox}>
+                          <TextInput
+                            placeholder="1234-1234-1234-1234"
+                            style={styles.input}
+                          />
+                        </View>
+                        <View style={styles.row}>
+                          <TextInput
+                            placeholder="MM / YY"
+                            style={[styles.input, styles.half]}
+                          />
+                          <TextInput
+                            placeholder="CVC"
+                            style={[styles.input, styles.half]}
+                          />
+                        </View>
+                        <View style={styles.row}>
+                          <Picker
+                            selectedValue={country}
+                            onValueChange={(value) => setCountry(value)}
+                            style={[styles.input, styles.half]}
+                          >
+                            <Picker.Item
+                              label="United States"
+                              value="United States"
+                            />
+                            <Picker.Item label="Canada" value="Canada" />
+                            <Picker.Item
+                              label="United Kingdom"
+                              value="United Kingdom"
+                            />
+                          </Picker>
+                          <TextInput
+                            placeholder="Postal code"
+                            style={[styles.input, styles.half]}
+                          />
+                        </View>
                         <TouchableOpacity
-                          key={method}
-                          style={[
-                            styles.paymentOption,
-                            selectedMethod === method && styles.selectedOption,
-                          ]}
-                          onPress={() => setSelectedMethod(method)}
+                          style={styles.booknowButton}
+                          onPress={handleCallPress}
                         >
-                          <Text style={styles.paymentText}>{method}</Text>
+                          <Text style={styles.booknowButtonText}>
+                            Book In-person Appointment
+                          </Text>
                         </TouchableOpacity>
-                      ))}
+                      </View>
                     </View>
 
-                    {/* Card Details */}
-                    <View style={styles.inputContainer}>
-                      <View style={styles.inputBox}>
-                        <TextInput
-                          placeholder="1234-1234-1234-1234"
-                          style={styles.input}
-                        />
-                      </View>
-                      <View style={styles.row}>
-                        <TextInput
-                          placeholder="MM / YY"
-                          style={[styles.input, styles.half]}
-                        />
-                        <TextInput
-                          placeholder="CVC"
-                          style={[styles.input, styles.half]}
-                        />
-                      </View>
-                      <View style={styles.row}>
-                        <Picker
-                          selectedValue={country}
-                          onValueChange={(value) => setCountry(value)}
-                          style={[styles.input, styles.half]}
-                        >
-                          <Picker.Item
-                            label="United States"
-                            value="United States"
-                          />
-                          <Picker.Item label="Canada" value="Canada" />
-                          <Picker.Item
-                            label="United Kingdom"
-                            value="United Kingdom"
-                          />
-                        </Picker>
-                        <TextInput
-                          placeholder="Postal code"
-                          style={[styles.input, styles.half]}
-                        />
-                      </View>
-                      <TouchableOpacity
-                        style={styles.booknowButton}
-                        onPress={handleCallPress}
-                      >
-                        <Text style={styles.booknowButtonText}>
-                          Book In-person Appointment
-                        </Text>
-                      </TouchableOpacity>
+                    <View style={styles.boxAds}>
+                      <Text style={styles.adsText}>
+                        We can put some ads if there are any
+                      </Text>
                     </View>
-                  </View>
-
-                  <View style={styles.boxAds}>
-                    <Text style={styles.adsText}>
-                      We can put some ads if there are any
-                    </Text>
                   </View>
                 </View>
               </View>
-            </View>
-          </ImageBackground>
+            </ImageBackground>
+          </View>
         </View>
-      </View>
+      )}
+
+      {(Platform.OS!=='web' || width < 1000 ) && (
+        <View style={styles.appContainer}>
+
+            <View style={styles.header}>
+              <LoginSignUp navigation={navigation}/>
+            </View>
+        </View>
+      )}
     </>
   );
 };
@@ -273,6 +287,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: "100%",
     width: "100%",
+  },
+  appContainer:{
+    flex: 1,
+    height: "100%",
+    width: "100%",
+    // backgroundColor: "pink",
   },
   imageContainer: {
     height: "100%",
@@ -305,11 +325,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   header: {
-    width:"12%",
-    marginLeft: "70%",
-    marginTop: 15,
-    // borderColor: "#FFFFFF",
-    // borderWidth: 1,
+    ...Platform.select({
+      web:{
+        width:"12%",
+        marginLeft: "70%",
+        marginTop: 15,
+      }
+    })
   },
   center: {
     marginHorizontal: "2%",

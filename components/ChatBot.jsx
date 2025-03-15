@@ -239,18 +239,35 @@ const ChatBot = () => {
 };
 
 const styles = StyleSheet.create({
-    chatContainer: {
-        width: width > 1024 ? "80%" : width > 768 ? "70%" : "90%",
-        // maxWidth: 1000,
-        minWidth: 300,
-        borderWidth: 3,
-        borderColor: "#6495ed",
-        backgroundColor: "#fff",
-        position: "absolute",
-        left: width > 1024 ? "28%" : width > 768 ? "15%" : "5%", // Center it dynamically
-        bottom: 10,
-        borderRadius: 15,
-        padding: 10,
+    chatContainer: {  
+        ...Platform.select({
+            android: {
+                width:"60%",
+                // maxWidth: 1000,
+                minWidth: 300,
+                borderWidth: 3,
+                borderColor: "#6495ed",
+                backgroundColor: "#fff",
+                position: "absolute",
+                marginRight: 40,
+                bottom: "7%",
+                borderRadius: 15,
+                padding: 10,
+            },
+            web:{
+                width: width > 1024 ? "80%" : width > 768 ? "70%" : "90%",
+                // maxWidth: 1000,
+                minWidth: 300,
+                borderWidth: 3,
+                borderColor: "#6495ed",
+                backgroundColor: "#fff",
+                position: "absolute",
+                left: width > 1024 ? "28%" : width > 768 ? "15%" : "5%", // Center it dynamically
+                bottom: "3%",
+                borderRadius: 15,
+                padding: 10,
+            }
+        }),
     },
     messageList: {
         flexGrow: 1,

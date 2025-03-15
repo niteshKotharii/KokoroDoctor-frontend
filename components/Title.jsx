@@ -1,21 +1,22 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
-
-const { width, height } = Dimensions.get("window");
-
-const baseFontSize = 18;
-const scaleFactor = width / 1440;
-const responsiveFontSize = baseFontSize * scaleFactor;
+import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 
 const Title = () => {
+  const { width } = useWindowDimensions(); // Dynamically updates when screen resizes
+  const baseFontSize = 18;
+  const scaleFactor = width / 1440;
+  const responsiveFontSize = baseFontSize * scaleFactor;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.incubatedText}>Harvard Innovation Lab I-Member presents</Text>
-      <Text style={styles.brandName}>
-        Kokoro.
-        <Text style={styles.doctorText}>Doctor</Text>
+      <Text style={[styles.incubatedText, { fontSize: responsiveFontSize }]}>
+        Harvard Innovation Lab I-Member presents
       </Text>
-      <Text style={styles.tagline}>
+      <Text style={[styles.brandName, { fontSize: responsiveFontSize * 5 }]}>
+        Kokoro.
+        <Text style={[styles.doctorText]}>Doctor</Text>
+      </Text>
+      <Text style={[styles.tagline, { fontSize: responsiveFontSize }]}>
         Transforming Cardiac Care with AI
       </Text>
     </View>
@@ -30,12 +31,11 @@ const styles = StyleSheet.create({
   },
   incubatedText: {
     color: "#e0a8c8",
-    fontSize: responsiveFontSize,
     fontWeight: "600",
     marginBottom:0,
   },
   brandName: {
-    fontSize: responsiveFontSize * 5,
+    // fontSize: responsiveFontSize * 5,
     fontWeight: "bold",
     color: "#D0C4FF",
   },
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   tagline: {
     alignSelf: "flex-end",
-    fontSize: responsiveFontSize,
+    // fontSize: responsiveFontSize,
     color: "#e0a8c8",
   },
 });

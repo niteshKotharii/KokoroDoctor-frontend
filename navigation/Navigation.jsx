@@ -1,5 +1,8 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer, NavigationContainerRef} from "@react-navigation/native";
+import { HeaderButtonsProvider } from "react-navigation-header-buttons/HeaderButtonsProvider";
 import { useTheme } from '../contexts/ThemeContext';
 import { lightTheme, darkTheme } from '../contexts/Themes';
 import First from "../screens/First";
@@ -23,16 +26,114 @@ import Error from "../screens/Error";
 import Medilocker from "../screens/Medilocker";
 import Settings from "../screens/Settings";
 import Help from "../screens/Help";
-import { NavigationContainer, NavigationContainerRef} from "@react-navigation/native";
-const Stack = createNativeStackNavigator();
+import { Image, Platform, useWindowDimensions } from "react-native";
 
-const AppNavigation = ({ navigationRef }) => {
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const screens = {
+  LandingPage: LandingPage,
+  Doctors: Doctors,
+  Medilocker: Medilocker,
+  Hospitals: Hospitals,
+  AboutUs: AboutUs,
+  Settings: Settings,
+  Help: Help,
+  ContactUs: ContactUs,
+  Second: Second,
+  Home: Home,
+  Login: Login,
+  Signup: Signup,
+  Ingestion: Ingestion,
+  Source: Source,
+  Transformation: Transformation,
+  Target: Target,
+  Configure: Configure,
+  Error: Error,
+};
+
+function TabStackNavigator({ initialScreen }) {
+
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {screens[initialScreen] && (
+        <Stack.Screen name={initialScreen} component={screens[initialScreen]} />
+      )}
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Medilocker" component={Medilocker} options={{ headerShown: false }} /> 
+        <Stack.Screen name="AboutUs" component={AboutUs} options={{ headerShown: false }} /> 
+        {/* <Stack.Screen name="ContactUs" component={ContactUs} options={{ headerShown: false }} />  */}
+        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} /> 
+        <Stack.Screen name="DataAssets" component={DataAssets} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Features" component={Features} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Ingestion" component={Ingestion} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Source" component={Source} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Transformation" component={Transformation} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Target" component={Target} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Configure" component={Configure} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Help" component={Help} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Error" component={Error} /> 
+    </Stack.Navigator>
+  );
+}
+
+function MobileNavigator() {
   const { isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
 
   return (
-    <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator
+    <Tab.Navigator
+      initialRouteName="LandingPage"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: theme.container.backgroundColor,
+        },
+        headerTintColor: theme.text.color,
+      }}
+    >
+      <Tab.Screen
+        name="LandingPage"
+        options={{
+          tabBarLabel: "Home",
+          headerShown: false,
+          tabBarIcon: () => <Image source={require("../assets/Icons/HomeProfile.png")} />,
+        }}
+      >
+        {() => <TabStackNavigator initialScreen="LandingPage" />}
+      </Tab.Screen>
+
+      <Tab.Screen name="Doctors" 
+        options={{ tabBarLabel: "Doctors", headerShown: false, tabBarIcon: ({ color }) => <Image source={require("../assets/Icons/doctorTool.png")} /> }}>
+        {() => <TabStackNavigator initialScreen="Doctors" />}
+      </Tab.Screen>
+
+      <Tab.Screen name="Hospitals"
+        options={{ tabBarLabel: "Hospitals", headerShown: false, tabBarIcon: ({ color }) => <Image source={require("../assets/Icons/Medical Shield.png")} /> }}>
+        {() => <TabStackNavigator initialScreen="Hospitals" />}  
+      </Tab.Screen>
+
+      <Tab.Screen name="Second"
+        options={{ tabBarLabel: "24/7", headerShown: false, tabBarIcon: ({ color }) => <Image source={require("../assets/Icons/cardiacHealth.png")}/> }}>
+        {() => <TabStackNavigator initialScreen="Second" />}
+      </Tab.Screen>
+
+      <Tab.Screen name="ContactUs"
+        options={{ tabBarLabel: "Profile", headerShown: false, tabBarIcon: ({ color }) => <Image source={require("../assets/Icons/profile.png")}/> }}>
+        {() => <TabStackNavigator initialScreen="ContactUs" />}
+      </Tab.Screen>
+      
+    </Tab.Navigator>
+  );
+}
+
+function WebNavigator() {
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
+  return(
+    <Stack.Navigator
       initialRouteName="LandingPage"
         screenOptions={{
           headerStyle: {
@@ -62,7 +163,19 @@ const AppNavigation = ({ navigationRef }) => {
        <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} /> 
        <Stack.Screen name="Help" component={Help} options={{ headerShown: false }} /> 
        <Stack.Screen name="Error" component={Error} /> 
-      </Stack.Navigator>
+    </Stack.Navigator>
+  )
+}
+
+const AppNavigation = ({ navigationRef }) => {
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
+  const {width} = useWindowDimensions();
+  return (
+    <NavigationContainer ref={navigationRef}>
+      <HeaderButtonsProvider stackType={"native"}>
+        {(Platform.OS === "web" && width>1000)  ? <WebNavigator /> : <MobileNavigator />}
+      </HeaderButtonsProvider>
     </NavigationContainer>
   );
 }

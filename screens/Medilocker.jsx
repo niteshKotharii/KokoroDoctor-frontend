@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   Alert,
   FlatList,
+  useWindowDimensions,
+  Platform,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import * as DocumentPicker from "expo-document-picker";
@@ -19,6 +21,7 @@ import { Svg, Circle } from "react-native-svg";
 import LoginSignUp from "../components/LoginSignUp";
 
 const Medilocker = ({ navigation }) => {
+  const {width} = useWindowDimensions();
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
@@ -104,149 +107,163 @@ const Medilocker = ({ navigation }) => {
   // };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <ImageBackground
-          source={require("../assets/Images/MedicineBackground.png")}
-          style={styles.imageBackground}
-          resizeMode="cover"
-        >
-        <View style={styles.parent}>
+    <>
+      {(Platform.OS==='web' && width > 1000) && (
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <ImageBackground
+              source={require("../assets/Images/MedicineBackground.png")}
+              style={styles.imageBackground}
+              resizeMode="cover"
+            >
+            <View style={styles.parent}>
 
-            <View style={styles.Left}>
-                <SideBarNavigation navigation={navigation} />
-            </View>
-
-            <View style={styles.Right}>
-                <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
-                <View style={styles.medilocker_Container}>
-                    <View style={styles.DashedBox}>
-                    <ImageBackground
-                        source={require("../assets/Images/Rectangle.png")}
-                        style={styles.dashedBorder}
-                        resizeMode="stretch"
-                    >
-                        <Text style={styles.uploadTitle}>Medilocker</Text>
-                        <Image
-                        source={require("../assets/Icons/Vector.png")}
-                        style={styles.uploadIcon}
-                        />
-                        <Text style={styles.uploadText}>
-                        Drag and Drop your documents here, or
-                        </Text>
-                        <TouchableOpacity onPress={pickDocument}>
-                            <Text style={styles.uploadLink}>Click to Browse</Text>
-                        </TouchableOpacity>
-                    </ImageBackground>
-                    </View>
-                    <Text style={styles.files_Upload}>Upload your files</Text>
-                    {/* File Upload List */}
-                    <View style={styles.fileList}>
-                    <FlatList
-                        data={files}
-                        keyExtractor={(item) => item.name}
-                        renderItem={({ item }) => (
-                        <View style={styles.fileItem}>
-                            <TouchableOpacity disabled>
-                            <MaterialIcons
-                                name={
-                                item.progress === 100
-                                    ? "check-circle"
-                                    : "radio-button-unchecked"
-                                }
-                                size={24}
-                                color={item.progress === 100 ? "#2CBE5E" : "green"}
-                                style={styles.checkbox}
-                            />
-                            </TouchableOpacity>
-                            <Image
-                            source={require("../assets/Icons/file.png")}
-                            style={styles.fileIcon}
-                            />
-                            <View style={styles.fileDetailsContainer}>
-                            <View style={styles.fileDetails}>
-                                <Text style={styles.fileName}>{item.name}</Text>
-                                <Text style={styles.fileSize}>
-                                {item.size} Uploaded
-                                </Text>
-                            </View>
-
-                            {/* <ProgressBar
-                                progress={item.progress / 100}
-                                color="#00CC66"
-                            />
-
-                            {item.progress === 100 && (
-                                <TouchableOpacity
-                                onPress={() => removeFile(item.name)}
-                                style={styles.deleteButton}
-                                >
-                                <MaterialIcons name="delete" size={24} color="red" />
-                                </TouchableOpacity>
-                            )} */}
-                            {item.progress < 100 ? (
-                                <View style={styles.circularProgressContainer}>
-                                <View style={styles.circularProgress}>
-                                    <Svg width={80} height={80} viewBox="0 0 100 100">
-                                    <Circle
-                                        cx="60"
-                                        cy="60"
-                                        r="10"
-                                        stroke="#00CC66"
-                                        strokeWidth="5"
-                                        fill="none"
-                                        strokeDasharray="251.2"
-                                        strokeDashoffset={
-                                        (1 - item.progress / 100) * 251.2
-                                        }
-                                        strokeLinecap="round"
-                                    />
-                                    </Svg>
-                                    {/* <Text style={styles.progressText}>
-                                    {item.progress}%
-                                    </Text> */}
-                                </View>
-                                </View>
-                            ) : (
-                                /* Circular Delete Button After Upload Completes */
-                                <TouchableOpacity
-                                onPress={() => removeFile(item.name)}
-                                style={styles.deleteButton}
-                                >
-                                <MaterialIcons
-                                    name="delete"
-                                    size={24}
-                                    color="#ff0000"
-                                />
-                                </TouchableOpacity>
-                            )}
-                            </View>
-                            {/* <TouchableOpacity onPress={() => removeFile(item.name)}>
-                            <MaterialIcons name="delete" size={24} color="red" />
-                            </TouchableOpacity> */}
-                        </View>
-                        )}
-                        contentContainerStyle={{ paddingVertical: 1 }} // Reduce vertical padding
-                        ItemSeparatorComponent={() => <View style={{ height: 2 }} />} // Reduce gap between items
-                    />
-                    </View>
-
-                    <TouchableOpacity
-                    style={styles.addDocumentButton}
-                    onPress={pickDocument}
-                    >
-                    <Text style={styles.addDocumentText}>+ Add New Document</Text>
-                    </TouchableOpacity>
+                <View style={styles.Left}>
+                    <SideBarNavigation navigation={navigation} />
                 </View>
 
-                <View style={styles.file_Container}></View>
+                <View style={styles.Right}>
+                    <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
+                    <View style={styles.medilocker_Container}>
+                        <View style={styles.DashedBox}>
+                        <ImageBackground
+                            source={require("../assets/Images/Rectangle.png")}
+                            style={styles.dashedBorder}
+                            resizeMode="stretch"
+                        >
+                            <Text style={styles.uploadTitle}>Medilocker</Text>
+                            <Image
+                            source={require("../assets/Icons/Vector.png")}
+                            style={styles.uploadIcon}
+                            />
+                            <Text style={styles.uploadText}>
+                            Drag and Drop your documents here, or
+                            </Text>
+                            <TouchableOpacity onPress={pickDocument}>
+                                <Text style={styles.uploadLink}>Click to Browse</Text>
+                            </TouchableOpacity>
+                        </ImageBackground>
+                        </View>
+                        <Text style={styles.files_Upload}>Upload your files</Text>
+                        {/* File Upload List */}
+                        <View style={styles.fileList}>
+                        <FlatList
+                            data={files}
+                            keyExtractor={(item) => item.name}
+                            renderItem={({ item }) => (
+                            <View style={styles.fileItem}>
+                                <TouchableOpacity disabled>
+                                <MaterialIcons
+                                    name={
+                                    item.progress === 100
+                                        ? "check-circle"
+                                        : "radio-button-unchecked"
+                                    }
+                                    size={24}
+                                    color={item.progress === 100 ? "#2CBE5E" : "green"}
+                                    style={styles.checkbox}
+                                />
+                                </TouchableOpacity>
+                                <Image
+                                source={require("../assets/Icons/file.png")}
+                                style={styles.fileIcon}
+                                />
+                                <View style={styles.fileDetailsContainer}>
+                                <View style={styles.fileDetails}>
+                                    <Text style={styles.fileName}>{item.name}</Text>
+                                    <Text style={styles.fileSize}>
+                                    {item.size} Uploaded
+                                    </Text>
+                                </View>
+
+                                {/* <ProgressBar
+                                    progress={item.progress / 100}
+                                    color="#00CC66"
+                                />
+
+                                {item.progress === 100 && (
+                                    <TouchableOpacity
+                                    onPress={() => removeFile(item.name)}
+                                    style={styles.deleteButton}
+                                    >
+                                    <MaterialIcons name="delete" size={24} color="red" />
+                                    </TouchableOpacity>
+                                )} */}
+                                {item.progress < 100 ? (
+                                    <View style={styles.circularProgressContainer}>
+                                    <View style={styles.circularProgress}>
+                                        <Svg width={80} height={80} viewBox="0 0 100 100">
+                                        <Circle
+                                            cx="60"
+                                            cy="60"
+                                            r="10"
+                                            stroke="#00CC66"
+                                            strokeWidth="5"
+                                            fill="none"
+                                            strokeDasharray="251.2"
+                                            strokeDashoffset={
+                                            (1 - item.progress / 100) * 251.2
+                                            }
+                                            strokeLinecap="round"
+                                        />
+                                        </Svg>
+                                        {/* <Text style={styles.progressText}>
+                                        {item.progress}%
+                                        </Text> */}
+                                    </View>
+                                    </View>
+                                ) : (
+                                    /* Circular Delete Button After Upload Completes */
+                                    <TouchableOpacity
+                                    onPress={() => removeFile(item.name)}
+                                    style={styles.deleteButton}
+                                    >
+                                    <MaterialIcons
+                                        name="delete"
+                                        size={24}
+                                        color="#ff0000"
+                                    />
+                                    </TouchableOpacity>
+                                )}
+                                </View>
+                                {/* <TouchableOpacity onPress={() => removeFile(item.name)}>
+                                <MaterialIcons name="delete" size={24} color="red" />
+                                </TouchableOpacity> */}
+                            </View>
+                            )}
+                            contentContainerStyle={{ paddingVertical: 1 }} // Reduce vertical padding
+                            ItemSeparatorComponent={() => <View style={{ height: 2 }} />} // Reduce gap between items
+                        />
+                        </View>
+
+                        <TouchableOpacity
+                        style={styles.addDocumentButton}
+                        onPress={pickDocument}
+                        >
+                        <Text style={styles.addDocumentText}>+ Add New Document</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.file_Container}></View>
+                </View>
+
             </View>
 
+            </ImageBackground>
+          </View>
         </View>
+      )}
 
-        </ImageBackground>
-      </View>
-    </View>
+      {(Platform.OS!=='web' || width < 1000 ) && (
+        <View style={styles.appContainer}>
+
+          <View style={styles.header}>
+            <LoginSignUp navigation={navigation}/>
+          </View>
+
+        </View>
+      )}
+    </>
   );
 };
 const styles = StyleSheet.create({
@@ -257,6 +274,12 @@ const styles = StyleSheet.create({
     width: "100%",
     // borderWidth: 1,
     // borderColor: "#000000",
+  },
+  appContainer:{
+    flex: 1,
+    height: "100%",
+    width: "100%",
+    // backgroundColor: "pink",
   },
   imageContainer: {
     height: "100%",
@@ -291,11 +314,13 @@ const styles = StyleSheet.create({
     //borderWidth: 1,
   },
   header: {
-    width:"12%",
-    marginLeft: "70%",
-    marginTop: 15,
-    // borderColor: "#FFFFFF",
-    // borderWidth: 1,
+    ...Platform.select({
+      web:{
+        width:"12%",
+        marginLeft: "70%",
+        marginTop: 15,
+      }
+    })
   },
   medilocker_Container: {
     flex: 1,
