@@ -18,7 +18,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useChatbot } from "../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
 import SideBarNavigation from "../components/SideBarNavigation";
-import LoginSignUp from "../components/LoginSignUp";
+import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 
 const Hospitals = ({ navigation, route }) => {
@@ -63,7 +63,7 @@ const Hospitals = ({ navigation, route }) => {
 
   return (
     <>
-      {(Platform.OS==='web' && width>1000) && (
+      {(Platform.OS==='web' && width>900) && (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <ImageBackground
@@ -153,7 +153,7 @@ const Hospitals = ({ navigation, route }) => {
                     {/* </View>
                   </View> */}
 
-                  <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
+                  <View style={styles.header}><Header navigation={navigation}/></View>
                   
                   <View style={styles.middlepart}>
 
@@ -269,11 +269,11 @@ const Hospitals = ({ navigation, route }) => {
         </View>
       )}
 
-      {(Platform.OS!=='web' || width < 1000 ) && (
+      {(Platform.OS!=='web' || width < 900 ) && (
         <View style={styles.appContainer}>
 
-            <View style={styles.header}>
-              <LoginSignUp navigation={navigation}/>
+            <View style={[styles.header, {height: "12%"}]}>
+              <Header navigation={navigation}/>
             </View>
         </View>
       )}

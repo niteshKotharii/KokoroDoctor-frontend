@@ -18,7 +18,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 //import { ProgressBar } from "react-native-paper";
 import { Svg, Circle } from "react-native-svg";
-import LoginSignUp from "../components/LoginSignUp";
+import Header from "../components/Header";
 
 const Medilocker = ({ navigation }) => {
   const {width} = useWindowDimensions();
@@ -108,7 +108,7 @@ const Medilocker = ({ navigation }) => {
 
   return (
     <>
-      {(Platform.OS==='web' && width > 1000) && (
+      {(Platform.OS==='web' && width > 900) && (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <ImageBackground
@@ -123,7 +123,7 @@ const Medilocker = ({ navigation }) => {
                 </View>
 
                 <View style={styles.Right}>
-                    <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
+                    <View style={styles.header}><Header navigation={navigation}/></View>
                     <View style={styles.medilocker_Container}>
                         <View style={styles.DashedBox}>
                         <ImageBackground
@@ -254,11 +254,11 @@ const Medilocker = ({ navigation }) => {
         </View>
       )}
 
-      {(Platform.OS!=='web' || width < 1000 ) && (
+      {(Platform.OS!=='web' || width < 900 ) && (
         <View style={styles.appContainer}>
 
-          <View style={styles.header}>
-            <LoginSignUp navigation={navigation}/>
+          <View style={[styles.header, {height: "12%"}]}>
+            <Header navigation={navigation}/>
           </View>
 
         </View>

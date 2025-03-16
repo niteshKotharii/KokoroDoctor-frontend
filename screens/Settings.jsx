@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
-import LoginSignUp from "../components/LoginSignUp";
+import Header from "../components/Header";
 import Title from "../components/Title";
 
 const Settings = ({ navigation, route }) => {
@@ -34,7 +34,7 @@ const Settings = ({ navigation, route }) => {
               <SideBarNavigation navigation={navigation} /> 
             </View>
             <View style={styles.Right}>
-              <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
+              <View style={styles.header}><Header navigation={navigation}/></View>
               <View style={styles.title}><Title/></View>
 
               <View style={styles.imageBox}>

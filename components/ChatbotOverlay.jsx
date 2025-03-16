@@ -20,7 +20,7 @@ const ChatBotOverlay = ({ navigationRef }) => {
     }, [navigationRef]);
 
   // Screens where chatbot SHOULD be visible
-  const visibleScreens = ['LandingPage', 'Doctors', 'Hospitals']; // List of screens where chatbot appears
+  const visibleScreens = ['LandingPage', 'Doctors', 'Hospitals', 'Pricing']; // List of screens where chatbot appears
 
   // If current screen is NOT in the list, don't show chatbot
   if (!currentRoute || !visibleScreens.includes(currentRoute)) {

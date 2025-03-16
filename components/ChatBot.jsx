@@ -243,7 +243,6 @@ const styles = StyleSheet.create({
         ...Platform.select({
             android: {
                 width:"60%",
-                // maxWidth: 1000,
                 minWidth: 300,
                 borderWidth: 3,
                 borderColor: "#6495ed",
@@ -255,15 +254,14 @@ const styles = StyleSheet.create({
                 padding: 10,
             },
             web:{
-                width: width > 1024 ? "80%" : width > 768 ? "70%" : "90%",
-                // maxWidth: 1000,
+                width: width > 900 ? "80%" : "60%",
                 minWidth: 300,
                 borderWidth: 3,
                 borderColor: "#6495ed",
                 backgroundColor: "#fff",
                 position: "absolute",
-                left: width > 1024 ? "28%" : width > 768 ? "15%" : "5%", // Center it dynamically
-                bottom: "3%",
+                left: width > 900 ? "28%" : "0%", // Center it dynamically
+                bottom: width > 900 ? "3%" : "8%",
                 borderRadius: 15,
                 padding: 10,
             }
@@ -282,8 +280,8 @@ const styles = StyleSheet.create({
         gap: 20,
         paddingHorizontal: 15,
         backgroundColor: "#f8f8f8",
-        borderTopWidth: 1,
-        borderColor: "#ccc",
+        // borderTopWidth: 1,
+        // borderColor: "#ccc",
     },
     iconContainer: {
         padding: 5,

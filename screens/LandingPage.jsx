@@ -15,7 +15,7 @@ import {
 import SideBarNavigation from "../components/SideBarNavigation";
 import { useChatbot } from "../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
-import LoginSignUp from "../components/LoginSignUp";
+import Header from "../components/Header";
 import Title from "../components/Title";
 import SearchBar from "../components/SearchBar";
 
@@ -32,7 +32,7 @@ const LandingPage = ({ navigation, route }) => {
 
   return (
     <>
-      {(Platform.OS==='web' && width > 1000) && (
+      {(Platform.OS==='web' && width > 900) && (
         <View style={styles.webContainer}>
           <View style={styles.imageContainer}>
             <ImageBackground
@@ -50,7 +50,7 @@ const LandingPage = ({ navigation, route }) => {
                   <SideBarNavigation navigation={navigation} />
                 </View>
                 <View style={styles.Right}>
-                  <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
+                  <View style={styles.header}><Header navigation={navigation}/></View>
                   <View style={styles.title}><Title/></View>
                   {/* Center Middle */}
                   {!isChatExpanded && (
@@ -90,11 +90,11 @@ const LandingPage = ({ navigation, route }) => {
         </View>
       )}
 
-      {(Platform.OS!=='web' || width < 1000 ) && (
+      {(Platform.OS!=='web' || width < 900 ) && (
         <View style={styles.appContainer}>
 
-            <View style={styles.header}>
-              <LoginSignUp navigation={navigation}/>
+            <View style={[styles.header, {height: "12%"}]}>
+              <Header navigation={navigation}/>
             </View>
 
             <View style={styles.searchBar}>
@@ -188,11 +188,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   header: {
+    // borderWidth: 5,
+    // borderColor: "black",
     ...Platform.select({
       web:{
         width:"12%",
         marginLeft: "70%",
-        marginTop: 15,
+        // marginTop: 15,
       }
     })
   },
@@ -226,7 +228,6 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   searchBar:{
-    
   },
   cards:{
     height: "60%",

@@ -17,7 +17,7 @@ import Svg, {
   Stop,
   Text as SvgText,
 } from "react-native-svg";
-import LoginSignUp from "../components/LoginSignUp";
+import Header from "../components/Header";
 import Title from "../components/Title";
 
 const AboutUs = ({ navigation, route }) => {
@@ -44,7 +44,7 @@ const AboutUs = ({ navigation, route }) => {
               <SideBarNavigation navigation={navigation} /> 
             </View>
             <View style={styles.Right}>
-              <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
+              <View style={styles.header}><Header navigation={navigation}/></View>
               <View style={styles.title}><Title/></View>
 
               <View style={styles.textBox}>

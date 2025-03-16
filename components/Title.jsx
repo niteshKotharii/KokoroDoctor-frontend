@@ -9,16 +9,25 @@ const Title = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.incubatedText, { fontSize: responsiveFontSize }]}>
-        Harvard Innovation Lab I-Member presents
-      </Text>
-      <Text style={[styles.brandName, { fontSize: responsiveFontSize * 5 }]}>
-        Kokoro.
-        <Text style={[styles.doctorText]}>Doctor</Text>
-      </Text>
-      <Text style={[styles.tagline, { fontSize: responsiveFontSize }]}>
-        Transforming Cardiac Care with AI
-      </Text>
+
+      <View style={{marginLeft: 5}}>
+        <Text style={[styles.incubatedText, { fontSize: responsiveFontSize }]}>
+          Harvard Innovation Lab I-Member presents
+        </Text>
+      </View>
+
+      <View>
+        <Text style={[styles.brandName, { fontSize: responsiveFontSize * 5, lineHeight: 80 }]}>
+          Kokoro.
+          <Text style={[styles.doctorText]}>Doctor</Text>
+        </Text>
+      </View>
+
+      <View style={{marginRight: 15, marginTop: 2}}>
+        <Text style={[styles.tagline, { fontSize: responsiveFontSize }]}>
+          Transforming Cardiac Care with AI
+        </Text>
+      </View>
     </View>
   );
 };
@@ -35,7 +44,6 @@ const styles = StyleSheet.create({
     marginBottom:0,
   },
   brandName: {
-    // fontSize: responsiveFontSize * 5,
     fontWeight: "bold",
     color: "#D0C4FF",
   },
@@ -44,8 +52,8 @@ const styles = StyleSheet.create({
   },
   tagline: {
     alignSelf: "flex-end",
-    // fontSize: responsiveFontSize,
     color: "#e0a8c8",
+    fontWeight: "600",
   },
 });
 

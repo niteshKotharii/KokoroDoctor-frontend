@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, Image, useWindowDimensions } from 'react-native';
 import MyLinearGradient from '../components/MyLinearGradient';
 import SideBarNavigation from '../components/SideBarNavigation';
-import LoginSignUp from '../components/LoginSignUp';
+import Header from '../components/Header';
 
 const Second = ({navigation}) => {
   const {width} = useWindowDimensions();
@@ -26,7 +26,7 @@ const Second = ({navigation}) => {
             </View>
           }
           <View style={styles.Right}>
-            <View style={styles.header}><LoginSignUp navigation={navigation}/></View>
+            <View style={[styles.header, {height: (Platform.OS!=='web' || width<900) ? "12%" : "auto"}]}><Header navigation={navigation}/></View>
             <View style={styles.contentContainer}>
             <Text style={styles.title}>
               Your 24/7 AI Heart Specialist – Right in Your Pocket

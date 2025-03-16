@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 const SideBarNavigation = ({
-  navigation,
+  navigation, closeSidebar 
 }) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -48,6 +48,10 @@ const SideBarNavigation = ({
       navigation.navigate("ContactUs");
     } else {
       navigation.navigate(menu);
+    }
+
+    if (closeSidebar) {
+      closeSidebar(); // Close sidebar after navigation
     }
   };
 
@@ -128,16 +132,16 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#f5f5f5",
     flexDirection: "column",
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
   top_sidebar: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: "5%",
-    marginBottom: 20,
+    marginBottom: 40,
   },
   topimage_sidebar: {
-    height: "90%",
+    // height: "90%",
     width: "15%",
     marginVertical: "1%",
     //borderWidth: 1,
@@ -156,10 +160,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   upper_sidebar: {
-    flex: 1,
     justifyContent: "center",
+    marginBottom: 50,
   },
   lower_sidebar: {
+    justifyContent: "center",
     paddingBottom: 20,
   },
   menuItemContainer: {
