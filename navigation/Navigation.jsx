@@ -11,6 +11,9 @@ import Signup from "../screens/Signup";
 import Home from "../screens/Home";
 import LandingPage from "../screens/LandingPage";
 import Doctors from "../screens/Doctors";
+import DoctorResultShow from "../screens/Doctors/DoctorResultShow"
+import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating"
+import DoctorsPaymentScreen from "../screens/Doctors/DoctorsPaymentScreen"
 import Hospitals from "../screens/Hospitals";
 import AboutUs from "../screens/AboutUs";
 import ContactUs from "../screens/ContactUs";
@@ -29,11 +32,25 @@ import Help from "../screens/Help";
 
 const Stack = createNativeStackNavigator();
 
+//It will allow native stack to behave as web stack so that we could see the url and navigate using browser buttons
+const linking = {
+  prefixes: ['/', 'https://kokoro.doctor'],
+  config: {
+    screens: {
+      LandingPage: '',
+      //Add any other screen which requires id to be passed in the url
+      //e.g - 
+      // DoctorResultShow: 'doctor/:id'
+      // where id could be user id or any specific detail of user
+    },
+  },
+};
+
 const AppNavigation = ({ navigationRef }) => {
   const { isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer ref={navigationRef} linking={linking}>
       <HeaderButtonsProvider stackType={"native"}>
         <Stack.Navigator
           initialRouteName="LandingPage"
@@ -51,6 +68,9 @@ const AppNavigation = ({ navigationRef }) => {
           <Stack.Screen name="LandingPage" component={LandingPage} options={{ headerShown: false }} /> 
           <Stack.Screen name="Medilocker" component={Medilocker} options={{ headerShown: false }} /> 
           <Stack.Screen name="Doctors" component={Doctors} options={{ headerShown: false }} /> 
+          <Stack.Screen name="DoctorResultShow" component={DoctorResultShow} options={{ headerShown: false }} /> 
+          <Stack.Screen name="DoctorsInfoWithRating" component={DoctorsInfoWithRating} options={{ headerShown: false }} /> 
+          <Stack.Screen name="DoctorsPaymentScreen" component={DoctorsPaymentScreen} options={{ headerShown: false }} /> 
           <Stack.Screen name="Hospitals" component={Hospitals} options={{ headerShown: false }} /> 
           <Stack.Screen name="AboutUs" component={AboutUs} options={{ headerShown: false }} /> 
           <Stack.Screen name="ContactUs" component={ContactUs} options={{ headerShown: false }} /> 

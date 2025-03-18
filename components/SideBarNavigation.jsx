@@ -1,9 +1,11 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Image, Text, TouchableOpacity, StyleSheet, Platform, Pressable, useWindowDimensions } from "react-native";
 
 const SideBarNavigation = ({
   navigation, closeSidebar 
 }) => {
+  const {width} = useWindowDimensions();
   const [selectedItem, setSelectedItem] = useState(null);
 
   const menuItems = [
@@ -33,13 +35,13 @@ const SideBarNavigation = ({
   ];
 
   const handleSidebarClick = (menu) => {
-    // setSelectedItem(menu);
+    // setSelectedItem(menu);  //used for the red color color but is not working as intended
     if (menu === "Home") {
       navigation.navigate("LandingPage");
     } else if (menu === "About Us") {
       navigation.navigate("AboutUs");
     } else if (menu === "Sr.Doctors") {
-      navigation.navigate("Doctors");
+      navigation.navigate("DoctorResultShow");
     } else if (menu === "Book Hospital") {
       navigation.navigate("Hospitals");
     } else if (menu === "24/7 Cardiac Support") {
@@ -49,15 +51,12 @@ const SideBarNavigation = ({
     } else {
       navigation.navigate(menu);
     }
-
-    if (closeSidebar) {
-      closeSidebar(); // Close sidebar after navigation
-    }
   };
 
   return (
     <View style={styles.sidebar_content}>
       <View style={styles.top_sidebar}>
+
         <View style={styles.topimage_sidebar}>
           <Image
             source={require("../assets/Images/KokoroLogo.png")}
@@ -66,6 +65,13 @@ const SideBarNavigation = ({
         </View>
 
         <Text style={styles.title}>Kokoro.Doctor</Text>
+
+        {(Platform.OS !== 'web' || width<900) &&
+          <Pressable onPress={closeSidebar}>
+            <MaterialIcons name="arrow-back" size={24} color="grey" />
+          </Pressable>
+        }
+
       </View>
       <View style={styles.upper_sidebar}>
         {/* Dynamic Menu Items with Icons */}
@@ -153,11 +159,16 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   title: {
-    width:"85%",
+    width:"70%",
     fontSize: 18,
     color: "rgba(0, 0, 0, 0.46)",
     fontWeight: "bold",
     marginLeft: 10,
+    ...Platform.select({
+      web: {
+        width: "85%",
+      }
+    })
   },
   upper_sidebar: {
     justifyContent: "center",

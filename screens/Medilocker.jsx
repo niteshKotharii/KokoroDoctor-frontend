@@ -4,33 +4,26 @@ import {
   ImageBackground,
   StyleSheet,
   View,
-  Dimensions,
   Text,
+  TextInput,
   TouchableOpacity,
   Alert,
   FlatList,
+  Modal,
   useWindowDimensions,
-  Platform,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import * as DocumentPicker from "expo-document-picker";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//import { ProgressBar } from "react-native-paper";
-import { Svg, Circle } from "react-native-svg";
 import Header from "../components/Header";
+import * as FileSystem from "expo-file-system";
 
 const Medilocker = ({ navigation }) => {
-  const {width} = useWindowDimensions();
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
-  };
-
-  const profileOptions = ["View Profile", "Edit Profile", "Logout"];
-  const [dropdownVisible, setDropdownVisible] = useState();
-
   const [files, setFiles] = useState([]);
-  // Load files from AsyncStorage when the component mounts
+  const [searchQuery, setSearchQuery] = useState("");
+  const {width} = useWindowDimensions();
+  
   useEffect(() => {
     const loadFiles = async () => {
       const storedFiles = await AsyncStorage.getItem("files");
@@ -41,231 +34,233 @@ const Medilocker = ({ navigation }) => {
     loadFiles();
   }, []);
 
-  // Save files to AsyncStorage whenever they change
   useEffect(() => {
     AsyncStorage.setItem("files", JSON.stringify(files));
   }, [files]);
 
-  //Function to handle file selection
-
-  const pickDocument = async () => {
+  const convertFileToBase64 = async (fileUri) => {
     try {
-      const result = await DocumentPicker.getDocumentAsync({
-        type: "*/*",
+      const base64 = await FileSystem.readAsStringAsync(fileUri, {
+        encoding: FileSystem.EncodingType.Base64,
       });
-  
-      if (result.canceled === true) {
-        return; // Exit if canceled
-      }
-  
-      if (!result.assets || result.assets.length === 0) {
-        alert("Error", "No file data received.");
-        return;
-      }
-  
-      const fileName = result.assets[0].name || "Unknown File";
-      const fileSizeBytes = result.assets[0].size ?? null;
-  
-      let fileSize = "Unknown Size";
-      if (fileSizeBytes !== null) {
-        fileSize =
-          fileSizeBytes < 1024
-            ? `${fileSizeBytes} B`
-            : fileSizeBytes < 1048576
-            ? `${(fileSizeBytes / 1024).toFixed(2)} KB`
-            : `${(fileSizeBytes / 1048576).toFixed(2)} MB`;
-      }
-  
-      const newFile = { name: fileName, size: fileSize, progress: 0 };
-  
-      setFiles((prevFiles) => [...prevFiles, newFile]);
-  
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 10;
-        setFiles((prevFiles) =>
-          prevFiles.map((file) =>
-            file.name === newFile.name ? { ...file, progress } : file
-          )
-        );
-        if (progress >= 100) clearInterval(interval);
-      }, 500);
-    } catch (err) {
-      alert("Error", "Something went wrong while picking the file.");
-      //console.log(err);
+      return `data:application/octet-stream;base64,${base64}`; // Base64 with MIME type
+    } catch (error) {
+      console.error("Error converting file to Base64:", error);
+      return null;
     }
   };
 
-  //Function to remove a file from the list
-  const removeFile = (fileName) => {
-    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+  const pickDocument = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({ type: "*/*" });
+      if (result.canceled === true) {
+        return;
+      }
+      if (!result.assets || result.assets.length === 0) {
+        alert("Error ,No file data received.");
+        return;
+      }
+      const fileUri = result.assets[0].uri;
+      const fileName = result.assets[0].name || "Unknown File";
+      let fileType = result.assets[0].mimeType || "Unknown Type";
+      const fileSizeBytes = result.assets[0].size ?? null;
+      let fileSize = fileSizeBytes ? `${(fileSizeBytes / 1024).toFixed(2)} KB` : "Unknown Size";
+
+      if (fileType !== "Unknown Type") {
+        const parts = fileType.split("/");
+        if (parts.length > 1) {
+          fileType = parts[1].split(".").pop();
+        }
+      }
+
+      const base64String = await convertFileToBase64(fileUri);
+
+      const newFile = {
+          name: fileName,
+          size: fileSize,
+          type: fileType,
+          progress: 100,
+          date: new Date().toLocaleDateString(),
+            time: new Date().toLocaleTimeString() ,
+            base64: base64String,
+          };
+      setFiles((prevFiles) => [...prevFiles, newFile]);
+      
+    } catch (err) {
+
+      alert("Error ,Something went wrong while picking the file.");
+    }
   };
-  // const removeFile = async (fileName) => {
-  //   const updatedFiles = files.filter((file) => file.name !== fileName);
-  //   setFiles(updatedFiles);
-  //   await AsyncStorage.setItem("files", JSON.stringify(updatedFiles));
-  // };
+
+  const removeFile = (fileName) => {
+    setFiles(files.filter((file) => file.name !== fileName));
+    Alert.alert("Deleted", `${fileName} has been removed`);
+  };
+
+  const filteredFiles = files.filter(file => file.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
+  const[visible,setvisible]=useState(true);
+  const [password, setPassword] = useState("");
+
+
+  const handlePasswordChange = (text)=> {
+    setPassword(text);
+    if (text === "1234") {
+      setTimeout(() => setvisible(false), 500); // Close modal after 0.5s if password is correct
+    }
+  };
 
   return (
-    <>
-      {(Platform.OS==='web' && width > 900) && (
-        <View style={styles.container}>
-          <View style={styles.imageContainer}>
-            <ImageBackground
-              source={require("../assets/Images/MedicineBackground.png")}
-              style={styles.imageBackground}
-              resizeMode="cover"
-            >
-            <View style={styles.parent}>
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        <ImageBackground
+          source={require("../assets/Images/MedicineBackground.png")}
+          style={styles.imageBackground}
+          resizeMode="cover"
+        >
+          <View style={styles.parent}>
+            <View style={styles.Left}>
+              <SideBarNavigation navigation={navigation} />
+            </View>
+            <View style={styles.Right}>
 
-                <View style={styles.Left}>
-                    <SideBarNavigation navigation={navigation} />
-                </View>
+              <View style={styles.header}><Header navigation={navigation}/></View>
 
-                <View style={styles.Right}>
-                    <View style={styles.header}><Header navigation={navigation}/></View>
-                    <View style={styles.medilocker_Container}>
-                        <View style={styles.DashedBox}>
-                        <ImageBackground
-                            source={require("../assets/Images/Rectangle.png")}
-                            style={styles.dashedBorder}
-                            resizeMode="stretch"
-                        >
-                            <Text style={styles.uploadTitle}>Medilocker</Text>
-                            <Image
-                            source={require("../assets/Icons/Vector.png")}
-                            style={styles.uploadIcon}
-                            />
-                            <Text style={styles.uploadText}>
-                            Drag and Drop your documents here, or
-                            </Text>
-                            <TouchableOpacity onPress={pickDocument}>
-                                <Text style={styles.uploadLink}>Click to Browse</Text>
-                            </TouchableOpacity>
-                        </ImageBackground>
-                        </View>
-                        <Text style={styles.files_Upload}>Upload your files</Text>
-                        {/* File Upload List */}
-                        <View style={styles.fileList}>
-                        <FlatList
-                            data={files}
-                            keyExtractor={(item) => item.name}
-                            renderItem={({ item }) => (
-                            <View style={styles.fileItem}>
-                                <TouchableOpacity disabled>
-                                <MaterialIcons
-                                    name={
-                                    item.progress === 100
-                                        ? "check-circle"
-                                        : "radio-button-unchecked"
-                                    }
-                                    size={24}
-                                    color={item.progress === 100 ? "#2CBE5E" : "green"}
-                                    style={styles.checkbox}
-                                />
-                                </TouchableOpacity>
-                                <Image
-                                source={require("../assets/Icons/file.png")}
-                                style={styles.fileIcon}
-                                />
-                                <View style={styles.fileDetailsContainer}>
-                                <View style={styles.fileDetails}>
-                                    <Text style={styles.fileName}>{item.name}</Text>
-                                    <Text style={styles.fileSize}>
-                                    {item.size} Uploaded
-                                    </Text>
-                                </View>
-
-                                {/* <ProgressBar
-                                    progress={item.progress / 100}
-                                    color="#00CC66"
-                                />
-
-                                {item.progress === 100 && (
-                                    <TouchableOpacity
-                                    onPress={() => removeFile(item.name)}
-                                    style={styles.deleteButton}
-                                    >
-                                    <MaterialIcons name="delete" size={24} color="red" />
-                                    </TouchableOpacity>
-                                )} */}
-                                {item.progress < 100 ? (
-                                    <View style={styles.circularProgressContainer}>
-                                    <View style={styles.circularProgress}>
-                                        <Svg width={80} height={80} viewBox="0 0 100 100">
-                                        <Circle
-                                            cx="60"
-                                            cy="60"
-                                            r="10"
-                                            stroke="#00CC66"
-                                            strokeWidth="5"
-                                            fill="none"
-                                            strokeDasharray="251.2"
-                                            strokeDashoffset={
-                                            (1 - item.progress / 100) * 251.2
-                                            }
-                                            strokeLinecap="round"
-                                        />
-                                        </Svg>
-                                        {/* <Text style={styles.progressText}>
-                                        {item.progress}%
-                                        </Text> */}
-                                    </View>
-                                    </View>
-                                ) : (
-                                    /* Circular Delete Button After Upload Completes */
-                                    <TouchableOpacity
-                                    onPress={() => removeFile(item.name)}
-                                    style={styles.deleteButton}
-                                    >
-                                    <MaterialIcons
-                                        name="delete"
-                                        size={24}
-                                        color="#ff0000"
-                                    />
-                                    </TouchableOpacity>
-                                )}
-                                </View>
-                                {/* <TouchableOpacity onPress={() => removeFile(item.name)}>
-                                <MaterialIcons name="delete" size={24} color="red" />
-                                </TouchableOpacity> */}
-                            </View>
-                            )}
-                            contentContainerStyle={{ paddingVertical: 1 }} // Reduce vertical padding
-                            ItemSeparatorComponent={() => <View style={{ height: 2 }} />} // Reduce gap between items
+              <View style={styles.right_middle}>
+           
+                <View style={styles.medilocker_Container}>
+                    <View style={styles.DashedBox}>
+                    <ImageBackground
+                        source={require("../assets/Images/Rectangle.png")}
+                        style={styles.dashedBorder}
+                        resizeMode="stretch"
+                    >
+                        <Text style={styles.uploadTitle}>Medilocker</Text>
+                        <Image
+                        source={require("../assets/Icons/Vector.png")}
+                        style={styles.uploadIcon}
                         />
-                        </View>
-
-                        <TouchableOpacity
-                        style={styles.addDocumentButton}
-                        onPress={pickDocument}
-                        >
-                        <Text style={styles.addDocumentText}>+ Add New Document</Text>
+                        <Text style={styles.uploadText}>
+                        Drag and Drop your documents here, or
+                        </Text>
+                        <TouchableOpacity onPress={pickDocument}>
+                            <Text style={styles.uploadLink}>Click to Browse</Text>
                         </TouchableOpacity>
+                    </ImageBackground>
                     </View>
 
-                    <View style={styles.file_Container}></View>
+                    <TouchableOpacity
+                    style={styles.addDocumentButton}
+                    onPress={pickDocument}
+                    >
+                    <Text style={styles.addDocumentText}>+ Add New Document</Text>
+                    </TouchableOpacity>
                 </View>
 
-            </View>
 
-            </ImageBackground>
+              </View>
+
+              <View style={styles.right_bottom}>
+
+                <View style={styles.file_Container}>
+                  {/* Header Section */}
+                  <View style={styles.Fpart}>
+                    <View style={styles.searchFilterContainer}>
+                      <Text style={styles.tableTitle}>Files Uploaded</Text>
+
+                      <View style={styles.searchBox}>
+                        <MaterialIcons name="search" size={20} color="red" />
+                        <TextInput
+                          style={styles.searchInput}
+                          placeholder="Search for Documents"
+                          value={searchQuery}
+                          onChangeText={setSearchQuery}
+                        />
+                      </View>
+
+                      <TouchableOpacity style={styles.filterButton}>
+                        <MaterialIcons name="filter-list" size={20} color="red" />
+                        <Text style={styles.filterText}>Filters</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                    {/* Table Section */}
+                    <View style={styles.Spart}>
+                      <FlatList
+                        data={filteredFiles}
+                        keyExtractor={(item) => item.name}
+                        ListHeaderComponent={
+                          <View style={styles.tableHeader}>
+                            <Text style={styles.headerText}>File Name</Text>
+                            <Text style={styles.headerText}>Document Type</Text>
+                            <Text style={styles.headerText}>File Size</Text>
+                            <Text style={styles.headerText}>Creation Date</Text>
+                            <Text style={styles.headerText}>Time</Text>
+                            <Text style={styles.headerText}>Actions</Text>
+                          </View>
+                        }
+                        renderItem={({ item }) => (
+                          <View style={styles.tableRow}>
+                            <Text style={styles.rowText}>{item.name}</Text>
+                            <Text style={styles.rowText}>{item.type }</Text>
+                            <Text style={styles.rowText}>{item.size}</Text>
+                            <Text style={styles.rowText}>{item.date}</Text>
+                            <Text style={styles.rowText}>{item.time}</Text>
+
+                            <View style={styles.actionButtons}>
+                      {/* Download Button */}
+                      <TouchableOpacity onPress={() => downloadFile(item)}>
+                        <MaterialIcons name="file-download" size={24} color="red" />
+                      </TouchableOpacity>
+
+                      {/* Edit Button */}
+                      <TouchableOpacity onPress={() => editFile(item)}>
+                        <MaterialIcons name="edit" size={24} color="red" />
+                      </TouchableOpacity>
+
+                      {/* Delete Button */}
+                      <TouchableOpacity onPress={() => removeFile(item.name)}>
+                        <MaterialIcons name="delete" size={24} color="red" />
+                      </TouchableOpacity>
+                    </View>
+                          </View>
+                        )}
+                      />
+                    </View>
+                  </View>
+              </View>
+
+              {visible && (
+                <View style={styles.overlay}>
+                  <View style={styles.overlayContent}>
+                    <MaterialIcons name="lock" size={30} color="red" style={styles.icon} />
+                    <Text style={styles.lockedText}>Medilocker is Locked</Text>
+                    <Text style={styles.securityText}>
+                      For your security, you can only use Medilocker when it's unlocked.
+                    </Text>
+                    <Text style={styles.enterPasswordText}>Enter Password</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Enter your password"
+                      placeholderTextColor="#888"
+                      secureTextEntry={true}
+                      value={password}
+                      onChangeText={handlePasswordChange}
+                    />
+                  </View>
+                </View>
+              )}
+
+            </View>   
           </View>
-        </View>
-      )}
 
-      {(Platform.OS!=='web' || width < 900 ) && (
-        <View style={styles.appContainer}>
-
-          <View style={[styles.header, {height: "12%"}]}>
-            <Header navigation={navigation}/>
-          </View>
-
-        </View>
-      )}
-    </>
+        </ImageBackground>
+      </View>
+    </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -274,12 +269,6 @@ const styles = StyleSheet.create({
     width: "100%",
     // borderWidth: 1,
     // borderColor: "#000000",
-  },
-  appContainer:{
-    flex: 1,
-    height: "100%",
-    width: "100%",
-    // backgroundColor: "pink",
   },
   imageContainer: {
     height: "100%",
@@ -310,35 +299,49 @@ const styles = StyleSheet.create({
   },
   Right: {
     height: "100%",
+    // flex: 1,
     width: "100%",
-    //borderWidth: 1,
   },
   header: {
-    ...Platform.select({
-      web:{
-        width:"12%",
-        marginLeft: "70%",
-        marginTop: 15,
-      }
-    })
+    width: "12%",
+    marginLeft: "70%",
+    marginTop: 12,
+  },
+  right_middle: {
+    flex: 1,
+    width: "100%",
+    marginBottom: 10,
+  },
+  right_bottom: {
+    flex: 1,
+    width: "100%",
   },
   medilocker_Container: {
     flex: 1,
-    height: "55%",
+    //  height: "80%",
     width: "90%",
     borderWidth: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "white",
+    padding: 10,
     marginHorizontal: "-2.5%",
-    marginVertical: "-2%",
+    // marginVertical: "-2.5%",
     transform: [{ scale: 0.9 }],
     flexDirection: "column",
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+    // alignSelf: "center", // Ensures it's inside the parent
+    maxHeight: "100%", // Prevents it from exceeding parent height
+    overflow: "hidden",
   },
   DashedBox: {
-    height: "58%",
+    height: "75%",
     width: "96%",
     //borderWidth: 1,
     borderColor: "#000000",
@@ -383,113 +386,197 @@ const styles = StyleSheet.create({
     marginHorizontal: "3.5%",
     marginVertical: "-0.5%",
   },
-  fileList: {
-    height: "23%",
-    width: "75%",
-    //borderWidth: 2,
-    borderColor: "#000000",
-    flexDirection: "row",
-    marginVertical: "1%",
-    marginHorizontal: "2%",
-  },
-  fileItem: {
-    flexDirection: "row",
-    height: "90%",
-    width: "100%",
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: "-2.8%",
-  },
-  checkbox: {
-    paddingVertical: "5%",
-    alignSelf: "center",
-  },
-  fileIcon: {
-    marginVertical: "0.6%",
-    marginHorizontal: "1%",
-  },
-  fileDetailsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    flex: 1,
-    alignItems: "center",
-    borderWidth: 2,
-    height: "100%",
-  },
-  fileDetails: {
-    flexDirection: "column",
-    height: "100%",
-    width: "30%",
-    borderWidth: 1,
-    borderColor: "#000000",
-    marginHorizontal: "0%",
-  },
-  fileName: {
-    marginHorizontal: "10%",
-    fontSize: 18,
-    fontWeight: 400,
-    marginBottom: "0.5%",
-    color: "#444444",
-  },
-  fileSize: {
-    fontSize: 16,
-    marginHorizontal: "10%",
-    paddingBottom: "12%",
-    color: "rgba(155, 154, 154, 1)",
-  },
-  circularProgressContainer: {
-    // flex:1,
-    // flexDirection:"column",
-    // marginHorizontal:"20%",
-  },
-  circularProgress: {
-    alignItems: "center",
-    justifyContent: "center",
-    //marginLeft: "auto",
-  },
-  progressText: {
-    fontSize: 14,
-    fontWeight: "bold",
-    //textAlign:"center",
-    color: "#00CC66",
-    marginBottom: "15%",
-  },
-  deleteButton: {
-    color: "#ff0000",
-  },
   addDocumentButton: {
-    height: "10%",
-    width: "17%",
+    height: "12%",
+    width: "16%",
+    overflow: "hidden",
     borderWidth: 1,
     borderColor: "#FF7072",
-    marginHorizontal: "80%",
-    marginVertical: "-3.8%",
-    borderRadius: 6,
+    backgroundColor: "white",
+    borderRadius: 4,
+    marginTop: "15%",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    bottom: "1%", // Adjust to keep it above the bottom edge
+    right: "5%",
   },
   addDocumentText: {
     fontSize: 18,
     fontWeight: 400,
-    alignSelf: "center",
+    // alignSelf: "center",
     paddingVertical: "3%",
+    color: "black",
   },
-
   file_Container: {
-    height: "42%",
+    // height: "95%",
     width: "90%",
-    borderWidth: 1,
-    backgroundColor: "#FFFFFF",
+    borderWidth: 0,
+    backgroundColor: "white",
+    padding: 10,
     marginHorizontal: "-2.5%",
-    marginVertical: "-0.3%",
+    // marginVertical: "-2.5%",
     transform: [{ scale: 0.9 }],
+    flexDirection: "column",
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    // shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+    // alignSelf: "center", // Ensures it's inside the parent
+    maxHeight: "100%",
+    overflow: "hidden",
   },
-  // Chat: {
-  //   borderWidth: 2,
-  //   height: "12%",
-  //   width: "102%",
-  //   backgroundColor:"#FFFFFF",
-  //   marginHorizontal:"3.3%",
-  //   marginVertical:"-0.5%",
-  //   borderRadius:15
-  // },
+  Fpart: {
+    width: "100%",
+    marginBottom: 10,
+  },
+  searchFilterContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+  },
+  tableTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  searchBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: "red",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    height: 35,
+    width: "27%",
+    marginLeft: "50%",
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 14,
+  },
+  filterButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "red",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+  },
+  filterText: {
+    color: "#180606b3",
+    fontSize: 14,
+    marginLeft: 5,
+  },
+  Spart: {
+    width: "100%",
+    // backgroundColor: "#f7ecf0",
+    padding: 1,
+    borderRadius: 5,
+  },
+  tableHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#f7ecf0",
+    borderBottomWidth: 1,
+    paddingVertical: 10,
+    borderBottomColor: "#ccc",
+  },
+  tableRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  headerText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    flex: 1,
+    textAlign: "center",
+  },
+  rowText: {
+    fontSize: 14,
+    flex: 1,
+    textAlign: "center",
+  },
+  actionButtons: {
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "center", // Ensures equal spacing
+    alignItems: "center",
+  },
+  passwardDialogBox: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    backgroundColor: "red",
+    padding: "2%",
+    borderRadius: "5%",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: "90%",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: "15%",
+  },
+  overlayContent: {
+    width: "25%", // Adjust as needed, e.g., 50% of Right view
+    backgroundColor: "white",
+    padding: "3%",
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  icon: {
+    marginBottom: "2%",
+  },
+  lockedText: {
+    fontSize: "90%",
+    fontWeight: "bold",
+    color: "black",
+    marginBottom: "5%",
+  },
+  securityText: {
+    fontSize: "80%",
+    textAlign: "center",
+    color: "gray",
+    marginBottom: "8%",
+  },
+  enterPasswordText: {
+    fontSize: "100%",
+    fontWeight: "bold",
+    color: "red",
+    marginBottom: "5%",
+  },
+  input: {
+    width: "90%",
+    height: "20%",
+    borderWidth: 1,
+    borderColor: "red",
+    borderRadius: "5%",
+    padding: "2%",
+    textAlign: "center",
+  },
 });
 export default Medilocker;
