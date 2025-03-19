@@ -13,7 +13,7 @@ const Header = ({ navigation }) => {
       {user ? (
         // Show user info when logged in
         <>
-          {Platform.OS === "web" && (
+          {(Platform.OS === "web" && width>1000) && (
             <View style={styles.userInfo}>
               <Image source={user?.picture ? { uri: user.picture } : require("../assets/Images/user-icon.jpg")} style={styles.userIcon}/>
               <Text style={styles.username}>{user?.name ? user?.name : "User"}</Text>
@@ -116,7 +116,7 @@ const Header = ({ navigation }) => {
                       <MaterialIcons name="menu" size={30} color="black" />
                     </Pressable>
                     <Image source={require("../assets/Images/KokoroLogo.png")} style={{height:30, width:30}}/>
-                    <Text style={styles.authText}>Kokoro.Doctor</Text>
+                    <Text style={{fontWeight: "800", color: "#000000", fontSize: 16,}}>Kokoro.Doctor</Text>
                   </View>
       
                   <View style={styles.authButtons}>
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     marginTop:5,
   },
   appHeaderContainer:{
-
+      
   },
   appHeader:{
     width: "100%",
@@ -193,7 +193,12 @@ const styles = StyleSheet.create({
     gap: 15,
     ...Platform.select({
       android: {
-        marginTop: "13%",
+        marginTop: "10%",
+        alignSelf: "flex-end",
+        marginRight: "5%",
+      },
+      ios: {
+        marginTop: "10%",
         alignSelf: "flex-end",
         marginRight: "5%",
       }
@@ -247,6 +252,12 @@ const styles = StyleSheet.create({
   logo:{
     flexDirection: "row",
     alignItems: "center",
+    ...Platform.select({
+      web: {
+        position: "absolute",
+        right: 200,
+      }
+    })
   },
 });
 

@@ -19,6 +19,8 @@ import Header from "../components/Header";
 import Title from "../components/Title";
 import SearchBar from "../components/SearchBar";
 
+const {width, height} = Dimensions.get("window");
+
 const LandingPage = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   const { setChatbotConfig, isChatExpanded, setIsChatExpanded } = useChatbot();
@@ -32,7 +34,7 @@ const LandingPage = ({ navigation, route }) => {
 
   return (
     <>
-      {(Platform.OS==='web' && width > 900) && (
+      {(Platform.OS==='web' && width > 1000) && (
         <View style={styles.webContainer}>
           <View style={styles.imageContainer}>
             <ImageBackground
@@ -90,7 +92,7 @@ const LandingPage = ({ navigation, route }) => {
         </View>
       )}
 
-      {(Platform.OS!=='web' || width < 900 ) && (
+      {(Platform.OS!=='web' || width < 1000 ) && (
         <View style={styles.appContainer}>
 
             <View style={[styles.header, {height: "12%"}]}>
@@ -212,11 +214,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   cardStyle: {
-    height: "100%",
     width: "45%",
     ...Platform.select({
       web: {
-        width: "23%",
+        width: width>1000 ? "23%" : "45%",
         borderColor: "#FFFFFF",
       }
     })

@@ -36,11 +36,19 @@ const ChatBot = () => {
     const [typingText, setTypingText] = useState(".");
     const {user, setUser} = useContext(AuthContext);
     
+    //Set userID
     useEffect(() => {
         if (user) {
             setUserId(user?.email);
         }
     }, [user]);
+
+    //Stop speaking when user refreshes the page
+    useEffect(() => {
+        return () => {
+            Speech.stop();
+        };
+    }, []);
 
     // Loading Typing animation
     useEffect(() => {

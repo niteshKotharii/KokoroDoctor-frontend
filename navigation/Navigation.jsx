@@ -29,6 +29,8 @@ import Error from "../screens/Error";
 import Medilocker from "../screens/Medilocker";
 import Settings from "../screens/Settings";
 import Help from "../screens/Help";
+import MobileChatbot from "../components/MobileChatbot";
+import ChatBotOverlay from "../components/ChatbotOverlay";
 
 const Stack = createNativeStackNavigator();
 
@@ -75,6 +77,8 @@ const AppNavigation = ({ navigationRef }) => {
           <Stack.Screen name="AboutUs" component={AboutUs} options={{ headerShown: false }} /> 
           <Stack.Screen name="ContactUs" component={ContactUs} options={{ headerShown: false }} /> 
           <Stack.Screen name="Pricing" component={Pricing} options={{ headerShown: false }} />
+          <Stack.Screen name="MobileChatbot" component={MobileChatbot} options={{ headerShown: false }} />
+          <Stack.Screen name="ChatBotOverlay" component={ChatBotOverlay} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} /> 
           <Stack.Screen name="DataAssets" component={DataAssets} options={{ headerShown: false }} /> 
           <Stack.Screen name="Features" component={Features} options={{ headerShown: false }} /> 
