@@ -109,74 +109,6 @@ const EmergencyLocation = ({ navigation, route }) => {
                   <SideBarNavigation navigation={navigation} />
                 </View>
                 <View style={styles.Right}>
-                  {/* <View style={styles.center}>
-                    <View style={styles.center_textbar}>
-                      <Text style={styles.centerText}>Welcome!</Text>
-                      <Text style={styles.lowertext}>
-                        Here is your sales Medical dashboard
-                      </Text>
-                    </View>
-                    <View style={styles.search_bar}>
-                      <TouchableOpacity onPress={handleSearch}>
-                        <Image
-                          source={require("../assets/Icons/search.png")}
-                          style={styles.chatIcon}
-                        />
-                      </TouchableOpacity>
-                      <TextInput
-                        style={styles.searchInput}
-                        placeholder="Search your query"
-                        placeholderTextColor="#aaa"
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
-                      />
-                    </View>
-                    <View style={styles.notification}>
-                      <TouchableOpacity
-                        onPress={() => Alert.alert("Notification")}
-                      >
-                        <Image
-                          source={require("../assets/Icons/notification1.png")}
-                          style={styles.bellIcon}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.profileContainer}>
-                      <TouchableOpacity
-                        style={styles.profileHeader}
-                        onPress={toggleDropdown}
-                      >
-                        <Image
-                          source={require("../assets/Icons/profile1.png")}
-                          style={styles.profileIcon}
-                        />
-                        <MaterialIcons
-                          name={
-                            dropdownVisible ? "arrow-drop-up" : "arrow-drop-down"
-                          }
-                          size={24}
-                          color="#fff"
-                        />
-                      </TouchableOpacity> */}
-                  {/* Dropdown Menu */}
-                  {/* {dropdownVisible && (
-                        <View style={styles.dropdownMenu}>
-                          {profileOptions.map((option, index) => (
-                            <TouchableOpacity
-                              key={index}
-                              style={styles.dropdownItem}
-                              onPress={() => Alert.alert(option)}
-                            >
-                              <Text style={styles.dropdownText}>{option}</Text>
-                            </TouchableOpacity>
-                          ))}
-                        </View>
-                      )} */}
-                  {/* </View>
-                  </View> */}
-
                   <View style={styles.header}>
                     <Header navigation={navigation} />
                   </View>
@@ -408,11 +340,11 @@ const styles = StyleSheet.create({
     height: "50%",
     width: "100%",
     backgroundColor: "#fff",
-    borderWidth: "1",
+    borderWidth: 1,
     borderColor: "#ff7072",
-    borderRadius: "3%",
+    borderRadius: 6,
     flexDirection: "row",
-    gap: "8%",
+    gap: 10,
     alignItems: "center",
   },
 
@@ -433,7 +365,7 @@ const styles = StyleSheet.create({
     paddingTop: "5%",
     flexDirection: "row",
     justifyContent: "center",
-    gap: "8%",
+    gap: 12,
   },
   exactLocation: {
     flexWrap: "wrap",
@@ -458,7 +390,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 2,
     borderColor: "#ffff",
-    borderRadius: "5%",
+    borderRadius: 5,
   },
   detectButtonText: {
     fontSize: 14,
@@ -466,8 +398,6 @@ const styles = StyleSheet.create({
     fontStyle: "Montserrat",
     fontWeight: "bold",
   },
-//App design end
-  //............
 
   imageContainer: {
     height: "100%",

@@ -46,12 +46,12 @@ const plans = [
   },
 ];
 
-const API_URL = "https://447a50i5y0.execute-api.ap-south-1.amazonaws.com/Prod/process-payment";
+const API_URL = "https://bzp2envoek.execute-api.ap-south-1.amazonaws.com/Prod";
 
 const PricingPlans = () => {
 
   const handleBuyNow = async (plan) => {
-    const response = await fetch(`${API_URL}`, {
+    const response = await fetch(`${API_URL}/process-payment`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -65,9 +65,8 @@ const PricingPlans = () => {
     }
   
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     
-    return
   };
 
   const { width, height } = useWindowDimensions();

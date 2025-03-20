@@ -176,7 +176,7 @@ const DoctorAppointmentScreen = ({navigation, route}) => {
                     }
                   }}
                 >
-                  <Text>Book Appointment</Text>
+                  <Text style={{fontWeight: "600"}}>Book Appointment</Text>
                 </Pressable>
               </View>
             </View>
@@ -303,8 +303,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF0F0",
     width: "100%",
     height: "22%",
-    //borderWidth: 1,
-    borderColor: "#000000",
+    // borderWidth: 1,
+    // borderColor: "#000000",
+  },
+  selectedSlotText:{
+
   },
   title: {
     fontSize: 14,
@@ -327,8 +330,12 @@ const styles = StyleSheet.create({
     maxWidth: "43%", // Prevents slots from being too wide
   },
   selectedSlot: {
-    backgroundColor: "#87ceeb",
-    color: "#000000",
+    // backgroundColor: "#87ceeb",
+    // color: "#000000",
+    borderWidth: 1,
+    borderColor: "#1680EC",
+    borderRadius: 5,
+    padding: 5,
   },
   slotText: {
     fontSize: 10,

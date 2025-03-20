@@ -26,7 +26,7 @@ const AppHospitalCard = ({ navigation, route }) => {
         <View style={styles.top}>
           <View style={styles.imageContainer}>
             <Image
-              source={require("../assets/Images/hospitalImages.png")}
+              source={require("../assets/Images/hospitalImage.jpeg")}
               style={styles.image}
               resizeMode="cover"
             />
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "pink",
     borderWidth: 2,
     borderColor: "#000000",
-    borderRadius: "3%",
+    borderRadius: 5,
     padding: "2%",
   },
   top: {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   image: {
     height: "100%",
     width: "100%",
-    borderRadius: "5%",
+    borderRadius: 5,
   },
   topRight: {
     height: "90%",
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     width: "85%",
     borderWidth: 1,
     borderColor: "black",
-    borderRadius: "5%",
+    borderRadius: 5,
     shadowOffset: 1,
     flexDirection: "row",
     backgroundColor: "#F7F5F5",
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: "2%",
+    borderRadius: 5,
   },
   text: {
     fontStyle: "Poppins",

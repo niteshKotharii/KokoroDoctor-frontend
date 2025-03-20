@@ -26,27 +26,31 @@ const ChatBotOverlay = ({ navigationRef }) => {
   }, [navigationRef]);
 
   // Screens where chatbot SHOULD be visible
-  const visibleScreens = ['AboutUs', 'ContactUs', 'Help', 'Settings', 'MobileChatbot', 'ChatBot', 'Login', 'Signup']; // List of screens where chatbot will not appear
+  // Define screens where the chatbot should be hidden
+  const hiddenScreensWeb = ['AboutUs', 'ContactUs', 'Help', 'Settings', 'Login', 'Signup'];
+  const shownScreensMobile = ['LandingPage'];
 
-  // If current screen is in the list, don't show chatbot
-  if (!currentRoute || visibleScreens.includes(currentRoute)) {
+  // Check platform and visibility conditions
+  if (!currentRoute) {
     return null;
   }
-    return (  
-      <>
-        {(Platform.OS==='web' && width>1000) && (
-          <ChatBot/>
-        )} 
 
-        {(Platform.OS!=='web' || width<1000) && (
-          <Pressable onPress={handlePress} style={styles.pressable}>
-            <Text style={styles.pressableText}>Ask me Anything....</Text>
-            <MaterialIcons name="send" size={24} color="#000" />
-          </Pressable>
-        )}
-      
-      </>
+  // For web, show chatbot if current screen is NOT in hiddenScreensWeb
+  if (Platform.OS === 'web' && !hiddenScreensWeb.includes(currentRoute) && width > 1000) {
+    return <ChatBot />;
+  }
+
+  // For mobile, show the pressable if current screen is in shownScreensMobile
+  if ((Platform.OS !== 'web' || width < 1000) && shownScreensMobile.includes(currentRoute)) {
+    return (
+      <Pressable onPress={handlePress} style={styles.pressable}>
+        <Text style={styles.pressableText}>Ask me Anything....</Text>
+        <MaterialIcons name="send" size={24} color="#000" />
+      </Pressable>
     );
+  }
+
+    return null;
   }
 
 const styles = StyleSheet.create({

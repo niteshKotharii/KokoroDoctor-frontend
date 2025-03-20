@@ -10,11 +10,14 @@ import Login from "../screens/Login";
 import Signup from "../screens/Signup";
 import Home from "../screens/Home";
 import LandingPage from "../screens/LandingPage";
-import ConsultWithDoctors from "../screens/Doctors/ConsultWithDoctors"
-import DoctorResultShow from "../screens/Doctors/DoctorResultShow"
-import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating"
-import DoctorsPaymentScreen from "../screens/Doctors/DoctorsPaymentScreen"
+import ConsultWithDoctors from "../screens/Doctors/ConsultWithDoctors";
+import DoctorResultShow from "../screens/Doctors/DoctorResultShow";
+import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating";
+import DoctorsPaymentScreen from "../screens/Doctors/DoctorsPaymentScreen";
 import Hospitals from "../screens/Hospitals";
+import AllHospitals from "../screens/Hospitals/AllHospitals";
+import EmergencyLocation from "../screens/Hospitals/EmergencyLocation";
+import HospitalDetails from "../screens/Hospitals/HospitalDetails";
 import AboutUs from "../screens/AboutUs";
 import ContactUs from "../screens/ContactUs";
 import Pricing from "../screens/Pricing";
@@ -69,13 +72,14 @@ const DoctorNavigator = ({navigationRef}) => {
     </Stack.Navigator>
   );
 }
+
 const HospitalNavigator = ({navigationRef}) => {
   const { isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
 
   return (
     <Stack.Navigator
-      initialRouteName="ConsultWithDoctors"
+      initialRouteName="AllHospitals"
         screenOptions={{
           headerStyle: {
             backgroundColor: theme.container.backgroundColor,
@@ -83,10 +87,9 @@ const HospitalNavigator = ({navigationRef}) => {
           headerTintColor: theme.text.color,
         }}
     >
-      <Stack.Screen name="ConsultWithDoctors" component={ConsultWithDoctors} options={{ headerShown: false }} /> 
-      <Stack.Screen name="DoctorResultShow" component={DoctorResultShow} options={{ headerShown: false }} /> 
-      <Stack.Screen name="DoctorsInfoWithRating" component={DoctorsInfoWithRating} options={{ headerShown: false }} /> 
-      <Stack.Screen name="DoctorsPaymentScreen" component={DoctorsPaymentScreen} options={{ headerShown: false }} /> 
+      <Stack.Screen name="AllHospitals" component={AllHospitals} options={{ headerShown: false }} /> 
+      <Stack.Screen name="EmergencyLocation" component={EmergencyLocation} options={{ headerShown: false }} /> 
+      <Stack.Screen name="HospitalDetails" component={HospitalDetails} options={{ headerShown: false }} /> 
     </Stack.Navigator>
   );
 }

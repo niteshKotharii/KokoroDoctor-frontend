@@ -17,12 +17,6 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { Picker } from "@react-native-picker/picker";
-import { useChatbot } from "../../contexts/ChatbotContext";
-import { useFocusEffect } from "@react-navigation/native";
-import SideBarNavigation from "../../components/SideBarNavigation";
 import Header from "../../components/Header";
 import SearchBar from "../../components/SearchBar";
 import AppHospitalCard from "../../components/AppHospitalCard";

@@ -25,7 +25,7 @@ const HospitalDetails = ({ navigation, route }) => {
     <View style={styles.parent}>
       <View style={styles.hospitalImage}>
         <Image
-          source={require("../../assets/Images/hospitalImages.png")}
+          source={require("../../assets/Images//hospitalImage.jpeg")}
           style={styles.image}
           resizeMode="cover"
         />
