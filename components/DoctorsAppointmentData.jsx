@@ -176,7 +176,7 @@ const DoctorAppointmentScreen = ({navigation, route}) => {
                     }
                   }}
                 >
-                  Book Appointment
+                  <Text>Book Appointment</Text>
                 </Pressable>
               </View>
             </View>

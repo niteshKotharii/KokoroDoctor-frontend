@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as Speech from "expo-speech";
 import { AuthContext } from "../contexts/AuthContext";
 
-const BASE_URL = "MY_URL";
+const BASE_URL = "https://wmytms59zc.execute-api.ap-south-1.amazonaws.com/prod";
 
 const MobileChatbot = () => {
   const navigation = useNavigation();

@@ -46,10 +46,30 @@ const plans = [
   },
 ];
 
+const API_URL = "https://447a50i5y0.execute-api.ap-south-1.amazonaws.com/Prod/process-payment";
+
 const PricingPlans = () => {
-  // const handleBuyNow = (plan) => {
-    //   alert(`You selected: ${plan.name}`);
-    // };
+
+  const handleBuyNow = async (plan) => {
+    const response = await fetch(`${API_URL}`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ amount: 2500 }),
+    });
+  
+    if (!response.ok) {
+      throw new Error("Payment Failed");
+    }
+  
+    const data = await response.json();
+    console.log(data);
+    
+    return
+  };
+
   const { width, height } = useWindowDimensions();
   const renderItem = ({ item }) => (
     <View style={[styles.card, {width: width * 0.23}]}>

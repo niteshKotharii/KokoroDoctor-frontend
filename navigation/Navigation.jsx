@@ -10,7 +10,7 @@ import Login from "../screens/Login";
 import Signup from "../screens/Signup";
 import Home from "../screens/Home";
 import LandingPage from "../screens/LandingPage";
-import Doctors from "../screens/Doctors";
+import ConsultWithDoctors from "../screens/Doctors/ConsultWithDoctors"
 import DoctorResultShow from "../screens/Doctors/DoctorResultShow"
 import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating"
 import DoctorsPaymentScreen from "../screens/Doctors/DoctorsPaymentScreen"
@@ -48,6 +48,49 @@ const linking = {
   },
 };
 
+const DoctorNavigator = ({navigationRef}) => {
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
+  return (
+    <Stack.Navigator
+      initialRouteName="ConsultWithDoctors"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: theme.container.backgroundColor,
+          },
+          headerTintColor: theme.text.color,
+        }}
+    >
+      <Stack.Screen name="ConsultWithDoctors" component={ConsultWithDoctors} options={{ headerShown: false }} /> 
+      <Stack.Screen name="DoctorResultShow" component={DoctorResultShow} options={{ headerShown: false }} /> 
+      <Stack.Screen name="DoctorsInfoWithRating" component={DoctorsInfoWithRating} options={{ headerShown: false }} /> 
+      <Stack.Screen name="DoctorsPaymentScreen" component={DoctorsPaymentScreen} options={{ headerShown: false }} /> 
+    </Stack.Navigator>
+  );
+}
+const HospitalNavigator = ({navigationRef}) => {
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
+  return (
+    <Stack.Navigator
+      initialRouteName="ConsultWithDoctors"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: theme.container.backgroundColor,
+          },
+          headerTintColor: theme.text.color,
+        }}
+    >
+      <Stack.Screen name="ConsultWithDoctors" component={ConsultWithDoctors} options={{ headerShown: false }} /> 
+      <Stack.Screen name="DoctorResultShow" component={DoctorResultShow} options={{ headerShown: false }} /> 
+      <Stack.Screen name="DoctorsInfoWithRating" component={DoctorsInfoWithRating} options={{ headerShown: false }} /> 
+      <Stack.Screen name="DoctorsPaymentScreen" component={DoctorsPaymentScreen} options={{ headerShown: false }} /> 
+    </Stack.Navigator>
+  );
+}
+
 const AppNavigation = ({ navigationRef }) => {
   const { isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
@@ -69,10 +112,7 @@ const AppNavigation = ({ navigationRef }) => {
           <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} /> 
           <Stack.Screen name="LandingPage" component={LandingPage} options={{ headerShown: false }} /> 
           <Stack.Screen name="Medilocker" component={Medilocker} options={{ headerShown: false }} /> 
-          <Stack.Screen name="Doctors" component={Doctors} options={{ headerShown: false }} /> 
-          <Stack.Screen name="DoctorResultShow" component={DoctorResultShow} options={{ headerShown: false }} /> 
-          <Stack.Screen name="DoctorsInfoWithRating" component={DoctorsInfoWithRating} options={{ headerShown: false }} /> 
-          <Stack.Screen name="DoctorsPaymentScreen" component={DoctorsPaymentScreen} options={{ headerShown: false }} /> 
+          <Stack.Screen name="Doctors" component={DoctorNavigator} options={{ headerShown: false }} /> 
           <Stack.Screen name="Hospitals" component={Hospitals} options={{ headerShown: false }} /> 
           <Stack.Screen name="AboutUs" component={AboutUs} options={{ headerShown: false }} /> 
           <Stack.Screen name="ContactUs" component={ContactUs} options={{ headerShown: false }} /> 

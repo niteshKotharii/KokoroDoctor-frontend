@@ -1,4 +1,6 @@
 import React, { useCallback, useState } from "react";
+import * as Location from "expo-location";
+
 import {
   Alert,
   Image,
@@ -11,26 +13,28 @@ import {
   Linking,
   Keyboard,
   Platform,
+  Modal,
   useWindowDimensions,
 } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Picker } from "@react-native-picker/picker";
-import { useChatbot } from "../contexts/ChatbotContext";
+import { useChatbot } from "../../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
-import SideBarNavigation from "../components/SideBarNavigation";
-import Header from "../components/Header";
+import SideBarNavigation from "../../components/SideBarNavigation";
+import Header from "../../components/Header";
+import SearchBar from "../../components/SearchBar";
 
-const Doctors = ({ navigation, route }) => {
-  const {width} = useWindowDimensions();
-  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
-  const [dropdownVisible, setDropdownVisible] = useState(false); // State to toggle dropdown visibility
+const EmergencyLocation = ({ navigation, route }) => {
+  const { width } = useWindowDimensions();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   const { setChatbotConfig } = useChatbot();
   const phoneNumber = "+918069991061";
 
   useFocusEffect(
     useCallback(() => {
-      // Reset chatbot height when this screen is focused
-      setChatbotConfig({ height: "32%"});
+      setChatbotConfig({ height: "32%" });
     }, [])
   );
 
@@ -60,10 +64,31 @@ const Doctors = ({ navigation, route }) => {
   const handleCallPress = () => {
     Linking.openURL(`tel:${phoneNumber}`);
   };
+//  state to hold the location which is entered
+  const [location, setLocation] = useState(null);
 
-  return (
+ // state to get current location of the user
+  const [currLocation, setCurrLocation] = useState(null);
+
+  const getCurrLoaction = async () => {
+
+    // Request permission
+    const { status } = await Location.requestForegroundPermissionsAsync();
+
+    if (status !== "granted") {
+      Alert.alert("Permission Denied", "Location permission is required.");
+      return;
+    }
+
+    // Get the current location
+    const currentLocation = await Location.getCurrentPositionAsync({});
+    setCurrLocation(currentLocation.coords);
+  };
+
+  
+ return (
     <>
-      {(Platform.OS==='web' && width > 900) && (
+      {Platform.OS === "web" && width > 1000 && (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <ImageBackground
@@ -84,7 +109,6 @@ const Doctors = ({ navigation, route }) => {
                   <SideBarNavigation navigation={navigation} />
                 </View>
                 <View style={styles.Right}>
-
                   {/* <View style={styles.center}>
                     <View style={styles.center_textbar}>
                       <Text style={styles.centerText}>Welcome!</Text>
@@ -136,8 +160,8 @@ const Doctors = ({ navigation, route }) => {
                           color="#fff"
                         />
                       </TouchableOpacity> */}
-                      {/* Dropdown Menu */}
-                      {/* {dropdownVisible && (
+                  {/* Dropdown Menu */}
+                  {/* {dropdownVisible && (
                         <View style={styles.dropdownMenu}>
                           {profileOptions.map((option, index) => (
                             <TouchableOpacity
@@ -150,25 +174,27 @@ const Doctors = ({ navigation, route }) => {
                           ))}
                         </View>
                       )} */}
-                    {/* </View>
+                  {/* </View>
                   </View> */}
 
-                  <View style={styles.header}><Header navigation={navigation}/></View>
-                  
-                  <View style={styles.middlepart}>
+                  <View style={styles.header}>
+                    <Header navigation={navigation} />
+                  </View>
 
+                  <View style={styles.middlepart}>
                     <View style={styles.hospitalSection}>
                       <View style={styles.hospitalProfile}>
                         <View style={styles.hospital}>
                           <Image
-                            source={require("../assets/Images/dr_kislay.jpg")}
+                            source={require("../../assets/Images/apollo.png")}
                             style={styles.hospitalImage}
                           />
                           <Text style={styles.hospitalRating}>⭐ 4.5</Text>
                         </View>
 
                         <View style={styles.hospitalDetails}>
-                          <Text style={styles.hospitalName}>Dr. Kislay Shrivastava (MBBS, MD, DND Cardiology AIIMs and Apollo hospital)
+                          <Text style={styles.hospitalName}>
+                            Apollo hospital
                           </Text>
                           <Text style={styles.specialist}>
                             Cardialogy Department
@@ -187,10 +213,9 @@ const Doctors = ({ navigation, route }) => {
                           Book Online Video Chat
                         </Text>
                       </TouchableOpacity>
-                    </View>  
+                    </View>
 
                     <View style={styles.paymentSection}>
-
                       {/* Payment Methods */}
                       <View style={styles.paymentMethods}>
                         {["Card", "EPS", "Giropay"].map((method) => (
@@ -198,7 +223,8 @@ const Doctors = ({ navigation, route }) => {
                             key={method}
                             style={[
                               styles.paymentOption,
-                              selectedMethod === method && styles.selectedOption,
+                              selectedMethod === method &&
+                                styles.selectedOption,
                             ]}
                             onPress={() => setSelectedMethod(method)}
                           >
@@ -269,17 +295,65 @@ const Doctors = ({ navigation, route }) => {
           </View>
         </View>
       )}
-      
-      {(Platform.OS!=='web' || width < 900 ) && (
+
+      {/* App */}
+
+      {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
+          <View style={styles.main}>
+            
+            <View style={styles.body}>
+              <View style={styles.bodyHeadContainer}>
+                <Text style={styles.bodytitle}> Find Hospital near you</Text>
+              </View>
+              <View style={styles.locationConatiner}>
+                <View style={styles.locationinput}>
+                  <TouchableOpacity
+                    style={styles.icon}
+                    onPress={() => setLocation("")}
+                  >
+                    <MaterialIcons name="arrow-back" size={34} color="#666" />
+                  </TouchableOpacity>
 
-            <View style={[styles.header, {height: "12%"}]}>
-              <Header navigation={navigation}/>
+                  <TextInput
+                    style={styles.textinput}
+                    placeholder="Enter Location"
+                    value={location}
+                    onChangeText={setLocation}
+                    placeholderTextColor="#999"
+                  />
+                </View>
+              </View>
+              {(<View style={styles.currlocationContainer}>
+                <View style={styles.currlocationleft}>
+                  <MaterialCommunityIcons
+                    name="crosshairs-gps"
+                    size={30}
+                    color="#444444"
+                  />
+
+                  <Text style={styles.exactLocation}>
+                    Give us your exact location{" "}
+                  </Text>
+                </View>
+                <View style={styles.currlocationRight}>
+                  
+                  <TouchableOpacity
+                   onPress={getCurrLoaction}
+                    style={styles.detectButton}
+                  >
+                    <Text style={styles.detectButtonText}>Detect Location</Text>
+                  </TouchableOpacity>
+
+                  
+                </View>
+              </View>)}
+
+             
             </View>
-
+          </View>
         </View>
       )}
-
     </>
   );
 };
@@ -291,12 +365,110 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
   },
-  appContainer:{
+
+  //......
+  // App design start
+
+  appContainer: {
     flex: 1,
     height: "100%",
     width: "100%",
     // backgroundColor: "pink",
   },
+  body: {
+    height: "100%",
+    width: "100%",
+    paddingTop: "18%",
+    backgroundColor: "#fff",
+    alignItems: "center",
+  },
+  bodyHeadContainer: {
+    height: "8%",
+    width: "90%",
+    justifyContent: "center",
+    paddingTop: "8%",
+    // backgroundColor: "yellow",
+    // alignItems:"center"
+  },
+  bodytitle: {
+    fontSize: 24,
+    fontStyle: "popins",
+    color: "#000000",
+    fontWeight: "bold",
+  },
+
+  locationConatiner: {
+    height: "12%",
+    width: "90%",
+    // backgroundColor: "pink",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  locationinput: {
+    height: "50%",
+    width: "100%",
+    backgroundColor: "#fff",
+    borderWidth: "1",
+    borderColor: "#ff7072",
+    borderRadius: "3%",
+    flexDirection: "row",
+    gap: "8%",
+    alignItems: "center",
+  },
+
+  currlocationContainer: {
+    height: "10%",
+    width: "100%",
+    backgroundColor: "#ff7072",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  currlocationleft: {
+    height: "100%",
+    width: "50%",
+    // padding:"5%",
+    paddingLeft: "10%",
+    paddingRight: "10%",
+    paddingTop: "5%",
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: "8%",
+  },
+  exactLocation: {
+    flexWrap: "wrap",
+    fontSize: 15,
+    color: "#ffff",
+    fontStyle: "Montserrat",
+    fontWeight: "bold",
+  },
+  currlocationRight: {
+    width: "50%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+
+    // backgroundColor:"black",
+  },
+  detectButton: {
+    height: "50%",
+    width: "60%",
+    padding: "2%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#ffff",
+    borderRadius: "5%",
+  },
+  detectButtonText: {
+    fontSize: 14,
+    color: "#ffff",
+    fontStyle: "Montserrat",
+    fontWeight: "bold",
+  },
+//App design end
+  //............
+
   imageContainer: {
     height: "100%",
     width: "100%",
@@ -329,12 +501,12 @@ const styles = StyleSheet.create({
   },
   header: {
     ...Platform.select({
-      web:{
-        width:"12%",
+      web: {
+        width: "12%",
         marginLeft: "70%",
         marginTop: 15,
-      }
-    })
+      },
+    }),
   },
   center: {
     marginHorizontal: "2%",
@@ -352,7 +524,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "12%",
     flexDirection: "row",
-    zIndex:10,
+    zIndex: 10,
   },
   center_textbar: {
     //borderWidth: 1,
@@ -462,16 +634,16 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     marginVertical: "3%",
     flexDirection: "row",
-    justifyContent:"space-between",
-    zIndex:1,
+    justifyContent: "space-between",
+    zIndex: 1,
   },
   blurView: {
     ...StyleSheet.absoluteFillObject, // Cover the entire `middlepart`
     backgroundColor: "rgba(0, 0, 0, 0.3)", // Semi-transparent black
   },
-  hospitalSection:{
-    width:"40%",
-    height:"100%",
+  hospitalSection: {
+    width: "40%",
+    height: "100%",
   },
   hospitalProfile: {
     height: "62%",
@@ -506,7 +678,7 @@ const styles = StyleSheet.create({
   },
   hospitalDetails: {
     height: "100%",
-    width: "100%",
+    width: "70%",
     //borderWidth: 1,
     borderColor: "#FFFFFF",
   },
@@ -559,17 +731,17 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "35%",
     flexDirection: "column",
-    marginTop:10,
+    marginTop: 10,
   },
   paymentMethods: {
-    height: "70%",
+    height: "65%",
     width: "83%",
     //borderWidth: 1,
     borderColor: "#fff",
     paddingTop: "1%",
     // left: 40,
     flexDirection: "row",
-    alignSelf:"center",
+    alignSelf: "center",
   },
   paymentOption: {
     height: "20%",
@@ -665,4 +837,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Doctors;
+export default EmergencyLocation;

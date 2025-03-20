@@ -26,19 +26,19 @@ const ChatBotOverlay = ({ navigationRef }) => {
   }, [navigationRef]);
 
   // Screens where chatbot SHOULD be visible
-  const visibleScreens = ['LandingPage', 'Doctors', 'Hospitals', 'Pricing']; // List of screens where chatbot appears
+  const visibleScreens = ['AboutUs', 'ContactUs', 'Help', 'Settings', 'MobileChatbot', 'ChatBot', 'Login', 'Signup']; // List of screens where chatbot will not appear
 
-  // If current screen is NOT in the list, don't show chatbot
-  if (!currentRoute || !visibleScreens.includes(currentRoute)) {
+  // If current screen is in the list, don't show chatbot
+  if (!currentRoute || visibleScreens.includes(currentRoute)) {
     return null;
   }
     return (  
       <>
-        {(Platform.OS==='web' && width>900) && (
+        {(Platform.OS==='web' && width>1000) && (
           <ChatBot/>
         )} 
 
-        {(Platform.OS!=='web' || width<900) && (
+        {(Platform.OS!=='web' || width<1000) && (
           <Pressable onPress={handlePress} style={styles.pressable}>
             <Text style={styles.pressableText}>Ask me Anything....</Text>
             <MaterialIcons name="send" size={24} color="#000" />

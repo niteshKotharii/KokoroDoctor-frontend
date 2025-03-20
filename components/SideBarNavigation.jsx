@@ -41,7 +41,7 @@ const SideBarNavigation = ({
     } else if (menu === "About Us") {
       navigation.navigate("AboutUs");
     } else if (menu === "Sr.Doctors") {
-      navigation.navigate("DoctorResultShow");
+      navigation.navigate("Doctors");
     } else if (menu === "Book Hospital") {
       navigation.navigate("Hospitals");
     } else if (menu === "24/7 Cardiac Support") {
