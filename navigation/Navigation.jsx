@@ -21,6 +21,7 @@ import HospitalDetails from "../screens/Hospitals/HospitalDetails";
 import AboutUs from "../screens/AboutUs";
 import ContactUs from "../screens/ContactUs";
 import Pricing from "../screens/Pricing";
+import BillReceipt from "../screens/BillReceipt";
 import DataAssets from "../screens/DataAssets";
 import Features from "../screens/Features";
 import Ingestion from "../screens/Ingestion";
@@ -33,7 +34,6 @@ import Medilocker from "../screens/Medilocker";
 import Settings from "../screens/Settings";
 import Help from "../screens/Help";
 import MobileChatbot from "../components/MobileChatbot";
-import ChatBotOverlay from "../components/ChatbotOverlay";
 
 const Stack = createNativeStackNavigator();
 
@@ -120,8 +120,8 @@ const AppNavigation = ({ navigationRef }) => {
           <Stack.Screen name="AboutUs" component={AboutUs} options={{ headerShown: false }} /> 
           <Stack.Screen name="ContactUs" component={ContactUs} options={{ headerShown: false }} /> 
           <Stack.Screen name="Pricing" component={Pricing} options={{ headerShown: false }} />
+          <Stack.Screen name="BillReceipt" component={BillReceipt} options={{ headerShown: false }} />
           <Stack.Screen name="MobileChatbot" component={MobileChatbot} options={{ headerShown: false }} />
-          <Stack.Screen name="ChatBotOverlay" component={ChatBotOverlay} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} /> 
           <Stack.Screen name="DataAssets" component={DataAssets} options={{ headerShown: false }} /> 
           <Stack.Screen name="Features" component={Features} options={{ headerShown: false }} /> 

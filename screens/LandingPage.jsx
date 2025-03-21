@@ -95,7 +95,7 @@ const LandingPage = ({ navigation, route }) => {
       {(Platform.OS!=='web' || width < 1000 ) && (
         <View style={styles.appContainer}>
 
-            <View style={[styles.header, {height: "12%"}]}>
+            <View style={[styles.header, {height: "15%"}]}>
               <Header navigation={navigation}/>
             </View>
 
@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
     height: "100%",
     //transform:[{scale:0.8}],
     opacity: 80,
-    //marginVertical:"-5%"
     alignSelf: "center",
     flexDirection: "column",
   },

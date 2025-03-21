@@ -194,7 +194,7 @@ const ConsultWithDoctors = ({ navigation }) => {
       )}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
-          <View style={[styles.appheader, { height: "12%" }]}>
+          <View style={[styles.appheader, { height: "15%" }]}>
             <Header navigation={navigation} />
           </View>
 

@@ -46,12 +46,13 @@ const Header = ({ navigation }) => {
 
               <View style={styles.appHeaderContainer}>
                 <View style={styles.appHeader}>
+
                   <View style={styles.logo}>
                     <Pressable style={styles.hamburger} onPress={()=>setIsSideBarVisible(true)}>
                       <MaterialIcons name="menu" size={30} color="black" />
                     </Pressable>
                     <Image source={require("../assets/Images/KokoroLogo.png")} style={{height:30, width:30}}/>
-                    <Text style={styles.authText}>Kokoro.Doctor</Text>
+                    <Text style={{fontWeight: "800", color: "#000000", fontSize: 16,}}>Kokoro.Doctor</Text>
                   </View>
       
                   <View style={styles.userInfo}>
@@ -61,7 +62,15 @@ const Header = ({ navigation }) => {
                     <Pressable>
                       <MaterialIcons name="notifications-none" size={24} color="black" />
                     </Pressable>
+                    <Pressable onPress={logout} style={styles.logoutButton}>
+                      <Text style={styles.logoutText}>Logout</Text>
+                    </Pressable>
                   </View>
+                </View>
+
+                <View style={styles.usernameApp}>
+                  <Text style={{fontWeight: "600", color: "#000000", fontSize: 20,}}>Hello,</Text>
+                  <Text style={{fontWeight: "800", color: "#000000", fontSize: 20,}}> {user?.name ? user?.name : "User"}!</Text>    
                 </View>
               </View>
             </>
@@ -134,6 +143,10 @@ const Header = ({ navigation }) => {
                     </Pressable>
                   </View>
                 </View>
+                <View style={styles.usernameApp}>
+                  <Text style={{fontWeight: "600", color: "#000000", fontSize: 20,}}>Hello,</Text>
+                  <Text style={{fontWeight: "800", color: "#000000", fontSize: 20,}}> {user?.name ? user?.name : "User"}!</Text>    
+                </View>
               </View>
             </>
           )}
@@ -152,7 +165,11 @@ const styles = StyleSheet.create({
     marginTop:5,
   },
   appHeaderContainer:{
-      
+    ...Platform.select({
+      web:{
+        marginRight: 230,
+      }
+    })
   },
   appHeader:{
     width: "100%",
@@ -161,6 +178,11 @@ const styles = StyleSheet.create({
     alignItems:"center",
     justifyContent:"space-between",
     paddingHorizontal: 15,
+    ...Platform.select({
+      web:{
+        gap:20,
+      }
+    })
   },
   hamburger: {
     marginHorizontal: 5,
@@ -229,6 +251,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
+    // borderWidth: 2,
+    // borderColor: "red",
   },
   userIcon: {
     width: 40,
@@ -239,6 +263,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#FFFFFF",
+  },
+  usernameApp:{
+    flexDirection: "row",
+    marginLeft: 20,
   },
   logoutButton: {
     padding: 8,
@@ -252,12 +280,6 @@ const styles = StyleSheet.create({
   logo:{
     flexDirection: "row",
     alignItems: "center",
-    ...Platform.select({
-      web: {
-        position: "absolute",
-        right: 200,
-      }
-    })
   },
 });
 
