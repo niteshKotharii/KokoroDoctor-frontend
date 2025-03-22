@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, FlatList, StyleSheet, Image, Pressable, useWindowDimensions } from "react-native";
+import React, { useState } from "react";
+import { View, Text, FlatList, StyleSheet, Image, Pressable, useWindowDimensions, Linking } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import {BlurView} from 'expo-blur';
 // import MyLinearGradient1 from "../components/MyLinearGradient1";
@@ -46,18 +46,21 @@ const plans = [
   },
 ];
 
-const API_URL = "https://bzp2envoek.execute-api.ap-south-1.amazonaws.com/Prod";
+const API_URL = "https://3rrzsugdi3.execute-api.ap-south-1.amazonaws.com/Stage/process-payment";
 
 const PricingPlans = () => {
 
   const handleBuyNow = async (plan) => {
-    const response = await fetch(`${API_URL}/process-payment`, {
+    const pricePart = plan.newPrice.split('/')[0];
+    const amount = parseInt(pricePart.replace(/[^\d.]/g, ''), 10);
+
+    const response = await fetch(`${API_URL}`, {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: 2500 }),
+      body: JSON.stringify({ amount: amount }),
     });
   
     if (!response.ok) {
@@ -65,11 +68,13 @@ const PricingPlans = () => {
     }
   
     const data = await response.json();
-    // console.log(data);
-    
+    const payment_link = data.payment_link;
+    Linking.openURL(payment_link).catch((err) => console.error('Failed to complete payment', err));
+     
   };
 
   const { width, height } = useWindowDimensions();
+
   const renderItem = ({ item }) => (
     <View style={[styles.card, {width: width * 0.23}]}>
       <View style={styles.cardContent}>

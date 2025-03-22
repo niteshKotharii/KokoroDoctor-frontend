@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   Image,
   Platform,
+  Keyboard,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -51,8 +52,20 @@ const MobileChatbot = () => {
     };
   }, []);
 
+  //Loading animation
+  useEffect(() => {
+      if (isLoading) {
+          const interval = setInterval(() => {
+              setTypingText(prev => (prev === "." ? ".." : prev === ".." ? "..." : "."));
+          }, 500); // Change every 500ms
+
+          return () => clearInterval(interval);
+      }
+  }, [isLoading]);
+
   const sendMessageToBot = async () => {
     if (!userMessage.trim()) return;
+    const messageToSend = userMessage;
 
     const newMessage = {
       id: Date.now().toString(),
@@ -72,21 +85,35 @@ const MobileChatbot = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: userMessage,
-          userId: "dummy_user@gmail.com",
+          user_id: userId,
+          message: messageToSend,
+          language: "en"
         }),
       });
-      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const botReply = await response.json();
       const botMessage = {
         id: Date.now().toString(),
         sender: "bot",
-        text: data.response || "Sorry, I couldn’t process that.",
+        text: botReply.text || "Sorry, I couldn’t process that.",
         timestamp: new Date().toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
         }),
       };
       setMessages((prev) => [...prev, botMessage]);
+      const newMessageIndex = botMessage.length - 1; // Get the index of the latest bot message
+      setPlayingMessage(newMessageIndex); // Set playingMessage to the new message index
+      Speech.speak(botReply.text, {
+          language: selectedLanguage,
+          onDone: () => setPlayingMessage(null),
+          onStopped: () => setPlayingMessage(null),
+      });
+
     } catch (error) {
       console.error("Error sending message:", error);
       setMessages((prev) => [
@@ -94,7 +121,7 @@ const MobileChatbot = () => {
         {
           id: Date.now().toString(),
           sender: "bot",
-          text: "An error occurred.",
+          text: error.message,
           timestamp: new Date().toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -103,6 +130,7 @@ const MobileChatbot = () => {
       ]);
     } finally {
       setIsLoading(false);
+      Keyboard.dismiss();
     }
   };
 
@@ -184,7 +212,7 @@ const MobileChatbot = () => {
       <FlatList
         data={
           isLoading
-            ? [...messages, { id: "loading", sender: "bot", text: "..." }]
+            ? [...messages, { id: "loading", sender: "bot", text: "" }]
             : messages
         }
         renderItem={renderItem}
@@ -206,7 +234,6 @@ const MobileChatbot = () => {
           style={styles.input}
           placeholder="Type message"
           placeholderTextColor="#aaa"
-          multiline
           onSubmitEditing={sendMessageToBot}
           enterKeyHint="send"
         />

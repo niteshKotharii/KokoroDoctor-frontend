@@ -9,6 +9,7 @@ import {
   Image,
   Platform,
   useWindowDimensions,
+  Keyboard,
 } from "react-native";
 import Header from "../../components/Header";
 import SearchBar from "../../components/SearchBar";
@@ -201,6 +202,8 @@ const ConsultWithDoctors = ({ navigation }) => {
           <View style={styles.searchBar}>
             <SearchBar />
           </View>
+
+          <View style={{flex:1}}>
           <View style={styles.doctorTextBox}>
             <Text style={styles.doctorText}>Consult with Doctor</Text>
           </View>
@@ -298,6 +301,8 @@ const ConsultWithDoctors = ({ navigation }) => {
           <TouchableOpacity style={styles.buttonBox} onPress={handleContinueButton}>
             <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
+          </View>
+          
         </View>
       )}
     </>
