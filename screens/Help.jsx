@@ -8,7 +8,6 @@ const Help = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <SideBarNavigation navigation={navigation} />
-      <SideBarNavigation navigation={navigation} />
 
       <View style={styles.imageContainer}>
         <ImageBackground
@@ -23,7 +22,6 @@ const Help = ({ navigation, route }) => {
           />
           <View style={styles.parent}>
             <View style={styles.Left}>
-              <SideBarNavigation navigation={navigation} />
               <SideBarNavigation navigation={navigation} />
             </View>
             <View style={styles.Right}>
@@ -149,6 +147,7 @@ const styles = StyleSheet.create({
     width: "60%",
     borderRadius: 20,
     backgroundColor: "#D9D9D9",
+  },
   Helpbox: {
     flex: 1,
     flexDirection: "row",
