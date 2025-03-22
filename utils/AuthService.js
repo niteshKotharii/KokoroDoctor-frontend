@@ -18,13 +18,13 @@ export const useGoogleAuth = () => {
   });
 };
 
-export const signup = async (username, email, password) => {
+export const signup = async (username, email, password, phoneNumber, location) => {
   const response = await fetch(`${API_URL}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, email, password }),
+    body: JSON.stringify({ username, email, password, phoneNumber, location }),
   });
 
   if (!response.ok) {

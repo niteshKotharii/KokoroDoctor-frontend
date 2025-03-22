@@ -25,9 +25,9 @@ export const AuthProvider = ({ children }) => {
         initializeUser();
     }, []);
 
-    const signupHandler = async (username, email, password, navigation) => {
+    const signupHandler = async (username, email, password, phoneNumber, location, navigation) => {
         try {
-          const newUser = await signup(username, email, password);
+          const newUser = await signup(username, email, password, phoneNumber, location);
           alert("Signup successful! Now you can login.");
           navigation.navigate("Login");
         } catch (error) {

@@ -6,8 +6,11 @@ import { useTheme } from '../contexts/ThemeContext';
 import { lightTheme, darkTheme } from '../contexts/Themes';
 import First from "../screens/First";
 import Second from "../screens/Second";
-import Login from "../screens/Login";
-import Signup from "../screens/Signup";
+import Login from "../screens/Auth/Login";
+import ForgotPassword from "../screens/Auth/ForgotPassword";
+import ResetPassword from "../screens/Auth/ResetPassword";
+import PasswordSuccess from "../screens/Auth/PasswordSuccess";
+import Signup from "../screens/Auth/Signup";
 import Home from "../screens/Home";
 import LandingPage from "../screens/LandingPage";
 import ConsultWithDoctors from "../screens/Doctors/ConsultWithDoctors";
@@ -112,6 +115,9 @@ const AppNavigation = ({ navigationRef }) => {
           <Stack.Screen name="First" component={First} options={{ headerShown: false }}/>
           <Stack.Screen name="Second" component={Second} options={{ headerShown: false }} /> 
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} /> 
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} /> 
+          <Stack.Screen name="ResetPassword" component={ResetPassword} options={{ headerShown: false }} /> 
+          <Stack.Screen name="PasswordSuccess" component={PasswordSuccess} options={{ headerShown: false }} /> 
           <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} /> 
           <Stack.Screen name="LandingPage" component={LandingPage} options={{ headerShown: false }} /> 
           <Stack.Screen name="Medilocker" component={Medilocker} options={{ headerShown: false }} /> 
