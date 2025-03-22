@@ -8,6 +8,7 @@ const Help = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <SideBarNavigation navigation={navigation} />
+      <SideBarNavigation navigation={navigation} />
 
       <View style={styles.imageContainer}>
         <ImageBackground
@@ -22,6 +23,7 @@ const Help = ({ navigation, route }) => {
           />
           <View style={styles.parent}>
             <View style={styles.Left}>
+              <SideBarNavigation navigation={navigation} />
               <SideBarNavigation navigation={navigation} />
             </View>
             <View style={styles.Right}>
@@ -132,6 +134,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "12%",
+    width: "12%",
     marginLeft: "70%",
     marginTop: 15,
   },
@@ -146,8 +149,66 @@ const styles = StyleSheet.create({
     width: "60%",
     borderRadius: 20,
     backgroundColor: "#D9D9D9",
+  Helpbox: {
+    flex: 1,
+    flexDirection: "row",
+    padding: 10,
+    width: "60%",
+    borderRadius: 20,
+    backgroundColor: "#D9D9D9",
     alignSelf: "center",
     marginRight: "18%",
+    alignItems: "flex-start",
+  },
+
+  contain: {
+    flexDirection: "column",
+    padding: 20,
+    backgroundColor: "#f5f5f5",
+  },
+  headerContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+  },
+  contentContainer: {
+    flex: 3,
+  },
+  head: {
+    fontSize: 35,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#5a34cc",
+    marginTop: 15,
+  },
+  question: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+    marginTop: 10,
+  },
+  answer: {
+    fontSize: 14,
+    color: "#555",
+    marginBottom: 10,
+  },
+  resource: {
+    fontSize: 14,
+    color: "#333",
+    marginTop: 5,
+  },
+  contact: {
+    fontSize: 14,
+    color: "#333",
+    marginTop: 10,
+  },
+  link: {
+    color: "#5a34cc",
+    fontWeight: "bold",
     alignItems: "flex-start",
   },
 
