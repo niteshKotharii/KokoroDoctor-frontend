@@ -25,7 +25,7 @@ const Pricing = ({ navigation, route }) => {
 
   return (
     <>
-      {(Platform.OS==='web' && width > 900) && (
+      {(true) && (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <ImageBackground

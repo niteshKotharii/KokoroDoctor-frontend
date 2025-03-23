@@ -22,7 +22,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 const { width } = Dimensions.get("window");
 
-const BASE_URL = "https://wmytms59zc.execute-api.ap-south-1.amazonaws.com/prod";
+const BASE_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
 
 const ChatBot = () => {
     const { chatbotConfig, isChatExpanded, setIsChatExpanded } = useChatbot();

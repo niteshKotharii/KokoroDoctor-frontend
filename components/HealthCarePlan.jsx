@@ -46,7 +46,7 @@ const plans = [
   },
 ];
 
-const API_URL = "https://3rrzsugdi3.execute-api.ap-south-1.amazonaws.com/Stage/process-payment";
+const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
 
 const PricingPlans = () => {
 
@@ -54,7 +54,7 @@ const PricingPlans = () => {
     const pricePart = plan.newPrice.split('/')[0];
     const amount = parseInt(pricePart.replace(/[^\d.]/g, ''), 10);
 
-    const response = await fetch(`${API_URL}`, {
+    const response = await fetch(`${API_URL}/process-payment`, {
       method: "POST",
       mode: "cors",
       headers: {

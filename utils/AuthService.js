@@ -4,7 +4,7 @@ import * as Google from "expo-auth-session/providers/google";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const API_URL = "https://wmytms59zc.execute-api.ap-south-1.amazonaws.com/prod";
+const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
 
 // Google Auth Request
 export const useGoogleAuth = () => {
