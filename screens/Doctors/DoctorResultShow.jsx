@@ -11,12 +11,15 @@ import {
   Linking,
   Keyboard,
   Platform,
+  ScrollView,
+  useWindowDimensions,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
 import SideBarNavigation from "../../components/SideBarNavigation";
 import Header from "../../components/Header";
+import SearchBar from "../../components/SearchBar";
 import DoctorAppointmentData from "../../components/DoctorsAppointmentData";
 
 // Create a platform-specific location implementation
@@ -80,6 +83,7 @@ const DoctorResultShow = ({ navigation, route }) => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { width } = useWindowDimensions();
 
   useFocusEffect(
     useCallback(() => {
@@ -130,7 +134,9 @@ const DoctorResultShow = ({ navigation, route }) => {
         setLocation(newLocation);
         Alert.alert(
           "Location detected",
-          `Lat: ${newLocation.latitude.toFixed(4)}, Lng: ${newLocation.longitude.toFixed(4)}`
+          `Lat: ${newLocation.latitude.toFixed(
+            4
+          )}, Lng: ${newLocation.longitude.toFixed(4)}`
         );
       })
       .catch((ex) => {
@@ -153,97 +159,124 @@ const DoctorResultShow = ({ navigation, route }) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <ImageBackground
-            source={require("../../assets/Images/MedicineBackground.png")}
-            style={styles.imageBackground}
-          >
-            <View
-              style={[
-                styles.overlay,
-                { backgroundColor: "rgba(16, 16, 16, 0.3)" },
-              ]}
-            />
+      {Platform.OS === "web" && width > 1000 && (
+        <View style={styles.webContainer}>
+          <View style={styles.imageContainer}>
+            <ImageBackground
+              source={require("../../assets/Images/MedicineBackground.png")}
+              style={styles.imageBackground}
+            >
+              <View
+                style={[
+                  styles.overlay,
+                  { backgroundColor: "rgba(16, 16, 16, 0.3)" },
+                ]}
+              />
 
-            <View style={styles.parent}>
-              <View style={styles.Left}>
-                <SideBarNavigation navigation={navigation} />
-              </View>
-              <View style={styles.Right}>
-                <View style={styles.header}>
-                  <Header navigation={navigation} />
+              <View style={styles.parent}>
+                <View style={styles.Left}>
+                  <SideBarNavigation navigation={navigation} />
                 </View>
+                <View style={styles.Right}>
+                  <View style={styles.header}>
+                    <Header navigation={navigation} />
+                  </View>
 
-                <View style={styles.contentContainer}>
-                  <View style={styles.searchSection}>
-                    <Text style={styles.mainHeading}>
-                      Let me find the best doctor for you !!
-                    </Text>
+                  <View style={styles.contentContainer}>
+                    <View style={styles.searchSection}>
+                      <Text style={styles.mainHeading}>
+                        Let me find the best doctor for you !!
+                      </Text>
 
-                    <View style={styles.locationContainer}>
-                      <TouchableOpacity
-                        style={styles.detectLocationButton}
-                        onPress={requestLocation}
-                      >
-                        <MaterialIcons
-                          name="my-location"
-                          size={18}
-                          color="#333"
-                        />
-                        <Text style={styles.detectLocationText}>
-                          {loading ? "Detecting..." : "Detect Current Location"}
-                        </Text>
-                      </TouchableOpacity>
+                      <View style={styles.locationContainer}>
+                        <TouchableOpacity
+                          style={styles.detectLocationButton}
+                          onPress={requestLocation}
+                        >
+                          <MaterialIcons
+                            name="my-location"
+                            size={18}
+                            color="#333"
+                          />
+                          <Text style={styles.detectLocationText}>
+                            {loading
+                              ? "Detecting..."
+                              : "Detect Current Location"}
+                          </Text>
+                        </TouchableOpacity>
 
-                      <Text style={styles.orText}>Or</Text>
+                        <Text style={styles.orText}>Or</Text>
 
-                      <View style={styles.locationInputContainer}>
-                        <MaterialIcons
-                          name="location-on"
-                          size={18}
-                          color="#333"
-                        />
-                        <TextInput
-                          style={styles.locationInput}
-                          placeholder="Enter Location"
-                          placeholderTextColor="#666"
-                          value={locationInput}
-                          onChangeText={setLocationInput}
-                        />
+                        <View style={styles.locationInputContainer}>
+                          <MaterialIcons
+                            name="location-on"
+                            size={18}
+                            color="#333"
+                          />
+                          <TextInput
+                            style={styles.locationInput}
+                            placeholder="Enter Location"
+                            placeholderTextColor="#666"
+                            value={locationInput}
+                            onChangeText={setLocationInput}
+                          />
+                        </View>
                       </View>
+
+                      {location && (
+                        <Text style={styles.locationFoundText}>
+                          Location: {location.latitude.toFixed(4)},{" "}
+                          {location.longitude.toFixed(4)}
+                        </Text>
+                      )}
+
+                      <Text style={styles.searchResultText}>Search Result</Text>
                     </View>
 
-                    {location && (
-                      <Text style={styles.locationFoundText}>
-                        Location: {location.latitude.toFixed(4)},{" "}
-                        {location.longitude.toFixed(4)}
-                      </Text>
-                    )}
-
-                    <Text style={styles.searchResultText}>Search Result</Text>
-                  </View>
-
-                  <View style={styles.middlepart}>
-                    <DoctorAppointmentData navigation={navigation} />
+                    <View style={styles.middlepart}>
+                      <DoctorAppointmentData navigation={navigation} />
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
-          </ImageBackground>
+            </ImageBackground>
+          </View>
         </View>
-      </View>
+      )}
+      {(Platform.OS !== "web" || width < 1000) && (
+        <View style={styles.appContainer}>
+          <View style={[styles.header, { height: "15%" }]}>
+            <Header navigation={navigation} />
+          </View>
+
+          <View style={styles.searchBar}>
+            <SearchBar />
+          </View>
+          <View style={styles.middlepart}>
+            <DoctorAppointmentData navigation={navigation} />
+          </View>
+        </View>
+      )}
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  webContainer: {
     flex: 1,
     flexDirection: "row",
     height: "100%",
     width: "100%",
   },
+  // App design start
+  appContainer: {
+    flex: 1,
+    flexDirection: "column",
+    hieght: "100%",
+    width: "100%",
+  },
+  searchBar: {},
+
   imageContainer: {
     height: "100%",
     width: "100%",
@@ -273,22 +306,27 @@ const styles = StyleSheet.create({
   },
   header: {
     ...Platform.select({
-      web:{
-        width:"12%",
+      web: {
+        width: "12%",
         marginLeft: "83%",
         // marginTop: 15,
-      }
-    })
+      },
+    }),
   },
   contentContainer: {
-    height: "75%",
-    backgroundColor: "white",
-    margin: 20,
-    borderRadius: 10,
-    overflow: "hidden",
-    paddingBottom: 20,
-    // position: "relative",
-    // top: -80,
+    ...Platform.select({
+      web: {
+        height: "77%",
+        backgroundColor: "white",
+        marginLeft: "3%",
+        borderRadius: 10,
+        overflow: "hidden",
+        paddingBottom: 20,
+        width: "93%",
+        // position: "relative",
+        // top: -80,
+      },
+    }),
   },
   searchSection: {
     padding: 20,
@@ -349,14 +387,25 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   middlepart: {
-    width: "90%",
     flex: 1,
-    marginHorizontal: "5%",
-    borderWidth: 0,
-    borderRadius: 0,
-    borderColor: "transparent",
-    overflow: "visible",
-    marginVertical: 0,
+    //borderWidth: 1,
+    height: "10%",
+    width: "98%",
+    marginVertical: "5%",
+    alignSelf: "center",
+    paddingHorizontal: "2%",
+    ...Platform.select({
+      web: {
+        width: "90%",
+        flex: 1,
+        marginHorizontal: "5%",
+        borderWidth: 0,
+        borderRadius: 0,
+        borderColor: "transparent",
+        overflow: "visible",
+        marginVertical: 0,
+      },
+    }),
   },
   center: {
     marginHorizontal: "2%",
