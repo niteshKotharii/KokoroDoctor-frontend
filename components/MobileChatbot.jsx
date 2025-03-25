@@ -208,7 +208,7 @@ const MobileChatbot = () => {
           source={
             item.sender === "user"
               ? require("../assets/Images/user-icon.jpg")
-              : require("../assets/Images/NewLogo.png")
+              : require("../assets/Images/KokoroLogo.png")
           }
           style={styles.avatar}
         />

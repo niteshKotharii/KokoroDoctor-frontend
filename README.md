@@ -40,13 +40,13 @@ Ensure you have the following installed:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/kokoro.doctor.git
+   git clone https://github.com/mohit-41/Kokoro.git
    ```
 
 2. **Navigate to the Project Directory**
 
    ```bash
-   cd kokoro.doctor
+   cd Kokoro
    ```
 
 3. **Install Dependencies**

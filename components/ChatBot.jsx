@@ -151,7 +151,7 @@ const ChatBot = () => {
         if (isLoading && index === messages.length) {
             return (
                 <View style={[styles.messageContainer, styles.botMessage]}>
-                    <Image source={require("../assets/Images/NewLogo.png")} style={styles.avatar} />
+                    <Image source={require("../assets/Images/KokoroLogo.png")} style={styles.avatar} />
                     <View style={styles.botMessageBox}>
                         <Animated.Text style={styles.typingDots}>{typingText}</Animated.Text>
                     </View>
@@ -162,7 +162,7 @@ const ChatBot = () => {
         return (
             <View style={[styles.messageContainer, item.sender === 'user' ? styles.userMessage : styles.botMessage]}>
                 <Image 
-                    source={item.sender === 'user' ? require("../assets/Images/user-icon.jpg") : require("../assets/Images/NewLogo.png")}
+                    source={item.sender === 'user' ? require("../assets/Images/user-icon.jpg") : require("../assets/Images/KokoroLogo.png")}
                     style={styles.avatar}
                 />
                 <View style={item.sender === 'user' ? styles.userMessageBox : styles.botMessageBox}>
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     avatar: {
         width: 30,
         height: 30,
-        borderRadius: 15,
+        borderRadius: 10,
         marginRight: 8,
     },
     voiceIcon: {
