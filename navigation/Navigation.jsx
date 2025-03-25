@@ -14,6 +14,7 @@ import Signup from "../screens/Auth/Signup";
 import Home from "../screens/Home";
 import LandingPage from "../screens/LandingPage";
 import ConsultWithDoctors from "../screens/Doctors/ConsultWithDoctors";
+import DoctorNearYou from "../screens/Doctors/DoctorNearYou";
 import DoctorResultShow from "../screens/Doctors/DoctorResultShow";
 import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating";
 import DoctorsPaymentScreen from "../screens/Doctors/DoctorsPaymentScreen";
@@ -71,7 +72,8 @@ const DoctorNavigator = ({navigationRef}) => {
       <Stack.Screen name="ConsultWithDoctors" component={ConsultWithDoctors} options={{ headerShown: false }} /> 
       <Stack.Screen name="DoctorResultShow" component={DoctorResultShow} options={{ headerShown: false }} /> 
       <Stack.Screen name="DoctorsInfoWithRating" component={DoctorsInfoWithRating} options={{ headerShown: false }} /> 
-      <Stack.Screen name="DoctorsPaymentScreen" component={DoctorsPaymentScreen} options={{ headerShown: false }} /> 
+      <Stack.Screen name="DoctorsPaymentScreen" component={DoctorsPaymentScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="DoctorNearYou" component={DoctorNearYou} options={{ headerShown: false }} /> 
     </Stack.Navigator>
   );
 }

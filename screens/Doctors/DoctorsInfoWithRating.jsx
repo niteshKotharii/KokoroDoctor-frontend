@@ -11,7 +11,10 @@ import {
   Linking,
   Keyboard,
   Platform,
+  useWindowDimensions
 } from "react-native";
+import { useRoute } from "@react-navigation/native";
+
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
@@ -70,7 +73,8 @@ const isLocationError = (error) => {
   );
 };
 
-const DoctorsInfoWithRating = ({ navigation, route }) => {
+const DoctorsInfoWithRating = ({ navigation }) => {
+  const { width } = useWindowDimensions();
   const [searchQuery, setSearchQuery] = useState("");
   const [locationInput, setLocationInput] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -81,6 +85,8 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState("Today");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const route = useRoute();
+  const doctors = route.params?.doctors || {}; // Get doctor data from navigation
 
   useFocusEffect(
     useCallback(() => {
@@ -150,7 +156,8 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
   const handleBooking = (timeSlot, doctorData, clinicData) => {
     setSelectedTimeSlot(timeSlot);
     // Navigate to a payment page passing the data through the route params
-    navigation.navigate("DoctorsPaymentScreen"
+    navigation.navigate(
+      "DoctorsPaymentScreen"
       //EXAMPLE OF HOW TO PASS DATA AS A ROUTE PARAM
       // , {
       // doctorName: doctorData.name,
@@ -159,8 +166,8 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
       // date: selectedDate,
       // timeSlot: timeSlot,
       // fee: clinicData.fee,
-    // }
-  );
+      // }
+    );
   };
 
   const doctorData = {
@@ -196,220 +203,473 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <ImageBackground
-          source={require("../../assets/Images/MedicineBackground.png")}
-          style={styles.imageBackground}
-        >
-          <View
-            style={[
-              styles.overlay,
-              { backgroundColor: "rgba(16, 16, 16, 0.3)" },
-            ]}
-          />
+    <>
+      {Platform.OS === "web" && width > 1000 && (
+        <View style={styles.webContainer}>
+          <View style={styles.imageContainer}>
+            <ImageBackground
+              source={require("../../assets/Images/MedicineBackground.png")}
+              style={styles.imageBackground}
+            >
+              <View
+                style={[
+                  styles.overlay,
+                  { backgroundColor: "rgba(16, 16, 16, 0.3)" },
+                ]}
+              />
 
-          <View style={styles.parent}>
-            {/* Keeping the existing sidebar navigation as requested */}
-            <View style={styles.Left}>
-              <SideBarNavigation navigation={navigation} />
-            </View>
-
-            <View style={styles.Right}>
-              <View style={styles.header}>
-                {/* Welcome header section */}
-                <View style={styles.welcomeSection}>
-                  <Text style={styles.welcomeText}>Welcome Alex!</Text>
-                  <Text style={styles.welcomeSubtext}>
-                    Here is your sales Medical dashboard
-                  </Text>
+              <View style={styles.parent}>
+                {/* Keeping the existing sidebar navigation as requested */}
+                <View style={styles.Left}>
+                  <SideBarNavigation navigation={navigation} />
                 </View>
 
-                {/* Search bar */}
-                <View style={styles.searchBarContainer}>
-                  <MaterialIcons
-                    name="search"
-                    size={20}
-                    color="#888"
-                    style={styles.searchIcon}
-                  />
-                  <TextInput
-                    style={styles.searchInput}
-                    placeholder="Search your query"
-                    placeholderTextColor="#888"
-                    value={searchQuery}
-                    onChangeText={setSearchQuery}
-                  />
-                </View>
-
-                {/* User profile and notification icons */}
-                <View style={styles.userControls}>
-                  <TouchableOpacity style={styles.notificationIcon}>
-                    <MaterialIcons
-                      name="notifications"
-                      size={24}
-                      color="#555"
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.profileButton}
-                    onPress={toggleDropdown}
-                  >
-                    <Image
-                      // source={require("../assets/Images/user-profile.png")} // Ensure this image exists
-                      style={styles.profileImage}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View style={styles.contentContainer}>
-                {/* Doctor profile card */}
-                <View style={styles.doctorProfileCard}>
-                  <View style={styles.doctorLeftSection}>
-                    <Image
-                      source={doctorData.profileImage}
-                      style={styles.doctorImage}
-                    />
-                    <View style={styles.ratingContainer}>
-                      <MaterialIcons name="star" size={20} color="#FFD700" />
-                      <Text style={styles.ratingText}>{doctorData.rating}</Text>
+                <View style={styles.Right}>
+                  <View style={styles.header}>
+                    {/* Welcome header section */}
+                    <View style={styles.welcomeSection}>
+                      <Text style={styles.welcomeText}>Welcome Alex!</Text>
+                      <Text style={styles.welcomeSubtext}>
+                        Here is your sales Medical dashboard
+                      </Text>
                     </View>
-                  </View>
 
-                  <View style={styles.doctorInfoSection}>
-                    <Text style={styles.doctorName}>{doctorData.name}</Text>
-                    <Text style={styles.doctorCredentials}>
-                      {doctorData.credentials}
-                    </Text>
-                    <Text style={styles.doctorExperience}>
-                      {doctorData.experience}
-                    </Text>
-                    <Text style={styles.doctorBio}>{doctorData.bio}</Text>
-
-                    <View style={styles.reviewsSection}>
-                      <Text style={styles.reviewsTitle}>User Reviews</Text>
-                      <View style={styles.reviewsList}>
-                        {doctorData.reviews.map((review) => (
-                          <View key={review.id} style={styles.reviewCard}>
-                            <Text style={styles.reviewText}>{review.text}</Text>
-                            <View style={styles.reviewerContainer}>
-                              <MaterialIcons name="star" size={16} color="#FFD700"/>
-                              <MaterialIcons name="star" size={16} color="#FFD700"/>
-                              <MaterialIcons name="star" size={16} color="#FFD700"/>
-                              <MaterialIcons name="star" size={16} color="#FFD700"/>
-                              <MaterialIcons name="star" size={16} color="#FFD700"/>
-                              <Text style={styles.reviewerName}>
-                                {review.reviewer}
-                              </Text>
-                            </View>
-                          </View>
-                        ))}
-                      </View>
+                    {/* Search bar */}
+                    <View style={styles.searchBarContainer}>
+                      <MaterialIcons
+                        name="search"
+                        size={20}
+                        color="#888"
+                        style={styles.searchIcon}
+                      />
+                      <TextInput
+                        style={styles.searchInput}
+                        placeholder="Search your query"
+                        placeholderTextColor="#888"
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                      />
                     </View>
-                  </View>
-                </View>
 
-                {/* Appointment booking section */}
-                <View style={styles.appointmentSection}>
-                  <View style={styles.appointmentHeader}>
-                    <Text style={styles.appointmentTitle}>
-                      Clinic Appointment
-                    </Text>
-                    <Text style={styles.appointmentFee}>{clinicData.fee}</Text>
-                  </View>
-
-                  <View style={styles.clinicDetails}>
-                    <Text style={styles.clinicName}>{clinicData.name}</Text>
-                    <Text style={styles.clinicWaitTime}>
-                      {clinicData.waitTime}
-                    </Text>
-                    <Text style={styles.clinicLocation}>
-                      {clinicData.layout}
-                    </Text>
-                  </View>
-
-                  <View style={styles.dateSelector}>
-                    {availableDates.map((date) => (
-                      <TouchableOpacity
-                        key={date.id}
-                        style={[
-                          styles.dateOption,
-                          selectedDate === date.label && styles.selectedDate,
-                        ]}
-                        onPress={() => handleDateSelect(date.label)}
-                      >
-                        <Text style={styles.dateLabel}>{date.label}</Text>
-                        <Text style={styles.slotsAvailable}>
-                          {date.slotsAvailable > 0
-                            ? `${date.slotsAvailable} slots Available`
-                            : "No slot today"}
-                        </Text>
+                    {/* User profile and notification icons */}
+                    <View style={styles.userControls}>
+                      <TouchableOpacity style={styles.notificationIcon}>
+                        <MaterialIcons
+                          name="notifications"
+                          size={24}
+                          color="#555"
+                        />
                       </TouchableOpacity>
-                    ))}
+                      <TouchableOpacity
+                        style={styles.profileButton}
+                        onPress={toggleDropdown}
+                      >
+                        <Image
+                          // source={require("../assets/Images/user-profile.png")} // Ensure this image exists
+                          style={styles.profileImage}
+                        />
+                      </TouchableOpacity>
+                    </View>
                   </View>
 
-                  <View style={styles.timeSlotSection}>
-                    <View style={styles.timeSlotsGroup}>
-                      <Text style={styles.timeGroupLabel}>
-                        {timeSlots.morning.label}
-                      </Text>
-                      <View style={styles.timeSlotsContainer}>
-                        {timeSlots.morning.slots.map((time) => (
-                          <TouchableOpacity
-                            key={time}
-                            style={[
-                              styles.timeSlot,
-                              selectedTimeSlot === time &&
-                                styles.selectedTimeSlot,
-                            ]}
-                            onPress={() => handleBooking(time, doctorData, clinicData)}
-                          >
-                            <Text style={styles.timeSlotText}>{time}</Text>
-                            <Text style={styles.bookNowText}>Book Now</Text>
-                          </TouchableOpacity>
-                        ))}
+                  <View style={styles.contentContainer}>
+                    {/* Doctor profile card */}
+                    <View style={styles.doctorProfileCard}>
+                      <View style={styles.doctorLeftSection}>
+                        <Image
+                          source={doctorData.profileImage}
+                          style={styles.doctorImage}
+                        />
+                        <View style={styles.ratingContainer}>
+                          <MaterialIcons
+                            name="star"
+                            size={20}
+                            color="#FFD700"
+                          />
+                          <Text style={styles.ratingText}>
+                            {doctorData.rating}
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View style={styles.doctorInfoSection}>
+                        <Text style={styles.doctorName}>{doctorData.name}</Text>
+                        <Text style={styles.doctorCredentials}>
+                          {doctorData.credentials}
+                        </Text>
+                        <Text style={styles.doctorExperience}>
+                          {doctorData.experience}
+                        </Text>
+                        <Text style={styles.doctorBio}>{doctorData.bio}</Text>
+
+                        <View style={styles.reviewsSection}>
+                          <Text style={styles.reviewsTitle}>User Reviews</Text>
+                          <View style={styles.reviewsList}>
+                            {doctorData.reviews.map((review) => (
+                              <View key={review.id} style={styles.reviewCard}>
+                                <Text style={styles.reviewText}>
+                                  {review.text}
+                                </Text>
+                                <View style={styles.reviewerContainer}>
+                                  <MaterialIcons
+                                    name="star"
+                                    size={16}
+                                    color="#FFD700"
+                                  />
+                                  <MaterialIcons
+                                    name="star"
+                                    size={16}
+                                    color="#FFD700"
+                                  />
+                                  <MaterialIcons
+                                    name="star"
+                                    size={16}
+                                    color="#FFD700"
+                                  />
+                                  <MaterialIcons
+                                    name="star"
+                                    size={16}
+                                    color="#FFD700"
+                                  />
+                                  <MaterialIcons
+                                    name="star"
+                                    size={16}
+                                    color="#FFD700"
+                                  />
+                                  <Text style={styles.reviewerName}>
+                                    {review.reviewer}
+                                  </Text>
+                                </View>
+                              </View>
+                            ))}
+                          </View>
+                        </View>
                       </View>
                     </View>
 
-                    <View style={styles.timeSlotsGroup}>
-                      <Text style={styles.timeGroupLabel}>
-                        {timeSlots.afternoon.label}
-                      </Text>
-                      <View style={styles.timeSlotsContainer}>
-                        {timeSlots.afternoon.slots.map((time) => (
+                    {/* Appointment booking section */}
+                    <View style={styles.appointmentSection}>
+                      <View style={styles.appointmentHeader}>
+                        <Text style={styles.appointmentTitle}>
+                          Clinic Appointment
+                        </Text>
+                        <Text style={styles.appointmentFee}>
+                          {clinicData.fee}
+                        </Text>
+                      </View>
+
+                      <View style={styles.clinicDetails}>
+                        <Text style={styles.clinicName}>{clinicData.name}</Text>
+                        <Text style={styles.clinicWaitTime}>
+                          {clinicData.waitTime}
+                        </Text>
+                        <Text style={styles.clinicLocation}>
+                          {clinicData.layout}
+                        </Text>
+                      </View>
+
+                      <View style={styles.dateSelector}>
+                        {availableDates.map((date) => (
                           <TouchableOpacity
-                            key={time}
-                            style={[styles.timeSlot, selectedTimeSlot === time && styles.selectedTimeSlot,]}
-                            onPress={() => handleBooking(time, doctorData, clinicData)}
+                            key={date.id}
+                            style={[
+                              styles.dateOption,
+                              selectedDate === date.label &&
+                                styles.selectedDate,
+                            ]}
+                            onPress={() => handleDateSelect(date.label)}
                           >
-                            <Text style={styles.timeSlotText}>{time}</Text>
-                            <Text style={styles.bookNowText}>Book Now</Text>
+                            <Text style={styles.dateLabel}>{date.label}</Text>
+                            <Text style={styles.slotsAvailable}>
+                              {date.slotsAvailable > 0
+                                ? `${date.slotsAvailable} slots Available`
+                                : "No slot today"}
+                            </Text>
                           </TouchableOpacity>
                         ))}
+                      </View>
+
+                      <View style={styles.timeSlotSection}>
+                        <View style={styles.timeSlotsGroup}>
+                          <Text style={styles.timeGroupLabel}>
+                            {timeSlots.morning.label}
+                          </Text>
+                          <View style={styles.timeSlotsContainer}>
+                            {timeSlots.morning.slots.map((time) => (
+                              <TouchableOpacity
+                                key={time}
+                                style={[
+                                  styles.timeSlot,
+                                  selectedTimeSlot === time &&
+                                    styles.selectedTimeSlot,
+                                ]}
+                                onPress={() =>
+                                  handleBooking(time, doctorData, clinicData)
+                                }
+                              >
+                                <Text style={styles.timeSlotText}>{time}</Text>
+                                <Text style={styles.bookNowText}>Book Now</Text>
+                              </TouchableOpacity>
+                            ))}
+                          </View>
+                        </View>
+
+                        <View style={styles.timeSlotsGroup}>
+                          <Text style={styles.timeGroupLabel}>
+                            {timeSlots.afternoon.label}
+                          </Text>
+                          <View style={styles.timeSlotsContainer}>
+                            {timeSlots.afternoon.slots.map((time) => (
+                              <TouchableOpacity
+                                key={time}
+                                style={[
+                                  styles.timeSlot,
+                                  selectedTimeSlot === time &&
+                                    styles.selectedTimeSlot,
+                                ]}
+                                onPress={() =>
+                                  handleBooking(time, doctorData, clinicData)
+                                }
+                              >
+                                <Text style={styles.timeSlotText}>{time}</Text>
+                                <Text style={styles.bookNowText}>Book Now</Text>
+                              </TouchableOpacity>
+                            ))}
+                          </View>
+                        </View>
                       </View>
                     </View>
                   </View>
                 </View>
               </View>
-            </View>
+            </ImageBackground>
           </View>
-        </ImageBackground>
-      </View>
-    </View>
+        </View>
+      )}
+      {(Platform.OS !== "web" || width < 1000) && (
+        <View style={styles.appContainer}>
+          <View style={{ flex: 1 }}>
+            <View style={styles.imageContainer}>
+              <Image source={doctors.image} style={styles.doctorImage} />
+              <Text style={styles.doctorName}>{doctors.name}</Text>
+              <Text style={styles.doctorCredentials}>
+                ({doctors.credential})
+              </Text>
+            </View>
+
+            <View style={styles.experienceRatingContainer}>
+              <View style={styles.experienceSection}>
+                <Image
+                  source={require("../../assets/Icons/doctorTool.png")}
+                  style={styles.doctorIcon}
+                />
+                <View style={styles.experienceDetail}>
+                  <Text style={styles.experienceText}>Total Experience</Text>
+                  <Text style={styles.experience}>{doctors.experience}</Text>
+                </View>
+              </View>
+              <View style={styles.verticalLine} />
+              <View style={styles.ratingSection}>
+                <Image
+                  source={require("../../assets/Icons/Star.png")}
+                  style={styles.doctorIcon}
+                />
+                <TouchableOpacity style={styles.ratingDetail}>
+                  <Text style={styles.ratingText}>Rating & Reviews</Text>
+                  <Text style={styles.rating}>{doctors.ratingreview}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.consultationFess}>
+              <View style={styles.iconBox}>
+                <Image
+                  source={require("../../assets/Icons/dollarIcon.png")}
+                  style={styles.dollarIcon}
+                />
+              </View>
+              <View style={styles.feesBox}>
+                <Text style={styles.fees}>{doctors.consultationFees}</Text>
+                <Text style={styles.feesText}>Consultation fees</Text>
+              </View>
+            </View>
+            <View style={styles.availabilityContainer}>
+              <Text style={styles.availabilityTimeText}>Available Time</Text>
+            </View>
+            <TouchableOpacity style={styles.bookAppointmentButton}>
+              <Text style={styles.bookAppointmentText}>Book Appointment</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  webContainer: {
     flex: 1,
     flexDirection: "row",
     height: "100%",
     width: "100%",
   },
-  imageContainer: {
+  appContainer: {
+    flex: 1,
     height: "100%",
     width: "100%",
+    flexDirection: "column",
+  },
+
+  imageContainer: {
+    height: "17%",
+    width: "75%",
+    //borderWidth: 1,
+    marginVertical: "15%",
+    marginBottom: "5%",
+    alignSelf: "center",
+    ...Platform.select({
+      web: {
+        height: "100%",
+        width: "100%",
+        marginBottom: "15%",
+      },
+    }),
+  },
+  experienceRatingContainer: {
+    height: "7%",
+    width: "88%",
+    //borderWidth: 1,
+    alignSelf: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderRadius: 5,
+    boxShadow: " 0px 0px 4px 3px rgba(0, 0, 0, 0.25)",
+    backgroundColor: "rgba(255, 252, 252, 1)",
+    padding: "2%",
+  },
+  experienceSection: {
+    height: "100%",
+    width: "49%",
+    //borderWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  doctorIcon: {
+    alignSelf: "center",
+    height: 28,
+    width: 28,
+    marginHorizontal: "3%",
+  },
+  experienceDetail: {
+    height: "94%",
+    width: "78%",
+    //borderWidth: 1,
+    alignSelf: "center",
+    flexDirection: "column",
+  },
+  experienceText: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: " rgb(94, 93, 93)",
+    paddingHorizontal: "4%",
+  },
+  experience: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: "#000000",
+    paddingHorizontal: "4%",
+  },
+  verticalLine: {
+    height: "75%",
+    width: "0.4%",
+    //borderWidth:1,
+    alignSelf: "center",
+    backgroundColor: "#000000",
+  },
+  ratingSection: {
+    height: "100%",
+    width: "48.8%",
+    //borderWidth: 1,
+    flexDirection: "row",
+  },
+  rating: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: "#000000",
+    alignSelf: "center",
+  },
+  consultationFess: {
+    height: "7%",
+    width: "88%",
+    //borderWidth:1,
+    alignSelf: "center",
+    marginVertical: "2.5%",
+    borderRadius: 5,
+    boxShadow: " 0px 0px 4px 3px rgba(0, 0, 0, 0.25)",
+    backgroundColor: "rgba(255, 252, 252, 1)",
+    flexDirection: "row",
+    paddingHorizontal: "2%",
+  },
+  iconBox: {
+    height: "52%",
+    width: "9%",
+    //borderWidth: 1,
+    alignSelf: "center",
+    borderRadius: 40,
+    backgroundColor: "#D9D9D9",
+  },
+  dollarIcon: {
+    height: 20,
+    width: 11,
+    alignSelf: "center",
+    marginVertical: "16%",
+  },
+  feesBox: {
+    height: "90%",
+    width: "60%",
+    //borderWidth: 1,
+    marginHorizontal: "3.5%",
+    alignSelf: "center",
+    flexDirection: "column",
+  },
+  fees: {
+    fontSize: 16,
+    fontWeight: 600,
+    color: "#000000",
+    paddingVertical: "1%",
+  },
+  feesText: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: " rgb(94, 93, 93)",
+  },
+  availabilityContainer: {
+    height: "38%",
+    width: "88%",
+    borderWidth: 1,
+    alignSelf: "center",
+    marginVertical: "8%",
+  },
+  availabilityTimeText: {
+    fontSize: 13,
+    fontWeight: 600,
+    color: "#444444",
+    paddingHorizontal: "2%",
+  },
+  bookAppointmentButton: {
+    height: "5%",
+    width: "70%",
+    //borderWidth: 1,
+    alignSelf:"center",
+    borderRadius:8,
+    backgroundColor: "rgb(243, 119, 119)",
+    marginVertical:"3%",
+  },
+  bookAppointmentText:{
+    alignSelf:"center",
+    paddingVertical:"3.5%",
+    color:"#FFFFFF",
+    fontSize:14,
+    fontWeight:600,
   },
   imageBackground: {
     flex: 1,
@@ -438,7 +698,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   header: {
-    width: "100%",
+    width: "90%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -520,10 +780,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   doctorImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 10,
+    height: 90,
+    width: 90,
+    alignSelf: "center",
+    borderRadius: 40,
+    ...Platform.select({
+      web: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        marginBottom: 10,
+      },
+    }),
   },
   ratingContainer: {
     flexDirection: "row",
@@ -531,9 +799,17 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   ratingText: {
-    marginLeft: 5,
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 14,
+    fontWeight: 600,
+    color: " rgb(94, 93, 93)",
+    paddingHorizontal: "4%",
+    ...Platform.select({
+      web: {
+        marginLeft: 5,
+        fontSize: 16,
+        fontWeight: "bold",
+      },
+    }),
   },
   doctorInfoSection: {
     width: "80%",
@@ -541,13 +817,28 @@ const styles = StyleSheet.create({
   },
   doctorName: {
     fontSize: 22,
-    fontWeight: "bold",
-    color: "#333",
+    fontWeight: 600,
+    color: "#000000",
+    alignSelf: "center",
+    ...Platform.select({
+      web: {
+        fontSize: 22,
+        fontWeight: "bold",
+        color: "#333",
+      },
+    }),
   },
   doctorCredentials: {
     fontSize: 14,
-    color: "#666",
-    marginTop: 2,
+    alignSelf: "center",
+    fontWeight: 600,
+    ...Platform.select({
+      web: {
+        fontSize: 14,
+        color: "#666",
+        marginTop: 2,
+      },
+    }),
   },
   doctorExperience: {
     fontSize: 14,
