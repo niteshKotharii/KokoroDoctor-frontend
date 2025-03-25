@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         width: "12%",
-        marginLeft: "83%",
+        marginLeft: "70%",
         // marginTop: 15,
       },
     }),

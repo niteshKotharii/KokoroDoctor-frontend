@@ -21,7 +21,7 @@ const DoctorNearYou = ({ navigation }) => {
 
   return (
     <>
-      {Platform.OS !== "web" && width < 1000 && (
+      {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
           <View style={{ flex: 1 }}>
             <View style={styles.headerContainer}>

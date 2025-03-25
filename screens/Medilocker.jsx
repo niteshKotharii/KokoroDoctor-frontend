@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Image,
   ImageBackground,
@@ -12,7 +12,7 @@ import {
   Modal,
   useWindowDimensions,
   Dimensions,
-  Platform
+  Platform,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import * as DocumentPicker from "expo-document-picker";
@@ -20,17 +20,15 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../components/Header";
 import * as FileSystem from "expo-file-system";
-import { AntDesign } from "@expo/vector-icons"; 
-import { FontAwesome } from "@expo/vector-icons";
-import {  Entypo } from "@expo/vector-icons"; 
-
-const ScreenWidth=Dimensions.get("window").width;
+import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Medilocker = ({ navigation }) => {
   const [files, setFiles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const {width} = useWindowDimensions();
-  
+  const { width } = useWindowDimensions();
+  const {user} = useContext(AuthContext);
+
   useEffect(() => {
     const loadFiles = async () => {
       const storedFiles = await AsyncStorage.getItem("files");
@@ -71,7 +69,9 @@ const Medilocker = ({ navigation }) => {
       const fileName = result.assets[0].name || "Unknown File";
       let fileType = result.assets[0].mimeType || "Unknown Type";
       const fileSizeBytes = result.assets[0].size ?? null;
-      let fileSize = fileSizeBytes ? `${(fileSizeBytes / 1024).toFixed(2)} KB` : "Unknown Size";
+      let fileSize = fileSizeBytes
+        ? `${(fileSizeBytes / 1024).toFixed(2)} KB`
+        : "Unknown Size";
 
       if (fileType !== "Unknown Type") {
         const parts = fileType.split("/");
@@ -83,18 +83,16 @@ const Medilocker = ({ navigation }) => {
       const base64String = await convertFileToBase64(fileUri);
 
       const newFile = {
-          name: fileName,
-          size: fileSize,
-          type: fileType,
-          progress: 100,
-          date: new Date().toLocaleDateString(),
-            time: new Date().toLocaleTimeString() ,
-            base64: base64String,
-          };
+        name: fileName,
+        size: fileSize,
+        type: fileType,
+        progress: 100,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        base64: base64String,
+      };
       setFiles((prevFiles) => [...prevFiles, newFile]);
-      
     } catch (err) {
-
       alert("Error ,Something went wrong while picking the file.");
     }
   };
@@ -104,241 +102,297 @@ const Medilocker = ({ navigation }) => {
     Alert.alert("Deleted", `${fileName} has been removed`);
   };
 
-  const filteredFiles = files.filter(file => file.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredFiles = files.filter((file) =>
+    file.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  const[visible,setvisible]=useState(true);
-  const [password, setPassword] = useState("");
+  // const [visible, setvisible] = useState(true);
+  // const [password, setPassword] = useState("");
 
+  // const handlePasswordChange = (text) => {
+  //   setPassword(text);
+  //   if (text === "1234") {
+  //     setTimeout(() => setvisible(false), 500); // Close modal after 0.5s if password is correct
+  //   }
+  // };
 
-  const handlePasswordChange = (text)=> {
-    setPassword(text);
-    if (text === "1234") {
-      setTimeout(() => setvisible(false), 500); // Close modal after 0.5s if password is correct
-    }
-  };
-
-  return (<>
-    {(Platform.OS==="web"||ScreenWidth>900)&&(
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <ImageBackground
-          source={require("../assets/Images/MedicineBackground.png")}
-          style={styles.imageBackground}
-          resizeMode="cover"
-        >
-          <View style={styles.parent}>
-            <View style={styles.Left}>
-              <SideBarNavigation navigation={navigation} />
-            </View>
-            <View style={styles.Right}>
-
-              <View style={styles.header}><Header navigation={navigation}/></View>
-
-              <View style={styles.right_middle}>
-           
-                <View style={styles.medilocker_Container}>
-                    <View style={styles.DashedBox}>
-                    <ImageBackground
-                        source={require("../assets/Images/Rectangle.png")}
-                        style={styles.dashedBorder}
-                        resizeMode="stretch"
-                    >
-                        <Text style={styles.uploadTitle}>Medilocker</Text>
-                        <Image
-                        source={require("../assets/Icons/Vector.png")}
-                        style={styles.uploadIcon}
-                        />
-                        <Text style={styles.uploadText}>
-                        Drag and Drop your documents here, or
-                        </Text>
-                        <TouchableOpacity onPress={pickDocument}>
-                            <Text style={styles.uploadLink}>Click to Browse</Text>
-                        </TouchableOpacity>
-                    </ImageBackground>
-                    </View>
-
-                    <TouchableOpacity
-                    style={styles.addDocumentButton}
-                    onPress={pickDocument}
-                    >
-                    <Text style={styles.addDocumentText}>+ Add New Document</Text>
-                    </TouchableOpacity>
+  return (
+    <>
+      {(Platform.OS === "web" || width > 1000) && (
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <ImageBackground
+              source={require("../assets/Images/MedicineBackground.png")}
+              style={styles.imageBackground}
+              resizeMode="cover"
+            >
+              <View style={styles.parent}>
+                <View style={styles.Left}>
+                  <SideBarNavigation navigation={navigation} />
                 </View>
+                <View style={styles.Right}>
+                  <View style={styles.header}>
+                    <Header navigation={navigation} />
+                  </View>
 
-
-              </View>
-
-              <View style={styles.right_bottom}>
-
-                <View style={styles.file_Container}>
-                  {/* Header Section */}
-                  <View style={styles.Fpart}>
-                    <View style={styles.searchFilterContainer}>
-                      <Text style={styles.tableTitle}>Files Uploaded</Text>
-
-                      <View style={styles.searchBox}>
-                        <MaterialIcons name="search" size={20} color="red" />
-                        <TextInput
-                          style={styles.searchInput}
-                          placeholder="Search for Documents"
-                          value={searchQuery}
-                          onChangeText={setSearchQuery}
-                        />
+                  <View style={styles.right_middle}>
+                    <View style={styles.medilocker_Container}>
+                      <View style={styles.DashedBox}>
+                        <ImageBackground
+                          source={require("../assets/Images/Rectangle.png")}
+                          style={styles.dashedBorder}
+                          resizeMode="stretch"
+                        >
+                          <Text style={styles.uploadTitle}>Medilocker</Text>
+                          <Image
+                            source={require("../assets/Icons/Vector.png")}
+                            style={styles.uploadIcon}
+                          />
+                          <Text style={styles.uploadText}>
+                            Drag and Drop your documents here, or
+                          </Text>
+                          <TouchableOpacity onPress={pickDocument}>
+                            <Text style={styles.uploadLink}>
+                              Click to Browse
+                            </Text>
+                          </TouchableOpacity>
+                        </ImageBackground>
                       </View>
 
-                      <TouchableOpacity style={styles.filterButton}>
-                        <MaterialIcons name="filter-list" size={20} color="red" />
-                        <Text style={styles.filterText}>Filters</Text>
+                      <TouchableOpacity
+                        style={styles.addDocumentButton}
+                        onPress={pickDocument}
+                      >
+                        <Text style={styles.addDocumentText}>
+                          + Add New Document
+                        </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
 
-                    {/* Table Section */}
-                    <View style={styles.Spart}>
-                      <FlatList
-                        data={filteredFiles}
-                        keyExtractor={(item) => item.name}
-                        ListHeaderComponent={
-                          <View style={styles.tableHeader}>
-                            <Text style={styles.headerText}>File Name</Text>
-                            <Text style={styles.headerText}>Document Type</Text>
-                            <Text style={styles.headerText}>File Size</Text>
-                            <Text style={styles.headerText}>Creation Date</Text>
-                            <Text style={styles.headerText}>Time</Text>
-                            <Text style={styles.headerText}>Actions</Text>
+                  <View style={styles.right_bottom}>
+                    <View style={styles.file_Container}>
+                      {/* Header Section */}
+                      <View style={styles.Fpart}>
+                        <View style={styles.searchFilterContainer}>
+                          <Text style={styles.tableTitle}>Files Uploaded</Text>
+
+                          <View style={styles.searchBox}>
+                            <MaterialIcons
+                              name="search"
+                              size={20}
+                              color="red"
+                            />
+                            <TextInput
+                              style={styles.searchInput}
+                              placeholder="Search for Documents"
+                              value={searchQuery}
+                              onChangeText={setSearchQuery}
+                            />
                           </View>
-                        }
-                        renderItem={({ item }) => (
-                          <View style={styles.tableRow}>
-                            <Text style={styles.rowText}>{item.name}</Text>
-                            <Text style={styles.rowText}>{item.type }</Text>
-                            <Text style={styles.rowText}>{item.size}</Text>
-                            <Text style={styles.rowText}>{item.date}</Text>
-                            <Text style={styles.rowText}>{item.time}</Text>
 
-                            <View style={styles.actionButtons}>
-                      {/* Download Button */}
-                      <TouchableOpacity onPress={() => downloadFile(item)}>
-                        <MaterialIcons name="file-download" size={24} color="red" />
-                      </TouchableOpacity>
+                          <TouchableOpacity style={styles.filterButton}>
+                            <MaterialIcons
+                              name="filter-list"
+                              size={20}
+                              color="red"
+                            />
+                            <Text style={styles.filterText}>Filters</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
 
-                      {/* Edit Button */}
-                      <TouchableOpacity onPress={() => editFile(item)}>
-                        <MaterialIcons name="edit" size={24} color="red" />
-                      </TouchableOpacity>
+                      {/* Table Section */}
+                      <View style={styles.Spart}>
+                        <FlatList
+                          data={filteredFiles}
+                          keyExtractor={(item) => item.name}
+                          ListHeaderComponent={
+                            <View style={styles.tableHeader}>
+                              <Text style={styles.headerText}>File Name</Text>
+                              <Text style={styles.headerText}>
+                                Document Type
+                              </Text>
+                              <Text style={styles.headerText}>File Size</Text>
+                              <Text style={styles.headerText}>
+                                Creation Date
+                              </Text>
+                              <Text style={styles.headerText}>Time</Text>
+                              <Text style={styles.headerText}>Actions</Text>
+                            </View>
+                          }
+                          renderItem={({ item }) => (
+                            <View style={styles.tableRow}>
+                              <Text style={styles.rowText}>{item.name}</Text>
+                              <Text style={styles.rowText}>{item.type}</Text>
+                              <Text style={styles.rowText}>{item.size}</Text>
+                              <Text style={styles.rowText}>{item.date}</Text>
+                              <Text style={styles.rowText}>{item.time}</Text>
 
-                      {/* Delete Button */}
-                      <TouchableOpacity onPress={() => removeFile(item.name)}>
-                        <MaterialIcons name="delete" size={24} color="red" />
-                      </TouchableOpacity>
-                    </View>
-                          </View>
-                        )}
-                      />
+                              <View style={styles.actionButtons}>
+                                {/* Download Button */}
+                                <TouchableOpacity
+                                  onPress={() => downloadFile(item)}
+                                >
+                                  <MaterialIcons
+                                    name="file-download"
+                                    size={24}
+                                    color="red"
+                                  />
+                                </TouchableOpacity>
+
+                                {/* Edit Button */}
+                                <TouchableOpacity
+                                  onPress={() => editFile(item)}
+                                >
+                                  <MaterialIcons
+                                    name="edit"
+                                    size={24}
+                                    color="red"
+                                  />
+                                </TouchableOpacity>
+
+                                {/* Delete Button */}
+                                <TouchableOpacity
+                                  onPress={() => removeFile(item.name)}
+                                >
+                                  <MaterialIcons
+                                    name="delete"
+                                    size={24}
+                                    color="red"
+                                  />
+                                </TouchableOpacity>
+                              </View>
+                            </View>
+                          )}
+                        />
+                      </View>
                     </View>
                   </View>
-              </View>
 
-              {visible && (
-                <View style={styles.overlay}>
-                  <View style={styles.overlayContent}>
-                    <MaterialIcons name="lock" size={30} color="red" style={styles.icon} />
-                    <Text style={styles.lockedText}>Medilocker is Locked</Text>
-                    <Text style={styles.securityText}>
-                      For your security, you can only use Medilocker when it's unlocked.
-                    </Text>
-                    <Text style={styles.enterPasswordText}>Enter Password</Text>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Enter your password"
-                      placeholderTextColor="#888"
-                      secureTextEntry={true}
-                      value={password}
-                      onChangeText={handlePasswordChange}
-                    />
-                  </View>
+                  {/* {visible && (
+                    <View style={styles.overlay}>
+                      <View style={styles.overlayContent}>
+                        <MaterialIcons
+                          name="lock"
+                          size={30}
+                          color="red"
+                          style={styles.icon}
+                        />
+                        <Text style={styles.lockedText}>
+                          Medilocker is Locked
+                        </Text>
+                        <Text style={styles.securityText}>
+                          For your security, you can only use Medilocker when
+                          it's unlocked.
+                        </Text>
+                        <Text style={styles.enterPasswordText}>
+                          Enter Password
+                        </Text>
+                        <TextInput
+                          style={styles.input}
+                          placeholder="Enter your password"
+                          placeholderTextColor="#888"
+                          secureTextEntry={true}
+                          value={password}
+                          onChangeText={handlePasswordChange}
+                        />
+                      </View>
+                    </View>
+                  )} */}
                 </View>
-              )}
-
-            </View>   
+              </View>
+            </ImageBackground>
+          </View>
+        </View>
+      )}
+      {(Platform.OS !== "web" || width < 1000) && (
+        <View style={styles.appContainer}>
+          <View style={styles.appHeader}>
+            <Header navigation={navigation} />
+          </View>
+          <View style={styles.appMedilockerContainer}>
+            <Text style={styles.appTitle}>Medilocker</Text>
+            <TouchableOpacity
+              style={styles.appMenuButton}
+              onPress={() => alert("menu clicked!")}
+            >
+              <MaterialIcons name="more-horiz" size={24} color="black" />
+            </TouchableOpacity>
           </View>
 
-        </ImageBackground>
-      </View>
-    </View>
-     )}
-     {(Platform.OS!=="web"||ScreenWidth<900)&&(
-<View style={styles.appContainer}>
-<View style={styles.appHeader}>
-                <Header navigation={navigation} />
-              </View>
-              <View style={styles.appMedilockerContainer}>
-                <Text style={styles.appTitle}>Medilocker</Text>
-                <TouchableOpacity style={styles.appMenuButton} onPress={()=> alert("menu clicked!")}>
-                  <MaterialIcons name="more-horiz" size={24} color="black"/>
-                </TouchableOpacity>
-                </View>
-              
- <View style={styles.appSearchBox}>
-      <View style={styles.appSearchContainer}>
-        {/* Search Icon */}
-        <MaterialIcons name="search" size={20} color="salmon" style={styles.appIcon} />
+          <View style={styles.appSearchBox}>
+            <View style={styles.appSearchContainer}>
+              {/* Search Icon */}
+              <MaterialIcons
+                name="search"
+                size={20}
+                color="salmon"
+                style={styles.appIcon}
+              />
 
-        {/* Search Input */}
-        <TextInput
-          style={styles.appSearchInput}
-          placeholder="Search in Medilocker"
-          placeholderTextColor="#999"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
+              {/* Search Input */}
+              <TextInput
+                style={styles.appSearchInput}
+                placeholder="Search in Medilocker"
+                placeholderTextColor="#999"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+              />
 
-        {/* Filter Button */}
-        <TouchableOpacity onPress={() => alert("Filter Clicked!")}>
-          <FontAwesome name="filter" size={18} color="salmon" />
-        </TouchableOpacity>
-      </View>
-    </View>
+              {/* Filter Button */}
+              <TouchableOpacity onPress={() => alert("Filter Clicked!")}>
+                <FontAwesome name="filter" size={18} color="salmon" />
+              </TouchableOpacity>
+            </View>
+          </View>
 
-                      <View style={styles.appDocuContainer}>
-                <Text style={styles.appDocuTitle}>Documents</Text>
-                <TouchableOpacity style={styles.applistButton} onPress={()=> alert("menu clicked!")}>
-                  <MaterialIcons name="format-list-bulleted" size={24} color="black"/>
-                </TouchableOpacity>
-                </View>
-
-<FlatList
-        data={filteredFiles}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={3}
-        renderItem={({ item }) => (
-          <View style={styles.fileItem}>
-            <TouchableOpacity onPress={() => console.log("File Opened:", item)}>
-              <Image source={require("../assets/Icons/FileIcon.png")} style={styles.fileIcon} />
-            </TouchableOpacity>
-            <Text style={styles.fileName}>{item.name}</Text>
-            <Text style={styles.fileDate}>You Created - {item.date}</Text>
-            <TouchableOpacity onPress={() => removeFile(item.name)}>
-              <MaterialIcons name="delete" size={24} color="red" />
+          <View style={styles.appDocuContainer}>
+            <Text style={styles.appDocuTitle}>Documents</Text>
+            <TouchableOpacity
+              style={styles.applistButton}
+              onPress={() => alert("menu clicked!")}
+            >
+              <MaterialIcons
+                name="format-list-bulleted"
+                size={24}
+                color="black"
+              />
             </TouchableOpacity>
           </View>
-        )}
-      />
 
-
-                <View style={styles.appAddDocument}>
+          <FlatList
+            data={filteredFiles}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={3}
+            renderItem={({ item }) => (
+              <View style={styles.fileItem}>
                 <TouchableOpacity
-                    style={styles.appFeb}
-                    onPress={pickDocument}
-                    >
-                    {/* <Text style={styles.addDocumentText}>+ </Text> */}
-                    <AntDesign name="plus" size={24} color="red" />
-                    </TouchableOpacity>
-                    </View>
+                  onPress={() => console.log("File Opened:", item)}
+                >
+                  <Image
+                    source={require("../assets/Icons/FileIcon.png")}
+                    style={styles.fileIcon}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.fileName}>{item.name}</Text>
+                <Text style={styles.fileDate}>You Created - {item.date}</Text>
+                <TouchableOpacity onPress={() => removeFile(item.name)}>
+                  <MaterialIcons name="delete" size={24} color="red" />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
 
-</View>
-  )}
-  </>
+          <View style={styles.appAddDocument}>
+            <TouchableOpacity style={styles.appFeb} onPress={pickDocument}>
+              {/* <Text style={styles.addDocumentText}>+ </Text> */}
+              <AntDesign name="plus" size={24} color="red" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </>
   );
 };
 
@@ -659,42 +713,41 @@ const styles = StyleSheet.create({
     padding: "2%",
     textAlign: "center",
   },
-  appContainer:{
-    width:"100%",
-    height:"100%",
-    backgroundColor:"#FFFF"
+  appContainer: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#FFFF",
   },
-  appHeader:{
+  appHeader: {
     // marginTop:"%",
-  height:"20%"
+    height: "20%",
   },
-  appMedilockerContainer:{
+  appMedilockerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     // paddingHorizontal: 16,
     // paddingVertical: 10,
     backgroundColor: "white",
-    paddingLeft:"6%",
-    paddingRight:"6%"
+    paddingLeft: "6%",
+    paddingRight: "6%",
   },
   appTitle: {
     fontSize: 25,
     fontWeight: "bold",
-    paddingLeft:"30%"
+    paddingLeft: "30%",
   },
   appMenuButton: {
     width: 40,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-    
+
     borderRadius: 5,
   },
-  
-  
-  appSearchBox: { 
-     height: 40,
+
+  appSearchBox: {
+    height: 40,
     justifyContent: "center",
     alignItems: "center",
     paddingLeft: "6%",
@@ -722,17 +775,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#333",
   },
-  
-  appDocuContainer:{
+
+  appDocuContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     // paddingHorizontal: 16,
     // paddingVertical: 10,
     backgroundColor: "white",
-    paddingLeft:"6%",
-    paddingRight:"6%",
-    marginTop:"1%"
+    paddingLeft: "6%",
+    paddingRight: "6%",
+    marginTop: "1%",
   },
   appDocuTitle: {
     fontSize: 18,
@@ -745,15 +798,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // borderWidth: 1,
-    
+
     borderRadius: 5,
   },
-  
+
   fileItem: {
     width: "30%",
     alignItems: "center",
     margin: 8,
-     marginTop:"10%"
+    marginTop: "10%",
   },
   fileIcon: {
     width: 50,
@@ -780,7 +833,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "flex-end",
     padding: 20,
-    paddingBottom:"20%"
+    paddingBottom: "20%",
   },
   appFeb: {
     width: 50,
