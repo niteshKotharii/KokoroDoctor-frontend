@@ -11,6 +11,8 @@ import {
   FlatList,
   Modal,
   useWindowDimensions,
+  Dimensions,
+  Platform
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import * as DocumentPicker from "expo-document-picker";
@@ -18,6 +20,11 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../components/Header";
 import * as FileSystem from "expo-file-system";
+import { AntDesign } from "@expo/vector-icons"; 
+import { FontAwesome } from "@expo/vector-icons";
+import {  Entypo } from "@expo/vector-icons"; 
+
+const ScreenWidth=Dimensions.get("window").width;
 
 const Medilocker = ({ navigation }) => {
   const [files, setFiles] = useState([]);
@@ -110,7 +117,8 @@ const Medilocker = ({ navigation }) => {
     }
   };
 
-  return (
+  return (<>
+    {(Platform.OS==="web"||ScreenWidth>900)&&(
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <ImageBackground
@@ -258,6 +266,79 @@ const Medilocker = ({ navigation }) => {
         </ImageBackground>
       </View>
     </View>
+     )}
+     {(Platform.OS!=="web"||ScreenWidth<900)&&(
+<View style={styles.appContainer}>
+<View style={styles.appHeader}>
+                <Header navigation={navigation} />
+              </View>
+              <View style={styles.appMedilockerContainer}>
+                <Text style={styles.appTitle}>Medilocker</Text>
+                <TouchableOpacity style={styles.appMenuButton} onPress={()=> alert("menu clicked!")}>
+                  <MaterialIcons name="more-horiz" size={24} color="black"/>
+                </TouchableOpacity>
+                </View>
+              
+ <View style={styles.appSearchBox}>
+      <View style={styles.appSearchContainer}>
+        {/* Search Icon */}
+        <MaterialIcons name="search" size={20} color="salmon" style={styles.appIcon} />
+
+        {/* Search Input */}
+        <TextInput
+          style={styles.appSearchInput}
+          placeholder="Search in Medilocker"
+          placeholderTextColor="#999"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+
+        {/* Filter Button */}
+        <TouchableOpacity onPress={() => alert("Filter Clicked!")}>
+          <FontAwesome name="filter" size={18} color="salmon" />
+        </TouchableOpacity>
+      </View>
+    </View>
+
+                      <View style={styles.appDocuContainer}>
+                <Text style={styles.appDocuTitle}>Documents</Text>
+                <TouchableOpacity style={styles.applistButton} onPress={()=> alert("menu clicked!")}>
+                  <MaterialIcons name="format-list-bulleted" size={24} color="black"/>
+                </TouchableOpacity>
+                </View>
+
+<FlatList
+        data={filteredFiles}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={3}
+        renderItem={({ item }) => (
+          <View style={styles.fileItem}>
+            <TouchableOpacity onPress={() => console.log("File Opened:", item)}>
+              <Image source={require("../assets/Icons/FileIcon.png")} style={styles.fileIcon} />
+            </TouchableOpacity>
+            <Text style={styles.fileName}>{item.name}</Text>
+            <Text style={styles.fileDate}>You Created - {item.date}</Text>
+            <TouchableOpacity onPress={() => removeFile(item.name)}>
+              <MaterialIcons name="delete" size={24} color="red" />
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+
+
+                <View style={styles.appAddDocument}>
+                <TouchableOpacity
+                    style={styles.appFeb}
+                    onPress={pickDocument}
+                    >
+                    {/* <Text style={styles.addDocumentText}>+ </Text> */}
+                    <AntDesign name="plus" size={24} color="red" />
+                    </TouchableOpacity>
+                    </View>
+
+</View>
+  )}
+  </>
   );
 };
 
@@ -577,6 +658,142 @@ const styles = StyleSheet.create({
     borderRadius: "5%",
     padding: "2%",
     textAlign: "center",
+  },
+  appContainer:{
+    width:"100%",
+    height:"100%",
+    backgroundColor:"#FFFF"
+  },
+  appHeader:{
+    // marginTop:"%",
+  height:"20%"
+  },
+  appMedilockerContainer:{
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // paddingHorizontal: 16,
+    // paddingVertical: 10,
+    backgroundColor: "white",
+    paddingLeft:"6%",
+    paddingRight:"6%"
+  },
+  appTitle: {
+    fontSize: 25,
+    fontWeight: "bold",
+    paddingLeft:"30%"
+  },
+  appMenuButton: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    
+    borderRadius: 5,
+  },
+  
+  
+  appSearchBox: { 
+     height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: "6%",
+    paddingRight: "6%",
+  },
+  appSearchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    // paddingVertical: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 9, // For Android shadow effect
+    width: "100%", // Responsive width
+  },
+  appIcon: {
+    marginRight: 8,
+  },
+  appSearchInput: {
+    flex: 1,
+    fontSize: 12,
+    color: "#333",
+  },
+  
+  appDocuContainer:{
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // paddingHorizontal: 16,
+    // paddingVertical: 10,
+    backgroundColor: "white",
+    paddingLeft:"6%",
+    paddingRight:"6%",
+    marginTop:"1%"
+  },
+  appDocuTitle: {
+    fontSize: 18,
+    // fontWeight: "bold",
+    // paddingLeft:"30%",
+  },
+  applistButton: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    // borderWidth: 1,
+    
+    borderRadius: 5,
+  },
+  
+  fileItem: {
+    width: "30%",
+    alignItems: "center",
+    margin: 8,
+     marginTop:"10%"
+  },
+  fileIcon: {
+    width: 50,
+    height: 50,
+    tintColor: "salmon", // Match color of icon
+  },
+  fileName: {
+    fontSize: 14,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  fileDetails: {
+    fontSize: 10,
+    color: "gray",
+    textAlign: "center",
+  },
+  fileMenu: {
+    position: "absolute",
+    top: 5,
+    right: 10,
+  },
+  appAddDocument: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    padding: 20,
+    paddingBottom:"20%"
+  },
+  appFeb: {
+    width: 50,
+    height: 50,
+    backgroundColor: "white",
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5, // For Android shadow effect
   },
 });
 export default Medilocker;
