@@ -133,7 +133,6 @@ const Medilocker = ({ navigation }) => {
         alert("Error converting file to Base64.");
         return;
       }
-      console.log(base64String);
 
       const newFile = {
         name: fileName,
@@ -172,7 +171,7 @@ const Medilocker = ({ navigation }) => {
       }
       
       const data = await response.json();
-      console.log("Upload successful", data);
+      // console.log("Upload successful", data);
       
       setFiles((prevFiles) => [...prevFiles, newFile]);
     } catch (err) {
@@ -506,7 +505,7 @@ const Medilocker = ({ navigation }) => {
             renderItem={({ item }) => (
               <View style={styles.fileItem}>
                 <TouchableOpacity
-                  onPress={() => console.log("File Opened:", item)}
+                  onPress={() => {}}
                 >
                   <Image
                     source={require("../assets/Icons/FileIcon.png")}
