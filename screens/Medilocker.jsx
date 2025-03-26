@@ -35,7 +35,7 @@ const Medilocker = ({ navigation }) => {
     useEffect(() => {
       const loadFilesFromServer = async () => {
         try {
-          const response = await fetch(`${API_URL}`, {
+          const response = await fetch(`${API_URL}/fetch`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -182,7 +182,7 @@ const Medilocker = ({ navigation }) => {
 
   const downloadFile = async (fileName) => {
     try {
-      const response = await fetch(`${API_URL}`, {
+      const response = await fetch(`${API_URL}/download`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -211,7 +211,7 @@ const Medilocker = ({ navigation }) => {
   
   const removeFile = async (fileName) => {
     try {
-      const response = await fetch(`${API_URL}`, {
+      const response = await fetch(`${API_URL}/delete`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
