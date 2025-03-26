@@ -4,7 +4,7 @@ import { View } from 'react-native';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState({name:"mohit", email:"mkmohit@gmail.com"});
+    const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true); // Track loading state
 
     // Restore user state on app start
