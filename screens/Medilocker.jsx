@@ -71,18 +71,8 @@ const Medilocker = ({ navigation }) => {
 
   const convertFileToBase64 = async (asset) => {
     if (Platform.OS === 'web') {
-      try {
-        const response = await fetch(asset.uri);
-        const blob = await response.blob();
-  
-        // Convert the blob to a data URL using FileReader
-        const dataUrl = await new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result); 
-          reader.onerror = (error) => reject(error);
-          reader.readAsDataURL(blob);
-        });
-
+      try {     
+        const dataUrl = asset.uri;
         const base64String = dataUrl.split(',')[1];
         return base64String;
       } catch (error) {
@@ -125,7 +115,7 @@ const Medilocker = ({ navigation }) => {
         }
       }
 
-      const base64String = convertFileToBase64(asset);
+      const base64String = await convertFileToBase64(asset);
       if (!base64String) {
         alert("Error converting file to Base64.");
         return;
@@ -201,7 +191,7 @@ const Medilocker = ({ navigation }) => {
       const downloadResult = await FileSystem.downloadAsync(downloadUrl, fileUri);
       Alert.alert("Download Complete", `File downloaded to ${downloadResult.uri}`);
     } catch (error) {
-      Alert.alert("Download Error", error.error);
+      Alert.alert("Download Error", error.message);
     }
   };
   
@@ -228,7 +218,7 @@ const Medilocker = ({ navigation }) => {
       setFiles(files.filter((file) => file.name !== fileName));
       Alert.alert("Deleted", `${fileName} has been removed`);
     } catch (error) {
-      Alert.alert("Error", error.error);
+      Alert.alert("Error", error.message);
     }
   };
 
