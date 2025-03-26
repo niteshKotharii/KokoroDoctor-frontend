@@ -182,14 +182,15 @@ const Medilocker = ({ navigation }) => {
       if (!response.ok) {
         throw new Error("Download request failed");
       }
-
+  
       const data = await response.json();
       const downloadUrl = data.download_url;
-
-      const fileUri = FileSystem.documentDirectory + fileName;
-      
-      const downloadResult = await FileSystem.downloadAsync(downloadUrl, fileUri);
-      Alert.alert("Download Complete", `File downloaded to ${downloadResult.uri}`);
+  
+      if (Platform.OS === "web") {
+        window.open(downloadUrl, "_blank");
+      } else {
+        await WebBrowser.openBrowserAsync(downloadUrl);
+      }
     } catch (error) {
       Alert.alert("Download Error", error.message);
     }
