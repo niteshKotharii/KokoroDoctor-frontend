@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const AppDoctorsRating = () => {
+const AppDoctorsRating = ({navigation}) => {
   // Sample doctor data
   const doctorData = {
     name: "Kislay Shrivasatva",
@@ -112,7 +112,7 @@ const AppDoctorsRating = () => {
         ))}
         
         {/* Book Appointment Button */}
-        <TouchableOpacity style={styles.bookButton}>
+        <TouchableOpacity style={styles.bookButton} onPress={() => {navigation.navigate("DoctorsPaymentScreen")}}>
           <Text style={styles.bookButtonText}>Book Appointment</Text>
         </TouchableOpacity>
       </ScrollView>

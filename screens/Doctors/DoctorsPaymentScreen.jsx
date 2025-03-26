@@ -11,84 +11,12 @@ import {
   Platform,
   Dimensions,
   ScrollView,
+  useWindowDimensions,
 } from "react-native"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { useChatbot } from "../../contexts/ChatbotContext"
 import { useFocusEffect } from "@react-navigation/native"
 import SideBarNavigation from "../../components/SideBarNavigation"
-
-// Custom hook for responsive width
-const useWindowWidth = () => {
-  const [width, setWidth] = useState(Dimensions.get("window").width)
-
-  useEffect(() => {
-    const updateWidth = () => {
-      setWidth(Dimensions.get("window").width)
-    }
-
-    if (Platform.OS === "web") {
-      // For web, we need to listen to window resize events
-      window.addEventListener("resize", updateWidth)
-      return () => window.removeEventListener("resize", updateWidth)
-    } else {
-      // For native, use Dimensions event listener
-      const subscription = Dimensions.addEventListener("change", updateWidth)
-      return () => subscription.remove()
-    }
-  }, [])
-
-  return width
-}
-
-// Keep the existing GetLocationPolyfill
-const GetLocationPolyfill = {
-  getCurrentPosition: (options) => {
-    // For web, use the browser's Geolocation API
-    if (Platform.OS === "web") {
-      return new Promise((resolve, reject) => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              resolve({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                altitude: position.coords.altitude || 0,
-                accuracy: position.coords.accuracy,
-                speed: position.coords.speed || 0,
-                time: position.timestamp,
-              })
-            },
-            (error) => {
-              reject({
-                code: error.code,
-                message: error.message,
-              })
-            },
-            options,
-          )
-        } else {
-          reject({
-            code: "UNAVAILABLE",
-            message: "Geolocation not available on this browser",
-          })
-        }
-      })
-    } else {
-      // For native platforms, we would import the actual module
-      // This will never run in web bundling
-      console.warn("Native GetLocation used in non-native environment")
-      return Promise.reject({
-        code: "PLATFORM_NOT_SUPPORTED",
-        message: "Platform not supported",
-      })
-    }
-  },
-}
-
-// Keep the helper function for location error
-const isLocationError = (error) => {
-  return error && typeof error.code === "string" && typeof error.message === "string"
-}
 
 const DoctorsPaymentScreen = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState("")
@@ -97,7 +25,7 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
   const [location, setLocation] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
-  const width = useWindowWidth() // Use our custom hook
+  const {width} = useWindowDimensions()
 
   useFocusEffect(
     useCallback(() => {
@@ -519,7 +447,7 @@ const styles = StyleSheet.create({
   // Mobile styles
   mobileContainerWrapper: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#ccc",
   },
   scrollView: {
     flex: 1,
@@ -533,6 +461,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#fff",
     paddingHorizontal: "5%",
+    marginTop: 5,
     paddingTop: "1%",
     borderRadius: 30,
     shadowColor: "#000",
@@ -542,7 +471,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 15,
-    elevation: 5,
   },
   mobileHeader: {
     display: "flex",
@@ -585,17 +513,15 @@ const styles = StyleSheet.create({
     padding: "4%",
     marginBottom: "2.5%",
     width: "100%",
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-    shadowColor: "#00000040",
+    shadowColor: "#000",
     overflow: "hidden",
     shadowOffset: {
-      width: 0,
-      height: 0,
+      width: 10,
+      height: 10,
     },
-    shadowOpacity: 3,
+    shadowOpacity: 10,
     shadowRadius: 3,
-    elevation: 1,
+    elevation: 5,
     backgroundColor: "#fff",
   },
   sectionTitle: {
@@ -650,7 +576,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 1,
     borderStyle: "dashed",
-    borderColor: " #DADADA",
+    borderColor: "#DADADA",
     marginTop: "1.5%",
     width: "90%",
   },
@@ -666,11 +592,15 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: "hidden",
     marginBottom: "2.5%",
-    shadowColor: "#00000040",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 3,
+    shadowColor: "#000",
+    overflow: "hidden",
+    shadowOffset: {
+      width: 10,
+      height: 10,
+    },
+    shadowOpacity: 10,
     shadowRadius: 3,
-    elevation: 1,
+    elevation: 5,
     backgroundColor: "#fff",
   },
   scheduleHeader: {
@@ -719,12 +649,16 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: "hidden",
     width: "100%",
-    shadowColor: "#00000040",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 3,
+    shadowColor: "#000",
+    overflow: "hidden",
+    shadowOffset: {
+      width: 10,
+      height: 10,
+    },
+    shadowOpacity: 10,
     shadowRadius: 3,
-    elevation: 1,
-    backgroundColor: "#fff"
+    elevation: 5,
+    backgroundColor: "#fff",
   },
   billTitle: {
     fontSize: 16,
