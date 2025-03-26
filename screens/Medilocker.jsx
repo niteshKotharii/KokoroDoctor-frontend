@@ -17,7 +17,6 @@ import {
 import SideBarNavigation from "../components/SideBarNavigation";
 import * as DocumentPicker from "expo-document-picker";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../components/Header";
 import * as FileSystem from "expo-file-system";
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
@@ -31,46 +30,44 @@ const Medilocker = ({ navigation }) => {
   const { width } = useWindowDimensions();
   const {user} = useContext(AuthContext);
 
-  if(user){
-    useEffect(() => {
-      const loadFilesFromServer = async () => {
-        try {
-          const response = await fetch(`${API_URL}/fetch`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: user?.email,
-            }),
-          });
-    
-          if (!response.ok) {
-            throw new Error("Failed to load files from server");
-          }
-    
-          const data = await response.json();
-          if (data?.files) {
-            // Map each file to your expected format
-            const mappedFiles = data.files.map((file) => ({
-              name: file.filename,
-              type: file.metadata.file_type,
-              size: file.metadata.file_size,
-              date: file.metadata.upload_date,
-              time: file.metadata.upload_time,
-            }));
-    
-            setFiles(mappedFiles);
-          }
-        } catch (error) {
-          Alert.alert("Error", error.message);
-        }
-      };
-    
-      loadFilesFromServer();
-    }, []);
-  }
+  useEffect(() => {
+    if (!user) return;
   
+    const loadFilesFromServer = async () => {
+      try {
+        const response = await fetch(`${API_URL}/fetch`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: user.email,
+          }),
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to load files from server");
+        }
+  
+        const data = await response.json();
+        if (data?.files) {
+          const mappedFiles = data.files.map((file) => ({
+            name: file.filename,
+            type: file.metadata.file_type,
+            size: file.metadata.file_size,
+            date: file.metadata.upload_date,
+            time: file.metadata.upload_time,
+          }));
+  
+          setFiles(mappedFiles);
+        }
+      } catch (error) {
+        Alert.alert("Error", error.message);
+      }
+    };
+  
+    loadFilesFromServer();
+  }, []);
 
   const convertFileToBase64 = async (asset) => {
     if (Platform.OS === 'web') {
