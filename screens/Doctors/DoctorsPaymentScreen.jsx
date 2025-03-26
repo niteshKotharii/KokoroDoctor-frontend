@@ -251,14 +251,18 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
                 <Text style={styles.sectionTitle}>Patient Info</Text>
                 <View style={styles.patientInfo}>
                   <View style={styles.patientInfoRow}>
-                    <Image source={require("../../assets/Images/dr_kislay.jpg")} style={styles.patientImage} />
+                    <Image source={require("../../assets/Images/Patient.jpg")} style={styles.patientImage} />
                     <View style={styles.patientDetails}>
                       <Text style={styles.patientName}>McKinney (24)</Text>
                       <Text style={styles.noteText}>Note: Please Upload Patient Details In the Drop Link</Text>
                     </View>
                   </View>
                   <TouchableOpacity style={styles.uploadButton}>
-                    <MaterialIcons name="file-upload" size={18} color="#ff7a7a" />
+                  <Image
+                      source={require("../../assets/Images/Medilockerfile.jpg")}
+                      style={{ width: 18, height: 18 }}
+                    />
+                    
                     <Text style={styles.uploadButtonText}>Upload from Medilocker</Text>
                   </TouchableOpacity>
                 </View>
@@ -583,14 +587,16 @@ const styles = StyleSheet.create({
     width: "100%",
     borderWidth: 1,
     borderColor: "#e0e0e0",
-    shadowColor: "#000",
+    shadowColor: "#00000040",
+    overflow: "hidden",
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 0,
     },
-    shadowOpacity: 0.05,
+    shadowOpacity: 3,
     shadowRadius: 3,
-    elevation: 2,
+    elevation: 1,
+    backgroundColor: "#fff",
   },
   sectionTitle: {
     fontSize: 16,
@@ -644,7 +650,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 1,
     borderStyle: "dashed",
-    borderColor: "#ff7a7a",
+    borderColor: " #DADADA",
     marginTop: "1.5%",
     width: "90%",
   },
@@ -660,6 +666,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: "hidden",
     marginBottom: "2.5%",
+    shadowColor: "#00000040",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 3,
+    shadowRadius: 3,
+    elevation: 1,
+    backgroundColor: "#fff",
   },
   scheduleHeader: {
     flexDirection: "row",
@@ -707,6 +719,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: "hidden",
     width: "100%",
+    shadowColor: "#00000040",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 3,
+    shadowRadius: 3,
+    elevation: 1,
+    backgroundColor: "#fff"
   },
   billTitle: {
     fontSize: 16,
