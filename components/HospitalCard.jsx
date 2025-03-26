@@ -87,19 +87,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   hospitalName: {
-    fontSize: "90%",
+    fontSize: 16,
     color: "#fff",
     cursor:"pointer",
-    
-
   },
   rating: {
-    fontSize: "80%",
+    fontSize: 14,
     fontWeight: "bold",
     color: "#black",
   },
   description: {
-    fontSize: "60%",
+    fontSize: 12,
     color: "#fff",
     marginTop: 4,
   },

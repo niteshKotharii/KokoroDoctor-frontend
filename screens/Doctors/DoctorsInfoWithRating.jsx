@@ -93,6 +93,10 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
     afternoon: { label: "Afternoon (1 slot)", slots: ["12:30 PM"] },
   };
 
+  const handleBookAppointment = () => {
+    navigation.navigate("AppDoctorsRating");
+  }
+
   return (
     <>
       {Platform.OS === "web" && width > 1000 && (
@@ -386,7 +390,7 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
             <View style={styles.availabilityContainer}>
               <Text style={styles.availabilityTimeText}>Available Time</Text>
             </View>
-            <TouchableOpacity style={styles.bookAppointmentButton}>
+            <TouchableOpacity style={styles.bookAppointmentButton} onPress={handleBookAppointment}>
               <Text style={styles.bookAppointmentText}>Book Appointment</Text>
             </TouchableOpacity>
           </View>

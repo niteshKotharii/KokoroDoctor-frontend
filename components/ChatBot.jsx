@@ -22,7 +22,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 const { width } = Dimensions.get("window");
 
-const BASE_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
+const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
 
 const ChatBot = () => {
     const { chatbotConfig, isChatExpanded, setIsChatExpanded } = useChatbot();
@@ -34,7 +34,7 @@ const ChatBot = () => {
     const [isLoading, setIsLoading] = useState(false);
     const typingDots = new Animated.Value(0);
     const [typingText, setTypingText] = useState(".");
-    const {user, setUser} = useContext(AuthContext);
+    const {user} = useContext(AuthContext);
     
     //Set userID
     useEffect(() => {
@@ -73,7 +73,7 @@ const ChatBot = () => {
         setIsLoading(true);
     
         try {
-            const response = await fetch(`${BASE_URL}/chat`, {
+            const response = await fetch(`${API_URL}/chat`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -117,7 +117,7 @@ const ChatBot = () => {
     
     const getChatHistory = async (userId) => {
         try {
-            const response = await fetch(`${BASE_URL}/chat/history/${userId}`, {
+            const response = await fetch(`${API_URL}/chat/history/${userId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })

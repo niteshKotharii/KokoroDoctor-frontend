@@ -17,6 +17,7 @@ import ConsultWithDoctors from "../screens/Doctors/ConsultWithDoctors";
 import DoctorNearYou from "../screens/Doctors/DoctorNearYou";
 import DoctorResultShow from "../screens/Doctors/DoctorResultShow";
 import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating";
+import AppDoctorsRating from "../screens/Doctors/AppDoctorsRating";
 import DoctorsPaymentScreen from "../screens/Doctors/DoctorsPaymentScreen";
 import Hospitals from "../screens/Hospitals";
 import AllHospitals from "../screens/Hospitals/AllHospitals";
@@ -77,6 +78,7 @@ const DoctorNavigator = ({navigationRef}) => {
       <Stack.Screen name="DoctorsInfoWithRating" component={DoctorsInfoWithRating} options={{ headerShown: false }} /> 
       <Stack.Screen name="DoctorsPaymentScreen" component={DoctorsPaymentScreen} options={{ headerShown: false }} />
       <Stack.Screen name="DoctorNearYou" component={DoctorNearYou} options={{ headerShown: false }} /> 
+      <Stack.Screen name="AppDoctorsRating" component={AppDoctorsRating} options={{ headerShown: false }} /> 
     </Stack.Navigator>
   );
 }

@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
   bodyLeft: {
     width: "40%",
     height: "100%",
-    gap: "2%",
+    gap: 2,
     // borderColor:"red",
     // borderWidth:"2px",
   },
@@ -463,7 +463,7 @@ const styles = StyleSheet.create({
     padding: 3,
     backgroundColor: "#ddd",
     // marginLeft:"10%",
-    borderRadius: "45%",
+    borderRadius: 40,
     marginHorizontal: 5,
   },
   arrowText: {
@@ -491,10 +491,10 @@ const styles = StyleSheet.create({
     marginLeft: "20%",
     paddingTop: "5%",
     paddingBottom: "20%",
-    borderWidth: "2px",
+    borderWidth: 1,
     justifyContent: "space-between",
     alignItems: "center",
-    borderRadius: "3%",
+    borderRadius: 4,
     backgroundColor: "#fff",
   },
   emergencyCard: {
@@ -515,7 +515,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   headingEmergencyCard: {
-    fontSize: "90%",
+    fontSize: 16,
     fontWeight: "bold",
     color: "red",
   },
@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     backgroundColor: "red",
     padding: "2%",
-    borderRadius: "2%",
+    borderRadius: 2,
   },
   EmergenecyButton: {
     color: "#fff",
@@ -546,8 +546,7 @@ const styles = StyleSheet.create({
     //  justifyContent: "center",
   },
   modalContainerHeading: {
-    fontSize: "160%",
-
+    fontSize: 26,
     color: "#fff",
     marginRight: "45%",
     marginLeft: "5%",
@@ -559,7 +558,7 @@ const styles = StyleSheet.create({
     marginLeft: "15%",
     backgroundColor: "#fff",
     justifyContent: "space-between",
-    borderRadius: "1%",
+    borderRadius: 2,
     shadowOffset: "10",
   },
   modelHeader: {
@@ -572,13 +571,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
     marginTop: "5%",
-    fontSize: "150%",
+    fontSize: 25,
     fontWeight: "bold",
   },
   locationContainer: {
     height: "55%",
     width: "100%",
-    gap: "10%",
+    gap: 10,
   },
   locationinput: {
     width: "80%",

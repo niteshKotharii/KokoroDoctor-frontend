@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as Speech from "expo-speech";
 import { AuthContext } from "../contexts/AuthContext";
 
-const BASE_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
+const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
 
 const languages = [
   { label: "English (In)", value: "en" },
@@ -93,7 +93,7 @@ const MobileChatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${BASE_URL}/chat`, {
+      const response = await fetch(`${API_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -150,7 +150,7 @@ const MobileChatbot = () => {
 
   const getChatHistory = async (userId) => {
     try {
-      const response = await fetch(`${BASE_URL}/chat/history/${userId}`, {
+      const response = await fetch(`${API_URL}/chat/history/${userId}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });

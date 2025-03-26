@@ -23,35 +23,85 @@ import * as FileSystem from "expo-file-system";
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
 
+const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
+
 const Medilocker = ({ navigation }) => {
   const [files, setFiles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { width } = useWindowDimensions();
   const {user} = useContext(AuthContext);
 
-  useEffect(() => {
-    const loadFiles = async () => {
-      const storedFiles = await AsyncStorage.getItem("files");
-      if (storedFiles) {
-        setFiles(JSON.parse(storedFiles));
+  if(user){
+    useEffect(() => {
+      const loadFilesFromServer = async () => {
+        try {
+          const response = await fetch(`${API_URL}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: user?.email,
+            }),
+          });
+    
+          if (!response.ok) {
+            throw new Error("Failed to load files from server");
+          }
+    
+          const data = await response.json();
+          if (data?.files) {
+            // Map each file to your expected format
+            const mappedFiles = data.files.map((file) => ({
+              name: file.filename,
+              type: file.metadata.file_type,
+              size: file.metadata.file_size,
+              date: file.metadata.upload_date,
+              time: file.metadata.upload_time,
+            }));
+    
+            setFiles(mappedFiles);
+          }
+        } catch (error) {
+          Alert.alert("Error", error.message);
+        }
+      };
+    
+      loadFilesFromServer();
+    }, []);
+  }
+  
+
+  const convertFileToBase64 = async (asset) => {
+    if (Platform.OS === 'web') {
+      try {
+        const response = await fetch(asset.uri);
+        const blob = await response.blob();
+  
+        // Convert the blob to a data URL using FileReader
+        const dataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result); 
+          reader.onerror = (error) => reject(error);
+          reader.readAsDataURL(blob);
+        });
+
+        const base64String = dataUrl.split(',')[1];
+        return base64String;
+      } catch (error) {
+        console.error("Error converting file to Base64 on web:", error);
+        return null;
       }
-    };
-    loadFiles();
-  }, []);
-
-  useEffect(() => {
-    AsyncStorage.setItem("files", JSON.stringify(files));
-  }, [files]);
-
-  const convertFileToBase64 = async (fileUri) => {
-    try {
-      const base64 = await FileSystem.readAsStringAsync(fileUri, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-      return `data:application/octet-stream;base64,${base64}`; // Base64 with MIME type
-    } catch (error) {
-      console.error("Error converting file to Base64:", error);
-      return null;
+    } else {
+      try {
+        const base64String = await FileSystem.readAsStringAsync(asset.uri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        return base64String;
+      } catch (error) {
+        console.error("Error converting file to Base64:", error);
+        return null;
+      }
     }
   };
 
@@ -65,13 +115,11 @@ const Medilocker = ({ navigation }) => {
         alert("Error ,No file data received.");
         return;
       }
-      const fileUri = result.assets[0].uri;
-      const fileName = result.assets[0].name || "Unknown File";
-      let fileType = result.assets[0].mimeType || "Unknown Type";
-      const fileSizeBytes = result.assets[0].size ?? null;
-      let fileSize = fileSizeBytes
-        ? `${(fileSizeBytes / 1024).toFixed(2)} KB`
-        : "Unknown Size";
+      const asset = result.assets[0];
+      const fileName = asset.name || "Unknown File";
+      let fileType = asset.mimeType || "Unknown Type";
+      const fileSizeBytes = asset.size ?? null;
+      let fileSize = fileSizeBytes ? `${(fileSizeBytes / 1024).toFixed(2)} KB` : "Unknown Size";
 
       if (fileType !== "Unknown Type") {
         const parts = fileType.split("/");
@@ -80,41 +128,131 @@ const Medilocker = ({ navigation }) => {
         }
       }
 
-      const base64String = await convertFileToBase64(fileUri);
+      const base64String = convertFileToBase64(asset);
+      if (!base64String) {
+        alert("Error converting file to Base64.");
+        return;
+      }
+      console.log(base64String);
 
       const newFile = {
         name: fileName,
         size: fileSize,
         type: fileType,
-        progress: 100,
         date: new Date().toLocaleDateString(),
         time: new Date().toLocaleTimeString(),
-        base64: base64String,
       };
+      
+      const payload = {
+        email: user?.email,
+        files: [
+          {
+            filename: fileName,
+            content: base64String,
+            metadata: {
+              file_type: fileType,
+              file_size: fileSize,
+              upload_date: newFile.date,
+              upload_time: newFile.time,
+            },
+          },
+        ],
+      };
+  
+      const response = await fetch(`${API_URL}/upload`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      
+      if (!response.ok) {
+        throw new Error("File upload failed");
+      }
+      
+      const data = await response.json();
+      console.log("Upload successful", data);
+      
       setFiles((prevFiles) => [...prevFiles, newFile]);
     } catch (err) {
-      alert("Error ,Something went wrong while picking the file.");
+      alert(`Error: ${err.error}`);
     }
   };
 
-  const removeFile = (fileName) => {
-    setFiles(files.filter((file) => file.name !== fileName));
-    Alert.alert("Deleted", `${fileName} has been removed`);
+  const downloadFile = async (fileName) => {
+    try {
+      const response = await fetch(`${API_URL}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user?.email,
+          filename: fileName,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Download request failed");
+      }
+
+      const data = await response.json();
+      const downloadUrl = data.download_url;
+
+      const fileUri = FileSystem.documentDirectory + fileName;
+      
+      const downloadResult = await FileSystem.downloadAsync(downloadUrl, fileUri);
+      Alert.alert("Download Complete", `File downloaded to ${downloadResult.uri}`);
+    } catch (error) {
+      Alert.alert("Download Error", error.error);
+    }
   };
+  
+  const removeFile = async (fileName) => {
+    try {
+      const response = await fetch(`${API_URL}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user?.email,
+          filename: fileName,
+        }),
+      });
+
+      if (!response.ok) {
+        Alert.alert("Error", "Failed to remove file from server.");
+        return;
+      }
+
+      const data = await response.json();
+
+      setFiles(files.filter((file) => file.name !== fileName));
+      Alert.alert("Deleted", `${fileName} has been removed`);
+    } catch (error) {
+      Alert.alert("Error", error.error);
+    }
+  };
+
+  const editFile = async () => {
+    
+  }
 
   const filteredFiles = files.filter((file) =>
     file.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // const [visible, setvisible] = useState(true);
-  // const [password, setPassword] = useState("");
+  const [visible, setvisible] = useState(true);
+  const [password, setPassword] = useState("");
 
-  // const handlePasswordChange = (text) => {
-  //   setPassword(text);
-  //   if (text === "1234") {
-  //     setTimeout(() => setvisible(false), 500); // Close modal after 0.5s if password is correct
-  //   }
-  // };
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+    if (text === user?.password) {
+      setTimeout(() => setvisible(false), 500); // Close modal after 0.5s if password is correct
+    }
+  };
 
   return (
     <>
@@ -232,7 +370,7 @@ const Medilocker = ({ navigation }) => {
                               <View style={styles.actionButtons}>
                                 {/* Download Button */}
                                 <TouchableOpacity
-                                  onPress={() => downloadFile(item)}
+                                  onPress={() => downloadFile(item.name)}
                                 >
                                   <MaterialIcons
                                     name="file-download"
@@ -270,7 +408,7 @@ const Medilocker = ({ navigation }) => {
                     </View>
                   </View>
 
-                  {/* {visible && (
+                  {(!user && visible) && (
                     <View style={styles.overlay}>
                       <View style={styles.overlayContent}>
                         <MaterialIcons
@@ -284,7 +422,7 @@ const Medilocker = ({ navigation }) => {
                         </Text>
                         <Text style={styles.securityText}>
                           For your security, you can only use Medilocker when
-                          it's unlocked.
+                          you are logged in.
                         </Text>
                         <Text style={styles.enterPasswordText}>
                           Enter Password
@@ -299,7 +437,7 @@ const Medilocker = ({ navigation }) => {
                         />
                       </View>
                     </View>
-                  )} */}
+                  )}
                 </View>
               </View>
             </ImageBackground>
@@ -390,6 +528,37 @@ const Medilocker = ({ navigation }) => {
               <AntDesign name="plus" size={24} color="red" />
             </TouchableOpacity>
           </View>
+
+          {(!user && visible) && (
+            <View style={styles.overlay}>
+              <View style={styles.overlayContent}>
+                <MaterialIcons
+                  name="lock"
+                  size={30}
+                  color="red"
+                  style={styles.icon}
+                />
+                <Text style={styles.lockedText}>
+                  Medilocker is Locked
+                </Text>
+                <Text style={styles.securityText}>
+                  For your security, you can only use Medilocker when
+                  you are logged in.
+                </Text>
+                <Text style={styles.enterPasswordText}>
+                  Enter Password
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter your password"
+                  placeholderTextColor="#888"
+                  secureTextEntry={true}
+                  value={password}
+                  onChangeText={handlePasswordChange}
+                />
+              </View>
+            </View>
+          )}
         </View>
       )}
     </>
@@ -658,7 +827,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "red",
     padding: "2%",
-    borderRadius: "5%",
+    borderRadius: 5,
   },
   buttonText: {
     color: "white",
@@ -673,33 +842,40 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
     justifyContent: "center",
     alignItems: "center",
-    marginRight: "15%",
+    ...Platform.select({
+      web:{
+        marginRight: "15%",
+      }
+    })
   },
   overlayContent: {
-    width: "25%", // Adjust as needed, e.g., 50% of Right view
+    width: "75%", // Adjust as needed, e.g., 50% of Right view
     backgroundColor: "white",
     padding: "3%",
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
+    ...Platform.select({
+      width: "25%",
+    })
   },
   icon: {
     marginBottom: "2%",
   },
   lockedText: {
-    fontSize: "90%",
+    fontSize: 18,
     fontWeight: "bold",
     color: "black",
     marginBottom: "5%",
   },
   securityText: {
-    fontSize: "80%",
+    fontSize: 12,
     textAlign: "center",
     color: "gray",
     marginBottom: "8%",
   },
   enterPasswordText: {
-    fontSize: "100%",
+    fontSize: 16,
     fontWeight: "bold",
     color: "red",
     marginBottom: "5%",
@@ -709,7 +885,7 @@ const styles = StyleSheet.create({
     height: "20%",
     borderWidth: 1,
     borderColor: "red",
-    borderRadius: "5%",
+    borderRadius: 5,
     padding: "2%",
     textAlign: "center",
   },
@@ -742,10 +918,8 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-
     borderRadius: 5,
   },
-
   appSearchBox: {
     height: 40,
     justifyContent: "center",
@@ -775,7 +949,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#333",
   },
-
   appDocuContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -798,10 +971,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // borderWidth: 1,
-
     borderRadius: 5,
   },
-
   fileItem: {
     width: "30%",
     alignItems: "center",
