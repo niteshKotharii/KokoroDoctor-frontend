@@ -22,7 +22,7 @@ import * as FileSystem from "expo-file-system";
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
 
-const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
+const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod/medilocker";
 
 const Medilocker = ({ navigation }) => {
   const [files, setFiles] = useState([]);
