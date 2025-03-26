@@ -856,7 +856,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     ...Platform.select({
-      width: "25%",
+      web:{
+        width: "25%",
+      }
     })
   },
   icon: {
