@@ -13,19 +13,34 @@ import {
   Platform,
   useWindowDimensions
 } from "react-native";
+import { useRoute } from "@react-navigation/native";
+
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../../contexts/ChatbotContext";
+import { useFocusEffect } from "@react-navigation/native";
 import SideBarNavigation from "../../components/SideBarNavigation";
 import Header from "../../components/Header";
 
-const DoctorsInfoWithRating = ({ navigation, route, data }) => {
+const HospitalsInfoWithRating = ({ navigation }) => {
   const { width } = useWindowDimensions();
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { setChatbotConfig } = useChatbot();
+  const phoneNumber = "+918069991061";
+  const [location, setLocation] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState("Today");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
-  const doctors = route.params?.doctors || {}; // Get doctor data from navigation
+  const route = useRoute();
+  const Hospitals = route.params?.Hospitals || {}; // Get Hospital data from navigation
+
+  useFocusEffect(
+    useCallback(() => {
+      // Reset chatbot height when this screen is focused
+      setChatbotConfig({ height: "32%" });
+    }, [])
+  );
 
   const handleSearch = () => {
     Alert.alert(`Search Results for: ${searchQuery}`);
@@ -33,6 +48,10 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
+  };
+
+  const handleCallPress = () => {
+    Linking.openURL(`tel:${phoneNumber}`);
   };
 
   const handleDateSelect = (date) => {
@@ -44,39 +63,39 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
   };
 
   // Function to handle redirection for booking
-  const handleBooking = (timeSlot, doctorData, clinicData) => {
+  const handleBooking = (timeSlot, HospitalData, HospitalDetail) => {
     setSelectedTimeSlot(timeSlot);
     // Navigate to a payment page passing the data through the route params
     navigation.navigate(
-      "DoctorsPaymentScreen"
+      "BookHospitals"
       //EXAMPLE OF HOW TO PASS DATA AS A ROUTE PARAM
       // , {
-      // doctorName: doctorData.name,
-      // doctorCredentials: doctorData.credentials,
-      // clinicName: clinicData.name,
+      // HospitalName: HospitalData.name,
+      // HospitalCredentials: HospitalData.credentials,
+      // hospitalName: HospitalDetail.name,
       // date: selectedDate,
       // timeSlot: timeSlot,
-      // fee: clinicData.fee,
+      // fee: HospitalDetail.fee,
       // }
     );
   };
 
-  const doctorData = {
-    name: "Dr Kislay Shrivasatva",
-    credentials: "MD,MS",
-    experience: "22 Years Experience",
+  const HospitalData = {
+    name: "Apollo Multispeciality Hospital",
+    credentials: "HSR Layout",
+    experience: "Trusted Since 1983",
     rating: 4.5,
-    profileImage: require("../../assets/Images/dr_kislay.jpg"),
-    bio: "Dr Kislay Shrivasatva, MD (Cardiology), is a seasoned cardiologist with over 22 years of experience in treating heart conditions. Based in Bhopal, he specializes in coronary artery diseases, hypertension, heart failure, arrhythmias, and preventive cardiology. Dr Shrivasatva is skilled in interventional procedures such as angioplasty, CABG, valve repairs, and angiographies. After completing his MBBS and MD in Cardiology from top medical institutions, he developed expertise in both surgical and non-surgical heart care. Known for his comprehensive approach, he emphasizes heart disease detection, prevention, and lifestyle modifications. He is an active member of leading cardiology associations.",
+    profileImage: require("../../assets/Images/HospitalImage.jpg"),
+    bio: "Apollo Hospitals is a leading healthcare provider in India, founded in 1983 by Dr. Prathap C. Reddy. It offers a wide range of medical services, including surgery, diagnostics, and specialized care in fields like cardiology and oncology. Known for its advanced technology and high-quality patient care, Apollo operates numerous hospitals across India and internationally. It also has a strong presence in telemedicine and healthcare insurance.",
     reviews: [
-      { id: 1, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
-      { id: 2, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
-      { id: 3, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
+      { id: 1, rating: 5, text: "Very good Hospital", reviewer: "Mr Donald" },
+      { id: 2, rating: 5, text: "Very good Hospital", reviewer: "Mr Donald" },
+      { id: 3, rating: 5, text: "Very good Hospital", reviewer: "Mr Donald" },
     ],
   };
 
-  const clinicData = {
-    name: "Wisdom Clinics",
+  const HospitalDetail = {
+    name: "Visit Hospital",
     fee: "$499 fee",
     waitTime: "Max 15 min wait",
     layout: "Hsr Layout",
@@ -164,12 +183,12 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
                   </View>
 
                   <View style={styles.contentContainer}>
-                    {/* Doctor profile card */}
-                    <View style={styles.doctorProfileCard}>
-                      <View style={styles.doctorLeftSection}>
+                    {/* Hospital profile card */}
+                    <View style={styles.HospitalProfileCard}>
+                      <View style={styles.HospitalLeftSection}>
                         <Image
-                          source={doctorData.profileImage}
-                          style={styles.doctorImage}
+                          source={HospitalData.profileImage}
+                          style={styles.HospitalImage}
                         />
                         <View style={styles.ratingContainer}>
                           <MaterialIcons
@@ -178,25 +197,25 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
                             color="#FFD700"
                           />
                           <Text style={styles.ratingText}>
-                            {doctorData.rating}
+                            {HospitalData.rating}
                           </Text>
                         </View>
                       </View>
 
-                      <View style={styles.doctorInfoSection}>
-                        <Text style={styles.doctorName}>{doctorData.name}</Text>
-                        <Text style={styles.doctorCredentials}>
-                          {doctorData.credentials}
+                      <View style={styles.HospitalInfoSection}>
+                        <Text style={styles.HospitalName}>{HospitalData.name}</Text>
+                        <Text style={styles.HospitalCredentials}>
+                          {HospitalData.credentials}
                         </Text>
-                        <Text style={styles.doctorExperience}>
-                          {doctorData.experience}
+                        <Text style={styles.HospitalExperience}>
+                          {HospitalData.experience}
                         </Text>
-                        <Text style={styles.doctorBio}>{doctorData.bio}</Text>
+                        <Text style={styles.HospitalBio}>{HospitalData.bio}</Text>
 
                         <View style={styles.reviewsSection}>
                           <Text style={styles.reviewsTitle}>User Reviews</Text>
                           <View style={styles.reviewsList}>
-                            {doctorData.reviews.map((review) => (
+                            {HospitalData.reviews.map((review) => (
                               <View key={review.id} style={styles.reviewCard}>
                                 <Text style={styles.reviewText}>
                                   {review.text}
@@ -242,20 +261,20 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
                     <View style={styles.appointmentSection}>
                       <View style={styles.appointmentHeader}>
                         <Text style={styles.appointmentTitle}>
-                          Clinic Appointment
+                          BooK Hospital
                         </Text>
                         <Text style={styles.appointmentFee}>
-                          {clinicData.fee}
+                          {HospitalDetail.fee}
                         </Text>
                       </View>
 
-                      <View style={styles.clinicDetails}>
-                        <Text style={styles.clinicName}>{clinicData.name}</Text>
-                        <Text style={styles.clinicWaitTime}>
-                          {clinicData.waitTime}
+                      <View style={styles.HospitalDetails}>
+                        <Text style={styles.hospitalName}>{HospitalDetail.name}</Text>
+                        <Text style={styles.hospitalWaitTime}>
+                          {HospitalDetail.waitTime}
                         </Text>
-                        <Text style={styles.clinicLocation}>
-                          {clinicData.layout}
+                        <Text style={styles.hospitalLocation}>
+                          {HospitalDetail.layout}
                         </Text>
                       </View>
 
@@ -295,7 +314,7 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
                                     styles.selectedTimeSlot,
                                 ]}
                                 onPress={() =>
-                                  handleBooking(time, doctorData, clinicData)
+                                  handleBooking(time, HospitalData, HospitalDetail)
                                 }
                               >
                                 <Text style={styles.timeSlotText}>{time}</Text>
@@ -319,7 +338,7 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
                                     styles.selectedTimeSlot,
                                 ]}
                                 onPress={() =>
-                                  handleBooking(time, doctorData, clinicData)
+                                  handleBooking(time, HospitalData, HospitalDetail)
                                 }
                               >
                                 <Text style={styles.timeSlotText}>{time}</Text>
@@ -341,10 +360,10 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
         <View style={styles.appContainer}>
           <View style={{ flex: 1 }}>
             <View style={styles.imageContainer}>
-              <Image source={doctors.image} style={styles.doctorImage} />
-              <Text style={styles.doctorName}>{doctors.name}</Text>
-              <Text style={styles.doctorCredentials}>
-                ({doctors.credential})
+              <Image source={Hospitals.image} style={styles.HospitalImage} />
+              <Text style={styles.HospitalName}>{Hospitals.name}</Text>
+              <Text style={styles.HospitalCredentials}>
+                ({Hospitals.credential})
               </Text>
             </View>
 
@@ -352,22 +371,22 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
               <View style={styles.experienceSection}>
                 <Image
                   source={require("../../assets/Icons/doctorTool.png")}
-                  style={styles.doctorIcon}
+                  style={styles.HospitalIcon}
                 />
                 <View style={styles.experienceDetail}>
                   <Text style={styles.experienceText}>Total Experience</Text>
-                  <Text style={styles.experience}>{doctors.experience}</Text>
+                  <Text style={styles.experience}>{Hospitals.experience}</Text>
                 </View>
               </View>
               <View style={styles.verticalLine} />
               <View style={styles.ratingSection}>
                 <Image
                   source={require("../../assets/Icons/Star.png")}
-                  style={styles.doctorIcon}
+                  style={styles.HospitalIcon}
                 />
                 <TouchableOpacity style={styles.ratingDetail}>
                   <Text style={styles.ratingText}>Rating & Reviews</Text>
-                  <Text style={styles.rating}>{doctors.ratingreview}</Text>
+                  <Text style={styles.rating}>{Hospitals.ratingreview}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -379,7 +398,7 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
                 />
               </View>
               <View style={styles.feesBox}>
-                <Text style={styles.fees}>{doctors.consultationFees}</Text>
+                <Text style={styles.fees}>{Hospitals.consultationFees}</Text>
                 <Text style={styles.feesText}>Consultation fees</Text>
               </View>
             </View>
@@ -444,7 +463,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
-  doctorIcon: {
+  HospitalIcon: {
     alignSelf: "center",
     height: 28,
     width: 28,
@@ -657,7 +676,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: "hidden",
   },
-  doctorProfileCard: {
+  HospitalProfileCard: {
     width: "60%",
     height: "80%",
     flexDirection: "row",
@@ -666,11 +685,11 @@ const styles = StyleSheet.create({
     padding: 20,
     margin: 10,
   },
-  doctorLeftSection: {
+  HospitalLeftSection: {
     width: "20%",
     alignItems: "center",
   },
-  doctorImage: {
+  HospitalImage: {
     height: 90,
     width: 90,
     alignSelf: "center",
@@ -702,11 +721,11 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  doctorInfoSection: {
+  HospitalInfoSection: {
     width: "80%",
     paddingLeft: 20,
   },
-  doctorName: {
+  HospitalName: {
     fontSize: 22,
     fontWeight: 600,
     color: "#000000",
@@ -719,7 +738,7 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  doctorCredentials: {
+  HospitalCredentials: {
     fontSize: 14,
     alignSelf: "center",
     fontWeight: 600,
@@ -731,13 +750,13 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  doctorExperience: {
+  HospitalExperience: {
     fontSize: 14,
     color: "#666",
     marginTop: 2,
     marginBottom: 10,
   },
-  doctorBio: {
+  HospitalBio: {
     fontSize: 14,
     color: "#555",
     lineHeight: 20,
@@ -801,20 +820,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#ff7072",
   },
-  clinicDetails: {
+  HospitalDetails: {
     marginBottom: 20,
   },
-  clinicName: {
+  hospitalName: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#333",
   },
-  clinicWaitTime: {
+  hospitalWaitTime: {
     fontSize: 14,
     color: "#666",
     marginTop: 3,
   },
-  clinicLocation: {
+  hospitalLocation: {
     fontSize: 14,
     color: "#666",
     marginTop: 3,
@@ -876,4 +895,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DoctorsInfoWithRating;
+export default HospitalsInfoWithRating;

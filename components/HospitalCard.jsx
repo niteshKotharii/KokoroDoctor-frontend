@@ -15,13 +15,14 @@ import {
   Pressable,
 } from "react-native";
 
-  
-  
+const HospitalCard = ({navigation}) => {
 
-const HospitalCard = () => {
+  const handleCardpress = () => {
+    navigation.navigate("HospitalsInfoWithRating")
+  }
 
   return (
-    <View style={styles.card}>
+    <Pressable style={styles.card} onPress={handleCardpress}>
       {/* Image Section */}
       <View style={styles.imageContainer}>
         <Image
@@ -45,7 +46,7 @@ const HospitalCard = () => {
         </View>
         <Text style={styles.description}>Multispaciality Hospital</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

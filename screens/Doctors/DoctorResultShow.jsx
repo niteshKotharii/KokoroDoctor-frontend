@@ -100,17 +100,6 @@ const DoctorResultShow = ({ navigation, route }) => {
     setDropdownVisible(!dropdownVisible);
   };
 
-  const profileOptions = ["View Profile", "Edit Profile", "Logout"]; // Dropdown menu options
-
-  const [selectedMethod, setSelectedMethod] = useState("Card");
-  const [country, setCountry] = useState("United States");
-  const [Message, setMessage] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
-
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
-
   const handleBlur = () => {
     setIsFocused(false);
     Keyboard.dismiss();

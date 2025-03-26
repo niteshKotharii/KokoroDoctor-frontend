@@ -13,6 +13,7 @@ import {
   Modal,
   ActivityIndicator,
   FlatList,
+  Pressable,
 } from "react-native"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { useChatbot } from "../contexts/ChatbotContext"
@@ -140,17 +141,17 @@ const Hospitals = ({ navigation, route }) => {
 
   // Data of Hospital
   const hospitals = [
-    <HospitalCard key={1} style={styles.box} />,
-    <HospitalCard key={2} style={styles.box} />,
-    <HospitalCard key={3} style={styles.box} />,
-    <HospitalCard key={4} style={styles.box} />,
-    <HospitalCard key={5} style={styles.box} />,
-    <HospitalCard key={6} style={styles.box} />,
-    <HospitalCard key={7} style={styles.box} />,
-    <HospitalCard key={8} style={styles.box} />,
-    <HospitalCard key={9} style={styles.box} />,
-    <HospitalCard key={10} style={styles.box} />,
-    <HospitalCard key={11} style={styles.box} />,
+    <HospitalCard key={1} style={styles.box} navigation={navigation} />,
+    <HospitalCard key={2} style={styles.box} navigation={navigation} />,
+    <HospitalCard key={3} style={styles.box} navigation={navigation} />,
+    <HospitalCard key={4} style={styles.box} navigation={navigation} />,
+    <HospitalCard key={5} style={styles.box} navigation={navigation} />,
+    <HospitalCard key={6} style={styles.box} navigation={navigation} />,
+    <HospitalCard key={7} style={styles.box} navigation={navigation} />,
+    <HospitalCard key={8} style={styles.box} navigation={navigation} />,
+    <HospitalCard key={9} style={styles.box} navigation={navigation} />,
+    <HospitalCard key={10} style={styles.box} navigation={navigation} />,
+    <HospitalCard key={11} style={styles.box} navigation={navigation} />,
   ]
   // For side buttons for to move Hospital Cards
 
@@ -211,13 +212,13 @@ const Hospitals = ({ navigation, route }) => {
                         </TouchableOpacity>
 
                         {/* for displaying Hospital Card */}
-                        <View style={styles.display}>
+                        <Pressable style={styles.display} onPress={() => {navigation.navigate("HospitalsInfoWithRating")}}>
                           {hospitals.slice(startIndex, startIndex + 3).map((hospital, index) => (
                             <View key={index} style={styles.box}>
                               {hospital}
                             </View>
                           ))}
-                        </View>
+                        </Pressable>
 
                         {/* Right Button to Move Hospital Card */}
 
