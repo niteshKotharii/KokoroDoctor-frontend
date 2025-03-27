@@ -23,6 +23,7 @@ import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
 
 const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod/medilocker";
+const {width, height} = Dimensions.get("window");
 
 const Medilocker = ({ navigation }) => {
   const [files, setFiles] = useState([]);
@@ -831,7 +832,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     ...Platform.select({
       web:{
-        marginRight: "15%",
+        marginRight: width>1000 ? "15%" : "0%",
       }
     })
   },
@@ -844,7 +845,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     ...Platform.select({
       web:{
-        width: "25%",
+        width: width>1000 ? "25%" : "75%",
       }
     })
   },
@@ -884,8 +885,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFF",
   },
   appHeader: {
-    // marginTop:"%",
-    height: "20%",
+    height: "15%",
+    ...Platform.select({
+      web:{
+        width:"12%",
+        marginLeft: "70%",
+        // marginTop: 15,
+      }
+    })
   },
   appMedilockerContainer: {
     flexDirection: "row",
@@ -927,8 +934,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
-    elevation: 9, // For Android shadow effect
-    width: "100%", // Responsive width
+    elevation: 9, 
+    width: "100%", 
+    ...Platform.select({
+      web: {
+        height: 30,
+      }
+    })
   },
   appIcon: {
     marginRight: 8,
