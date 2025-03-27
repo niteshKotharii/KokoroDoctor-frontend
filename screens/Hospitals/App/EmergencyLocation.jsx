@@ -19,11 +19,11 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Picker } from "@react-native-picker/picker";
-import { useChatbot } from "../../contexts/ChatbotContext";
+import { useChatbot } from "../../../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
-import SideBarNavigation from "../../components/SideBarNavigation";
-import Header from "../../components/Header";
-import SearchBar from "../../components/SearchBar";
+import SideBarNavigation from "../../../components/SideBarNavigation";
+import Header from "../../../components/Header";
+import SearchBar from "../../../components/SearchBar";
 
 const EmergencyLocation = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
@@ -118,7 +118,7 @@ const EmergencyLocation = ({ navigation, route }) => {
                       <View style={styles.hospitalProfile}>
                         <View style={styles.hospital}>
                           <Image
-                            source={require("../../assets/Images/apollo.png")}
+                            source={require("../../../assets/Images/apollo.png")}
                             style={styles.hospitalImage}
                           />
                           <Text style={styles.hospitalRating}>⭐ 4.5</Text>

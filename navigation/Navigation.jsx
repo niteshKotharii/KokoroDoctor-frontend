@@ -19,13 +19,15 @@ import DoctorResultShow from "../screens/Doctors/DoctorResultShow";
 import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating";
 import AppDoctorsRating from "../screens/Doctors/AppDoctorsRating";
 import DoctorsPaymentScreen from "../screens/Doctors/DoctorsPaymentScreen";
-import Hospitals from "../screens/Hospitals";
+
 import AllHospitals from "../screens/Hospitals/AllHospitals";
-import EmergencyLocation from "../screens/Hospitals/EmergencyLocation";
-import HospitalDetails from "../screens/Hospitals/HospitalDetails";
+import EmergencyLocation from "../screens/Hospitals/App/EmergencyLocation";
+
 import HospitalsInfoWithRating from "../screens/Hospitals/HospitalsInfoWithRating";
+import HospitalBookingNext from "../screens/Hospitals/App/HospitalBookingNext";
 import BookHospitals from "../screens/Hospitals/BookHospitals";
 import HospitalCard from "../components/HospitalCard";
+import HospitalAvailability from"../screens/Hospitals/App/HospitalAvailability";
 import AboutUs from "../screens/AboutUs";
 import ContactUs from "../screens/ContactUs";
 import Pricing from "../screens/Pricing";
@@ -89,7 +91,7 @@ const HospitalNavigator = ({navigationRef}) => {
 
   return (
     <Stack.Navigator
-      initialRouteName="Hospitals"
+      initialRouteName="AllHospitals"
         screenOptions={{
           headerStyle: {
             backgroundColor: theme.container.backgroundColor,
@@ -97,13 +99,14 @@ const HospitalNavigator = ({navigationRef}) => {
           headerTintColor: theme.text.color,
         }}
     >
-      <Stack.Screen name="Hospitals" component={Hospitals} options={{ headerShown: false }} /> 
+
       <Stack.Screen name="AllHospitals" component={AllHospitals} options={{ headerShown: false }} /> 
       <Stack.Screen name="EmergencyLocation" component={EmergencyLocation} options={{ headerShown: false }} /> 
-      <Stack.Screen name="HospitalDetails" component={HospitalDetails} options={{ headerShown: false }} /> 
       <Stack.Screen name="BookHospitals" component={BookHospitals} options={{ headerShown: false }} /> 
       <Stack.Screen name="HospitalsInfoWithRating" component={HospitalsInfoWithRating} options={{ headerShown: false }} /> 
       <Stack.Screen name="HospitalCard" component={HospitalCard} options={{ headerShown: false }} /> 
+      <Stack.Screen name="HospitalAvailability" component={HospitalAvailability} options={{ headerShown: false }} /> 
+      <Stack.Screen name="HospitalBookingNext" component={HospitalBookingNext} options={{ headerShown: false }} /> 
     </Stack.Navigator>
   );
 }
