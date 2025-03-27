@@ -9,13 +9,16 @@ import {
   ImageBackground,
   StatusBar,
   Modal,
+  Platform,
+  useWindowDimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useGoogleAuth } from "../../utils/AuthService";
 
 const Signup = ({ navigation }) => {
-  const {signup, googleLogin} = useContext(AuthContext);
+  const { width } = useWindowDimensions();
+  const { signup, googleLogin } = useContext(AuthContext);
   const [request, response, promptAsync] = useGoogleAuth();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -40,10 +43,9 @@ const Signup = ({ navigation }) => {
     }
   }, [response, googleLogin, navigation]);
 
-  // Function to trigger Google login
   const handleGoogleLogin = () => {
     if (request) {
-      promptAsync(); // Opens the Google login prompt
+      promptAsync();
     } else {
       console.log("Google auth request not ready yet");
     }
@@ -55,21 +57,19 @@ const Signup = ({ navigation }) => {
   };
 
   const handleReferralCode = () => {
-    // Open referral code modal
     setReferralModalVisible(true);
   };
 
   const handleReferralSubmit = () => {
-    // Process the referral code
     setReferralModalVisible(false);
   };
 
-  const handleCopyCode = () => {
-
+  const handleDetectLocation = () => {
+    // Implement location detection logic
   };
 
-  const handleDetectLocation = () => {
-
+  const handleCopyCode = () => {
+    // Implement copy code logic
   };
 
   const toggleRememberMe = () => {
@@ -77,127 +77,305 @@ const Signup = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      />
+    <>
+      {/* Web Version (for larger screens) */}
+      {Platform.OS === "web" && width > 1000 && (
+        <View style={styles.container}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="transparent"
+            translucent
+          />
 
-      <View style={styles.mainContainer}>
-        {/* Left side with background image - 40% */}
-        <View style={styles.leftContainer}>
-          <ImageBackground
-            source={require("../../assets/Images/signup.png")}
-            style={styles.backgroundImage}
-            resizeMode="cover"
-          >
-            <Text style={styles.quoteText}>
-              "Nurture Your Heart. It Will Nurture You."
-            </Text>
-          </ImageBackground>
-        </View>
-
-        {/* Rectangular divider */}
-        <View style={styles.divider} />
-
-        {/* Right side with form - 60% */}
-        <View style={styles.rightContainer}>
-          <View style={styles.mainright}>
-            <Text style={styles.welcomeText}>Welcome</Text>
-
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>First Name</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter your Name"
-                placeholderTextColor="#999"
-                value={firstName}
-                onChangeText={setFirstName}
-              />
+          <View style={styles.mainContainer}>
+            {/* Left side with background image - 40% */}
+            <View style={styles.leftContainer}>
+              <ImageBackground
+                source={require("../../assets/Images/signup.png")}
+                style={styles.backgroundImage}
+                resizeMode="cover"
+              >
+                <Text style={styles.quoteText}>
+                  "Nurture Your Heart. It Will Nurture You."
+                </Text>
+              </ImageBackground>
             </View>
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Last Name</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter your Name"
-                placeholderTextColor="#999"
-                value={lastName}
-                onChangeText={setLastName}
-              />
-            </View>
+            {/* Rectangular divider */}
+            <View style={styles.divider} />
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Email</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter your email"
-                placeholderTextColor="#999"
-                keyboardType="email-address"
-                value={email}
-                onChangeText={setEmail}
-              />
-            </View>
+            {/* Right side with form - 60% */}
+            <View style={styles.rightContainer}>
+              <View style={styles.mainright}>
+                <Text style={styles.welcomeText}>Welcome</Text>
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Phone Number</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter your Phone no"
-                placeholderTextColor="#999"
-                keyboardType="phone-pad"
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
-              />
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>
-                Enter Location or Detect current location
-              </Text>
-              <View style={styles.locationInputContainer}>
-                <TextInput
-                  style={styles.locationInput}
-                  placeholder="Enter Location"
-                  placeholderTextColor="#999"
-                  value={location}
-                  onChangeText={setLocation}
-                />
-                <TouchableOpacity
-                  style={styles.locationIcon}
-                  onPress={handleDetectLocation}
-                >
-                  <Ionicons name="location-outline" size={24} color="#999" />
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Password</Text>
-              <View style={styles.passwordContainer}>
-                <TextInput
-                  style={styles.passwordInput}
-                  placeholder="Enter your password"
-                  placeholderTextColor="#999"
-                  secureTextEntry={!showPassword}
-                  value={password}
-                  onChangeText={setPassword}
-                />
-                <TouchableOpacity
-                  style={styles.eyeIcon}
-                  onPress={() => setShowPassword(!showPassword)}
-                >
-                  <Ionicons
-                    name={showPassword ? "eye-off" : "eye"}
-                    size={20}
-                    color="#999"
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>First Name</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter your Name"
+                    placeholderTextColor="#999"
+                    value={firstName}
+                    onChangeText={setFirstName}
                   />
+                </View>
+
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Last Name</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter your Name"
+                    placeholderTextColor="#999"
+                    value={lastName}
+                    onChangeText={setLastName}
+                  />
+                </View>
+
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Email</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter your email"
+                    placeholderTextColor="#999"
+                    keyboardType="email-address"
+                    value={email}
+                    onChangeText={setEmail}
+                  />
+                </View>
+
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Phone Number</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter your Phone no"
+                    placeholderTextColor="#999"
+                    keyboardType="phone-pad"
+                    value={phoneNumber}
+                    onChangeText={setPhoneNumber}
+                  />
+                </View>
+
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>
+                    Enter Location or Detect current location
+                  </Text>
+                  <View style={styles.locationInputContainer}>
+                    <TextInput
+                      style={styles.locationInput}
+                      placeholder="Enter Location"
+                      placeholderTextColor="#999"
+                      value={location}
+                      onChangeText={setLocation}
+                    />
+                    <TouchableOpacity
+                      style={styles.locationIcon}
+                      onPress={handleDetectLocation}
+                    >
+                      <Ionicons
+                        name="location-outline"
+                        size={24}
+                        color="#999"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Password</Text>
+                  <View style={styles.passwordContainer}>
+                    <TextInput
+                      style={styles.passwordInput}
+                      placeholder="Enter your password"
+                      placeholderTextColor="#999"
+                      secureTextEntry={!showPassword}
+                      value={password}
+                      onChangeText={setPassword}
+                    />
+                    <TouchableOpacity
+                      style={styles.eyeIcon}
+                      onPress={() => setShowPassword(!showPassword)}
+                    >
+                      <Ionicons
+                        name={showPassword ? "eye-off" : "eye"}
+                        size={20}
+                        color="#999"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View style={styles.rememberForgotRow}>
+                  <View style={styles.rememberMeContainer}>
+                    <TouchableOpacity
+                      style={styles.checkboxContainer}
+                      onPress={toggleRememberMe}
+                    >
+                      <View
+                        style={[
+                          styles.checkbox,
+                          rememberMe && styles.checkedBox,
+                        ]}
+                      >
+                        {rememberMe && (
+                          <Ionicons name="checkmark" size={12} color="#FFF" />
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                    <Text style={styles.rememberMeText}>Remember me</Text>
+                  </View>
+                </View>
+
+                <View style={styles.referralContainer}>
+                  <Text style={styles.referralText}>
+                    Have Referral Code?{" "}
+                    <Text
+                      style={styles.referralLink}
+                      onPress={handleReferralCode}
+                    >
+                      Sign up through code
+                    </Text>
+                  </Text>
+                </View>
+
+                <TouchableOpacity
+                  style={styles.signInButton}
+                  onPress={handleSignUp}
+                >
+                  <Text style={styles.signInButtonText}>Sign Up</Text>
+                </TouchableOpacity>
+
+                <View style={styles.orContainer}>
+                  <View style={styles.orLine} />
+                  <Text style={styles.orText}>Or</Text>
+                  <View style={styles.orLine} />
+                </View>
+
+                <TouchableOpacity
+                  style={styles.googleButton}
+                  onPress={handleGoogleLogin}
+                >
+                  <Image
+                    source={require("../../assets/Images/google-icon.png")}
+                    style={styles.googleIcon}
+                  />
+                  <Text style={styles.googleButtonText}>
+                    Sign Up with Google
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
+          </View>
 
-            <View style={styles.rememberForgotRow}>
+          {/* Referral Code Modal */}
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={referralModalVisible}
+            onRequestClose={() => setReferralModalVisible(false)}
+          >
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>Enter the code Manually</Text>
+
+                <View style={styles.codeInputContainer}>
+                  <TextInput
+                    style={styles.codeInput}
+                    placeholder="Code"
+                    placeholderTextColor="#999"
+                    value={referralCode}
+                    onChangeText={setReferralCode}
+                  />
+                  <TouchableOpacity
+                    style={styles.copyButton}
+                    onPress={handleCopyCode}
+                  >
+                    <Ionicons name="copy-outline" size={20} color="#999" />
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity
+                  style={styles.continueButton}
+                  onPress={handleReferralSubmit}
+                >
+                  <Text style={styles.continueButtonText}>Continue</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      )}
+
+      {/* Mobile Version (for smaller screens) */}
+      {(Platform.OS !== "web" || width < 1000) && (
+        <View style={styles.mobileContainer}>
+          <View style={styles.logoContainer}>
+            <Image
+              source={require("../../assets/Images/KokoroLogo.png")}
+              style={styles.logoImage}
+            />
+            <Text style={styles.logoText}>Kokoro.Doctor</Text>
+          </View>
+
+          <Text style={styles.welcomeTitle}>Welcome</Text>
+
+          <View style={styles.mobileFormContainer}>
+            <TextInput
+              style={styles.mobileInput}
+              placeholder="First Name"
+              placeholderTextColor="#999"
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+
+            <TextInput
+              style={styles.mobileInput}
+              placeholder="Last Name"
+              placeholderTextColor="#999"
+              value={lastName}
+              onChangeText={setLastName}
+            />
+
+            <TextInput
+              style={styles.mobileInput}
+              placeholder="Email"
+              placeholderTextColor="#999"
+              keyboardType="email-address"
+              value={email}
+              onChangeText={setEmail}
+            />
+
+            <TextInput
+              style={styles.mobileInput}
+              placeholder="Phone Number"
+              placeholderTextColor="#999"
+              keyboardType="phone-pad"
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+            />
+
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Password"
+                placeholderTextColor="#999"
+                secureTextEntry={!showPassword}
+                value={password}
+                onChangeText={setPassword}
+              />
+              <TouchableOpacity
+                style={styles.eyeIconContainer}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <Ionicons
+                  name={showPassword ? "eye-off" : "eye"}
+                  size={20}
+                  color="#999"
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.rememberForgotContainer}>
+              {/* Remember Me Section */}
               <View style={styles.rememberMeContainer}>
                 <TouchableOpacity
                   style={styles.checkboxContainer}
@@ -214,17 +392,9 @@ const Signup = ({ navigation }) => {
                 <Text style={styles.rememberMeText}>Remember me</Text>
               </View>
 
-              {/* <TouchableOpacity>
-                <Text style={styles.forgotPasswordText}>Forgot Password</Text>
-              </TouchableOpacity> */}
-            </View>
-
-            <View style={styles.referralContainer}>
-              <Text style={styles.referralText}>
-                Have Referral Code?{" "}
-                <Text style={styles.referralLink} onPress={handleReferralCode}>
-                  Sign up through code
-                </Text>
+              {/* Have Referral Code Section */}
+              <Text style={styles.referralText} onPress={handleReferralCode}>
+                Have Referral Code?
               </Text>
             </View>
 
@@ -252,50 +422,51 @@ const Signup = ({ navigation }) => {
               <Text style={styles.googleButtonText}>Sign Up with Google</Text>
             </TouchableOpacity>
           </View>
-        </View>
-      </View>
 
-      {/* Referral Code Modal */}
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={referralModalVisible}
-        onRequestClose={() => setReferralModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Enter the code Manually</Text>
+          {/* Referral Code Modal */}
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={referralModalVisible}
+            onRequestClose={() => setReferralModalVisible(false)}
+          >
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>Enter the code Manually</Text>
 
-            <View style={styles.codeInputContainer}>
-              <TextInput
-                style={styles.codeInput}
-                placeholder="Code"
-                placeholderTextColor="#999"
-                value={referralCode}
-                onChangeText={setReferralCode}
-              />
-              <TouchableOpacity
-                style={styles.copyButton}
-                onPress={handleCopyCode}
-              >
-                <Ionicons name="copy-outline" size={20} color="#999" />
-              </TouchableOpacity>
+                <View style={styles.codeInputContainer}>
+                  <TextInput
+                    style={styles.codeInput}
+                    placeholder="Code"
+                    placeholderTextColor="#999"
+                    value={referralCode}
+                    onChangeText={setReferralCode}
+                  />
+                  <TouchableOpacity
+                    style={styles.copyButton}
+                    onPress={handleCopyCode}
+                  >
+                    <Ionicons name="copy-outline" size={20} color="#999" />
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity
+                  style={styles.continueButton}
+                  onPress={handleReferralSubmit}
+                >
+                  <Text style={styles.continueButtonText}>Continue</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-
-            <TouchableOpacity
-              style={styles.continueButton}
-              onPress={handleReferralSubmit}
-            >
-              <Text style={styles.continueButtonText}>Continue</Text>
-            </TouchableOpacity>
-          </View>
+          </Modal>
         </View>
-      </Modal>
-    </View>
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  // Web Styles
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
@@ -340,16 +511,16 @@ const styles = StyleSheet.create({
   },
   mainright: {
     width: "55%",
-    height: "98%", // Reduced from 95% to ensure all content fits
+    height: "98%",
   },
   welcomeText: {
     fontSize: 28,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: "2%", // Reduced from 4%
+    marginBottom: "2%",
   },
   inputContainer: {
-    marginBottom: "2%", // Reduced from 3%
+    marginBottom: "2%",
     width: "100%",
   },
   inputLabel: {
@@ -359,7 +530,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   input: {
-    height: 38, // Reduced from 44
+    height: 38,
     borderWidth: 1,
     borderColor: "#DDD",
     borderRadius: 4,
@@ -374,7 +545,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#DDD",
     borderRadius: 4,
-    height: 40, // Reduced from 44
+    height: 40,
     width: "100%",
     backgroundColor: "#FFFFFF",
   },
@@ -395,46 +566,50 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#DDD",
     borderRadius: 4,
-    height: 40, // Reduced from 44
+    height: 50,
+    marginBottom: 15,
     width: "100%",
-    backgroundColor: "#FFFFFF",
   },
   passwordInput: {
     flex: 1,
-    paddingHorizontal: "3%",
-    fontSize: 14,
     height: "100%",
-    outlineStyle: "none",
-    borderwidth: 0,
+    paddingHorizontal: 15,
+    fontSize: 16,
   },
-  eyeIcon: {
-    padding: "2%",
+  eyeIconContainer: {
+    paddingHorizontal: 15,
+    height: "100%",
+    justifyContent: "center",
   },
   rememberForgotRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    marginBottom: "2%", // Reduced from 3%
+    marginBottom: "2%",
     marginTop: "1%",
+  },
+  rememberForgotContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
   },
   rememberMeContainer: {
     flexDirection: "row",
     alignItems: "center",
-    flex: 1,
   },
   checkboxContainer: {
-    marginRight: "2%",
+    marginRight: 10, // Add some space between checkbox and text
   },
   checkbox: {
-    width: 14, // Reduced from 18
-    height: 14, // Reduced from 18
+    width: 20,
+    height: 20,
     borderWidth: 1,
     borderColor: "#999",
-    borderRadius: 3,
+    borderRadius: 4,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFF",
   },
   checkedBox: {
     backgroundColor: "#10B981",
@@ -443,16 +618,10 @@ const styles = StyleSheet.create({
   rememberMeText: {
     fontSize: 14,
     color: "#666",
-    flex: 3,
-  },
-  forgotPasswordText: {
-    fontSize: 14,
-    color: "#666",
-    textDecorationLine: "underline",
   },
   referralContainer: {
     alignItems: "center",
-    marginVertical: "1.5%", // Reduced from 2%
+    marginVertical: "1.5%",
   },
   referralText: {
     fontSize: 14,
@@ -466,7 +635,7 @@ const styles = StyleSheet.create({
   signInButton: {
     backgroundColor: "#10B981",
     width: "100%",
-    height: 40, // Reduced from 46
+    height: 40,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 4,
@@ -481,7 +650,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    marginVertical: "2%", // Reduced from 3%
+    marginVertical: "2%",
   },
   orLine: {
     flex: 1,
@@ -498,7 +667,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    height: 42, // Reduced from 46
+    height: 42,
     borderWidth: 1,
     borderColor: "#DDD",
     borderRadius: 4,
@@ -512,7 +681,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
   },
-  // Modal styles
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -520,7 +688,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContainer: {
-    width: "30%",
+    width: Platform.select({
+      web: "30%", // 30% width for web
+      default: "60%", // 60% width for mobile (Android & iOS)
+    }),
     backgroundColor: "#FFFFFF",
     borderRadius: 8,
     padding: "2%",
@@ -575,6 +746,113 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
+  },
+
+  // Mobile Styles
+  mobileContainer: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 20,
+    paddingTop: 40,
+  },
+  logoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  logoImage: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+  logoText: {
+    fontSize: 18,
+    color: "#666",
+    fontWeight: "500",
+  },
+  welcomeTitle: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 30,
+  },
+  mobileFormContainer: {
+    width: "100%",
+  },
+  mobileInput: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: "#DDD",
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    marginBottom: 15,
+    width: "100%",
+  },
+  eyeIconContainer: {
+    paddingHorizontal: 15,
+    height: "100%",
+    justifyContent: "center",
+  },
+  rememberForgotContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  referralText: {
+    fontSize: 14,
+    color: "#10B981",
+    fontWeight: "600",
+  },
+  signInButton: {
+    backgroundColor: "#10B981",
+    height: 50,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: "100%",
+  },
+  signInButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  orContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+    width: "100%",
+  },
+  orLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#DDD",
+  },
+  orText: {
+    paddingHorizontal: 10,
+    color: "#666",
+    fontSize: 14,
+  },
+  googleButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+    borderWidth: 1,
+    borderColor: "#DDD",
+    borderRadius: 8,
+    width: "100%",
+  },
+  googleIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 10,
+  },
+  googleButtonText: {
+    fontSize: 16,
+    color: "#666",
   },
 });
 

@@ -7,11 +7,14 @@ import {
   StyleSheet,
   StatusBar,
   ImageBackground,
-  Alert,
+  Image,
+  Platform,
+  useWindowDimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const ResetPassword = ({ navigation }) => {
+  const { width } = useWindowDimensions();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -42,98 +45,180 @@ const ResetPassword = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      />
+    <>
+      {/* Web Version (for larger screens) - UNCHANGED FROM ORIGINAL */}
+      {Platform.OS === "web" && width > 1000 && (
+        <View style={styles.container}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="transparent"
+            translucent
+          />
 
-      <View style={styles.mainContainer}>
-        {/* Left side with background image - 40% */}
-        <View style={styles.leftContainer}>
-          <ImageBackground
-            source={require("../../assets/Images/login-background.png")}
-            style={styles.backgroundImage}
-            resizeMode="cover"
-          >
-            <Text style={styles.quoteText}>
-              "Nurture Your Heart. It Will Nurture You."
-            </Text>
-          </ImageBackground>
+          <View style={styles.mainContainer}>
+            {/* Left side with background image - 40% */}
+            <View style={styles.leftContainer}>
+              <ImageBackground
+                source={require("../../assets/Images/login-background.png")}
+                style={styles.backgroundImage}
+                resizeMode="cover"
+              >
+                <Text style={styles.quoteText}>
+                  "Nurture Your Heart. It Will Nurture You."
+                </Text>
+              </ImageBackground>
+            </View>
+
+            {/* Rectangular divider */}
+            <View style={styles.divider} />
+
+            {/* Right side with reset password form - 60% */}
+            <View style={styles.rightContainer}>
+              <View style={styles.mainright}>
+                <Text style={styles.title}>Reset Password</Text>
+                <Text style={styles.subtitle}>
+                  Must be at least 8 Characters
+                </Text>
+
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>New Password</Text>
+                  <View style={styles.passwordInputWrapper}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="New Password"
+                      placeholderTextColor="#999"
+                      secureTextEntry={!showNewPassword}
+                      value={newPassword}
+                      onChangeText={setNewPassword}
+                    />
+                    <TouchableOpacity
+                      style={styles.eyeIconButton}
+                      onPress={toggleNewPasswordVisibility}
+                    >
+                      <Ionicons
+                        name={showNewPassword ? "eye-off" : "eye"}
+                        size={24}
+                        color="#999"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Confirm Password</Text>
+                  <View style={styles.passwordInputWrapper}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Confirm Password"
+                      placeholderTextColor="#999"
+                      secureTextEntry={!showConfirmPassword}
+                      value={confirmPassword}
+                      onChangeText={setConfirmPassword}
+                    />
+                    <TouchableOpacity
+                      style={styles.eyeIconButton}
+                      onPress={toggleConfirmPasswordVisibility}
+                    >
+                      <Ionicons
+                        name={showConfirmPassword ? "eye-off" : "eye"}
+                        size={24}
+                        color="#999"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <TouchableOpacity
+                  style={styles.resetButton}
+                  onPress={handleResetPassword}
+                >
+                  <Text style={styles.resetButtonText}>Reset Password</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
         </View>
+      )}
 
-        {/* Rectangular divider */}
-        <View style={styles.divider} />
+      {/* Mobile Version (for smaller screens) */}
+      {(Platform.OS !== "web" || width < 1000) && (
+        <View style={styles.mobileContainer}>
+          <View style={styles.logoContainer}>
+            <Image
+              source={require("../../assets/Images/KokoroLogo.png")}
+              style={styles.logoImage}
+            />
+            <Text style={styles.logoText}>Kokoro.Doctor</Text>
+          </View>
 
-        {/* Right side with reset password form - 60% */}
-        <View style={styles.rightContainer}>
-          <View style={styles.mainright}>
-            <Text style={styles.title}>Reset Password</Text>
-            <Text style={styles.subtitle}>Must be at least 8 Characters</Text>
+          <View style={styles.mobileFormContainer}>
+            <Text style={styles.mobileTitle}>Reset Password</Text>
+            <Text style={styles.mobileSubtitle}>
+              Must be at least 8 Characters
+            </Text>
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>New Password</Text>
-              <View style={styles.passwordInputWrapper}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="New Password"
-                  placeholderTextColor="#999"
-                  secureTextEntry={!showNewPassword}
-                  value={newPassword}
-                  onChangeText={setNewPassword}
+            {/* New Password Input */}
+            <Text style={styles.mobileInputLabel}>New Password</Text>
+            <View style={styles.mobilePasswordInputWrapper}>
+              <TextInput
+                style={styles.mobileInput}
+                placeholder="New Password"
+                placeholderTextColor="#999"
+                secureTextEntry={!showNewPassword}
+                value={newPassword}
+                onChangeText={setNewPassword}
+              />
+              <TouchableOpacity
+                style={styles.mobileEyeIconButton}
+                onPress={toggleNewPasswordVisibility}
+              >
+                <Ionicons
+                  name={showNewPassword ? "eye-off" : "eye"}
+                  size={24}
+                  color="#999"
                 />
-                <TouchableOpacity
-                  style={styles.eyeIconButton}
-                  onPress={toggleNewPasswordVisibility}
-                >
-                  <Ionicons
-                    name={showNewPassword ? "eye-off" : "eye"}
-                    size={24}
-                    color="#999"
-                  />
-                </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             </View>
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Confirm Password</Text>
-              <View style={styles.passwordInputWrapper}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Confirm Password"
-                  placeholderTextColor="#999"
-                  secureTextEntry={!showConfirmPassword}
-                  value={confirmPassword}
-                  onChangeText={setConfirmPassword}
+            {/* Confirm Password Input */}
+            <Text style={styles.mobileInputLabel}>Confirm Password</Text>
+            <View style={styles.mobilePasswordInputWrapper}>
+              <TextInput
+                style={styles.mobileInput}
+                placeholder="Confirm Password"
+                placeholderTextColor="#999"
+                secureTextEntry={!showConfirmPassword}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+              />
+              <TouchableOpacity
+                style={styles.mobileEyeIconButton}
+                onPress={toggleConfirmPasswordVisibility}
+              >
+                <Ionicons
+                  name={showConfirmPassword ? "eye-off" : "eye"}
+                  size={24}
+                  color="#999"
                 />
-                <TouchableOpacity
-                  style={styles.eyeIconButton}
-                  onPress={toggleConfirmPasswordVisibility}
-                >
-                  <Ionicons
-                    name={showConfirmPassword ? "eye-off" : "eye"}
-                    size={24}
-                    color="#999"
-                  />
-                </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             </View>
 
+            {/* Reset Password Button */}
             <TouchableOpacity
-              style={styles.resetButton}
+              style={styles.mobileResetButton}
               onPress={handleResetPassword}
             >
-              <Text style={styles.resetButtonText}>Reset Password</Text>
+              <Text style={styles.mobileResetButtonText}>Reset Password</Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
-    </View>
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  // Keep ALL existing web styles from the original implementation
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
@@ -176,7 +261,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: "5%",
   },
-
   mainright: {
     width: "65%",
     margin: "auto",
@@ -239,6 +323,88 @@ const styles = StyleSheet.create({
   resetButtonText: {
     color: "#FFFFFF",
     fontSize: 14,
+    fontWeight: "600",
+  },
+
+  // Mobile styles
+  mobileContainer: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: "5%",
+    paddingTop: "15%",
+  },
+  logoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: "10%",
+  },
+  logoImage: {
+    width: 30,
+    height: 30,
+    marginRight: "2%",
+  },
+  logoText: {
+    fontSize: 18,
+    color: "#666",
+    fontWeight: "500",
+  },
+  mobileFormContainer: {
+    width: "100%",
+    alignItems: "center",
+  },
+  mobileTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: "1%",
+    alignSelf: "center",
+  },
+  mobileSubtitle: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: "6%",
+    alignSelf: "center",
+  },
+  mobileInputLabel: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#333",
+    marginBottom: "2%",
+    alignSelf: "flex-start",
+    width: "100%",
+  },
+  mobilePasswordInputWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    marginBottom: "4%",
+  },
+  mobileInput: {
+    height: 56,
+    borderWidth: 1,
+    borderColor: "#DDD",
+    borderRadius: 4,
+    paddingHorizontal: "4%",
+    fontSize: 16,
+    flex: 1,
+  },
+  mobileEyeIconButton: {
+    position: "absolute",
+    right: 10,
+    padding: 10,
+  },
+  mobileResetButton: {
+    backgroundColor: "#10B981",
+    height: 56,
+    borderRadius: 4,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "4%",
+    width: "100%",
+  },
+  mobileResetButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
     fontWeight: "600",
   },
 });
