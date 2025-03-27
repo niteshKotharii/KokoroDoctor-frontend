@@ -27,6 +27,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
   {
     id: "2",
@@ -41,6 +55,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
   {
     id: "3",
@@ -55,6 +83,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
   {
     id: "4",
@@ -70,6 +112,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
   {
     id: "5",
@@ -84,6 +140,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
   {
     id: "6",
@@ -98,6 +168,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
   {
     id: "7",
@@ -112,6 +196,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
   {
     id: "8",
@@ -126,6 +224,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
   {
     id: "9",
@@ -141,6 +253,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
   {
     id: "10",
@@ -156,6 +282,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
   {
     id: "11",
@@ -169,6 +309,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
   {
     id: "12",
@@ -182,6 +336,20 @@ const doctors = [
     consultationFees: "$400 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
+    availability: {
+      today: {
+        slotsAvailable: 0,
+        slots: [],
+      },
+      tomorrow: {
+        slotsAvailable: 2,
+        slots: ["10:30 AM", "12:30 PM"],
+      },
+      monday: {
+        slotsAvailable: 2,
+        slots: ["9:00 AM", "1:00 PM"],
+      },
+    },
   },
 ];
 

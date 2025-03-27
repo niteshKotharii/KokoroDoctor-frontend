@@ -11,7 +11,7 @@ import {
   Linking,
   Keyboard,
   Platform,
-  useWindowDimensions
+  useWindowDimensions,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../../contexts/ChatbotContext";
@@ -389,6 +389,58 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
             </View>
             <View style={styles.availabilityContainer}>
               <Text style={styles.availabilityTimeText}>Available Time</Text>
+              <View style={styles.availabilityShowBox}>
+                <View style={styles.availabilityBox}>
+                  {/* Today */}
+                  <View style={styles.dayColumn}>
+                    <Text style={styles.dayTitle}>Today</Text>
+                    <Text style={styles.noSlots}>
+                      {doctors.availability.today.slotsAvailable > 0
+                        ? `${doctors.availability.today.slotsAvailable} slots Available`
+                        : "No slot today"}
+                    </Text>
+                  </View>
+
+                  {/* Tomorrow */}
+                  <View style={styles.dayColumn}>
+                    <Text style={styles.dayTitle}>Tomorrow</Text>
+                    <Text style={styles.slotsAvailable}>
+                      {doctors.availability.tomorrow.slotsAvailable} slots
+                      Available
+                    </Text>
+                  </View>
+
+                  {/* Monday */}
+                  <View style={styles.dayColumn}>
+                    <Text style={styles.dayTitle}>Mon, 2 Feb</Text>
+                    <Text style={styles.slotsAvailable}>
+                      {doctors.availability.monday.slotsAvailable} slots
+                      Available
+                    </Text>
+                  </View>
+                </View>
+
+                {/* Time Slots */}
+                <View style={styles.timeSlotContainer}>
+                  <Text style={styles.slotHeading}>Morning</Text>
+                  <TouchableOpacity style={styles.slotButton}>
+                    <Text style={styles.slotText}>
+                      {doctors.availability.tomorrow.slots[0]}
+                    </Text>
+                  </TouchableOpacity>
+
+                  <Text style={styles.slotHeading}>Afternoon (1 slot)</Text>
+                  <TouchableOpacity style={styles.slotButton}>
+                    <Text style={styles.slotText}>
+                      {doctors.availability.tomorrow.slots[1]}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity style={styles.viewAllButton}>
+                <Text style={styles.viewAllText}>View All Availability →</Text>
+              </TouchableOpacity>
+              </View>
             </View>
             <TouchableOpacity style={styles.bookAppointmentButton} onPress={handleBookAppointment}>
               <Text style={styles.bookAppointmentText}>Book Appointment</Text>
@@ -538,9 +590,9 @@ const styles = StyleSheet.create({
     color: " rgb(94, 93, 93)",
   },
   availabilityContainer: {
-    height: "38%",
+    height: "40%",
     width: "88%",
-    borderWidth: 1,
+    //borderWidth: 1,
     alignSelf: "center",
     marginVertical: "8%",
   },
@@ -550,21 +602,100 @@ const styles = StyleSheet.create({
     color: "#444444",
     paddingHorizontal: "2%",
   },
+  availabilityShowBox: {
+    height: "90%",
+    width: "98%",
+    //borderWidth:1,
+    alignSelf: "center",
+    borderRadius: 15,
+    boxShadow: " 0px 0px 4px 1px rgba(0, 0, 0, 0.25)",
+    marginVertical: "2%",
+    paddingTop: "3%",
+    paddingHorizontal: "2%",
+    flexDirection: "column",
+  },
+  availabilityBox: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    //borderWidth:1
+  },
+
+  dayColumn: {
+    alignItems: "center",
+  },
+
+  dayTitle: {
+    fontWeight: "bold",
+    fontSize: 14,
+  },
+
+  noSlots: {
+    color: "gray",
+    fontSize: 12,
+  },
+
+  slotsAvailable: {
+    color: "green",
+    fontSize: 12,
+  },
+
+  timeSlotContainer: {
+    marginTop: "2%",
+    flexDirection:"column",
+    //borderWidth:1,
+    height:"57%",
+    justifyContent:"space-between"
+  },
+
+  slotHeading: {
+    fontWeight: "bold",
+    fontSize: 14,
+    marginTop: 10,
+  },
+
+  slotButton: {
+    backgroundColor: "#E0EBFF",
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    alignSelf: "flex-start",
+    marginTop: 5,
+  },
+
+  slotText: {
+    color: "#3366CC",
+    fontSize: 14,
+  },
+
+  viewAllButton: {
+    backgroundColor: "rgb(243, 119, 119)",
+    paddingVertical: "2%",
+    marginTop: "5%",
+    alignItems: "center",
+    borderRadius:8,
+    width:"85%",
+    alignSelf:"center"
+  },
+
+  viewAllText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
   bookAppointmentButton: {
     height: "5%",
     width: "70%",
     //borderWidth: 1,
-    alignSelf:"center",
-    borderRadius:8,
+    alignSelf: "center",
+    borderRadius: 8,
     backgroundColor: "rgb(243, 119, 119)",
-    marginVertical:"3%",
+    marginVertical: "1%",
   },
-  bookAppointmentText:{
-    alignSelf:"center",
-    paddingVertical:"3.5%",
-    color:"#FFFFFF",
-    fontSize:14,
-    fontWeight:600,
+  bookAppointmentText: {
+    alignSelf: "center",
+    paddingVertical: "3.5%",
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: 600,
   },
   imageBackground: {
     flex: 1,
