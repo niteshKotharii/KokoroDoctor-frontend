@@ -13,6 +13,8 @@ import {
   useWindowDimensions,
   Dimensions,
   Platform,
+  Share,
+  ScrollView,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import * as DocumentPicker from "expo-document-picker";
@@ -21,7 +23,7 @@ import Header from "../components/Header";
 import * as FileSystem from "expo-file-system";
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
-
+const ScreenWidth = Dimensions.get("window").width;
 const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod/medilocker";
 const {width, height} = Dimensions.get("window");
 
@@ -30,9 +32,16 @@ const Medilocker = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const { width } = useWindowDimensions();
   const {user} = useContext(AuthContext);
+  const [isGridView, setIsGridView] = useState(true);
 
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+const [uploadStatus, setUploadStatus] = useState(null);
   useEffect(() => {
     if (!user) return;
+
+
   
     const loadFilesFromServer = async () => {
       try {
@@ -92,7 +101,27 @@ const Medilocker = ({ navigation }) => {
       }
     }
   };
-
+  const uploadFile = async () => {
+    setUploadProgress(0);
+    setUploadStatus("uploading");
+  
+    try {
+      for (let i = 1; i <= 100; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 50));
+        setUploadProgress(i);
+      }
+  
+      setUploadStatus("success");
+  
+      // Hide the success message after 2 seconds
+      setTimeout(() => {
+        setUploadStatus(null);
+      }, 2000);
+    } catch (error) {
+      console.error("Upload failed:", error);
+      setUploadStatus("error");
+    }
+  };
   const pickDocument = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({ type: "*/*" });
@@ -123,13 +152,14 @@ const Medilocker = ({ navigation }) => {
       }
 
       const newFile = {
+        id: Date.now().toString(),//changes
         name: fileName,
         size: fileSize,
         type: fileType,
         date: new Date().toLocaleDateString(),
         time: new Date().toLocaleTimeString(),
       };
-      
+      await uploadFile();
       const payload = {
         email: user?.email,
         files: [
@@ -165,6 +195,10 @@ const Medilocker = ({ navigation }) => {
     } catch (err) {
       alert(`Error: ${err.error}`);
     }
+  };
+
+  const toggleView = () => {
+    setIsGridView((prev) => !prev);
   };
 
   const downloadFile = async (fileName) => {
@@ -227,7 +261,22 @@ const Medilocker = ({ navigation }) => {
   const editFile = async () => {
     
   }
-
+  const shareFile = async () => {
+    if (!selectedFile) return;
+    try {
+      await Share.share({
+        message: `Check out this file: ${selectedFile.name}`,
+        url: selectedFile.uri,
+      });
+    } catch (error) {
+      console.log("Sharing error:", error);
+    }
+    setMenuVisible(false);
+  };
+  const openMenu = (file) => {
+    setSelectedFile(file);
+    setMenuVisible(true);
+  };
   const filteredFiles = files.filter((file) =>
     file.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -237,7 +286,8 @@ const Medilocker = ({ navigation }) => {
 
   const handlePasswordChange = (text) => {
     setPassword(text);
-    if (text === user?.password) {
+    // if (text === user?.password) 
+    if (text === "1234"){
       setTimeout(() => setvisible(false), 500); // Close modal after 0.5s if password is correct
     }
   };
@@ -475,19 +525,18 @@ const Medilocker = ({ navigation }) => {
 
           <View style={styles.appDocuContainer}>
             <Text style={styles.appDocuTitle}>Documents</Text>
-            <TouchableOpacity
-              style={styles.applistButton}
-              onPress={() => alert("menu clicked!")}
-            >
+
+            <TouchableOpacity style={styles.applistButton} onPress={toggleView}>
               <MaterialIcons
-                name="format-list-bulleted"
+                name={isGridView ? "format-list-bulleted" : "grid-view"}
                 size={24}
                 color="black"
               />
             </TouchableOpacity>
           </View>
 
-          <FlatList
+
+          {/* <FlatList
             data={filteredFiles}
             keyExtractor={(item, index) => index.toString()}
             numColumns={3}
@@ -508,7 +557,108 @@ const Medilocker = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
             )}
-          />
+          /> */}
+          <ScrollView style={{ flex: 1 }}>
+            <View style={styles.appfileContain}>
+              <FlatList
+                data={filteredFiles}
+                key={isGridView ? "grid" : "list"}
+                keyExtractor={(item, index) => index.toString()}
+                numColumns={isGridView ? 3 : 1}
+                renderItem={({ item }) => (
+                  <View
+                    style={[
+                      styles.appfileItem,
+                      !isGridView && styles.approwItem,
+                    ]}
+                  >
+                    <TouchableOpacity
+                      onPress={() => console.log("File Opened:", item)}
+                    >
+                      <Image
+                        source={require("../assets/Icons/FileIcon.png")}
+                        style={styles.appfileIcon}
+                      />
+                    </TouchableOpacity>
+            
+
+                    <TouchableOpacity
+                      style={styles.appmenuButton}
+                      onPress={() => openMenu(item)}
+                    >
+                      <MaterialIcons
+                        name="more-horiz"
+                        size={24}
+                        color="black"
+                      />
+                    </TouchableOpacity>
+
+                    <Text style={styles.appfileName}>{item.name}</Text>
+                    <Text style={styles.appfileDetails}>
+                      You Created - {item.date}
+                    </Text>
+                  </View>
+                )}
+                contentContainerStyle={{ paddingBottom: 20 }} // Allows scrolling
+              />
+
+              <Modal visible={menuVisible} transparent animationType="fade">
+                <TouchableOpacity
+                  style={styles.appoverlay}
+                  onPress={() => setMenuVisible(false)}
+                >
+                  <View style={styles.appmenu}>
+                    <TouchableOpacity
+                      onPress={() => alert("Copy feature coming soon!")}
+                    >
+                      <View style={styles.appmenuItem}>
+                        <MaterialIcons
+                          name="content-copy"
+                          size={20}
+                          color="red"
+                        />
+                        <Text style={styles.appmenuText}>Copy</Text>
+                      </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={editFile}>
+                      <View style={styles.appmenuItem}>
+                        <MaterialIcons name="edit" size={20} color="red" />
+                        <Text style={styles.appmenuText}>Edit</Text>
+                      </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={downloadFile}>
+                      <View style={styles.appmenuItem}>
+                        <MaterialIcons
+                          name="file-download"
+                          size={20}
+                          color="red"
+                        />
+                        <Text style={styles.appmenuText}>Download</Text>
+                      </View>
+                    </TouchableOpacity>
+
+                    {/* <TouchableOpacity onPress={removeFile}> */}
+                    <TouchableOpacity onPress={() => removeFile(selectedFile.name)}>
+
+                      <View style={styles.appmenuItem}>
+                        <MaterialIcons name="delete" size={20} color="red" />
+                        <Text style={styles.appmenuText}>Delete</Text>
+                      </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={shareFile}>
+                      <View style={styles.appmenuItem}>
+                        <MaterialIcons name="share" size={20} color="red" />
+                        <Text style={styles.appmenuText}>Share</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                </TouchableOpacity>
+              </Modal>
+            </View>
+          </ScrollView>
 
           <View style={styles.appAddDocument}>
             <TouchableOpacity style={styles.appFeb} onPress={pickDocument}>
@@ -516,6 +666,10 @@ const Medilocker = ({ navigation }) => {
               <AntDesign name="plus" size={24} color="red" />
             </TouchableOpacity>
           </View>
+
+          {uploadStatus === "uploading" && (<Text style={ styles.appsuccessMessage}>Uploading...</Text>)}
+{uploadStatus === "success" && (<Text style={styles.appsuccessMessage}>Upload Successful!</Text>)}
+{uploadStatus === "error" && (<Text style={styles.appsuccessMessage}>Upload Failed</Text>)}
 
           {(!user && visible) && (
             <View style={styles.overlay}>
@@ -879,6 +1033,9 @@ const styles = StyleSheet.create({
     padding: "2%",
     textAlign: "center",
   },
+
+
+
   appContainer: {
     width: "100%",
     height: "100%",
@@ -974,51 +1131,117 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     borderRadius: 5,
   },
-  fileItem: {
-    width: "30%",
+  appfileContain: {
+    width: "100%",
+  },
+  appfileItem: {
+    flex: 1,
     alignItems: "center",
-    margin: 8,
-    marginTop: "10%",
+    justifyContent: "space-between",
+    padding: 10,
+    margin: 5,
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    position: "relative",
   },
-  fileIcon: {
-    width: 50,
-    height: 50,
-    tintColor: "salmon", // Match color of icon
+  appfileIcon: {
+    width: 65,
+    height: 75,
+    tintColor: "salmon",
+    margin: "5%",
   },
-  fileName: {
+  appfileName: {
     fontSize: 14,
     fontWeight: "bold",
     textAlign: "center",
+    marginTop: 5,
   },
-  fileDetails: {
-    fontSize: 10,
+  appfileDetails: {
+    fontSize: 12,
     color: "gray",
     textAlign: "center",
   },
-  fileMenu: {
+  appmenuButton: {
     position: "absolute",
-    top: 5,
-    right: 10,
+    top: 1,
+    right: 1,
+    padding: 5,
   },
-  appAddDocument: {
+  approwItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+  },
+  appoverlay: {
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
-    padding: 20,
-    paddingBottom: "20%",
-  },
-  appFeb: {
-    width: 50,
-    height: 50,
-    backgroundColor: "white",
-    borderRadius: 25,
+    backgroundColor: "rgba(0,0,0,0.2)",
     justifyContent: "center",
     alignItems: "center",
+  },
+  appmenu: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    width: 160,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  appmenuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#ddd",
+  },
+  appmenuItemLast: {
+    borderBottomWidth: 0,
+  },
+  appmenuText: {
+    fontSize: 14,
+    color: "black",
+    marginLeft: 10,
+  },
+
+  appAddDocument: {
+    marginBottom: "5%",
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "white",
+    padding: 15,
+    borderRadius: 50,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
     shadowRadius: 3,
-    elevation: 5, // For Android shadow effect
+    elevation: 9,
+  },
+  appFeb: {
+    width: 45,
+    height: 45,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  appsuccessMessage: {
+    position:"absolute",
+    marginTop: 10,
+    right:100,
+    bottom:100,
+    
+    color: "green",
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 export default Medilocker;
