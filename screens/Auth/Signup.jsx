@@ -524,7 +524,7 @@ const styles = StyleSheet.create({
     marginBottom: "3%",
   },
   inputContainer: {
-    marginBottom: "0.1%", // Slightly increased
+    marginBottom: "0.75%", // Slightly increased
     width: "100%",
   },
   inputLabel: {
