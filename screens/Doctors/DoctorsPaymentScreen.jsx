@@ -20,6 +20,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import SideBarNavigation from "../../components/SideBarNavigation";
 import { AuthContext } from "../../contexts/AuthContext";
 import {payment_api} from "../../utils/PaymentService";
+import Header from "../../components/Header";
 
 const DoctorsPaymentScreen = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState("")
@@ -82,33 +83,7 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
                 <View style={styles.Right}>
                   {/* Header section */}
                   <View style={styles.header}>
-                    <View style={styles.welcomeSection}>
-                      <Text style={styles.welcomeText}>Welcome Alex!</Text>
-                      <Text style={styles.welcomeSubtext}>Here is your sales Medical dashboard</Text>
-                    </View>
-
-                    {/* Search bar */}
-                    <View style={styles.searchBarContainer}>
-                      <MaterialIcons name="search" size={20} color="#888" style={styles.searchIcon} />
-                      <TextInput
-                        style={styles.searchInput}
-                        placeholder="Search your query"
-                        placeholderTextColor="#888"
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                      />
-                    </View>
-
-                    {/* User profile and notification icons */}
-                    <View style={styles.userControls}>
-                      <TouchableOpacity style={styles.notificationIcon}>
-                        <MaterialIcons name="notifications" size={24} color="#fff" />
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.profileButton}>
-                        <Image source={require("../../assets/Images/dr_kislay.jpg")} style={styles.profileImage} />
-                        <MaterialIcons name="arrow-drop-down" size={24} color="#fff" />
-                      </TouchableOpacity>
-                    </View>
+                    <Header navigation={navigation} />
                   </View>
 
                   {/* Main content area */}
@@ -300,56 +275,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   header: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 16,
-    backgroundColor: "transparent",
-  },
-  welcomeSection: {
-    flexDirection: "column",
-    flex: 1,
-  },
-  welcomeText: {
-    fontSize: 26,
-    fontWeight: "bold",
-    color: "#fff",
-  },
-  welcomeSubtext: {
-    fontSize: 14,
-    color: "#f0f0f0",
-  },
-  searchBarContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    width: "40%",
-    marginHorizontal: 20,
-  },
-  searchIcon: {
-    marginRight: 8,
-  },
-  searchInput: {
-    flex: 1,
-    color: "#333",
-    fontSize: 14,
+    // borderWidth: 5,
+    // borderColor: "black",
+    zIndex: 2,
     ...Platform.select({
-      web: {
-        outlineStyle: "none",
-        borderWidth: 0,
-      },
-    }),
-  },
-  userControls: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  notificationIcon: {
-    marginRight: 16,
+      web:{
+        width:"100%",
+        marginBottom: 20,
+      }
+    })
   },
   profileButton: {
     flexDirection: "row",

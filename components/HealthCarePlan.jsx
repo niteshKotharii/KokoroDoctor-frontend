@@ -136,9 +136,11 @@ const styles = StyleSheet.create({
     width: "100%",
     borderWidth: 1,
     borderColor: "#000000",
+    borderRadius: 10,
     alignSelf: "center",
     marginVertical: "3%",
     borderRadius: 5,
+    marginBottom: 90,
   },
   card: {
     backgroundColor: 'white',          
@@ -149,6 +151,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 3,  
     margin: 10,
+    marginTop: 40,
     height: "90%",      
   },
   cardContent: {

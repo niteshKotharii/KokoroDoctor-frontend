@@ -139,7 +139,9 @@ const AllHospitals = ({ navigation, route }) => {
                 </View>
                 <View style={styles.Right}>
                   
-                  <HeaderComponenet/>
+                <View style={styles.header}>
+                  <Header navigation={navigation} />
+                </View>
                    
                   {/* {bodyVisible && */}
                   <View style={styles.body}>
@@ -467,17 +469,17 @@ const styles = StyleSheet.create({
     width: "85%",
     gap: 2,
   },
-  // header: {
-  //   height: "10%",
-  //   width: "100%",
-  //   alignContent:"center",
-  //   // justifyContent:"center",
-  //   // marginTop: "2%",
-  //   //marginLeft: "2%",
-  //   // backgroundColor: "#fff",
-  //   // borderColor:"#FF7072",
-  //   // borderWidth:"2px",
-  // },
+  header: {
+    // borderWidth: 5,
+    // borderColor: "black",
+    zIndex: 2,
+    ...Platform.select({
+      web:{
+        width:"100%",
+        marginBottom: 20,
+      }
+    })
+  },
   body: {
     height: "30%",
     width: "100%",

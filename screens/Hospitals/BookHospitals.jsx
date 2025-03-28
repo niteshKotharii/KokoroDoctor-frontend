@@ -79,71 +79,7 @@ const BookHospitals = ({ navigation }) => {
               <View style={styles.Right}>
                 {/* Header */}
                 <View style={styles.header}>
-                  <View style={styles.welcomeContainer}>
-                    <Text style={styles.welcomeText}>Welcome Alex!</Text>
-                    <Text style={styles.subText}>
-                      Here is your sales Medical dashboard
-                    </Text>
-                  </View>
-
-                  {/* Search Bar */}
-                  <View style={styles.searchContainer}>
-                    <Image
-                      source={require("../../assets/Icons/search.png")}
-                      style={styles.searchIcon}
-                      resizeMode="contain"
-                    />
-                    <TextInput
-                      style={styles.searchInput}
-                      placeholder="Search your query"
-                      placeholderTextColor="rgba(255, 255, 255, 1)"
-                    />
-                  </View>
-
-                  {/* Notification and Profile Section */}
-                  <View style={styles.iconsContainer}>
-                    <Image
-                      source={require("../../assets/Icons/notification1.png")}
-                      style={styles.notificationIcon}
-                      resizeMode="contain"
-                    />
-                  </View>
-                  {/* Profile Dropdown */}
-                  <View style={styles.profileWrapper}>
-                    <TouchableOpacity
-                      onPress={() => setIsDropdownOpen(!isDropdownOpen)}
-                      style={styles.profileContainer}
-                    >
-                      <Image
-                        source={require("../../assets/Icons/profile1.png")}
-                        style={styles.profileIcon}
-                        resizeMode="contain"
-                      />
-                      <Icon
-                        name={isDropdownOpen ? "caret-up" : "caret-down"}
-                        size={14}
-                        color="white"
-                        style={styles.caretIcon}
-                      />
-                    </TouchableOpacity>
-
-                    {/* Dropdown Content */}
-                    {isDropdownOpen && (
-                      <View style={styles.dropdownContainer}>
-                        <View style={styles.dropdownMenu}>
-                          <TouchableOpacity style={styles.dropdownItem}>
-                            <Text style={styles.dropdownText}>Profile</Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity style={styles.dropdownItem}>
-                            <Text style={styles.dropdownText}>Settings</Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity style={styles.dropdownItem}>
-                            <Text style={styles.dropdownText}>Logout</Text>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    )}
-                  </View>
+                  <Header navigation={navigation} />
                 </View>
 
                 {/* 🔹 Gradient Section (Using MyLinearGradient) */}
@@ -348,30 +284,14 @@ const styles = StyleSheet.create({
     //alignItems: "center",
   },
   header: {
+    // borderWidth: 5,
+    // borderColor: "black",
+    zIndex: 2,
     ...Platform.select({
-      web: {
-        height: "10%",
-        width: "70%",
-        //borderWidth: 1,
-        borderColor: "#fff",
-        flexDirection: "row",
-        //alignItems: "center",
-        justifyContent: "space-between",
-        //width: "85%",
-        //position: "absolute",
-        marginTop: "3%",
-        marginHorizontal: "5%",
-      },
-    }),
-  },
-  appheader: {
-    ...Platform.select({
-      web: {
-        width: "12%",
-        marginLeft: "70%",
-        // marginTop: 15,
-      },
-    }),
+      web:{
+        width:"100%",
+      }
+    })
   },
   doctorTextBox: {
     height: "5%",
@@ -760,62 +680,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
 
-
-
   //..........APP design   
-
-  appContainer: {
-    flex: 1,
-    height: "100%",
-    width: "100%",
-  },
-  imageBackground: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
-  },
-  parent: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  Left: {
-    width: "15%",
-    backgroundColor: "#f0f0f0",
-  },
-  Right: {
-    flex: 1,
-    //alignItems: "center",
-  },
-  header: {
-    ...Platform.select({
-      web: {
-        height: "10%",
-        width: "70%",
-        //borderWidth: 1,
-        borderColor: "#fff",
-        flexDirection: "row",
-        //alignItems: "center",
-        justifyContent: "space-between",
-        //width: "85%",
-        //position: "absolute",
-        marginTop: "3%",
-        marginHorizontal: "5%",
-      },
-    }),
-  },
-  appheader :{
-    ...Platform.select({
-      web:{
-        width:"12%",
-        marginLeft: "70%",
-        // marginTop: 15,
-      }
-    })
-  },
   doctorTextBox: {
     marginTop:"10%",
     height: "5%",

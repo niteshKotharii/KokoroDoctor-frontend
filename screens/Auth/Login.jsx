@@ -259,7 +259,7 @@ const Login = ({ navigation }) => {
               style={styles.mobileSignInButton}
               onPress={() => login(email, password, navigation)}
             >
-              <Text style={styles.mobileSignInText}>Sign in</Text>
+              <Text style={styles.mobileSignInText}>Log in</Text>
             </TouchableOpacity>
 
             {/* Or Divider */}

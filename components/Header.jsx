@@ -1,70 +1,161 @@
 import React, { useContext, useState } from "react";
-import { Pressable, View, Text, StyleSheet, Image, Platform, useWindowDimensions, Modal } from "react-native";
+import {
+  Pressable,
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Platform,
+  useWindowDimensions,
+  Modal,
+  TextInput,
+  Dimensions,
+} from "react-native";
 import { AuthContext } from "../contexts/AuthContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import SideBarNavigation from "./SideBarNavigation";
 
+const {width, height} = Dimensions.get("window");
+
 const Header = ({ navigation }) => {
-  const {user, logout} = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const { width } = useWindowDimensions();
   const [isSideBarVisible, setIsSideBarVisible] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const handleOptionPress = (screen) => {
+    setDropdownVisible(false);
+    navigation.navigate(screen);
+  };
+
   return (
     <View style={styles.header}>
       {user ? (
         // Show user info when logged in
         <>
-          {(Platform.OS === "web" && width>1000) && (
-            <View style={styles.userInfo}>
-              <Image source={user?.picture ? { uri: user.picture } : require("../assets/Images/user-icon.jpg")} style={styles.userIcon}/>
-              <Text style={styles.username}>{user?.name ? user?.name : "User"}</Text>
-              <Pressable onPress={logout} style={styles.logoutButton}>
-                <Text style={styles.logoutText}>Logout</Text>
-              </Pressable>
+          {Platform.OS === "web" && width > 1000 && (
+            <View style={[styles.userInfo, styles.userInfoWeb]}>
+              <View style={styles.welcomeContainer}>
+                <Text style={styles.welcomeText}>Welcome {user?.name ? user?.name : "User"}!</Text>
+                <Text style={styles.subText}>
+                  Here is your sales Medical dashboard
+                </Text>
+              </View>
+        
+              {/* Search Bar */}
+              <View style={styles.searchContainer}>
+                <Image source={require("../assets/Icons/search.png")} style={styles.searchIcon} resizeMode="contain"/>
+                <TextInput
+                  style={styles.searchInput}
+                  placeholder="Search your query"
+                  placeholderTextColor="rgba(255, 255, 255, 1)"
+                />
+              </View>
+        
+              {/* Notification and Profile Section */}
+              <View style={{flexDirection:"row", gap: 10}}>
+                <Pressable style={styles.iconsContainer}>             
+                  <Image source={require("../assets/Icons/notification1.png")} style={styles.notificationIcon} resizeMode="contain"/>
+                </Pressable>
+                
+                {/* Profile Dropdown */}
+                <View style={styles.profileWrapper}>
+                  <Pressable onPress={() => setDropdownVisible(!dropdownVisible)}>
+                    <Image source={user?.picture ? { uri: user.picture } : require("../assets/Images/user-icon.jpg")}
+                      style={styles.userIcon}
+                    />
+                  </Pressable>
+                  {dropdownVisible && (
+                    <View style={[styles.dropdownMain, styles.dropdownWeb]}>
+                      <Pressable
+                        onPress={() => {}}
+                        style={styles.dropdownItem}
+                      >
+                        <Text style={styles.dropdownText}>Profile</Text>
+                      </Pressable>
+                      <Pressable
+                        onPress={logout}
+                        style={styles.dropdownItem}
+                      >
+                        <Text style={styles.dropdownText}>Logout</Text>
+                      </Pressable>
+                    </View>
+                  )}
+                </View>
+              </View>
             </View>
           )}
 
-          {(Platform.OS !== "web" || width<1000) && (
+          {(Platform.OS !== "web" || width < 1000) && (
             <>
               <Modal
-                  visible={isSideBarVisible}
-                  transparent={true}
-                  onRequestClose={() => setIsSideBarVisible(false)}
-                >
-                  <View style={styles.modalContainer}>
-                    <View style={styles.mobileSidebar}>
-                      <SideBarNavigation
-                        navigation={navigation}
-                        closeSidebar={() => setIsSideBarVisible(false)}
-                      />
-                    </View>
-                    <Pressable
-                      style={styles.overlay}
-                      onPress={() => setIsSideBarVisible(false)}
+                visible={isSideBarVisible}
+                transparent={true}
+                onRequestClose={() => setIsSideBarVisible(false)}
+              >
+                <View style={styles.modalContainer}>
+                  <View style={styles.mobileSidebar}>
+                    <SideBarNavigation
+                      navigation={navigation}
+                      closeSidebar={() => setIsSideBarVisible(false)}
                     />
                   </View>
+                  <Pressable
+                    style={styles.overlay}
+                    onPress={() => setIsSideBarVisible(false)}
+                  />
+                </View>
               </Modal>
 
               <View style={styles.appHeaderContainer}>
                 <View style={styles.appHeader}>
-
                   <View style={styles.logo}>
-                    <Pressable style={styles.hamburger} onPress={()=>setIsSideBarVisible(true)}>
+                    <Pressable
+                      style={styles.hamburger}
+                      onPress={() => setIsSideBarVisible(true)}
+                    >
                       <MaterialIcons name="menu" size={30} color="black" />
                     </Pressable>
-                    <Image source={require("../assets/Images/KokoroLogo.png")} style={{height:30, width:30}}/>
-                    <Text style={{fontWeight: "800", color: "#000000", fontSize: 16,}}>Kokoro.Doctor</Text>
+                    <Image
+                      source={require("../assets/Images/KokoroLogo.png")}
+                      style={{ height: 30, width: 30 }}
+                    />
+                    <Text
+                      style={{
+                        fontWeight: "800",
+                        color: "#000000",
+                        fontSize: 16,
+                      }}
+                    >
+                      Kokoro.Doctor
+                    </Text>
                   </View>
-      
-                  <View style={styles.userInfo}>
-                    <Pressable>
-                      <Image source={user?.picture ? { uri: user.picture } : require("../assets/Images/user-icon.jpg")} style={styles.userIcon}/>
+
+                  <View style={[styles.userInfo, styles.userInfoApp]}>
+                    <Pressable onPress={()=>{setDropdownVisible(!dropdownVisible)}}>
+                      <Image source={user?.picture ? { uri: user.picture } : require("../assets/Images/user-icon.jpg")}
+                        style={styles.userIcon}
+                      />
                     </Pressable>
                     <Pressable>
-                      <MaterialIcons name="notifications-none" size={24} color="black" />
+                      <MaterialIcons name="notifications-none" size={24} color="black"/>
                     </Pressable>
-                    <Pressable onPress={logout} style={styles.logoutButton}>
-                      <Text style={styles.logoutText}>Logout</Text>
-                    </Pressable>
+                    {dropdownVisible && (
+                      <View style={[styles.dropdownMain, styles.dropdownLoggedIn]}>
+                        <Pressable
+                          onPress={() => {}}
+                          style={styles.dropdownItem}
+                        >
+                          <Text style={styles.dropdownText}>Profile</Text>
+                        </Pressable>
+                        <Pressable
+                          onPress={logout}
+                          style={styles.dropdownItem}
+                        >
+                          <Text style={styles.dropdownText}>Logout</Text>
+                        </Pressable>
+                      </View>
+                    )}
                   </View>
                 </View>
 
@@ -76,13 +167,13 @@ const Header = ({ navigation }) => {
             </>
           )}
 
+          
         </>
       ) : (
-        
         // Show login/signup buttons when not logged in
         <>
-          {(Platform.OS === "web" && width>1000) && (
-            <View style={styles.authButtons}>
+          {Platform.OS === "web" && width > 1000 && (
+            <View style={styles.authButtonsWeb}>
               <Pressable
                 onPress={() => navigation.navigate("Login")}
                 style={styles.authButton}
@@ -98,7 +189,7 @@ const Header = ({ navigation }) => {
             </View>
           )}
 
-          {(Platform.OS !== "web" || width<1000) && (
+          {(Platform.OS !== "web" || width < 1000) && (
             <>
               <Modal
                 visible={isSideBarVisible}
@@ -121,37 +212,74 @@ const Header = ({ navigation }) => {
               <View style={styles.appHeaderContainer}>
                 <View style={styles.appHeader}>
                   <View style={styles.logo}>
-                    <Pressable style={styles.hamburger} onPress={()=>setIsSideBarVisible(true)}>
+                    <Pressable
+                      style={styles.hamburger}
+                      onPress={() => setIsSideBarVisible(true)}
+                    >
                       <MaterialIcons name="menu" size={30} color="black" />
                     </Pressable>
-                    <Image source={require("../assets/Images/KokoroLogo.png")} style={{height:30, width:30}}/>
-                    <Text style={{fontWeight: "800", color: "#000000", fontSize: 16,}}>Kokoro.Doctor</Text>
+                    <Image
+                      source={require("../assets/Images/KokoroLogo.png")}
+                      style={{ height: 30, width: 30 }}
+                    />
+                    <Text
+                      style={{fontWeight: "800", color: "#000000", fontSize: 16,}}>
+                      Kokoro.Doctor
+                    </Text>
                   </View>
-      
-                  <View style={styles.authButtons}>
+
+                  <View style={styles.authButtonsApp}>
                     <Pressable
-                      onPress={() => navigation.navigate("Login")}
-                      style={styles.authButton}
+                      onPress={() => setDropdownVisible(!dropdownVisible)}
                     >
-                      <Text style={[styles.authText, {color: width<1000? "#000" : "#fff"}]}>Login</Text>
+                      <MaterialIcons name="person" size={30} color="black" />
                     </Pressable>
-                    <Pressable
-                      onPress={() => navigation.navigate("Signup")}
-                      style={styles.authButton}
-                    >
-                      <Text style={[styles.authText, {color: width<1000? "#000" : "#fff"}]}>Signup</Text>
+                    <Pressable>
+                      <MaterialIcons name="notifications" size={30} color="black"/>
                     </Pressable>
+                    {dropdownVisible && (
+                      <View style={[styles.dropdownMain, styles.dropdownLoggedOut]}>
+                        <Pressable
+                          onPress={() => handleOptionPress("Login")}
+                          style={styles.dropdownItem}
+                        >
+                          <Text style={styles.dropdownText}>Login</Text>
+                        </Pressable>
+                        <Pressable
+                          onPress={() => handleOptionPress("Signup")}
+                          style={styles.dropdownItem}
+                        >
+                          <Text style={styles.dropdownText}>Signup</Text>
+                        </Pressable>
+                      </View>
+                    )}
                   </View>
                 </View>
                 <View style={styles.usernameApp}>
-                  <Text style={{fontWeight: "600", color: "#000000", fontSize: 20,}}>Hello,</Text>
-                  <Text style={{fontWeight: "800", color: "#000000", fontSize: 20,}}> {user?.name ? user?.name : "User"}!</Text>    
+                  <Text
+                    style={{
+                      fontWeight: "600",
+                      color: "#000000",
+                      fontSize: 20,
+                    }}
+                  >
+                    Hello,
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: "800",
+                      color: "#000000",
+                      fontSize: 20,
+                    }}
+                  >
+                    {" "}
+                    {user?.name ? user?.name : "User"}!
+                  </Text>
                 </View>
               </View>
             </>
           )}
         </>
-   
       )}
     </View>
   );
@@ -162,97 +290,98 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop:5,
+    marginTop: 5,
   },
-  appHeaderContainer:{
+  appHeaderContainer: {
     ...Platform.select({
-      web:{
-        marginRight: 230,
-      }
-    })
+      web: {
+        flex: 1,
+      },
+    }),
   },
-  appHeader:{
+  appHeader: {
     width: "100%",
     height: 70,
     flexDirection: "row",
-    alignItems:"center",
-    justifyContent:"space-between",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 15,
     ...Platform.select({
-      web:{
-        gap:20,
-      }
-    })
+      web: {
+        gap: 100,
+      },
+    }),
   },
   hamburger: {
     marginHorizontal: 5,
   },
   overlay: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     zIndex: 50,
   },
-  mobileSidebar:{
-    position: 'absolute',
+  mobileSidebar: {
+    position: "absolute",
     top: 0,
     left: 0,
-    width: '70%',
-    height: '100%',
-    backgroundColor: '#fff',
+    width: "70%",
+    height: "100%",
+    backgroundColor: "#fff",
     zIndex: 51,
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
   },
-  authButtons: {
+  authButtonsWeb: {
     flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-end",
+    marginRight: 20,
+  },
+  authButtonsApp:{
+    flexDirection: "row",
+    alignItems: "center",
     gap: 15,
-    ...Platform.select({
-      android: {
-        marginTop: "10%",
-        alignSelf: "flex-end",
-        marginRight: "5%",
-      },
-      ios: {
-        marginTop: "10%",
-        alignSelf: "flex-end",
-        marginRight: "5%",
-      }
-    })
+    marginRight: "5%",
   },
   authButton: {
     height: 50,
     ...Platform.select({
-      web:{
+      web: {
         padding: 10,
         justifyContent: "center",
       },
-    })
+    }),
   },
   authText: {
     fontWeight: "800",
     color: "#000000",
     fontSize: 16,
     ...Platform.select({
-      web:{
+      web: {
         fontSize: 18,
         color: "#FFFFFF",
       },
-    })
+    }),
   },
   userInfo: {
-    marginTop:10,
+    marginTop: 10,
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-    // borderWidth: 2,
-    // borderColor: "red",
+  },
+  userInfoWeb: {
+    width: "100%",
+    justifyContent:"space-around",
+  },
+  userInfoApp:{
+    
   },
   userIcon: {
     width: 40,
@@ -264,7 +393,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFFFFF",
   },
-  usernameApp:{
+  usernameApp: {
     flexDirection: "row",
     marginLeft: 20,
   },
@@ -277,9 +406,106 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
   },
-  logo:{
+  logo: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  dropdownImage: {
+    width: 50,
+    height: 50,
+  },
+  dropdownMain:{
+    position: "absolute",
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    zIndex: 100,
+  },
+  dropdownLoggedOut: {
+    top: 30,
+    right: 0,
+  },
+  dropdownLoggedIn: {  
+    top: 40,
+    right: 0,
+  },
+  dropdownWeb:{
+    top: 30,
+    right: 40,
+  },
+  dropdownItem: {
+    padding: 10,
+  },
+  dropdownText: {
+    fontSize: 16,
+  },
+  welcomeContainer: {},
+  welcomeText: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  subText: {
+    fontSize: 14,
+    color: "#ddd",
+    marginTop: "1%",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignSelf: "center",
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    height: "80%",
+    width: "30%",
+    marginHorizontal: "10%",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.66)",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.1)"
+  },
+  searchIcon: {
+    width: 16,
+    height: 16,
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    color: "#fff",
+    fontSize: 16,
+    borderWidth: 0,
+    backgroundColor: "transparent", 
+    paddingVertical: 0, 
+    outlineStyle: "none",
+  },
+  iconsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  notificationIcon: {
+    marginRight: 20,
+  },
+  profileWrapper: {
+    height: "60%",
+    width: "10%",
+    borderColor: "#fff",
+    alignSelf: "center",
+  },
+  profileContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 5,
+    borderRadius: 8,
+  },
+  profileIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
   },
 });
 

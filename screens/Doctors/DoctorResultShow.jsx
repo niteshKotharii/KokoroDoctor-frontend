@@ -294,18 +294,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
+    // borderWidth: 5,
+    // borderColor: "black",
+    zIndex: 2,
     ...Platform.select({
-      web: {
-        width: "12%",
-        marginLeft: "70%",
-        // marginTop: 15,
-      },
-    }),
+      web:{
+        width:"100%",
+      }
+    })
   },
   contentContainer: {
     ...Platform.select({
       web: {
-        height: "77%",
+        marginTop: 10,
+        height: "75%",
         backgroundColor: "white",
         marginLeft: "3%",
         borderRadius: 10,

@@ -5,6 +5,7 @@ import {
   View,
   StyleSheet,
   Image,
+  Platform,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import Header from "../components/Header";
@@ -20,9 +21,7 @@ const Settings = ({ navigation, route }) => {
 
       <View style={styles.imageContainer}>
         <ImageBackground
-          source={{
-            uri: "https://familypracticecenterpc.com/wp-content/uploads/2019/09/ask-the-doctors-about-heart-health.jpg",
-          }}
+          source={require("../assets/Images/main_background.jpg")}
           style={styles.imageBackground}
           resizeMode="cover"
         >
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
   },
   Right: {
     height: "100%",
-    width: "100%",
+    width: "85%",
     //borderWidth: 1,
   },
   imageBackground: {
@@ -94,16 +93,19 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   header: {
-    width:"12%",
-    marginLeft: "70%",
-    marginTop: 15,
-    // borderColor: "#FFFFFF",
-    // borderWidth: 1,
+    // borderWidth: 5,
+    // borderColor: "black",
+    zIndex: 2,
+    ...Platform.select({
+      web:{
+        width:"100%",
+      }
+    })
   },
   title: {
     // borderColor: "#FFFFFF",
     // borderWidth: 1,
-    marginRight: "18%",
+    marginVertical: "auto",
     alignSelf: "center",
   },
   imageBox: {
@@ -112,7 +114,7 @@ const styles = StyleSheet.create({
     // borderWidth: 10,
     // borderColor: "#000000",
     alignSelf: "center",
-    marginRight: "18%",
+    marginVertical: "auto",
   },
   comingSoon: {
     height: "100%",

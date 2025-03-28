@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ImageBackground, Text, View, StyleSheet, Pressable } from "react-native";
+import { ImageBackground, Text, View, StyleSheet, Pressable, Platform } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import Header from "../components/Header";
 import Title from "../components/Title";
@@ -11,9 +11,7 @@ const Help = ({ navigation, route }) => {
 
       <View style={styles.imageContainer}>
         <ImageBackground
-          source={{
-            uri: "https://familypracticecenterpc.com/wp-content/uploads/2019/09/ask-the-doctors-about-heart-health.jpg",
-          }}
+          source={require("../assets/Images/main_background.jpg")}
           style={styles.imageBackground}
           resizeMode="cover"
         >
@@ -115,7 +113,7 @@ const styles = StyleSheet.create({
   },
   Right: {
     height: "100%",
-    width: "100%",
+    width: "85%",
     //borderWidth: 1,
   },
   imageBackground: {
@@ -131,13 +129,17 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   header: {
-    width: "12%",
-    width: "12%",
-    marginLeft: "70%",
-    marginTop: 15,
+    // borderWidth: 5,
+    // borderColor: "black",
+    zIndex: 2,
+    ...Platform.select({
+      web:{
+        width:"100%",
+      }
+    })
   },
   title: {
-    marginRight: "18%",
+    marginVertical: "auto",
     alignSelf: "center",
   },
   Helpbox: {
@@ -156,7 +158,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#D9D9D9",
     alignSelf: "center",
-    marginRight: "18%",
+    marginVertical: "auto",
     alignItems: "flex-start",
   },
 

@@ -676,13 +676,18 @@ const styles = StyleSheet.create({
   },
   Right: {
     height: "100%",
-    // flex: 1,
-    width: "100%",
+    flex: 1,
+    // width: "85%",
   },
   header: {
-    width: "12%",
-    marginLeft: "70%",
-    marginTop: 12,
+    // borderWidth: 5,
+    // borderColor: "black",
+    zIndex: 2,
+    ...Platform.select({
+      web:{
+        width:"100%",
+      }
+    })
   },
   right_middle: {
     height: "40%",
@@ -695,12 +700,10 @@ const styles = StyleSheet.create({
   medilocker_Container: {
     flex: 1,
     //  height: "80%",
-    width: "90%",
+    width: "100%",
     borderWidth: 1,
     backgroundColor: "white",
     padding: 10,
-    marginHorizontal: "-2.5%",
-    // marginVertical: "-2.5%",
     transform: [{ scale: 0.9 }],
     flexDirection: "column",
     borderTopLeftRadius: 5,
@@ -785,12 +788,10 @@ const styles = StyleSheet.create({
   },
   file_Container: {
     // height: "95%",
-    width: "90%",
+    width: "100%",
     borderWidth: 0,
     backgroundColor: "white",
     padding: 10,
-    marginHorizontal: "-2.5%",
-    // marginVertical: "-2.5%",
     transform: [{ scale: 0.9 }],
     flexDirection: "column",
     borderTopLeftRadius: 5,
@@ -966,9 +967,7 @@ const styles = StyleSheet.create({
     height: "15%",
     ...Platform.select({
       web: {
-        width: "12%",
-        marginLeft: "70%",
-        // marginTop: 15,
+        width: "100%",
       },
     }),
   },

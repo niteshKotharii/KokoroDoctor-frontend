@@ -132,50 +132,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
 
                 <View style={styles.Right}>
                   <View style={styles.header}>
-                    {/* Welcome header section */}
-                    <View style={styles.welcomeSection}>
-                      <Text style={styles.welcomeText}>Welcome Alex!</Text>
-                      <Text style={styles.welcomeSubtext}>
-                        Here is your sales Medical dashboard
-                      </Text>
-                    </View>
-
-                    {/* Search bar */}
-                    <View style={styles.searchBarContainer}>
-                      <MaterialIcons
-                        name="search"
-                        size={20}
-                        color="#888"
-                        style={styles.searchIcon}
-                      />
-                      <TextInput
-                        style={styles.searchInput}
-                        placeholder="Search your query"
-                        placeholderTextColor="#888"
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                      />
-                    </View>
-
-                    {/* User profile and notification icons */}
-                    <View style={styles.userControls}>
-                      <TouchableOpacity style={styles.notificationIcon}>
-                        <MaterialIcons
-                          name="notifications"
-                          size={24}
-                          color="#555"
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={styles.profileButton}
-                        onPress={toggleDropdown}
-                      >
-                        <Image
-                          // source={require("../assets/Images/user-profile.png")} // Ensure this image exists
-                          style={styles.profileImage}
-                        />
-                      </TouchableOpacity>
-                    </View>
+                    <Header navigation={navigation} />
                   </View>
 
                   <View style={styles.contentContainer}>
@@ -684,65 +641,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   header: {
-    width: "90%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 16,
-    backgroundColor: "transparent",
-  },
-  welcomeSection: {
-    flexDirection: "column",
-    flex: 1,
-  },
-  welcomeText: {
-    fontSize: 26,
-    fontWeight: "bold",
-    color: "#fff",
-  },
-  welcomeSubtext: {
-    fontSize: 14,
-    color: "#f0f0f0",
-  },
-  searchBarContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    width: "40%",
-    marginHorizontal: 20,
-  },
-  searchIcon: {
-    marginRight: 8,
-  },
-  searchInput: {
-    flex: 1,
-    color: "#333",
-    fontSize: 14,
+    // borderWidth: 5,
+    // borderColor: "black",
+    zIndex: 2,
     ...Platform.select({
-      web: {
-        outlineStyle: "none",
-        borderWidth: 0,
-      },
-    }),
-  },
-  userControls: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  notificationIcon: {
-    marginRight: 16,
-  },
-  profileButton: {
-    width: 36,
-    height: 36,
-  },
-  profileImage: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 18,
+      web:{
+        width:"100%",
+        marginBottom: 20,
+      }
+    })
   },
   contentContainer: {
     flex: 1,

@@ -38,9 +38,7 @@ const LandingPage = ({ navigation, route }) => {
         <View style={styles.webContainer}>
           <View style={styles.imageContainer}>
             <ImageBackground
-              source={{
-                uri: "https://familypracticecenterpc.com/wp-content/uploads/2019/09/ask-the-doctors-about-heart-health.jpg",
-              }}
+              source={require("../assets/Images/main_background.jpg")}
               style={styles.imageBackground}
               resizeMode="cover"
             >
@@ -186,29 +184,28 @@ const styles = StyleSheet.create({
   },
   Right: {
     height: "100%",
-    width: "100%",
+    width: "85%",
   },
   header: {
     // borderWidth: 5,
     // borderColor: "black",
+    zIndex: 2,
     ...Platform.select({
       web:{
-        width:"12%",
-        marginLeft: "70%",
-        // marginTop: 15,
+        width:"100%",
       }
     })
   },
   title: {
     // borderColor: "#FFFFFF",
     // borderWidth: 1,
-    marginRight: "18%",
+    marginHorizontal: "auto",
     alignSelf: "center",
   },
   centerMiddlePart: {
     height: "25%",
     width: "47%",
-    marginHorizontal: "18%",
+    marginHorizontal: "auto",
     flexDirection: "row",
     justifyContent: "space-between",
   },
