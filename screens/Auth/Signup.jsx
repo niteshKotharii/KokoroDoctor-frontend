@@ -11,6 +11,7 @@ import {
   Modal,
   Platform,
   useWindowDimensions,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -106,7 +107,11 @@ const Signup = ({ navigation }) => {
 
             {/* Right side with form - 60% */}
             <View style={styles.rightContainer}>
-              <View style={styles.mainright}>
+              <ScrollView
+                contentContainerStyle={styles.mainright}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
+              >
                 <Text style={styles.welcomeText}>Welcome</Text>
 
                 <View style={styles.inputContainer}>
@@ -262,7 +267,7 @@ const Signup = ({ navigation }) => {
                     Sign Up with Google
                   </Text>
                 </TouchableOpacity>
-              </View>
+              </ScrollView>
             </View>
           </View>
 
@@ -304,7 +309,6 @@ const Signup = ({ navigation }) => {
           </Modal>
         </View>
       )}
-
       {/* Mobile Version (for smaller screens) */}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.mobileContainer}>
@@ -476,7 +480,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   leftContainer: {
-    width: "40%",
+    width: "40%", // Increased from 40% to 50%
     backgroundColor: "transparent",
     overflow: "hidden",
   },
@@ -488,11 +492,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   quoteText: {
-    fontSize: 28,
+    fontSize: 32, // Slightly increased
     fontWeight: "bold",
     color: "#FFFFFF",
     textAlign: "center",
-    lineHeight: 36,
+    lineHeight: 40,
     textShadowColor: "rgba(0, 0, 0, 0.5)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 3,
@@ -504,33 +508,33 @@ const styles = StyleSheet.create({
     backgroundColor: "#EEEEEE",
   },
   rightContainer: {
-    width: "60%",
+    width: "60%", // Adjusted to match left container
     backgroundColor: "#FFFFFF",
     justifyContent: "center",
     alignItems: "center",
   },
   mainright: {
-    width: "55%",
-    height: "98%",
+    width: "100%", // Increased from 55% to 70%
+    height: "100%",
   },
   welcomeText: {
-    fontSize: 28,
+    fontSize: 32, // Increased from 28
     fontWeight: "bold",
     color: "#333",
-    marginBottom: "2%",
+    marginBottom: "3%",
   },
   inputContainer: {
-    marginBottom: "2%",
+    marginBottom: "0.75%", // Slightly increased
     width: "100%",
   },
   inputLabel: {
     fontSize: 14,
     color: "#333",
-    marginBottom: "1%",
+    marginBottom: "1.5%",
     fontWeight: "500",
   },
   input: {
-    height: 38,
+    height: 42, // Increased from 38
     borderWidth: 1,
     borderColor: "#DDD",
     borderRadius: 4,
@@ -600,7 +604,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   checkboxContainer: {
-    marginRight: 10, // Add some space between checkbox and text
+    marginRight: 10,
   },
   checkbox: {
     width: 20,
@@ -689,8 +693,8 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: Platform.select({
-      web: "30%", // 30% width for web
-      default: "60%", // 60% width for mobile (Android & iOS)
+      web: "30%",
+      default: "60%",
     }),
     backgroundColor: "#FFFFFF",
     borderRadius: 8,
