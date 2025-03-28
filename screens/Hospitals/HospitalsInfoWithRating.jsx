@@ -122,12 +122,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
               source={require("../../assets/Images/MedicineBackground.png")}
               style={styles.imageBackground}
             >
-              <View
-                style={[
-                  styles.overlay,
-                  { backgroundColor: "rgba(16, 16, 16, 0.3)" },
-                ]}
-              />
+              <View style={[styles.overlay,]}/>
 
               <View style={styles.parent}>
                 {/* Keeping the existing sidebar navigation as requested */}
@@ -426,20 +421,14 @@ const HospitalsInfoWithRating = ({ navigation }) => {
               </View>
             </View>
             <View style={styles.app_box1}>
-            <Image
-                source={require("../../assets/Icons/ambulance.png")}
-                
-              />
+            <Image source={require("../../assets/Icons/ambulance.png")}/>
   
               <View style={styles.app_box1Body}>
                 <Text>Ambulance Service</Text>
               </View>
             </View>
             <View style={styles.app_box1}>
-            <Image
-                source={require("../../assets/Icons/time.png")}
-                
-              />
+            <Image source={require("../../assets/Icons/time.png")}/>
   
               <View style={styles.app_box1Body}>
                 <Text>Waiting Time</Text>
@@ -449,10 +438,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
           </View>
           <View style={styles.app_footerBoxRow2}>
             <View style={styles.app_box1}>
-            <Image
-                source={require("../../assets/Icons/papers.png")}
-                
-              />
+            <Image source={require("../../assets/Icons/papers.png")}/>
   
               <View style={styles.app_box1Body}>
                 <Text>Processing Speed</Text>
@@ -460,20 +446,14 @@ const HospitalsInfoWithRating = ({ navigation }) => {
               </View>
             </View>
             <View style={styles.app_box1}>
-            <Image
-                source={require("../../assets/Icons/insurance.png")}
-                
-              />
+            <Image source={require("../../assets/Icons/insurance.png")}/>
   
               <View style={styles.app_box1Body}>
                 <Text>Insurance</Text>
               </View>
             </View>
             <View style={styles.app_box1}>
-            <Image
-                source={require("../../assets/Icons/payment.png")}
-                
-              />
+            <Image source={require("../../assets/Icons/payment.png")}/>
   
               <View style={styles.app_box1Body}>
                 <Text style={styles.app_text1}>Payment Options</Text>
@@ -486,10 +466,10 @@ const HospitalsInfoWithRating = ({ navigation }) => {
               <View style={styles.app_availabilityButton}>
                 {/* <TouchableOpacity  onPress={() => navigation.navigate("HospitalAvailability")}> */}
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text style={{ color: "#333333", fontSize: 16 }}>
+                  <Text style={{ color: "#fff", fontSize: 16 }}>
                     View Availability
                   </Text>
-                  <Icon name="chevron-forward" size={20} color="#333333" />
+                  <Icon name="chevron-forward" size={20} color="#fff" />
                 </View>
                 {/* </TouchableOpacity> */}
               </View>
@@ -1208,7 +1188,6 @@ app_availabilityButton: {
   height: "80%",
   alignItems: "center",
   justifyContent: "center",
-
   marginLeft: "10%",
   borderRadius: 5,
   padding: "1%",
@@ -1219,7 +1198,7 @@ app_bookhospitalButtoncontainer: {
   height: "10%",
   justifyContent: "center",
   alignContent: "center",
-  //  backgroundColor:"red",
+  //backgroundColor:"red",
 },
 app_bookhospitalButton: {
   width: "70%",
@@ -1233,6 +1212,7 @@ app_bookhospitalButton: {
 app_bookHospitalText: {
   fontSize: 14,
   fontWeight: 600,
+  color: "#fff",
 },
 
 

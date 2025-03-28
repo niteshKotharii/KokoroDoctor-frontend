@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
-
 import {
   Alert,
   Image,
@@ -9,18 +8,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  TextInput,
-  Linking,
-  Keyboard,
-  Platform,
-  Modal,
-  useWindowDimensions,
-  ScrollView,
-  FlatList,
 } from "react-native";
 
 const HospitalAvailability = ({ navigation, route }) => {
-  const [selectedSlot, setSelectedSlot] = useState(null); 
+  const [selectedSlot, setSelectedSlot] = useState(null);
   const morningSlotArray = [
     "9:45",
     "10:00",
@@ -30,7 +21,6 @@ const HospitalAvailability = ({ navigation, route }) => {
     "11:15",
   ];
   const afternoonSlotArray = [
-    
     "12:00",
     "12:30",
     "12:45",
@@ -100,7 +90,6 @@ const HospitalAvailability = ({ navigation, route }) => {
         <Text style={styles.serviceheading}>Services & Availability</Text>
       </View>
       <View style={styles.footerBox}>
-        
         <View style={styles.footerSection1}>
           <View style={styles.slotstoday}>
             <Text style={{ fontSize: 13 }}>Today</Text>
@@ -119,83 +108,78 @@ const HospitalAvailability = ({ navigation, route }) => {
             </Text>
           </View>
         </View>
-        
 
-       <View style={styles.footerSection2
-
-       }>
-        <View style={styles.slotHeading}>
+        <View style={styles.footerSection2}>
+          <View style={styles.slotHeading}>
             <Text>Morning</Text>
           </View>
-         <View style={styles.slotbox}>
-  {morningSlotArray.map((slot, index) => {
-    const isSelected = selectedSlot === slot;
-    return (
-      <TouchableOpacity
-        key={index}
-        style={[
-          // styles.symptomCard,
-          styles.slot,
-          isSelected && styles.selectedBed, // Apply selected style
-        ]}
-        onPress={() => toggleSlotSelection(slot)}
-      >
-        <Text
-          style={[
-            styles.symptomText,
-            isSelected && styles.selectedCardText, // Change text color if selected
-          ]}
-        >
-          {slot}
-        </Text>
-      </TouchableOpacity>
-    );
-  })}
-</View>
-</View>
+          <View style={styles.slotbox}>
+            {morningSlotArray.map((slot, index) => {
+              const isSelected = selectedSlot === slot;
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    // styles.symptomCard,
+                    styles.slot,
+                    isSelected && styles.selectedBed, // Apply selected style
+                  ]}
+                  onPress={() => toggleSlotSelection(slot)}
+                >
+                  <Text
+                    style={[
+                      styles.symptomText,
+                      isSelected && styles.selectedCardText, // Change text color if selected
+                    ]}
+                  >
+                    {slot}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
 
-
-
-        
         <View style={styles.footerSection3}>
-  <View style={styles.slotHeading}>
-    <Text>Afternoon</Text>
-  </View>
-  <View style={styles.slotbox}>
-    {afternoonSlotArray.map((slot, index) => {
-      const isSelected = selectedSlot === slot;
-      return (
-        <TouchableOpacity
-          key={index}
-          style={[
-            styles.slot,
-            isSelected && styles.selectedBed, // Apply selected style
-          ]}
-          onPress={() => toggleSlotSelection(slot)}
-        >
-          <Text
-            style={[
-              styles.symptomText,
-              isSelected && styles.selectedCardText, // Change text color if selected
-            ]}
-          >
-            {slot}
-          </Text>
-        </TouchableOpacity>
-      );
-    })}
-  </View>
-</View>
+          <View style={styles.slotHeading}>
+            <Text>Afternoon</Text>
+          </View>
+          <View style={styles.slotbox}>
+            {afternoonSlotArray.map((slot, index) => {
+              const isSelected = selectedSlot === slot;
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.slot,
+                    isSelected && styles.selectedBed, // Apply selected style
+                  ]}
+                  onPress={() => toggleSlotSelection(slot)}
+                >
+                  <Text
+                    style={[
+                      styles.symptomText,
+                      isSelected && styles.selectedCardText, // Change text color if selected
+                    ]}
+                  >
+                    {slot}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
 
         <View style={styles.availabilityButtonConatiner}>
           <TouchableOpacity
-           onPress={() => navigation.navigate("AllAvilability")} >
+            onPress={() => navigation.navigate("AllAvilability")}
+          >
             <View style={styles.availabilityButton}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text style={{ color: "#333333", fontSize: 16 }}>
+                <Text style={{ color: "#fff", fontSize: 16 }}>
                   View All Availability
                 </Text>
-                <Icon name="chevron-forward" size={20} color="#333333" />
+                <Icon name="chevron-forward" size={20} color="#fff" />
               </View>
             </View>
           </TouchableOpacity>
@@ -203,7 +187,7 @@ const HospitalAvailability = ({ navigation, route }) => {
       </View>
       <View style={styles.bookhospitalButtoncontainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("HospitalBooking")}
+          onPress={() => navigation.navigate("HospitalPaymentApp")}
         >
           <View style={styles.bookhospitalButton}>
             <Text style={styles.bookHospitalText}>Book Hospital</Text>
@@ -388,7 +372,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.3,
   },
-  
+
   footerSection1: {
     height: "20%",
     width: "94%",
@@ -426,8 +410,8 @@ const styles = StyleSheet.create({
     padding: "1%",
     borderWidth: 1,
     borderColor: "#1680EC",
-    alignItems:"center",
-    justifyContent:"center",
+    alignItems: "center",
+    justifyContent: "center",
   },
   footerSection3: {
     height: "30%",
@@ -474,6 +458,7 @@ const styles = StyleSheet.create({
   bookHospitalText: {
     fontSize: 14,
     fontWeight: 600,
+    color: "#fff",
   },
   selectedCardText: {
     color: "#fff",

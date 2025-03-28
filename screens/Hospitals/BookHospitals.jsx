@@ -52,9 +52,6 @@ const BookHospitals = ({ navigation }) => {
     }
   };
 
-  // const handleContinueButtonApp = () => {
-  //   navigation.navigate(HospitalAvailability);
-  // };
   const handleContinueButton = () => {
     navigation.navigate("HospitalBookingNext");
   };
@@ -184,7 +181,7 @@ const BookHospitals = ({ navigation }) => {
 
                         <TouchableOpacity
                           style={styles.button}
-                          onPress={handleContinueButton}
+                          onPress={()=>{}}
                         >
                           <Text style={styles.buttonText}>Continue</Text>
                         </TouchableOpacity>
@@ -203,13 +200,8 @@ const BookHospitals = ({ navigation }) => {
           </ImageBackground>
         </View>
       )}
+
       {(Platform.OS !== "web" || width < 1000) && (
-        
-
-
-
-
-
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.appContainer}>
           <View style={styles.doctorTextBox}>

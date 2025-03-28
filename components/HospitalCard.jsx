@@ -1,109 +1,3 @@
-// import React from "react";
-// import {
-//   View,
-//   Image,
-//   TouchableOpacity,
-//   StyleSheet,
-//   Alert,
-//   Platform,
-//   TextInput,
-//   Keyboard,
-//   Text,
-//   FlatList,
-//   Animated,
-//   Dimensions,
-//   Pressable,
-// } from "react-native";
-
-// const HospitalCard = ({navigation}) => {
-
-//   const handleCardpress = () => {
-//     navigation.navigate("HospitalsInfoWithRating")
-//   }
-
-//   return (
-//     <Pressable style={styles.card} onPress={handleCardpress}>
-//       {/* Image Section */}
-//       <View style={styles.imageContainer}>
-//         <Image
-//           source={require("../assets/Images/HospitalImage.jpg")} // Importing local image
-//           style={styles.image}
-//           resizeMode="cover"
-//         />
-//       </View>
-
-//       {/* Details Section */}
-
-//       <View style={styles.detailsContainer}>
-//         <View style={styles.topRow}>
-//           <TouchableOpacity
-//             onPress={() => alert("Booking Confirmed!")}
-//             style={styles.HospitalStyle}
-//           >
-//             <Text style={styles.hospitalName}>Apollo</Text>
-//           </TouchableOpacity>
-//           <Text style={styles.rating}>⭐ 4.5</Text>
-//         </View>
-//         <Text style={styles.description}>Multispaciality Hospital</Text>
-//       </View>
-//     </Pressable>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   HospitalStyle: {
-//     cursor: "pointer",
-//   },
-//   card: {
-//     width: "80%",
-//     height: "90%",
-//     borderRadius: 15,
-//     overflow: "hidden",
-//     backgroundColor: "#fff",
-//     elevation: 3, // Shadow for Android
-//     shadowColor: "#000", // Shadow for iOS
-//     shadowOffset: { width: 0, height: 2 },
-//     shadowOpacity: 0.2,
-//     shadowRadius: 4,
-//   },
-//   imageContainer: {
-//     height: "60%",
-//     width: "100%",
-//   },
-//   image: {
-//     width: "100%",
-//     height: "100%",
-//   },
-//   detailsContainer: {
-//     height: "40%",
-//     paddingHorizontal: 10,
-//     paddingVertical: 8,
-//     backgroundColor: "#a13721",
-   
-//   },
-//   topRow: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//   },
-//   hospitalName: {
-//     fontSize: 16,
-//     color: "#fff",
-//     cursor:"pointer",
-//   },
-//   rating: {
-//     fontSize: 14,
-//     fontWeight: "bold",
-//     color: "#black",
-//   },
-//   description: {
-//     fontSize: 12,
-//     color: "#fff",
-//     marginTop: 4,
-//   },
-// });
-
-// export default HospitalCard;
 import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import {
@@ -120,206 +14,126 @@ import {
   Animated,
   Dimensions,
   Pressable,
+  useWindowDimensions,
 } from "react-native";
-const screenWidth = Dimensions.get("window").width;
+const width = Dimensions.get("window").width;
 
-  
-  
-
-const HospitalCard = ({navigation}) => {
+const HospitalCard = ({ navigation }) => {
+  const { width } = useWindowDimensions();
   const handleCardpress = () => {
-         navigation.navigate("HospitalsInfoWithRating")
-  }
+    navigation.navigate("HospitalsInfoWithRating");
+  };
 
   return (
     <>
-
-    {(Platform==="web"||screenWidth>1000)&&(
-       
-    // <View style={styles.card}>
-    //   {/* Image Section */}
-    //   <View style={styles.imageContainer}>
-    //     <Image
-    //       source={require("../assets/Images/hospitalImage.jpeg")} // Importing local image
-    //       style={styles.image}
-    //       resizeMode="cover"
-    //     />
-    //   </View>
-
-    //   {/* Details Section */}
-
-    //   <View style={styles.detailsContainer}>
-    //     <View style={styles.topRow}>
-    //       <TouchableOpacity
-    //         onPress={() => alert("Booking Confirmed!")}
-    //         style={styles.HospitalStyle}
-    //       >
-    //         <Text style={styles.hospitalName}>Apollo</Text>
-    //       </TouchableOpacity>
-    //       <Text style={styles.rating}>⭐ 4.5</Text>
-    //     </View>
-    //     <Text style={styles.description}>Multispaciality Hospital</Text>
-    //   </View>
-    // </View>
-    <Pressable style={styles.card} onPress={handleCardpress}>
-      {/* Image Section */}
-      <View style={styles.imageContainer}>
-       <Image
-          source={require("../assets/Images/HospitalImage.jpg")} // Importing local image
-          style={styles.image}
-          resizeMode="cover"
-        />
-      </View>
-
-      {/* Details Section */}
-
-      <View style={styles.detailsContainer}>
-        <View style={styles.topRow}>
-          <TouchableOpacity
-            onPress={() => alert("Booking Confirmed!")}
-            style={styles.HospitalStyle}
-          >
-            <Text style={styles.hospitalName}>Apollo</Text>
-          </TouchableOpacity>
-          <Text style={styles.rating}>⭐ 4.5</Text>
-        </View>
-        <Text style={styles.description}>Multispaciality Hospital</Text>
-      </View>
-    </Pressable>
-
-    )}
-
-
- {
- (Platform!=="web"&&screenWidth<1000)&&(
-<View style={styles.app_parent}>
-        <View style={styles.app_top}>
-          <View style={styles.app_imageContainer}>
+      {(Platform.OS === "web" && width > 1000) && (
+        <Pressable style={styles.card} onPress={handleCardpress}>
+          {/* Image Section */}
+          <View style={styles.imageContainer}>
             <Image
-              source={require("../assets/Images/hospitalImage.jpeg")}
-              style={styles.app_image}
+              source={require("../assets/Images/HospitalImage.jpg")} // Importing local image
+              style={styles.image}
               resizeMode="cover"
             />
           </View>
-          <View style={styles.app_topRight}>
-            <View style={styles.app_conatiner1}>
-              <View style={styles.app_container1Left}>
-                <Text style={styles.app_hospitalname}>Apollo Hospital</Text>
-                <Text style={styles.app_hospitaltype}>Multispecialty</Text>
-              </View>
-              <View style={styles.app_container1Right}>
-                <View style={styles.app_rating}>
-                  <Text>⭐ 4.5</Text>
+
+          {/* Details Section */}
+
+          <View style={styles.detailsContainer}>
+            <View style={styles.topRow}>
+              <TouchableOpacity
+                onPress={() => alert("Booking Confirmed!")}
+                style={styles.HospitalStyle}
+              >
+                <Text style={styles.hospitalName}>Apollo</Text>
+              </TouchableOpacity>
+              <Text style={styles.rating}>⭐ 4.5</Text>
+            </View>
+            <Text style={styles.description}>Multispaciality Hospital</Text>
+          </View>
+        </Pressable>
+      )}
+
+      {(Platform.OS !== "web" || width < 1000) && (
+        <View style={styles.app_parent}>
+          <View style={styles.app_top}>
+            <View style={styles.app_imageContainer}>
+              <Image
+                source={require("../assets/Images/hospitalImage.jpeg")}
+                style={styles.app_image}
+                resizeMode="cover"
+              />
+            </View>
+            <View style={styles.app_topRight}>
+              <View style={styles.app_conatiner1}>
+                <View style={styles.app_container1Left}>
+                  <Text style={styles.app_hospitalname}>Apollo Hospital</Text>
+                  <Text style={styles.app_hospitaltype}>Multispecialty</Text>
                 </View>
-            <TouchableOpacity>
-                <Text style={{fontSize:9, color:"#2C00D9" ,textDecorationLine:"underline"}}>know more</Text>
-                </TouchableOpacity> 
+                <View style={styles.app_container1Right}>
+                  <View style={styles.app_rating}>
+                    <Text>⭐ 4.5</Text>
+                  </View>
+                  <TouchableOpacity>
+                    <Text
+                      style={{
+                        fontSize: 9,
+                        color: "#2C00D9",
+                        textDecorationLine: "underline",
+                      }}
+                    >
+                      know more
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-            <View style={styles.app_conatiner2}>
-              <View style={styles.app_container2Left}>
-                <Text style={styles.app_distanceheading}>Distance</Text>
-                <Text style={styles.app_distanceAway}>2.3 km away</Text>
+              <View style={styles.app_conatiner2}>
+                <View style={styles.app_container2Left}>
+                  <Text style={styles.app_distanceheading}>Distance</Text>
+                  <Text style={styles.app_distanceAway}>2.3 km away</Text>
+                </View>
+                <View style={styles.app_container2Right}>
+                  <Text style={styles.app_ArrivalHeadeing}>Arrival time</Text>
+                  <Text style={styles.app_Arrivingin}>Reaches in 10 min</Text>
+                </View>
               </View>
-              <View style={styles.app_container2Right}>
-                <Text style={styles.app_ArrivalHeadeing}>Arrival time</Text>
-                <Text style={styles.app_Arrivingin}>Reaches in 10 min</Text>
-              </View>
-            </View>
-            <View style={styles.app_conatiner3}>
-              <View style={styles.app_container3Left}>
-                <Text style={styles.app_bedAvialable}>
-                  Emergency Beds Available
-                </Text>
-              </View>
-              <View style={styles.app_container3Right}>
-                <TouchableOpacity>
-                  <Icon
-                    style={styles.app_icondesign}
-                    name="call-outline"
-                    size={20}
-                    color="#FF7072"
-                  />
-                </TouchableOpacity>
-                <Text style={styles.app_callHospital}>Call Hospital</Text>
+              <View style={styles.app_conatiner3}>
+                <View style={styles.app_container3Left}>
+                  <Text style={styles.app_bedAvialable}>
+                    Emergency Beds Available
+                  </Text>
+                </View>
+                <View style={styles.app_container3Right}>
+                  <TouchableOpacity>
+                    <Icon
+                      style={styles.app_icondesign}
+                      name="call-outline"
+                      size={20}
+                      color="#FF7072"
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.app_callHospital}>Call Hospital</Text>
+                </View>
               </View>
             </View>
           </View>
+          <View style={styles.app_bottom}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("HospitalsInfoWithRating")}
+            >
+              <View style={styles.app_buttonContainer}>
+                <Text style={styles.app_text}>Book Hospital</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.app_bottom}>
-          <TouchableOpacity onPress={() => navigation.navigate("HospitalsInfoWithRating")}
-          >
-            <View style={styles.app_buttonContainer}>
-              <Text style={styles.app_text}>Book Hospital</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-)}
-
+      )}
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  //web design start.........
-  // HospitalStyle: {
-  //   cursor: "pointer",
-  // },
-  // card: {
-  //   width: "80%",
-  //   height: "90%",
-  //   borderRadius: 15,
-  //   overflow: "hidden",
-  //   backgroundColor: "#fff",
-  //   elevation: 3, // Shadow for Android
-  //   shadowColor: "#000", // Shadow for iOS
-  //   shadowOffset: { width: 0, height: 2 },
-  //   shadowOpacity: 0.2,
-  //   shadowRadius: 4,
-  // },
-  // imageContainer: {
-  //   height: "60%",
-  //   width: "100%",
-  // },
-  // image: {
-  //   width: "100%",
-  //   height: "100%",
-  // },
-  // detailsContainer: {
-  //   height: "40%",
-  //   paddingHorizontal: 10,
-  //   paddingVertical: 8,
-  //   // backgroundColor: "#a13721",
-  //   backgroundColor:"#FF7072"
-   
-  // },
-  // topRow: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   alignItems: "center",
-  // },
-  // hospitalName: {
-  //   fontSize: "90%",
-  //   color: "#fff",
-  //   cursor:"pointer",
-    
-
-  // },
-  // rating: {
-  //   fontSize: "80%",
-  //   fontWeight: "bold",
-  //   color: "#black",
-  // },
-  // description: {
-  //   fontSize: "60%",
-  //   color: "#fff",
-  //   marginTop: 4,
-  // },
-
-
-//................
-    HospitalStyle: {
+  HospitalStyle: {
     cursor: "pointer",
   },
   card: {
@@ -347,7 +161,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
     backgroundColor: "#a13721",
-   
   },
   topRow: {
     flexDirection: "row",
@@ -357,12 +170,12 @@ const styles = StyleSheet.create({
   hospitalName: {
     fontSize: 16,
     color: "#fff",
-    cursor:"pointer",
+    cursor: "pointer",
   },
   rating: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#black",
+    color: "black",
   },
   description: {
     fontSize: 12,
@@ -370,16 +183,12 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 
-
   //App design start...............
   app_parent: {
-    height: 200,
+    height: 210,
     width: "100%",
-    // backgroundColor: "pink",
-    borderWidth: 2,
-    borderColor: "#000000",
-    borderRadius: "3%",
     padding: "2%",
+    elevation: 1,
   },
   app_top: {
     height: "85%",
@@ -393,13 +202,13 @@ const styles = StyleSheet.create({
   app_image: {
     height: "100%",
     width: "100%",
-    borderRadius: "5%",
+    borderRadius: 8,
   },
   app_topRight: {
     height: "90%",
     width: "55%",
     // backgroundColor: "blue",
-    gap: "3.5%",
+    gap: 5,
     alignItems: "center",
   },
   app_conatiner1: {
@@ -414,7 +223,6 @@ const styles = StyleSheet.create({
     width: "60%",
     justifyContent: "space-between",
   },
-
   app_hospitalname: {
     fontStyle: "Poppins",
     fontWeight: "bold",
@@ -440,7 +248,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    backgroundColor:"#FFF"
+    backgroundColor: "#FFF",
   },
   app_conatiner2: {
     height: "30%",
@@ -533,7 +341,7 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: "2%",
+    borderRadius: 4,
   },
   app_text: {
     fontStyle: "Poppins",
@@ -544,4 +352,3 @@ const styles = StyleSheet.create({
 });
 
 export default HospitalCard;
-

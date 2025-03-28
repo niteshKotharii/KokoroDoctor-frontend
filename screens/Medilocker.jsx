@@ -23,26 +23,24 @@ import Header from "../components/Header";
 import * as FileSystem from "expo-file-system";
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
-const ScreenWidth = Dimensions.get("window").width;
-const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod/medilocker";
-const {width, height} = Dimensions.get("window");
+const API_URL =
+  "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod/medilocker";
+const { width, height } = Dimensions.get("window");
 
 const Medilocker = ({ navigation }) => {
   const [files, setFiles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { width } = useWindowDimensions();
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [isGridView, setIsGridView] = useState(true);
 
   const [menuVisible, setMenuVisible] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
-const [uploadStatus, setUploadStatus] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState(null);
   useEffect(() => {
     if (!user) return;
 
-
-  
     const loadFilesFromServer = async () => {
       try {
         const response = await fetch(`${API_URL}/fetch`, {
@@ -54,11 +52,11 @@ const [uploadStatus, setUploadStatus] = useState(null);
             email: user.email,
           }),
         });
-  
+
         if (!response.ok) {
           throw new Error("Failed to load files from server");
         }
-  
+
         const data = await response.json();
         if (data?.files) {
           const mappedFiles = data.files.map((file) => ({
@@ -68,22 +66,22 @@ const [uploadStatus, setUploadStatus] = useState(null);
             date: file.metadata.upload_date,
             time: file.metadata.upload_time,
           }));
-  
+
           setFiles(mappedFiles);
         }
       } catch (error) {
         Alert.alert("Error", error.message);
       }
     };
-  
+
     loadFilesFromServer();
   }, []);
 
   const convertFileToBase64 = async (asset) => {
-    if (Platform.OS === 'web') {
-      try {     
+    if (Platform.OS === "web") {
+      try {
         const dataUrl = asset.uri;
-        const base64String = dataUrl.split(',')[1];
+        const base64String = dataUrl.split(",")[1];
         return base64String;
       } catch (error) {
         console.error("Error converting file to Base64 on web:", error);
@@ -101,18 +99,19 @@ const [uploadStatus, setUploadStatus] = useState(null);
       }
     }
   };
+
   const uploadFile = async () => {
     setUploadProgress(0);
     setUploadStatus("uploading");
-  
+
     try {
       for (let i = 1; i <= 100; i++) {
-        await new Promise((resolve) => setTimeout(resolve, 50));
+        await new Promise((resolve) => setTimeout(resolve, 5));
         setUploadProgress(i);
       }
-  
+
       setUploadStatus("success");
-  
+
       // Hide the success message after 2 seconds
       setTimeout(() => {
         setUploadStatus(null);
@@ -122,6 +121,7 @@ const [uploadStatus, setUploadStatus] = useState(null);
       setUploadStatus("error");
     }
   };
+
   const pickDocument = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({ type: "*/*" });
@@ -136,7 +136,9 @@ const [uploadStatus, setUploadStatus] = useState(null);
       const fileName = asset.name || "Unknown File";
       let fileType = asset.mimeType || "Unknown Type";
       const fileSizeBytes = asset.size ?? null;
-      let fileSize = fileSizeBytes ? `${(fileSizeBytes / 1024).toFixed(2)} KB` : "Unknown Size";
+      let fileSize = fileSizeBytes
+        ? `${(fileSizeBytes / 1024).toFixed(2)} KB`
+        : "Unknown Size";
 
       if (fileType !== "Unknown Type") {
         const parts = fileType.split("/");
@@ -152,14 +154,17 @@ const [uploadStatus, setUploadStatus] = useState(null);
       }
 
       const newFile = {
-        id: Date.now().toString(),//changes
         name: fileName,
         size: fileSize,
         type: fileType,
         date: new Date().toLocaleDateString(),
         time: new Date().toLocaleTimeString(),
       };
-      await uploadFile();
+
+      if (Platform.OS !== "web" || width < 1000) {
+        await uploadFile();
+      }
+
       const payload = {
         email: user?.email,
         files: [
@@ -175,7 +180,7 @@ const [uploadStatus, setUploadStatus] = useState(null);
           },
         ],
       };
-  
+
       const response = await fetch(`${API_URL}/upload`, {
         method: "POST",
         headers: {
@@ -183,14 +188,14 @@ const [uploadStatus, setUploadStatus] = useState(null);
         },
         body: JSON.stringify(payload),
       });
-      
+
       if (!response.ok) {
         throw new Error("File upload failed");
       }
-      
+
       const data = await response.json();
       // console.log("Upload successful", data);
-      
+
       setFiles((prevFiles) => [...prevFiles, newFile]);
     } catch (err) {
       alert(`Error: ${err.error}`);
@@ -213,14 +218,14 @@ const [uploadStatus, setUploadStatus] = useState(null);
           filename: fileName,
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error("Download request failed");
       }
-  
+
       const data = await response.json();
       const downloadUrl = data.download_url;
-  
+
       if (Platform.OS === "web") {
         window.open(downloadUrl, "_blank");
       } else {
@@ -230,7 +235,7 @@ const [uploadStatus, setUploadStatus] = useState(null);
       Alert.alert("Download Error", error.message);
     }
   };
-  
+
   const removeFile = async (fileName) => {
     try {
       const response = await fetch(`${API_URL}/delete`, {
@@ -258,9 +263,8 @@ const [uploadStatus, setUploadStatus] = useState(null);
     }
   };
 
-  const editFile = async () => {
-    
-  }
+  const editFile = async () => {};
+
   const shareFile = async () => {
     if (!selectedFile) return;
     try {
@@ -273,10 +277,12 @@ const [uploadStatus, setUploadStatus] = useState(null);
     }
     setMenuVisible(false);
   };
+
   const openMenu = (file) => {
     setSelectedFile(file);
     setMenuVisible(true);
   };
+
   const filteredFiles = files.filter((file) =>
     file.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -286,15 +292,14 @@ const [uploadStatus, setUploadStatus] = useState(null);
 
   const handlePasswordChange = (text) => {
     setPassword(text);
-    // if (text === user?.password) 
-    if (text === "1234"){
+    if (text === user?.password) {
       setTimeout(() => setvisible(false), 500); // Close modal after 0.5s if password is correct
     }
   };
 
   return (
     <>
-      {(Platform.OS === "web" || width > 1000) && (
+      {(Platform.OS === "web" && width > 1000) && (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <ImageBackground
@@ -446,7 +451,7 @@ const [uploadStatus, setUploadStatus] = useState(null);
                     </View>
                   </View>
 
-                  {(!user && visible) && (
+                  {!user && visible && (
                     <View style={styles.overlay}>
                       <View style={styles.overlayContent}>
                         <MaterialIcons
@@ -535,143 +540,125 @@ const [uploadStatus, setUploadStatus] = useState(null);
             </TouchableOpacity>
           </View>
 
-
-          {/* <FlatList
-            data={filteredFiles}
-            keyExtractor={(item, index) => index.toString()}
-            numColumns={3}
-            renderItem={({ item }) => (
-              <View style={styles.fileItem}>
-                <TouchableOpacity
-                  onPress={() => {}}
+          <View style={styles.appfileContain}>
+            <FlatList
+              data={filteredFiles}
+              key={isGridView ? "grid" : "list"}
+              keyExtractor={(item, index) => index.toString()}
+              numColumns={isGridView ? 3 : 1}
+              renderItem={({ item }) => (
+                <View
+                  style={[
+                    styles.appfileItem,
+                    !isGridView && styles.approwItem,
+                  ]}
                 >
-                  <Image
-                    source={require("../assets/Icons/FileIcon.png")}
-                    style={styles.fileIcon}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.fileName}>{item.name}</Text>
-                <Text style={styles.fileDate}>You Created - {item.date}</Text>
-                <TouchableOpacity onPress={() => removeFile(item.name)}>
-                  <MaterialIcons name="delete" size={24} color="red" />
-                </TouchableOpacity>
-              </View>
-            )}
-          /> */}
-          <ScrollView style={{ flex: 1 }}>
-            <View style={styles.appfileContain}>
-              <FlatList
-                data={filteredFiles}
-                key={isGridView ? "grid" : "list"}
-                keyExtractor={(item, index) => index.toString()}
-                numColumns={isGridView ? 3 : 1}
-                renderItem={({ item }) => (
-                  <View
-                    style={[
-                      styles.appfileItem,
-                      !isGridView && styles.approwItem,
-                    ]}
+                  <TouchableOpacity
+                    onPress={() => console.log("File Opened:", item)}
                   >
-                    <TouchableOpacity
-                      onPress={() => console.log("File Opened:", item)}
-                    >
-                      <Image
-                        source={require("../assets/Icons/FileIcon.png")}
-                        style={styles.appfileIcon}
-                      />
-                    </TouchableOpacity>
-            
+                    <Image
+                      source={require("../assets/Icons/FileIcon.png")}
+                      style={styles.appfileIcon}
+                    />
+                  </TouchableOpacity>
 
-                    <TouchableOpacity
-                      style={styles.appmenuButton}
-                      onPress={() => openMenu(item)}
-                    >
+                  <TouchableOpacity
+                    style={styles.appmenuButton}
+                    onPress={() => openMenu(item)}
+                  >
+                    <MaterialIcons
+                      name="more-horiz"
+                      size={24}
+                      color="black"
+                    />
+                  </TouchableOpacity>
+
+                  <Text style={styles.appfileName}>{item.name}</Text>
+                  <Text style={styles.appfileDetails}>
+                    You Created - {item.date}
+                  </Text>
+                </View>
+              )}
+              contentContainerStyle={{ paddingBottom: 20 }} // Allows scrolling
+            />
+
+            <Modal visible={menuVisible} transparent animationType="fade">
+              <TouchableOpacity
+                style={styles.appoverlay}
+                onPress={() => setMenuVisible(false)}
+              >
+                <View style={styles.appmenu}>
+                  <TouchableOpacity
+                    onPress={() => alert("Copy feature coming soon!")}
+                  >
+                    <View style={styles.appmenuItem}>
                       <MaterialIcons
-                        name="more-horiz"
-                        size={24}
-                        color="black"
+                        name="content-copy"
+                        size={20}
+                        color="red"
                       />
-                    </TouchableOpacity>
+                      <Text style={styles.appmenuText}>Copy</Text>
+                    </View>
+                  </TouchableOpacity>
 
-                    <Text style={styles.appfileName}>{item.name}</Text>
-                    <Text style={styles.appfileDetails}>
-                      You Created - {item.date}
-                    </Text>
-                  </View>
-                )}
-                contentContainerStyle={{ paddingBottom: 20 }} // Allows scrolling
-              />
+                  <TouchableOpacity onPress={editFile}>
+                    <View style={styles.appmenuItem}>
+                      <MaterialIcons name="edit" size={20} color="red" />
+                      <Text style={styles.appmenuText}>Edit</Text>
+                    </View>
+                  </TouchableOpacity>
 
-              <Modal visible={menuVisible} transparent animationType="fade">
-                <TouchableOpacity
-                  style={styles.appoverlay}
-                  onPress={() => setMenuVisible(false)}
-                >
-                  <View style={styles.appmenu}>
-                    <TouchableOpacity
-                      onPress={() => alert("Copy feature coming soon!")}
-                    >
-                      <View style={styles.appmenuItem}>
-                        <MaterialIcons
-                          name="content-copy"
-                          size={20}
-                          color="red"
-                        />
-                        <Text style={styles.appmenuText}>Copy</Text>
-                      </View>
-                    </TouchableOpacity>
+                  <TouchableOpacity onPress={() => downloadFile(selectedFile.name)}>
+                    <View style={styles.appmenuItem}>
+                      <MaterialIcons
+                        name="file-download"
+                        size={20}
+                        color="red"
+                      />
+                      <Text style={styles.appmenuText}>Download</Text>
+                    </View>
+                  </TouchableOpacity>
 
-                    <TouchableOpacity onPress={editFile}>
-                      <View style={styles.appmenuItem}>
-                        <MaterialIcons name="edit" size={20} color="red" />
-                        <Text style={styles.appmenuText}>Edit</Text>
-                      </View>
-                    </TouchableOpacity>
+                  {/* <TouchableOpacity onPress={removeFile}> */}
+                  <TouchableOpacity
+                    onPress={() => removeFile(selectedFile.name)}
+                  >
+                    <View style={styles.appmenuItem}>
+                      <MaterialIcons name="delete" size={20} color="red" />
+                      <Text style={styles.appmenuText}>Delete</Text>
+                    </View>
+                  </TouchableOpacity>
 
-                    <TouchableOpacity onPress={downloadFile}>
-                      <View style={styles.appmenuItem}>
-                        <MaterialIcons
-                          name="file-download"
-                          size={20}
-                          color="red"
-                        />
-                        <Text style={styles.appmenuText}>Download</Text>
-                      </View>
-                    </TouchableOpacity>
-
-                    {/* <TouchableOpacity onPress={removeFile}> */}
-                    <TouchableOpacity onPress={() => removeFile(selectedFile.name)}>
-
-                      <View style={styles.appmenuItem}>
-                        <MaterialIcons name="delete" size={20} color="red" />
-                        <Text style={styles.appmenuText}>Delete</Text>
-                      </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={shareFile}>
-                      <View style={styles.appmenuItem}>
-                        <MaterialIcons name="share" size={20} color="red" />
-                        <Text style={styles.appmenuText}>Share</Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                </TouchableOpacity>
-              </Modal>
-            </View>
-          </ScrollView>
+                  <TouchableOpacity onPress={shareFile}>
+                    <View style={styles.appmenuItem}>
+                      <MaterialIcons name="share" size={20} color="red" />
+                      <Text style={styles.appmenuText}>Share</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </TouchableOpacity>
+            </Modal>
+          </View>
 
           <View style={styles.appAddDocument}>
-            <TouchableOpacity style={styles.appFeb} onPress={pickDocument}>
-              {/* <Text style={styles.addDocumentText}>+ </Text> */}
+            <TouchableOpacity style={styles.appFeb} onPress={pickDocument} disabled={uploadStatus==="uploading"}>
               <AntDesign name="plus" size={24} color="red" />
             </TouchableOpacity>
           </View>
 
-          {uploadStatus === "uploading" && (<Text style={ styles.appsuccessMessage}>Uploading...</Text>)}
-{uploadStatus === "success" && (<Text style={styles.appsuccessMessage}>Upload Successful!</Text>)}
-{uploadStatus === "error" && (<Text style={styles.appsuccessMessage}>Upload Failed</Text>)}
+          {uploadStatus === "uploading" && (
+            <Text style={styles.appsuccessMessage}>
+              Processing Upload {uploadProgress}%
+            </Text>
+          )}
+          {uploadStatus === "success" && (
+            <Text style={styles.appsuccessMessage}>Upload Successful!</Text>
+          )}
+          {uploadStatus === "error" && (
+            <Text style={styles.appsuccessMessage}>Upload Failed</Text>
+          )}
 
-          {(!user && visible) && (
+          {!user && visible && (
             <View style={styles.overlay}>
               <View style={styles.overlayContent}>
                 <MaterialIcons
@@ -680,16 +667,12 @@ const [uploadStatus, setUploadStatus] = useState(null);
                   color="red"
                   style={styles.icon}
                 />
-                <Text style={styles.lockedText}>
-                  Medilocker is Locked
-                </Text>
+                <Text style={styles.lockedText}>Medilocker is Locked</Text>
                 <Text style={styles.securityText}>
-                  For your security, you can only use Medilocker when
-                  you are logged in.
+                  For your security, you can only use Medilocker when you are
+                  logged in.
                 </Text>
-                <Text style={styles.enterPasswordText}>
-                  Enter Password
-                </Text>
+                <Text style={styles.enterPasswordText}>Enter Password</Text>
                 <TextInput
                   style={styles.input}
                   placeholder="Enter your password"
@@ -927,6 +910,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "#f7ecf0",
     padding: 1,
     borderRadius: 5,
+    flex:1,
   },
   tableHeader: {
     flexDirection: "row",
@@ -985,10 +969,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     ...Platform.select({
-      web:{
-        marginRight: width>1000 ? "15%" : "0%",
-      }
-    })
+      web: {
+        marginRight: width > 1000 ? "15%" : "0%",
+      },
+    }),
   },
   overlayContent: {
     width: "75%", // Adjust as needed, e.g., 50% of Right view
@@ -998,10 +982,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     ...Platform.select({
-      web:{
-        width: width>1000 ? "25%" : "75%",
-      }
-    })
+      web: {
+        width: width > 1000 ? "25%" : "75%",
+      },
+    }),
   },
   icon: {
     marginBottom: "2%",
@@ -1034,8 +1018,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-
-
   appContainer: {
     width: "100%",
     height: "100%",
@@ -1044,12 +1026,12 @@ const styles = StyleSheet.create({
   appHeader: {
     height: "15%",
     ...Platform.select({
-      web:{
-        width:"12%",
+      web: {
+        width: "12%",
         marginLeft: "70%",
         // marginTop: 15,
-      }
-    })
+      },
+    }),
   },
   appMedilockerContainer: {
     flexDirection: "row",
@@ -1091,13 +1073,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
-    elevation: 9, 
-    width: "100%", 
+    elevation: 9,
+    width: "100%",
     ...Platform.select({
       web: {
         height: 30,
-      }
-    })
+      },
+    }),
   },
   appIcon: {
     marginRight: 8,
@@ -1133,6 +1115,7 @@ const styles = StyleSheet.create({
   },
   appfileContain: {
     width: "100%",
+    flex: 1,
   },
   appfileItem: {
     flex: 1,
@@ -1233,12 +1216,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   appsuccessMessage: {
-    position:"absolute",
+    position: "absolute",
     marginTop: 10,
-    right:100,
-    bottom:100,
-    
-    color: "green",
+    right: 100,
+    bottom: 100,
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",

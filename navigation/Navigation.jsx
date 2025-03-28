@@ -13,21 +13,23 @@ import PasswordSuccess from "../screens/Auth/PasswordSuccess";
 import Signup from "../screens/Auth/Signup";
 import Home from "../screens/Home";
 import LandingPage from "../screens/LandingPage";
+//Doctors
 import ConsultWithDoctors from "../screens/Doctors/ConsultWithDoctors";
 import DoctorNearYou from "../screens/Doctors/DoctorNearYou";
 import DoctorResultShow from "../screens/Doctors/DoctorResultShow";
 import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating";
 import AppDoctorsRating from "../screens/Doctors/AppDoctorsRating";
 import DoctorsPaymentScreen from "../screens/Doctors/DoctorsPaymentScreen";
-
+//Hospitals
 import AllHospitals from "../screens/Hospitals/AllHospitals";
 import EmergencyLocation from "../screens/Hospitals/App/EmergencyLocation";
-
 import HospitalsInfoWithRating from "../screens/Hospitals/HospitalsInfoWithRating";
 import HospitalBookingNext from "../screens/Hospitals/App/HospitalBookingNext";
 import BookHospitals from "../screens/Hospitals/BookHospitals";
 import HospitalCard from "../components/HospitalCard";
 import HospitalAvailability from"../screens/Hospitals/App/HospitalAvailability";
+import HospitalPaymentApp from"../screens/Hospitals/App/HospitalPaymentApp";
+
 import AboutUs from "../screens/AboutUs";
 import ContactUs from "../screens/ContactUs";
 import Pricing from "../screens/Pricing";
@@ -106,7 +108,8 @@ const HospitalNavigator = ({navigationRef}) => {
       <Stack.Screen name="HospitalsInfoWithRating" component={HospitalsInfoWithRating} options={{ headerShown: false }} /> 
       <Stack.Screen name="HospitalCard" component={HospitalCard} options={{ headerShown: false }} /> 
       <Stack.Screen name="HospitalAvailability" component={HospitalAvailability} options={{ headerShown: false }} /> 
-      <Stack.Screen name="HospitalBookingNext" component={HospitalBookingNext} options={{ headerShown: false }} /> 
+      <Stack.Screen name="HospitalBookingNext" component={HospitalBookingNext} options={{ headerShown: false }} />
+      <Stack.Screen name="HospitalPaymentApp" component={HospitalPaymentApp} options={{ headerShown: false }} />  
     </Stack.Navigator>
   );
 }

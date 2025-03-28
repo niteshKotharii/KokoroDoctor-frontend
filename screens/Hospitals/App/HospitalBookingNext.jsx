@@ -18,7 +18,7 @@ import {
 import SideBarNavigation from "../../../components/SideBarNavigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import HospitalAvailability from "./HospitalAvailability";
-// import MyLinearGradient1 from "../../components/MyLinearGradient1";
+import MyLinearGradient1 from "../../../components/MyLinearGradient1";
 // import DoctorResultShow from "./DoctorResultShow";
 
 const HospitalBookingNext = ({ navigation }) => {

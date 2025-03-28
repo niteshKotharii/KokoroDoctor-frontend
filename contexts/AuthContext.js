@@ -63,10 +63,8 @@ export const AuthProvider = ({ children }) => {
     const googleLoginHandler = async (response) => {
         try {
             const googleUser = await handleGoogleLogin(response);
-            if (googleUser) {
-                setUser(googleUser);
-                alert("Google Login Successful!");
-            }
+            setUser(googleUser);
+            alert("Google Login Successful!");          
         } catch (error) {
             alert("Google Login Failed: Something went wrong!");
         }

@@ -1,8 +1,6 @@
-
 import React, { useCallback, useState } from "react";
 // import Icon from "react-native-vector-icons/Ionicons";
 import * as Location from "expo-location";
-
 import {
   Alert,
   Image,
@@ -21,7 +19,6 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
@@ -31,7 +28,7 @@ import SearchBar from "../../components/SearchBar";
 // import AppHospitalCard from "../../components/AppHospitalCard";
 import HospitalCard from "../../components/HospitalCard";
 import HeaderComponenet from "../../components/HeaderComponent"
-const screenWidth = Dimensions.get("window").width;
+const width = Dimensions.get("window").width;
 const hospitalsdata = [
   { id: "1" },
   { id: "2" },
@@ -51,28 +48,13 @@ const AllHospitals = ({ navigation, route }) => {
   // const [dropdownVisible, setDropdownVisible] = useState(false);
   const { setChatbotConfig } = useChatbot();
   const phoneNumber = "+918069991061";
+  const {width} = useWindowDimensions();
 
   useFocusEffect(
     useCallback(() => {
       setChatbotConfig({ height: "32%" });
     }, [])
   );
-
-  
-
-  const [selectedMethod, setSelectedMethod] = useState("Card");
-  const [country, setCountry] = useState("United States");
-  const [Message, setMessage] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
-
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
-
-  const handleBlur = () => {
-    setIsFocused(false);
-    Keyboard.dismiss();
-  };
 
   // Emergency call button
 
@@ -110,10 +92,7 @@ const AllHospitals = ({ navigation, route }) => {
     }
   };
 
-  
-
   // For side buttons for to move Hospital Cards in body section for web
-
   const [startIndex, setStartIndex] = useState(0);
 
   const moveLeft = () => {
@@ -146,20 +125,14 @@ const AllHospitals = ({ navigation, route }) => {
 
   return (
     <>
-      {(Platform.OS === "web" && screenWidth > 1000)&& (
+      {(Platform.OS === "web" && width > 1000) && (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <ImageBackground
               source={require("../../assets/Images/MedicineBackground.png")}
               style={styles.imageBackground}
             >
-              <View
-                style={[
-                  styles.overlay,
-                  // { backgroundColor: "rgba(13, 12, 12, 0.7)" },
-                ]}
-              />
-
+              <View style={[ styles.overlay,]}/>
               <View style={styles.parent}>
                 <View style={styles.Left}>
                   <SideBarNavigation navigation={navigation} />
@@ -360,23 +333,15 @@ const AllHospitals = ({ navigation, route }) => {
 
       {/* .......for mobile  */}
 
-      {(Platform.OS !== "web" && screenWidth < 1000) && (
+      {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
           <View style={styles.headContainer}>
             <Header navigation={navigation} />
           </View>
           <View style={styles.searchBarConatiner}>
-            {/* <View style={styles.headingContainer}>
-              <Text style={styles.heading}>Hello Alex! </Text>
-            </View> */}
             <SearchBar style={styles.searchinput} />
           </View>
-          <View style={styles.appbody}>
-            
-
-            {/* flatlist is used to display card  */}
-
-            
+          <View style={styles.appbody}>           
             <FlatList
               style={styles.flatListConatainer}
               data={hospitalsdata}
@@ -414,15 +379,13 @@ const styles = StyleSheet.create({
      width: "100%",
   },
   headContainer: {
-    height: "14%",
+    height: "15%",
     width: "100%",
     justifyContent: "center",
-    paddingTop: "8%",
   },
   searchBarConatiner: {
     height: "8%",
     width: "100%",
-    gap: 10,
   },
   headingContainer: {
     width: "100%",
@@ -443,10 +406,9 @@ const styles = StyleSheet.create({
     height: "30%",
   },
   Phoneicon: {
-    justifyContent: "center",
     position: "absolute",
     bottom: 18,
-    right: 180,
+    right: 165,
     backgroundColor: "#990000",
     padding: "3%",
     borderRadius: 50,
@@ -455,8 +417,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
-    justifyContent: "center",
-    alignItems: "center",
   },
   phoneimage: {
     paddingLeft: "1%",
@@ -645,7 +605,6 @@ const styles = StyleSheet.create({
   },
   modalContainerHeading: {
     fontSize: 34,
-
     color: "#fff",
     marginRight: "45%",
     marginLeft: "5%",
@@ -709,7 +668,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "40%",
     height: "20%",
-     alignItems: "center",
+    alignItems: "center",
     justifyContent: "center",
     marginLeft: "30%",
     borderWidth: 1,
@@ -719,7 +678,6 @@ const styles = StyleSheet.create({
   buttonText:{
    paddingTop:"2%",
   },
-
   footer: {
     height: "35%",
     width: "100%",
