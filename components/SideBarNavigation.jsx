@@ -45,7 +45,7 @@ const SideBarNavigation = ({
     } else if (menu === "Book Hospital") {
       navigation.navigate("Hospitals");
     } else if (menu === "24/7 Cardiac Support") {
-      navigation.navigate("Second");
+      navigation.navigate("MobileChatbot");
     } else if (menu === "Contact Us") {
       navigation.navigate("ContactUs");
     } else {

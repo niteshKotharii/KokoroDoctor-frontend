@@ -15,16 +15,17 @@ import {
   Platform,
   Share,
   ScrollView,
+  Pressable,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import * as DocumentPicker from "expo-document-picker";
+import * as WebBrowser from 'expo-web-browser';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Header from "../components/Header";
 import * as FileSystem from "expo-file-system";
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
-const API_URL =
-  "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod/medilocker";
+const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod/medilocker";
 const { width, height } = Dimensions.get("window");
 
 const Medilocker = ({ navigation }) => {
@@ -181,19 +182,19 @@ const Medilocker = ({ navigation }) => {
         ],
       };
 
-      const response = await fetch(`${API_URL}/upload`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      // const response = await fetch(`${API_URL}/upload`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(payload),
+      // });
 
-      if (!response.ok) {
-        throw new Error("File upload failed");
-      }
+      // if (!response.ok) {
+      //   throw new Error("File upload failed");
+      // }
 
-      const data = await response.json();
+      // const data = await response.json();
       // console.log("Upload successful", data);
 
       setFiles((prevFiles) => [...prevFiles, newFile]);
@@ -263,8 +264,6 @@ const Medilocker = ({ navigation }) => {
     }
   };
 
-  const editFile = async () => {};
-
   const shareFile = async () => {
     if (!selectedFile) return;
     try {
@@ -299,7 +298,7 @@ const Medilocker = ({ navigation }) => {
 
   return (
     <>
-      {(Platform.OS === "web" && width > 1000) && (
+      {Platform.OS === "web" && width > 1000 && (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <ImageBackground
@@ -362,7 +361,7 @@ const Medilocker = ({ navigation }) => {
                             <MaterialIcons
                               name="search"
                               size={20}
-                              color="red"
+                              color="#FF7072"
                             />
                             <TextInput
                               style={styles.searchInput}
@@ -376,7 +375,7 @@ const Medilocker = ({ navigation }) => {
                             <MaterialIcons
                               name="filter-list"
                               size={20}
-                              color="red"
+                              color="#FF7072"
                             />
                             <Text style={styles.filterText}>Filters</Text>
                           </TouchableOpacity>
@@ -418,18 +417,7 @@ const Medilocker = ({ navigation }) => {
                                   <MaterialIcons
                                     name="file-download"
                                     size={24}
-                                    color="red"
-                                  />
-                                </TouchableOpacity>
-
-                                {/* Edit Button */}
-                                <TouchableOpacity
-                                  onPress={() => editFile(item)}
-                                >
-                                  <MaterialIcons
-                                    name="edit"
-                                    size={24}
-                                    color="red"
+                                    color="#FF7072"
                                   />
                                 </TouchableOpacity>
 
@@ -440,7 +428,7 @@ const Medilocker = ({ navigation }) => {
                                   <MaterialIcons
                                     name="delete"
                                     size={24}
-                                    color="red"
+                                    color="#FF7072"
                                   />
                                 </TouchableOpacity>
                               </View>
@@ -450,37 +438,6 @@ const Medilocker = ({ navigation }) => {
                       </View>
                     </View>
                   </View>
-
-                  {!user && visible && (
-                    <View style={styles.overlay}>
-                      <View style={styles.overlayContent}>
-                        <MaterialIcons
-                          name="lock"
-                          size={30}
-                          color="red"
-                          style={styles.icon}
-                        />
-                        <Text style={styles.lockedText}>
-                          Medilocker is Locked
-                        </Text>
-                        <Text style={styles.securityText}>
-                          For your security, you can only use Medilocker when
-                          you are logged in.
-                        </Text>
-                        <Text style={styles.enterPasswordText}>
-                          Enter Password
-                        </Text>
-                        <TextInput
-                          style={styles.input}
-                          placeholder="Enter your password"
-                          placeholderTextColor="#888"
-                          secureTextEntry={true}
-                          value={password}
-                          onChangeText={handlePasswordChange}
-                        />
-                      </View>
-                    </View>
-                  )}
                 </View>
               </View>
             </ImageBackground>
@@ -548,10 +505,7 @@ const Medilocker = ({ navigation }) => {
               numColumns={isGridView ? 3 : 1}
               renderItem={({ item }) => (
                 <View
-                  style={[
-                    styles.appfileItem,
-                    !isGridView && styles.approwItem,
-                  ]}
+                  style={[styles.appfileItem, !isGridView && styles.approwItem]}
                 >
                   <TouchableOpacity
                     onPress={() => console.log("File Opened:", item)}
@@ -566,11 +520,7 @@ const Medilocker = ({ navigation }) => {
                     style={styles.appmenuButton}
                     onPress={() => openMenu(item)}
                   >
-                    <MaterialIcons
-                      name="more-horiz"
-                      size={24}
-                      color="black"
-                    />
+                    <MaterialIcons name="more-horiz" size={24} color="black" />
                   </TouchableOpacity>
 
                   <Text style={styles.appfileName}>{item.name}</Text>
@@ -595,25 +545,20 @@ const Medilocker = ({ navigation }) => {
                       <MaterialIcons
                         name="content-copy"
                         size={20}
-                        color="red"
+                        color="#FF7072"
                       />
                       <Text style={styles.appmenuText}>Copy</Text>
                     </View>
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={editFile}>
-                    <View style={styles.appmenuItem}>
-                      <MaterialIcons name="edit" size={20} color="red" />
-                      <Text style={styles.appmenuText}>Edit</Text>
-                    </View>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity onPress={() => downloadFile(selectedFile.name)}>
+                  <TouchableOpacity
+                    onPress={() => downloadFile(selectedFile.name)}
+                  >
                     <View style={styles.appmenuItem}>
                       <MaterialIcons
                         name="file-download"
                         size={20}
-                        color="red"
+                        color="#FF7072"
                       />
                       <Text style={styles.appmenuText}>Download</Text>
                     </View>
@@ -624,14 +569,14 @@ const Medilocker = ({ navigation }) => {
                     onPress={() => removeFile(selectedFile.name)}
                   >
                     <View style={styles.appmenuItem}>
-                      <MaterialIcons name="delete" size={20} color="red" />
+                      <MaterialIcons name="delete" size={20} color="#FF7072" />
                       <Text style={styles.appmenuText}>Delete</Text>
                     </View>
                   </TouchableOpacity>
 
                   <TouchableOpacity onPress={shareFile}>
                     <View style={styles.appmenuItem}>
-                      <MaterialIcons name="share" size={20} color="red" />
+                      <MaterialIcons name="share" size={20} color="#FF7072" />
                       <Text style={styles.appmenuText}>Share</Text>
                     </View>
                   </TouchableOpacity>
@@ -641,8 +586,12 @@ const Medilocker = ({ navigation }) => {
           </View>
 
           <View style={styles.appAddDocument}>
-            <TouchableOpacity style={styles.appFeb} onPress={pickDocument} disabled={uploadStatus==="uploading"}>
-              <AntDesign name="plus" size={24} color="red" />
+            <TouchableOpacity
+              style={styles.appFeb}
+              onPress={pickDocument}
+              disabled={uploadStatus === "uploading"}
+            >
+              <AntDesign name="plus" size={24} color="#FF7072" />
             </TouchableOpacity>
           </View>
 
@@ -657,33 +606,32 @@ const Medilocker = ({ navigation }) => {
           {uploadStatus === "error" && (
             <Text style={styles.appsuccessMessage}>Upload Failed</Text>
           )}
+        </View>
+      )}
 
-          {!user && visible && (
-            <View style={styles.overlay}>
-              <View style={styles.overlayContent}>
-                <MaterialIcons
-                  name="lock"
-                  size={30}
-                  color="red"
-                  style={styles.icon}
-                />
-                <Text style={styles.lockedText}>Medilocker is Locked</Text>
-                <Text style={styles.securityText}>
-                  For your security, you can only use Medilocker when you are
-                  logged in.
-                </Text>
-                <Text style={styles.enterPasswordText}>Enter Password</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Enter your password"
-                  placeholderTextColor="#888"
-                  secureTextEntry={true}
-                  value={password}
-                  onChangeText={handlePasswordChange}
-                />
-              </View>
-            </View>
-          )}
+      {(!user && visible) && (
+        <View style={styles.overlay}>
+          <View style={styles.overlayContent}>
+            <MaterialIcons
+              name="lock"
+              size={30}
+              color="#FF7072"
+              style={styles.icon}
+            />
+            <Text style={styles.lockedText}>Medilocker is Locked</Text>
+            <Text style={styles.securityText}>
+              For your security, you can only use Medilocker when you are logged
+              in.
+            </Text>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
+              style={styles.loginButton}
+            >
+              <Text style={styles.loginText}>Login</Text>
+            </Pressable>
+          </View>
         </View>
       )}
     </>
@@ -737,13 +685,12 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   right_middle: {
-    flex: 1,
+    height: "40%",
     width: "100%",
-    marginBottom: 10,
   },
   right_bottom: {
-    flex: 1,
     width: "100%",
+    height: "38%",
   },
   medilocker_Container: {
     flex: 1,
@@ -782,7 +729,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-
   uploadTitle: {
     textAlign: "center",
     fontSize: 24,
@@ -799,7 +745,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 24,
     fontWeight: 500,
-    paddingVertical: "1%",
+    paddingVertical: "0.5%",
   },
   uploadLink: {
     textAlign: "center",
@@ -880,7 +826,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
     borderWidth: 1,
-    borderColor: "red",
+    borderColor: "#FF7072",
     borderRadius: 5,
     paddingHorizontal: 10,
     height: 35,
@@ -895,7 +841,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "red",
+    borderColor: "#FF7072",
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,
@@ -910,7 +856,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "#f7ecf0",
     padding: 1,
     borderRadius: 5,
-    flex:1,
+    flex: 1,
   },
   tableHeader: {
     flexDirection: "row",
@@ -951,7 +897,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    backgroundColor: "red",
+    backgroundColor: "#FF7072",
     padding: "2%",
     borderRadius: 5,
   },
@@ -970,7 +916,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     ...Platform.select({
       web: {
-        marginRight: width > 1000 ? "15%" : "0%",
+        marginLeft: width > 1000 ? "15%" : "0%",
       },
     }),
   },
@@ -1002,22 +948,15 @@ const styles = StyleSheet.create({
     color: "gray",
     marginBottom: "8%",
   },
-  enterPasswordText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "red",
-    marginBottom: "5%",
-  },
-  input: {
-    width: "90%",
-    height: "20%",
-    borderWidth: 1,
-    borderColor: "red",
+  loginButton: {
+    padding: 8,
+    backgroundColor: "#FF7072",
     borderRadius: 5,
-    padding: "2%",
-    textAlign: "center",
   },
-
+  loginText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+  },
   appContainer: {
     width: "100%",
     height: "100%",

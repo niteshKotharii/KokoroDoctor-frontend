@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react"
+import { useCallback, useState, useEffect, useContext } from "react"
 import {
   Alert,
   Image,
@@ -11,21 +11,22 @@ import {
   Platform,
   Dimensions,
   ScrollView,
+  Linking,
   useWindowDimensions,
-} from "react-native"
-import MaterialIcons from "react-native-vector-icons/MaterialIcons"
-import { useChatbot } from "../../contexts/ChatbotContext"
-import { useFocusEffect } from "@react-navigation/native"
-import SideBarNavigation from "../../components/SideBarNavigation"
+} from "react-native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { useChatbot } from "../../contexts/ChatbotContext";
+import { useFocusEffect } from "@react-navigation/native";
+import SideBarNavigation from "../../components/SideBarNavigation";
+import { AuthContext } from "../../contexts/AuthContext";
+import {payment_api} from "../../utils/PaymentService";
 
 const DoctorsPaymentScreen = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState("")
   const [patientName, setPatientName] = useState("")
   const { setChatbotConfig } = useChatbot()
-  const [location, setLocation] = useState(null)
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
   const {width} = useWindowDimensions()
+  const {user} = useContext(AuthContext)
 
   useFocusEffect(
     useCallback(() => {
@@ -38,9 +39,20 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
     Alert.alert(`Search Results for: ${searchQuery}`)
   }
 
-  const handleContinuePayment = () => {
-    Alert.alert("Processing Payment", "Redirecting to payment gateway...")
-  }
+  const handleContinuePayment = async (amount) => {
+    Alert.alert("Processing Payment", "Redirecting to payment gateway...");
+    try {  
+      const paymentLink = await payment_api(amount);
+      if (paymentLink) {
+        Linking.openURL(paymentLink).catch((err) => {
+          console.error("Failed to open payment link", err);
+          Alert.alert("Error", "Unable to open payment link. Please try again.");
+        });
+      }
+    } catch (error) {
+      Alert.alert("Payment Failed", error.message);
+    }
+  };
 
   // Doctor data for the verified cardiologists
   const doctors = [
@@ -135,11 +147,11 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
 
                         <View style={styles.formGroup}>
                           <Text style={styles.formLabel}>Final Fee</Text>
-                          <Text style={styles.feeAmount}>$499</Text>
+                          <Text style={styles.feeAmount}>₹850</Text>
                         </View>
                       </View>
 
-                      <TouchableOpacity style={styles.paymentButton} onPress={handleContinuePayment}>
+                      <TouchableOpacity style={styles.paymentButton} onPress={() => {handleContinuePayment(850)}}>
                         <Text style={styles.paymentButtonText}>Continue to payment</Text>
                       </TouchableOpacity>
                     </View>
@@ -179,9 +191,10 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
                 <Text style={styles.sectionTitle}>Patient Info</Text>
                 <View style={styles.patientInfo}>
                   <View style={styles.patientInfoRow}>
-                    <Image source={require("../../assets/Images/Patient.jpg")} style={styles.patientImage} />
+                    <Image source={user?.picture ? { uri: user.picture } : require("../../assets/Images/user-icon.jpg")}
+                    style={styles.patientImage} />
                     <View style={styles.patientDetails}>
-                      <Text style={styles.patientName}>McKinney (24)</Text>
+                      <Text style={styles.patientName}>{user?.name ? user?.name : "User"}</Text>
                       <Text style={styles.noteText}>Note: Please Upload Patient Details In the Drop Link</Text>
                     </View>
                   </View>
@@ -221,24 +234,24 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
                 <Text style={styles.billTitle}>Bill Details</Text>
                 <View style={styles.billRow}>
                   <Text style={styles.billLabel}>Consultation fees:</Text>
-                  <Text style={styles.billValue}>$400</Text>
+                  <Text style={styles.billValue}>₹800</Text>
                 </View>
                 <View style={styles.billRow}>
                   <Text style={styles.billLabel}>Booking Fee</Text>
-                  <Text style={styles.billValue}>$10</Text>
+                  <Text style={styles.billValue}>₹50</Text>
                 </View>
                 <View style={styles.billRow}>
                   <Text style={styles.billLabel}>Promo Applied:</Text>
-                  <Text style={styles.billValue}>$0</Text>
+                  <Text style={styles.billValue}>₹0</Text>
                 </View>
                 <View style={[styles.billRow, styles.totalRow]}>
                   <Text style={[styles.billLabel, styles.totalLabel]}>Total Pay</Text>
-                  <Text style={[styles.billValue, styles.totalValue]}>$410</Text>
+                  <Text style={[styles.billValue, styles.totalValue]}>₹850</Text>
                 </View>
               </View>
 
               {/* Continue Button */}
-              <TouchableOpacity style={styles.continueButton} onPress={handleContinuePayment}>
+              <TouchableOpacity style={styles.continueButton} onPress={() => {handleContinuePayment(850)}}>
                 <Text style={styles.continueButtonText}>Continue</Text>
               </TouchableOpacity>
             </View>

@@ -77,7 +77,7 @@ const LandingPage = ({ navigation, route }) => {
                         />
                       </TouchableOpacity>
 
-                      <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("Second"))}>
+                      <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("MobileChatbot"))}>
                         <Image
                             source={require("../assets/Images/twenty-four_Support.png")}
                             style={styles.image}
@@ -128,7 +128,7 @@ const LandingPage = ({ navigation, route }) => {
                   />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("Second"))}>
+                <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("MobileChatbot"))}>
                   <Image
                     source={require("../assets/Images/twenty-four_Support.png")}
                     style={styles.image}

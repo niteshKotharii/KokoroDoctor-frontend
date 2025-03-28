@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     padding: "1%",
-    // backgroundColor: "red",
+    // backgroundColor: "#FF7072",
   },
   app_container1Left: {
     height: "100%",
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
   app_buttonContainer: {
     height: "100%",
     width: "100%",
-    backgroundColor: "red",
+    backgroundColor: "#FF7072",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 4,

@@ -25,7 +25,7 @@ const Pricing = ({ navigation, route }) => {
 
   return (
     <>
-      {(true) && (
+      {(Platform.OS==='web' || width > 1000 ) && (
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <ImageBackground
@@ -110,10 +110,10 @@ const Pricing = ({ navigation, route }) => {
         </View>
       )}
 
-      {(Platform.OS!=='web' || width < 900 ) && (
+      {(Platform.OS!=='web' || width < 1000 ) && (
         <View style={styles.appContainer}>
 
-          <View style={[styles.appHeader, {height: "12%"}]}>
+          <View style={[styles.appHeader, {height: "15%"}]}>
             <Header navigation={navigation}/>
           </View>
         </View>

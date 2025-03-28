@@ -198,7 +198,7 @@ const AllHospitals = ({ navigation, route }) => {
                             <MaterialIcons
                               name="call"
                               size={24}
-                              color="red"
+                              color="#FF7072"
                               style={styles.callIcon}
                             />
                           </TouchableOpacity>
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
   //   // marginTop: "2%",
   //   //marginLeft: "2%",
   //   // backgroundColor: "#fff",
-  //   // borderColor:"red",
+  //   // borderColor:"#FF7072",
   //   // borderWidth:"2px",
   // },
   body: {
@@ -490,13 +490,13 @@ const styles = StyleSheet.create({
     height: "100%",
 
     // gap: "2%",
-    // borderColor:"red",
+    // borderColor:"#FF7072",
     // borderWidth:"2px",
   },
   bodyheading: {
     height: "8%",
     width: "100%",
-    // borderColor:"red",
+    // borderColor:"#FF7072",
     // borderWidth:"2px",
   },
 

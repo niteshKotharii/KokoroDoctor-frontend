@@ -18,7 +18,7 @@ import ConsultWithDoctors from "../screens/Doctors/ConsultWithDoctors";
 import DoctorNearYou from "../screens/Doctors/DoctorNearYou";
 import DoctorResultShow from "../screens/Doctors/DoctorResultShow";
 import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating";
-import AppDoctorsRating from "../screens/Doctors/AppDoctorsRating";
+import AppDoctorsRating from "../screens/Doctors/App/AppDoctorsRating";
 import DoctorsPaymentScreen from "../screens/Doctors/DoctorsPaymentScreen";
 //Hospitals
 import AllHospitals from "../screens/Hospitals/AllHospitals";
