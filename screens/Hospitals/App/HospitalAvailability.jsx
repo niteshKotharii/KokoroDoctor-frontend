@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  Platform,
 } from "react-native";
 
 const HospitalAvailability = ({ navigation, route }) => {
@@ -213,9 +214,11 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   hospitalDetails: {
-    height: "15%",
+    height: "13%",
     width: "100%",
-    padding: "5%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
+    paddingTop:"2%",
 
     flexDirection: "row",
   },
@@ -242,6 +245,7 @@ const styles = StyleSheet.create({
   hospitalDetailsContainer1Bottom: {
     width: "80%",
     height: "50%",
+   
   },
 
   distanceconatiner: {
@@ -251,6 +255,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingRight: "30%",
     justifyContent: "space-between",
+    
   },
   distanceHeading: {
     fontStyle: "Sunflower",
@@ -268,21 +273,26 @@ const styles = StyleSheet.create({
   arrivalContainer: {
     height: "50%",
     width: "100%",
+
     flexDirection: "row",
     paddingRight: "15%",
     justifyContent: "space-between",
+      justifyContent: "space-between",
+      
   },
   arrivalHeading: {
     fontStyle: "Sunflower",
     fontSize: 14,
     fontWeight: 300,
     color: "#9B9A9A",
+    
   },
   arrivingIn: {
     fontStyle: "Poppins",
     fontSize: 10,
     fontWeight: 300,
     color: "#2CBE5E",
+    
   },
 
   hospitalDetailsContainer2: {
@@ -449,6 +459,11 @@ const styles = StyleSheet.create({
   bookhospitalButton: {
     width: "70%",
     height: "65%",
+    ...Platform.select({
+      web:{
+        padding:"2%",
+      },
+    }),
     marginLeft: "16.5%",
     justifyContent: "center",
     alignItems: "center",

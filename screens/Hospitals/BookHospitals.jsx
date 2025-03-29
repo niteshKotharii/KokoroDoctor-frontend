@@ -140,14 +140,14 @@ const BookHospitals = ({ navigation }) => {
       {(Platform.OS !== "web" || width < 1000) && (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.appContainer}>
-          <View style={styles.doctorTextBox}>
-            <Text style={styles.doctorText}>Book Hospital</Text>
+          <View style={styles.app_doctorTextBox}>
+            <Text style={styles.app_doctorText}>Book Hospital</Text>
           </View>
 
-          <View style={styles.consultBox}>
-            <Text style={styles.consultBoxText}>Tell us your symptoms</Text>
+          <View style={styles.app_consultBox}>
+            <Text style={styles.app_consultBoxText}>Tell us your symptoms</Text>
             <TextInput
-              style={styles.textArea}
+              style={styles.app_textArea}
               placeholder="eg: chest pain"
               placeholderTextColor="#999"
               multiline={true}
@@ -159,25 +159,25 @@ const BookHospitals = ({ navigation }) => {
               alignSelf="center"
             />
           </View>
-          <View style={styles.selectSymptomTextBox}>
-            <Text style={styles.selectSymptomText}>Quick select symptoms</Text>
+          <View style={styles.app_selectSymptomTextBox}>
+            <Text style={styles.app_selectSymptomText}>Quick select symptoms</Text>
 
-            <View style={styles.symptomGrid}>
+            <View style={styles.app_symptomGrid}>
               {symptoms.map((item, index) => {
                 const isSelected = selectedCards.includes(item);
                 return (
                   <TouchableOpacity
                     key={index}
                     style={[
-                      styles.symptomCard,
-                      isSelected && styles.selectedCard, // Apply selected style
+                      styles.app_symptomCard,
+                      isSelected && styles.app_selectedCard, // Apply selected style
                     ]}
                     onPress={() => toggleCardSelection(item)}
                   >
                     <Text
                       style={[
-                        styles.symptomText,
-                        isSelected && styles.selectedCardText, // Change text color if selected
+                        styles.app_symptomText,
+                        isSelected && styles.app_selectedCardText, // Change text color if selected
                       ]}
                     >
                       {item}
@@ -187,15 +187,15 @@ const BookHospitals = ({ navigation }) => {
               })}
             </View>
           </View>
-          <View style={styles.contactSection}>
-            <Text style={styles.contactText}>Enter Number</Text>
-            <View style={styles.contactContainer}>
-              <View style={styles.countryCode}>
+          <View style={styles.app_contactSection}>
+            <Text style={styles.app_contactText}>Enter Number</Text>
+            <View style={styles.app_contactContainer}>
+              <View style={styles.app_countryCode}>
                 <TouchableOpacity
                   onPress={() => setIsDropdownOpen(!isDropdownOpen)}
-                  style={styles.countryCodeButton}
+                  style={styles.app_countryCodeButton}
                 >
-                  <Text style={styles.countryCodeText}>
+                  <Text style={styles.app_countryCodeText}>
                     {selectedCountryCode}
                   </Text>
                   <Icon
@@ -208,17 +208,17 @@ const BookHospitals = ({ navigation }) => {
 
                 {/* Dropdown List */}
                 {isDropdownOpen && (
-                  <View style={styles.dropdown}>
+                  <View style={styles.app_dropdown}>
                     {["+91", "+1", "+44", "+61", "+81"].map((code) => (
                       <TouchableOpacity
                         key={code}
-                        style={styles.dropdownItem}
+                        style={styles.app_dropdownItem}
                         onPress={() => {
                           setSelectedCountryCode(code);
                           setIsDropdownOpen(false);
                         }}
                       >
-                        <Text style={styles.dropdownText}>{code}</Text>
+                        <Text style={styles.app_dropdownText}>{code}</Text>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -228,17 +228,17 @@ const BookHospitals = ({ navigation }) => {
               <TextInput
                 placeholder="Enter your number"
                 keyboardType="numeric"
-                style={styles.contactInput}
+                style={styles.app_contactInput}
                 maxLength={10}
               />
              
             </View>
-            <Text style={styles.verficationText}>
+            <Text style={styles.app_verficationText}>
               A verification code will be sent to this number
             </Text>
           </View>
-          <TouchableOpacity style={styles.buttonBox} onPress={handleContinueButton}>
-            <Text style={styles.buttonText}>Continue</Text>
+          <TouchableOpacity style={styles.app_buttonBox} onPress={handleContinueButton}>
+            <Text style={styles.app_buttonText}>Continue</Text>
           </TouchableOpacity>
         </View>
         </TouchableWithoutFeedback>
@@ -258,9 +258,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   appContainer: {
+    ...Platform.select({
+      ios: {
+        paddingTop: "8%",
+      },
+      android: {
+        paddingTop: "2%",
+      },
+    }),
+ 
     flex: 1,
     height: "100%",
     width: "100%",
+   
   },
   imageBackground: {
     width: "100%",
@@ -293,14 +303,18 @@ const styles = StyleSheet.create({
       }
     })
   },
-  doctorTextBox: {
+  app_doctorTextBox:{
+    
     height: "5%",
     width: "50%",
     //borderWidth: 1,
     marginHorizontal: "5%",
     marginVertical: "1%",
+   
+   
+    
   },
-  doctorText: {
+  app_doctorText: {
     fontSize: 16,
     fontWeight: 900,
     //fontFamily: "Poppins",
@@ -308,7 +322,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: "3%",
     letterSpacing: 0.7,
   },
-  consultBox: {
+  app_consultBox: {
     height: "20%",
     width: "90%",
     //borderWidth: 1,
@@ -321,43 +335,65 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 2,
   },
-  consultBoxText: {
+  app_consultBoxText: {
     color: "#ffffff",
     fontSize: 16,
     fontWeight: 400,
     marginVertical: "5%",
     marginHorizontal: "5%",
   },
-  textArea: {
+  app_textArea: {
     //flexShrink:1
-    borderRadius: 20,
+    backgroundColor:"#fff",
+    borderRadius: 5,
+    ...Platform.select({
+      web:{
+         borderRadius:2,
+         marginLeft:"5%",
+         marginRight:"5%",
+         padding:"1%",
+         maxWidth: "100%",
+         marginBottom:"5%",
+
+      },
+    }),
+    
   },
-  selectSymptomTextBox: {
+  app_selectSymptomTextBox: {
     height: "22%",
     width: "91%",
+  
     //borderWidth: 1,
     marginHorizontal: "5%",
     marginVertical: "3%",
     flexDirection: "column",
   },
-  selectSymptomText: {
+  app_selectSymptomText: {
     fontSize: 14,
     fontWeight: 350,
     paddingHorizontal: "1.5%",
     letterSpacing: 0.5,
   },
-  symptomGrid: {
+  app_symptomGrid: {
     flexDirection: "row",
     flexWrap: "wrap", // Wrap items to next line
     gap: 8,
     height: "90%",
     width: "100%",
+    ...Platform.select({
+      web:{
+         flexWrap:"wrap",
+         maxWidth: "100%"
+
+      },
+    }),
+    
     //borderWidth: 1,
     paddingHorizontal: "0.2%",
     justifyContent: "space-between",
   },
 
-  symptomCard: {
+  app_symptomCard: {
     borderWidth: 1,
     borderColor: "#FFB6C1",
     borderRadius: 10,
@@ -370,45 +406,53 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 5,
   },
-  selectedCard: {
+  app_selectedCard: {
     backgroundColor: "#FFB6C1",
     borderColor: "#FF69B4",
   },
 
-  symptomText: {
+  app_symptomText: {
     fontSize: 12,
     color: "#333", // Dark text color
     textAlign: "center",
     fontWeight: "400",
   },
-  selectedCardText: {
+  app_selectedCardText: {
     color: "#fff",
     fontWeight: "600",
   },
-  contactSection: {
+  app_contactSection: {
     height: "10%",
     width: "88%",
+
+    ...Platform.select({
+      web:{
+         marginTop:"10%",
+
+      },
+    }),
+    
     //borderWidth: 1,
     marginHorizontal: "6%",
     flexDirection: "column",
     justifyContent: "space-between",
     marginVertical: "2.5%",
   },
-  contactText: {
+  app_contactText: {
     fontSize: 14,
     fontWeight: 350,
     color: "#444444",
     letterSpacing: 1,
     marginHorizontal: "1%",
   },
-  contactContainer: {
+  app_contactContainer: {
     height: "50%",
     width: "100%",
     //borderWidth: 1,
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  countryCode: {
+  app_countryCode: {
     height: "90%",
     width: "15%",
     borderWidth: 1,
@@ -416,18 +460,18 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignSelf: "center",
   },
-  countryCodeButton: {
+  app_countryCodeButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     padding: "10%",
   },
 
-  countryCodeText: {
+  app_countryCodeText: {
     fontSize: 14,
     fontWeight: "400",
   },
-  dropdown: {
+  app_dropdown: {
     marginTop: "15%",
     marginLeft: "0%",
     width: "100%",
@@ -437,7 +481,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     zIndex: 12,
   },
-  dropdownItem: {
+  app_dropdownItem: {
     paddingVertical: "5%",
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
@@ -445,11 +489,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     zIndex: 11,
   },
-  dropdownText: {
+  app_dropdownText: {
     fontSize: 14,
     color: "#444444",
   },
-  contactInput: {
+  app_contactInput: {
     height: "90%",
     width: "80%",
     borderWidth: 1,
@@ -458,21 +502,196 @@ const styles = StyleSheet.create({
     paddingTop: "1%",
     alignSelf: "center",
   },
-  verficationText: {
+  app_verficationText: {
     fontSize: 10,
     fontWeight: 400,
     color: "#979699",
     marginHorizontal: "1%",
   },
-  welcomeContainer: {
+  app_welcomeContainer: {
     flex: 1,
     flexDirection: "column",
   },
-  welcomeText: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#fff",
-  },
+  // doctorTextBox: {
+  //   height: "5%",
+  //   width: "50%",
+  //   //borderWidth: 1,
+  //   marginHorizontal: "5%",
+  //   marginVertical: "1%",
+  // },
+  // doctorText: {
+  //   fontSize: 16,
+  //   fontWeight: 900,
+  //   //fontFamily: "Poppins",
+  //   paddingVertical: "5%",
+  //   paddingHorizontal: "3%",
+  //   letterSpacing: 0.7,
+  // },
+  // consultBox: {
+  //   height: "20%",
+  //   width: "90%",
+  //   //borderWidth: 1,
+  //   alignSelf: "center",
+  //   backgroundColor: "rgb(250, 124, 149)",
+  //   flexDirection: "column",
+  //   borderRadius: 5,
+  //   shadowColor: "#000", // Optional: add slight shadow for elevation
+  //   shadowOpacity: 0.05,
+  //   shadowRadius: 3,
+  //   elevation: 2,
+  // },
+  // consultBoxText: {
+  //   color: "#ffffff",
+  //   fontSize: 16,
+  //   fontWeight: 400,
+  //   marginVertical: "5%",
+  //   marginHorizontal: "5%",
+  // },
+  // textArea: {
+  //   //flexShrink:1
+  //   borderRadius: 20,
+  // },
+  // selectSymptomTextBox: {
+  //   height: "22%",
+  //   width: "91%",
+  //   //borderWidth: 1,
+  //   marginHorizontal: "5%",
+  //   marginVertical: "3%",
+  //   flexDirection: "column",
+  // },
+  // selectSymptomText: {
+  //   fontSize: 14,
+  //   fontWeight: 350,
+  //   paddingHorizontal: "1.5%",
+  //   letterSpacing: 0.5,
+  // },
+  // symptomGrid: {
+  //   flexDirection: "row",
+  //   flexWrap: "wrap", // Wrap items to next line
+  //   gap: 8,
+  //   height: "90%",
+  //   width: "100%",
+  //   //borderWidth: 1,
+  //   paddingHorizontal: "0.2%",
+  //   justifyContent: "space-between",
+  // },
+
+  // symptomCard: {
+  //   borderWidth: 1,
+  //   borderColor: "#FFB6C1",
+  //   borderRadius: 10,
+  //   paddingVertical: "3%",
+  //   paddingHorizontal: "4.6%",
+  //   marginTop: "2%",
+  //   backgroundColor: "#fff",
+  //   shadowColor: "#000", // Optional: add slight shadow for elevation
+  //   shadowOpacity: 0.05,
+  //   shadowRadius: 3,
+  //   elevation: 5,
+  // },
+  // selectedCard: {
+  //   backgroundColor: "#FFB6C1",
+  //   borderColor: "#FF69B4",
+  // },
+
+  // symptomText: {
+  //   fontSize: 12,
+  //   color: "#333", // Dark text color
+  //   textAlign: "center",
+  //   fontWeight: "400",
+  // },
+  // selectedCardText: {
+  //   color: "#fff",
+  //   fontWeight: "600",
+  // },
+  // contactSection: {
+  //   height: "10%",
+  //   width: "88%",
+  //   //borderWidth: 1,
+  //   marginHorizontal: "6%",
+  //   flexDirection: "column",
+  //   justifyContent: "space-between",
+  //   marginVertical: "2.5%",
+  // },
+  // contactText: {
+  //   fontSize: 14,
+  //   fontWeight: 350,
+  //   color: "#444444",
+  //   letterSpacing: 1,
+  //   marginHorizontal: "1%",
+  // },
+  // contactContainer: {
+  //   height: "50%",
+  //   width: "100%",
+  //   //borderWidth: 1,
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  // },
+  // countryCode: {
+  //   height: "90%",
+  //   width: "15%",
+  //   borderWidth: 1,
+  //   borderColor: "#FFB6C1",
+  //   borderRadius: 8,
+  //   alignSelf: "center",
+  // },
+  // countryCodeButton: {
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   padding: "10%",
+  // },
+
+  // countryCodeText: {
+  //   fontSize: 14,
+  //   fontWeight: "400",
+  // },
+  // dropdown: {
+  //   marginTop: "15%",
+  //   marginLeft: "0%",
+  //   width: "100%",
+  //   backgroundColor: "#fff",
+  //   borderWidth: 1,
+  //   borderColor: "#ddd",
+  //   borderRadius: 5,
+  //   zIndex: 12,
+  // },
+  // dropdownItem: {
+  //   paddingVertical: "5%",
+  //   borderBottomWidth: 1,
+  //   borderBottomColor: "#ddd",
+  //   paddingHorizontal: "18%",
+  //   alignSelf: "center",
+  //   zIndex: 11,
+  // },
+  // dropdownText: {
+  //   fontSize: 14,
+  //   color: "#444444",
+  // },
+  // contactInput: {
+  //   height: "90%",
+  //   width: "80%",
+  //   borderWidth: 1,
+  //   borderColor: "#FFB6C1",
+  //   borderRadius: 8,
+  //   paddingTop: "1%",
+  //   alignSelf: "center",
+  // },
+  // verficationText: {
+  //   fontSize: 10,
+  //   fontWeight: 400,
+  //   color: "#979699",
+  //   marginHorizontal: "1%",
+  // },
+  // welcomeContainer: {
+  //   flex: 1,
+  //   flexDirection: "column",
+  // },
+  // welcomeText: {
+  //   fontSize: 28,
+  //   fontWeight: "bold",
+  //   color: "#fff",
+  // },
   subText: {
     fontSize: 14,
     color: "#ddd",
@@ -1053,7 +1272,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: "12%",
   },
-  buttonBox:{
+  app_buttonBox:{
     height:"5%",
     width:"75%",
     //borderWidth:1,
@@ -1063,7 +1282,7 @@ const styles = StyleSheet.create({
     paddingVertical:"2%",
     borderRadius:10
   },
-  buttonText: {
+  app_buttonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",

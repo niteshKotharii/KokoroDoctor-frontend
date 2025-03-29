@@ -122,7 +122,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
               source={require("../../assets/Images/MedicineBackground.png")}
               style={styles.imageBackground}
             >
-              <View style={[styles.overlay,]}/>
+              <View style={[styles.overlay,]} />
 
               <View style={styles.parent}>
                 {/* Keeping the existing sidebar navigation as requested */}
@@ -238,7 +238,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
                             style={[
                               styles.dateOption,
                               selectedDate === date.label &&
-                                styles.selectedDate,
+                              styles.selectedDate,
                             ]}
                             onPress={() => handleDateSelect(date.label)}
                           >
@@ -264,7 +264,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
                                 style={[
                                   styles.timeSlot,
                                   selectedTimeSlot === time &&
-                                    styles.selectedTimeSlot,
+                                  styles.selectedTimeSlot,
                                 ]}
                                 onPress={() =>
                                   handleBooking(time, HospitalData, HospitalDetail)
@@ -288,7 +288,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
                                 style={[
                                   styles.timeSlot,
                                   selectedTimeSlot === time &&
-                                    styles.selectedTimeSlot,
+                                  styles.selectedTimeSlot,
                                 ]}
                                 onPress={() =>
                                   handleBooking(time, HospitalData, HospitalDetail)
@@ -311,136 +311,136 @@ const HospitalsInfoWithRating = ({ navigation }) => {
       )}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.app_parent}>
-        <View style={styles.app_hospitalImage}>
-          <Image
-            source={require("../../assets/Images/hospitalImage.jpeg")}
-            style={styles.app_image}
-            resizeMode="cover"
-          />
-        </View>
-        <View style={styles.app_hospitalDetails}>
-          <View style={styles.app_hospitalDetailsContainer1}>
-            <View style={styles.app_hospitalDetailsContainer1Top}>
-              <Text style={styles.app_hospitalname}>Apollo Hospital</Text>
-              <Text style={styles.app_hospitaltype}>Multispecialty</Text>
-            </View>
-            <View style={styles.app_hospitalDetailsContainer1Bottom}>
-              <View style={styles.app_distanceconatiner}>
-                <Text style={styles.app_distanceHeading}>Distance</Text>
-                <Text style={styles.app_distanceAway}>2.3 km away</Text>
-              </View>
-              <View style={styles.app_arrivalContainer}>
-                <Text style={styles.app_arrivalHeading}>Arrival time</Text>
-                <Text style={styles.app_arrivingIn}>Reaches in 10 min</Text>
-              </View>
-            </View>
+          <View style={styles.app_hospitalImage}>
+            <Image
+              source={require("../../assets/Images/hospitalImage.jpeg")}
+              style={styles.app_image}
+              resizeMode="cover"
+            />
           </View>
-          <View style={styles.app_hospitalDetailsContainer2}>
-            <TouchableOpacity>
-              <Icon
-                style={styles.app_icondesign}
-                name="call-outline"
-                size={30}
-                color="#FF7072"
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.app_bedReviewContainer}>
-          <View style={styles.app_emergencyBed}>
-            <Image source={require("../../assets/Icons/hospital-bed.png")} />
-            <View style={styles.app_emergencyBedBody}>
-              <Text style={styles.app_bedHeading}>Emergency Beds </Text>
-              <Text style={styles.app_bedAvailability}>
-                Emergenecy Beds Avialable{" "}
-              </Text>
-            </View>
-          </View>
-          <View style={styles.app_review}>
-            <Icon style={styles.app_starIcon} name="star" size={30} color="#FFD500" />
-            <View style={styles.app_emergencyBedBody}>
-              <Text style={styles.app_bedHeading}>Rating & Reviews </Text>
-              <Text style={styles.app_bedAvailability}>4.9 (5000)</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.app_serviceheadingContainer}>
-          <Text style={styles.app_serviceheading}>Services & Availability</Text>
-        </View>
-        <View style={styles.app_footerBox}>
-          <View style={styles.app_footerBoxRow1}>
-            <View style={styles.app_box1}>
-              <Image source={require("../../assets/Icons/hospital-bed.png")} />
-  
-              <View style={styles.app_box1Body}>
-                <Text>Emergency Bed</Text>
-                <Text style={styles.app_text2}>5 Bed Available</Text>
+          <View style={styles.app_hospitalDetails}>
+            <View style={styles.app_hospitalDetailsContainer1}>
+              <View style={styles.app_hospitalDetailsContainer1Top}>
+                <Text style={styles.app_hospitalname}>Apollo Hospital</Text>
+                <Text style={styles.app_hospitaltype}>Multispecialty</Text>
               </View>
-            </View>
-            <View style={styles.app_box1}>
-            <Image source={require("../../assets/Icons/ambulance.png")}/>
-  
-              <View style={styles.app_box1Body}>
-                <Text>Ambulance Service</Text>
-              </View>
-            </View>
-            <View style={styles.app_box1}>
-            <Image source={require("../../assets/Icons/time.png")}/>
-  
-              <View style={styles.app_box1Body}>
-                <Text>Waiting Time</Text>
-                <Text style={styles.app_text2}>15 min average wait</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.app_footerBoxRow2}>
-            <View style={styles.app_box1}>
-            <Image source={require("../../assets/Icons/papers.png")}/>
-  
-              <View style={styles.app_box1Body}>
-                <Text>Processing Speed</Text>
-                <Text style={styles.app_text2}>Paperless check-in available</Text>
-              </View>
-            </View>
-            <View style={styles.app_box1}>
-            <Image source={require("../../assets/Icons/insurance.png")}/>
-  
-              <View style={styles.app_box1Body}>
-                <Text>Insurance</Text>
-              </View>
-            </View>
-            <View style={styles.app_box1}>
-            <Image source={require("../../assets/Icons/payment.png")}/>
-  
-              <View style={styles.app_box1Body}>
-                <Text style={styles.app_text1}>Payment Options</Text>
-                <Text style={styles.app_text2}>All type Accepted</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.app_availabilityButtonConatiner}>
-            <TouchableOpacity onPress={() => navigation.navigate("HospitalAvailability")}>
-              <View style={styles.app_availabilityButton}>
-                {/* <TouchableOpacity  onPress={() => navigation.navigate("HospitalAvailability")}> */}
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text style={{ color: "#fff", fontSize: 16 }}>
-                    View Availability
-                  </Text>
-                  <Icon name="chevron-forward" size={20} color="#fff" />
+              <View style={styles.app_hospitalDetailsContainer1Bottom}>
+                <View style={styles.app_distanceconatiner}>
+                  <Text style={styles.app_distanceHeading}>Distance</Text>
+                  <Text style={styles.app_distanceAway}>2.3 km away</Text>
                 </View>
-                {/* </TouchableOpacity> */}
+                <View style={styles.app_arrivalContainer}>
+                  <Text style={styles.app_arrivalHeading}>Arrival time</Text>
+                  <Text style={styles.app_arrivingIn}>Reaches in 10 min</Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.app_hospitalDetailsContainer2}>
+              <TouchableOpacity>
+                <Icon
+                  style={styles.app_icondesign}
+                  name="call-outline"
+                  size={30}
+                  color="#FF7072"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.app_bedReviewContainer}>
+            <View style={styles.app_emergencyBed}>
+              <Image source={require("../../assets/Icons/hospital-bed.png")} />
+              <View style={styles.app_emergencyBedBody}>
+                <Text style={styles.app_bedHeading}>Emergency Beds </Text>
+                <Text style={styles.app_bedAvailability}>
+                  Emergenecy Beds Avialable{" "}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.app_review}>
+              <Icon style={styles.app_starIcon} name="star" size={30} color="#FFD500" />
+              <View style={styles.app_emergencyBedBody}>
+                <Text style={styles.app_bedHeading}>Rating & Reviews </Text>
+                <Text style={styles.app_bedAvailability}>4.9 (5000)</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.app_serviceheadingContainer}>
+            <Text style={styles.app_serviceheading}>Services & Availability</Text>
+          </View>
+          <View style={styles.app_footerBox}>
+            <View style={styles.app_footerBoxRow1}>
+              <View style={styles.app_box1}>
+                <Image source={require("../../assets/Icons/hospital-bed.png")} />
+
+                <View style={styles.app_box1Body}>
+                  <Text>Emergency Bed</Text>
+                  <Text style={styles.app_text2}>5 Bed Available</Text>
+                </View>
+              </View>
+              <View style={styles.app_box1}>
+                <Image source={require("../../assets/Icons/ambulance.png")} />
+
+                <View style={styles.app_box1Body}>
+                  <Text>Ambulance Service</Text>
+                </View>
+              </View>
+              <View style={styles.app_box1}>
+                <Image source={require("../../assets/Icons/time.png")} />
+
+                <View style={styles.app_box1Body}>
+                  <Text>Waiting Time</Text>
+                  <Text style={styles.app_text2}>15 min average wait</Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.app_footerBoxRow2}>
+              <View style={styles.app_box1}>
+                <Image source={require("../../assets/Icons/papers.png")} />
+
+                <View style={styles.app_box1Body}>
+                  <Text>Processing Speed</Text>
+                  <Text style={styles.app_text2}>Paperless check-in available</Text>
+                </View>
+              </View>
+              <View style={styles.app_box1}>
+                <Image source={require("../../assets/Icons/insurance.png")} />
+
+                <View style={styles.app_box1Body}>
+                  <Text>Insurance</Text>
+                </View>
+              </View>
+              <View style={styles.app_box1}>
+                <Image source={require("../../assets/Icons/payment.png")} />
+
+                <View style={styles.app_box1Body}>
+                  <Text style={styles.app_text1}>Payment Options</Text>
+                  <Text style={styles.app_text2}>All type Accepted</Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.app_availabilityButtonConatiner}>
+              <TouchableOpacity onPress={() => navigation.navigate("HospitalAvailability")}>
+                <View style={styles.app_availabilityButton}>
+                  {/* <TouchableOpacity  onPress={() => navigation.navigate("HospitalAvailability")}> */}
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={{ color: "#fff", fontSize: 16 }}>
+                      View Availability
+                    </Text>
+                    <Icon name="chevron-forward" size={20} color="#fff" />
+                  </View>
+                  {/* </TouchableOpacity> */}
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.app_bookhospitalButtoncontainer}>
+            <TouchableOpacity onPress={() => navigation.navigate("BookHospitals")}>
+              <View style={styles.app_bookhospitalButton}>
+                <Text style={styles.app_bookHospitalText}>Book Hospital</Text>
               </View>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.app_bookhospitalButtoncontainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("BookHospitals")}>
-            <View style={styles.app_bookhospitalButton}>
-              <Text style={styles.app_bookHospitalText}>Book Hospital</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
 
 
       )}
@@ -602,17 +602,17 @@ const styles = StyleSheet.create({
     height: "5%",
     width: "70%",
     //borderWidth: 1,
-    alignSelf:"center",
-    borderRadius:8,
+    alignSelf: "center",
+    borderRadius: 8,
     backgroundColor: "rgb(243, 119, 119)",
-    marginVertical:"3%",
+    marginVertical: "3%",
   },
-  bookAppointmentText:{
-    alignSelf:"center",
-    paddingVertical:"3.5%",
-    color:"#FFFFFF",
-    fontSize:14,
-    fontWeight:600,
+  bookAppointmentText: {
+    alignSelf: "center",
+    paddingVertical: "3.5%",
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: 600,
   },
   imageBackground: {
     flex: 1,
@@ -645,8 +645,8 @@ const styles = StyleSheet.create({
     // borderColor: "black",
     zIndex: 2,
     ...Platform.select({
-      web:{
-        width:"100%",
+      web: {
+        width: "100%",
         marginBottom: 20,
       }
     })
@@ -877,250 +877,291 @@ const styles = StyleSheet.create({
     color: "#333",
   },
 
-// ..........APP design starts here
-
-app_parent: {
-  height: "100%",
-  width: "100%",
-  backgroundColor: "#FFFFFF",
-},
-app_hospitalImage: {
-  height: "25%",
-  width: "100%",
-},
-app_image: {
-  height: "100%",
-  width: "100%",
-},
-app_hospitalDetails: {
-  height: "15%",
-  width: "100%",
-  padding: "5%",
-
-  flexDirection: "row",
-},
-app_hospitalDetailsContainer1: {
-  width: "65%",
-  height: "100%",
-  // backgroundColor:"blue",
-},
-app_hospitalDetailsContainer1Top: {
-  width: "100%",
-  height: "50%",
-},
-app_hospitalname: {
-  fontSize: 24,
-  fontStyle: "Poppins",
-  fontWeight: "bold",
-},
-app_hospitaltype: {
-  fontSize: 14,
-  fontStyle: "Poppins",
-  fontWeight: "bold",
-},
-
-app_hospitalDetailsContainer1Bottom: {
-  width: "80%",
-  height: "50%",
-},
-
-app_distanceconatiner: {
-  height: "50%",
-  width: "100%",
-  paddingTop: "2%",
-  flexDirection: "row",
-  paddingRight: "30%",
-  justifyContent: "space-between",
-},
-app_distanceHeading: {
-  fontStyle: "Sunflower",
-  fontSize: 14,
-  fontWeight: 300,
-  color: "#9B9A9A",
-},
-app_distanceAway: {
-  fontStyle: "Poppins",
-  fontSize: 10,
-  fontWeight: 300,
-  color: "#FF0000",
-},
-
-app_arrivalContainer: {
-  height: "50%",
-  width: "100%",
-  flexDirection: "row",
-  paddingRight: "15%",
-  justifyContent: "space-between",
-},
-app_arrivalHeading: {
-  fontStyle: "Sunflower",
-  fontSize: 14,
-  fontWeight: 300,
-  color: "#9B9A9A",
-},
-app_arrivingIn: {
-  fontStyle: "Poppins",
-  fontSize: 10,
-  fontWeight: 300,
-  color: "#2CBE5E",
-},
-
-app_hospitalDetailsContainer2: {
-  width: "35%",
-  height: "100%",
-  // backgroundColor:"yellow",
-  alignItems: "center",
-  justifyContent: "center",
-},
-app_icondesign: {
-  padding: 10,
-  borderWidth: 5,
-  borderColor: "#F4F3F3",
-  borderRadius: 50,
-  backgroundColor: "#FFFF",
-},
-app_bedReviewContainer: {
-  width: "85%",
-  height: "8%",
-  marginLeft: "7.5%",
-  flexDirection: "row",
-  backgroundColor: "#FFFCFC",
-  borderRadius: 5,
-
-  shadowOffset: { width: 1, height: 1 },
-  shadowOpacity: 0.3,
-},
-app_emergencyBed: {
-  width: "50%",
-  height: "100%",
-  paddingLeft:"2%",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  borderRightWidth: 1,
-},
-app_emergencyBedBody: {
-  width: "80%",
-  height: "100%",
-  justifyContent: "center",
-  alignItems: "flex-start",
-  gap: 8,
-},
-app_bedHeading: {
-  fontStyle: "Poppins",
-  fontSize: 16,
-  fontWeight: "bold",
-  padding: "1%",
-  color: "#444444",
-},
-app_bedAvailability: {
-  fontStyle: "Poppins",
-  fontSize: 10,
-  padding: "1%",
-  color: "#444444",
-},
-app_review: {
-  width: "50%",
-  height: "100%",
-  paddingLeft:"2%",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-},
-app_serviceheadingContainer: {
-  width: "85%",
-  height: "4%",
-  justifyContent: "center",
-  marginLeft: "7.5%",
-  // backgroundColor: "red",
-},
-app_serviceheading: {
-  fontSize: 12,
-  fontWeight: 600,
-},
-app_footerBox: {
-  width: "85%",
-  height: "38%",
-  marginLeft: "7.5%",
-  padding: "2%",
-  backgroundColor: "#FFFCFC",
-  borderRadius: 5,
-  shadowOffset: { width: 1, height: 1 },
-  shadowOpacity: 0.3,
-  gap: "2%",
-  backgroundColor: "#FFFFFF",
-  shadowOffset: { width: 1, height: 1 },
-  shadowOpacity: 0.3,
-},
-app_footerBoxRow1: {
-  width: "94%",
-  height: "33%",
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-around",
-  // backgroundColor:"yellow",
-  gap: "1.5%",
-},
-app_box1: {
-  width: "35%",
-  height: "100%",
-  padding: "2%",
-  borderRadius: "5%",
-  justifyContent: "space-between",
-  backgroundColor: "#F1F1F1",
-  flexWrap:"wrap",
-},
-app_footerBoxRow2: {
-  width: "94%",
-  height: "40%",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  gap: "1.5%",
-},
-app_text2: {
-  fontSize: 8,
-},
+  // ..........APP design starts here
 
 
-app_availabilityButtonConatiner: {
-  width: "100%",
-  height: "18%",
-  padding: "1%",
-  justifyContent: "center",
-  // backgroundColor: "yellow",
-},
-app_availabilityButton: {
-  width: "80%",
-  height: "80%",
-  alignItems: "center",
-  justifyContent: "center",
-  marginLeft: "10%",
-  borderRadius: 5,
-  padding: "1%",
-  backgroundColor: "#FF7373",
-},
-app_bookhospitalButtoncontainer: {
-  width: "100%",
-  height: "10%",
-  justifyContent: "center",
-  alignContent: "center",
-  //backgroundColor:"red",
-},
-app_bookhospitalButton: {
-  width: "70%",
-  height: "65%",
-  marginLeft: "16.5%",
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: "2%",
-  backgroundColor: "#FF7373",
-},
-app_bookHospitalText: {
-  fontSize: 14,
-  fontWeight: 600,
-  color: "#fff",
-},
+  app_parent: {
+    height: "100%",
+    width: "100%",
+    backgroundColor: "#FFFFFF",
+  },
+  app_hospitalImage: {
+    height: "25%",
+    width: "100%",
+
+    ...Platform.select({
+      web: {
+        width: "100%",
+        height: "28%",
+        // paddingTop: 5,
+
+      },
+    }),
+
+  },
+  app_image: {
+    height: "100%",
+    width: "100%",
+  },
+  app_hospitalDetails: {
+    height: "15%",
+    width: "100%",
+    padding: "5%",
+    flexDirection: "row",
+  },
+  app_hospitalDetailsContainer1: {
+    width: "65%",
+    height: "100%",
+    // backgroundColor:"blue",
+  },
+  app_hospitalDetailsContainer1Top: {
+    width: "100%",
+    height: "50%",
+    // backgroundColor:"yellow",
+  },
+  app_hospitalname: {
+    fontSize: 24,
+    fontStyle: "Poppins",
+    fontWeight: "bold",
+  },
+  app_hospitaltype: {
+    fontSize: 14,
+    fontStyle: "Poppins",
+    fontWeight: "bold",
+  },
+
+  app_hospitalDetailsContainer1Bottom: {
+
+    width: "80%",
+    height: "50%",
+    ...Platform.select({
+      web: {
+        marginTop: "4%",
+        gap: 5,
+
+      },
+    }),
+
+    // backgroundColor:"red",
+  },
+
+  app_distanceconatiner: {
+    height: "50%",
+    width: "100%",
+    paddingTop: "2%",
+    flexDirection: "row",
+    paddingRight: "30%",
+    justifyContent: "space-between",
+  },
+  app_distanceHeading: {
+    fontStyle: "Sunflower",
+    fontSize: 14,
+    fontWeight: 300,
+    color: "#9B9A9A",
+  },
+  app_distanceAway: {
+    fontStyle: "Poppins",
+    fontSize: 10,
+    fontWeight: 300,
+    color: "#FF0000",
+  },
+
+  app_arrivalContainer: {
+    height: "50%",
+    width: "100%",
+    flexDirection: "row",
+    paddingRight: "15%",
+    ...Platform.select({
+      web: {
+        paddingRight: "20%",
+
+      },
+    }),
+    justifyContent: "space-between",
+  },
+  app_arrivalHeading: {
+    fontStyle: "Sunflower",
+    fontSize: 14,
+    fontWeight: 300,
+    color: "#9B9A9A",
+  },
+  app_arrivingIn: {
+    fontStyle: "Poppins",
+    fontSize: 10,
+    fontWeight: 300,
+    color: "#2CBE5E",
+  },
+
+  app_hospitalDetailsContainer2: {
+    width: "35%",
+    height: "100%",
+    // backgroundColor:"yellow",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  app_icondesign: {
+    padding: 10,
+    borderWidth: 5,
+    borderColor: "#F4F3F3",
+    borderRadius: 50,
+    backgroundColor: "#FFFF",
+  },
+  app_bedReviewContainer: {
+    width: "85%",
+    height: "8%",
+    marginLeft: "7.5%",
+    flexDirection: "row",
+    backgroundColor: "#FFFCFC",
+    borderRadius: 5,
+
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.3,
+  },
+  app_emergencyBed: {
+    width: "50%",
+    height: "100%",
+    paddingLeft: "2%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderRightWidth: 1,
+  },
+  app_emergencyBedBody: {
+    width: "80%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    gap: 8,
+  },
+  app_bedHeading: {
+    fontStyle: "Poppins",
+    fontSize: 16,
+    fontWeight: "bold",
+    padding: "1%",
+    color: "#444444",
+  },
+  app_bedAvailability: {
+    fontStyle: "Poppins",
+    fontSize: 10,
+    padding: "1%",
+    color: "#444444",
+  },
+  app_review: {
+    width: "50%",
+    height: "100%",
+    paddingLeft: "2%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  app_serviceheadingContainer: {
+    width: "85%",
+    height: "4%",
+    justifyContent: "center",
+    marginLeft: "7.5%",
+    // backgroundColor: "red",
+  },
+  app_serviceheading: {
+    fontSize: 12,
+    fontWeight: 600,
+  },
+  app_footerBox: {
+    width: "85%",
+    height: "35%",
+    marginLeft: "7.5%",
+    padding: "2%",
+    backgroundColor: "#FFFCFC",
+    borderRadius: 5,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.3,
+    gap: "2%",
+    backgroundColor: "#FFFFFF",
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.3,
+  },
+  app_footerBoxRow1: {
+    width: "94%",
+    height: "33%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    // backgroundColor:"yellow",
+    gap: "1.5%",
+  },
+  app_box1: {
+    width: "35%",
+    height: "100%",
+    padding: "2%",
+    borderRadius: "5%",
+    justifyContent: "space-between",
+    backgroundColor: "#F1F1F1",
+    flexWrap: "wrap",
+  },
+  app_footerBoxRow2: {
+    width: "94%",
+    height: "40%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "1.5%",
+  },
+  app_text2: {
+    fontSize: 8,
+  },
+
+
+  app_availabilityButtonConatiner: {
+    width: "100%",
+    height: "18%",
+    padding: "1%",
+    justifyContent: "center",
+    // backgroundColor: "yellow",
+  },
+  app_availabilityButton: {
+    width: "80%",
+    height: "80%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: "10%",
+    borderRadius: 5,
+    padding: "1%",
+    backgroundColor: "#FF7373",
+  },
+  app_bookhospitalButtoncontainer: {
+    width: "100%",
+    height: "10%",
+    ...Platform.select({
+      web: {
+        height: "15%"
+
+      },
+    }),
+
+    justifyContent: "center",
+    alignContent: "center",
+    //backgroundColor:"red",
+  },
+  app_bookhospitalButton: {
+    width: "70%",
+    height: "65%",
+    ...Platform.select({
+      web: {
+        height: "100%",
+        padding: 5,
+
+      },
+    }),
+    marginLeft: "16.5%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: "2%",
+    backgroundColor: "#FF7373",
+  },
+  app_bookHospitalText: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: "#fff",
+  },
 
 
 
