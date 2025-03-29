@@ -99,6 +99,7 @@ const HospitalCard = ({ navigation }) => {
               </View>
               <View style={styles.app_conatiner3}>
                 <View style={styles.app_container3Left}>
+                  <Image source={require("../assets/Icons/GreenDot.png")}/>
                   <Text style={styles.app_bedAvialable}>
                     Emergency Beds Available
                   </Text>
@@ -141,12 +142,14 @@ const styles = StyleSheet.create({
     height: "90%",
     borderRadius: 15,
     overflow: "hidden",
-    backgroundColor: "#fff",
-    elevation: 3, // Shadow for Android
+    backgroundColor: "red",
+    elevation: 10, // Shadow for Android
     shadowColor: "#000", // Shadow for iOS
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    
+
   },
   imageContainer: {
     height: "60%",
@@ -186,9 +189,18 @@ const styles = StyleSheet.create({
   //App design start...............
   app_parent: {
     height: 210,
+    // height:"100%",
     width: "100%",
     padding: "2%",
-    elevation: 1,
+    
+    borderRadius:5,
+    backgroundColor:"#FFF",
+    elevation: 5, // Shadow for Android
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+
+
   },
   app_top: {
     height: "85%",
@@ -216,11 +228,12 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     padding: "1%",
-    // backgroundColor: "#FF7072",
+    // backgroundColor: "red",
   },
   app_container1Left: {
     height: "100%",
     width: "60%",
+    marginLeft:"2%",
     justifyContent: "space-between",
   },
   app_hospitalname: {
@@ -246,8 +259,8 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowRadius: 2,
+    elevation: 2,
     backgroundColor: "#FFF",
   },
   app_conatiner2: {
@@ -310,6 +323,8 @@ const styles = StyleSheet.create({
     padding: "2%",
     alignItems: "center",
     justifyContent: "center",
+    flexDirection:"row",
+    gap:5,
   },
   app_bedAvialable: {
     fontSize: 10,
@@ -332,13 +347,20 @@ const styles = StyleSheet.create({
   },
 
   app_bottom: {
-    height: "18%",
+    
+    height: "18%", 
     width: "100%",
   },
+  
   app_buttonContainer: {
     height: "100%",
     width: "100%",
-    backgroundColor: "#FF7072",
+    ...Platform.select({
+      web: {
+        padding: "1%", // Specific height for web
+      },
+    }),
+    backgroundColor: "#FF7373",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 4,

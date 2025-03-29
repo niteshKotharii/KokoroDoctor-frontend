@@ -202,7 +202,7 @@ const HospitalBookingNext = ({ navigation }) => {
           <View style={styles.consultBox}>
             <Text style={styles.consultBoxText}>Tell us your symptoms</Text>
             <TextInput
-              style={styles.textArea}
+              style={styles.app_textArea}
               placeholder="eg: chest pain"
               placeholderTextColor="#999"
               multiline={true}
@@ -398,14 +398,28 @@ const styles = StyleSheet.create({
     marginVertical: "5%",
     marginHorizontal: "5%",
   },
-  textArea: {
+  // textArea: {
+  //   //flexShrink:1
+  //   borderRadius: 20,
+  // },
+  app_textArea: {
     //flexShrink:1
-    borderRadius: 20,
+    ...Platform.select({
+      web:{
+        backgroundColor:"#fff",
+        marginRight:"5%",
+        marginLeft:"5%",
+        marginBottom:"5%",
+        minheight:"100%",
+      },
+    }),
+    borderRadius: 5,
   },
   selectSymptomTextBox: {
-    height: "23%",
+    height: "30%",
     width: "91%",
     //borderWidth: 1,
+    maxWidth:"100%",
     marginHorizontal: "5%",
     marginVertical: "3%",
     flexDirection: "column",
@@ -417,17 +431,19 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   symptomGrid: {
-    // flexDirection: "row",
-    // flexWrap: "wrap", // Wrap items to next line
     gap: 8,
     height: "90%",
     width: "100%",
+    maxWidth:"100%",
+    maxHeight:"100%",
     //borderWidth: 1,
     paddingHorizontal:"0.2%",
     justifyContent:"space-between",
   },
 
   symptomCard: {
+    maxWidth:"100%",
+    maxHeight:"22%",
     borderWidth: 1,
     borderColor: "#FFB6C1",
     borderRadius: 5,
@@ -458,6 +474,7 @@ const styles = StyleSheet.create({
   contactSection: {
     height: "10%",
     width: "88%",
+    marginTop:"5%",
     //borderWidth: 1,
     marginHorizontal: "6%",
     flexDirection: "column",
@@ -740,7 +757,8 @@ const styles = StyleSheet.create({
     //borderWidth:1,
     backgroundColor: "rgb(250, 124, 149)",
     alignSelf:"center",
-    marginVertical:"15%",
+    bottom:0,
+    // marginVertical:"15%",
     paddingVertical:"2%",
     borderRadius:10
   },

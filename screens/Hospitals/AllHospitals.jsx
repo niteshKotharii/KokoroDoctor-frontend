@@ -338,7 +338,7 @@ const AllHospitals = ({ navigation, route }) => {
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
           <View style={styles.headContainer}>
-            <Header navigation={navigation} />
+            <Header style={styles.app_header}navigation={navigation} />
           </View>
           <View style={styles.searchBarConatiner}>
             <SearchBar style={styles.searchinput} />
@@ -381,11 +381,13 @@ const styles = StyleSheet.create({
      width: "100%",
   },
   headContainer: {
+    flex:1,
     height: "15%",
     width: "100%",
     justifyContent: "center",
   },
   searchBarConatiner: {
+    paddingTop:"1%",
     height: "8%",
     width: "100%",
   },
@@ -406,17 +408,37 @@ const styles = StyleSheet.create({
   },
   flatListConatainer: {
     height: "30%",
+    width:"100%",
   },
-  Phoneicon: {
-    position: "absolute",
-    bottom: 18,
-    right: 165,
+  Phoneicon: { 
+    position: "absolute",  
+    bottom: 18,            
+    left: 0,             
+    right: 0,   
+    marginLeft:"45%", 
+    alignItems:"center", 
+    width:"15%",
+    height:"6%",
+    padding: 4,  
+    ...Platform.select({
+      web: {
+        width:"12%",
+        height: "8%", 
+        paddingTop: 4,
+        paddingBottom:2,
+
+      },
+      
+    }),
+    
     backgroundColor: "#990000",
-    padding: "3%",
+    
     borderRadius: 50,
-    elevation: 5,
+    borderWidth:5,
+    borderColor:"#00000040",
+    elevation: 4,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 1, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
   },
