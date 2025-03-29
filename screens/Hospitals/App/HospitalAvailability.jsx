@@ -381,14 +381,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.3,
+    elevation: 2,
   },
-
   footerSection1: {
     height: "20%",
     width: "94%",
     // backgroundColor:"red",
     flexDirection: "row",
-
     justifyContent: "space-between",
   },
   slotstoday: {
@@ -443,11 +442,15 @@ const styles = StyleSheet.create({
     height: "80%",
     alignItems: "center",
     justifyContent: "center",
-
     marginLeft: "10%",
     borderRadius: 5,
     padding: "1%",
     backgroundColor: "#FF7373",
+    ...Platform.select({
+      web:{
+        padding: "3%",
+      }
+    })
   },
   bookhospitalButtoncontainer: {
     width: "100%",
@@ -461,7 +464,7 @@ const styles = StyleSheet.create({
     height: "65%",
     ...Platform.select({
       web:{
-        padding:"2%",
+        padding:"4%",
       },
     }),
     marginLeft: "16.5%",

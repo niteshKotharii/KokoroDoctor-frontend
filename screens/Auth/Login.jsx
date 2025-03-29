@@ -548,6 +548,7 @@ const styles = StyleSheet.create({
   mobileRememberContainer: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 10,
   },
   mobileCheckboxContainer: {
     marginRight: "2%",

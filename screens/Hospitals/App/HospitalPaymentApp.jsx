@@ -328,8 +328,8 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     overflow: "hidden",
     shadowOffset: {
-      width: 10,
-      height: 10,
+      width: 1,
+      height: 1,
     },
     shadowOpacity: 10,
     shadowRadius: 3,
@@ -438,8 +438,8 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     overflow: "hidden",
     shadowOffset: {
-      width: 10,
-      height: 10,
+      width: 1,
+      height: 1,
     },
     shadowOpacity: 10,
     shadowRadius: 3,
@@ -495,8 +495,8 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     overflow: "hidden",
     shadowOffset: {
-      width: 10,
-      height: 10,
+      width: 1,
+      height: 1,
     },
     shadowOpacity: 10,
     shadowRadius: 3,

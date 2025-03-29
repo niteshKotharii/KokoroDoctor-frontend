@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet, Image, Pressable, useWindowDimensions, Linking } from "react-native";
+import { View, Text, FlatList, StyleSheet, Image, Pressable, useWindowDimensions, Linking, Alert } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import {BlurView} from 'expo-blur';
 // import MyLinearGradient1 from "../components/MyLinearGradient1";

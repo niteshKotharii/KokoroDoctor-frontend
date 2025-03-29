@@ -436,8 +436,8 @@ const styles = StyleSheet.create({
     right: 0,
   },
   dropdownWeb:{
-    top: 30,
-    right: 40,
+    top: 40,
+    right: -70,
   },
   dropdownItem: {
     padding: 10,

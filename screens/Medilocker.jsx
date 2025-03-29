@@ -182,19 +182,19 @@ const Medilocker = ({ navigation }) => {
         ],
       };
 
-      // const response = await fetch(`${API_URL}/upload`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(payload),
-      // });
+      const response = await fetch(`${API_URL}/upload`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-      // if (!response.ok) {
-      //   throw new Error("File upload failed");
-      // }
+      if (!response.ok) {
+        throw new Error("File upload failed");
+      }
 
-      // const data = await response.json();
+      const data = await response.json();
       // console.log("Upload successful", data);
 
       setFiles((prevFiles) => [...prevFiles, newFile]);
@@ -837,6 +837,8 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 14,
+    borderWidth: 0,
+    outlineStyle: "none",
   },
   filterButton: {
     flexDirection: "row",

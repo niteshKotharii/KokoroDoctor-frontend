@@ -97,7 +97,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
 
   const HospitalDetail = {
     name: "Visit Hospital",
-    fee: "$499 fee",
+    fee: "₹800 fee",
     waitTime: "Max 15 min wait",
     layout: "Hsr Layout",
   };
@@ -421,7 +421,6 @@ const HospitalsInfoWithRating = ({ navigation }) => {
             <View style={styles.app_availabilityButtonConatiner}>
               <TouchableOpacity onPress={() => navigation.navigate("HospitalAvailability")}>
                 <View style={styles.app_availabilityButton}>
-                  {/* <TouchableOpacity  onPress={() => navigation.navigate("HospitalAvailability")}> */}
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text style={{ color: "#fff", fontSize: 16 }}>
                       View Availability
@@ -461,7 +460,6 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "column",
   },
-
   imageContainer: {
     height: "17%",
     width: "75%",
@@ -876,10 +874,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#333",
   },
-
   // ..........APP design starts here
-
-
   app_parent: {
     height: "100%",
     width: "100%",
@@ -888,7 +883,6 @@ const styles = StyleSheet.create({
   app_hospitalImage: {
     height: "25%",
     width: "100%",
-
     ...Platform.select({
       web: {
         width: "100%",
@@ -897,7 +891,6 @@ const styles = StyleSheet.create({
 
       },
     }),
-
   },
   app_image: {
     height: "100%",
@@ -931,27 +924,24 @@ const styles = StyleSheet.create({
   },
 
   app_hospitalDetailsContainer1Bottom: {
-
-    width: "80%",
+    width: "100%",
     height: "50%",
     ...Platform.select({
       web: {
         marginTop: "4%",
         gap: 5,
-
       },
     }),
 
     // backgroundColor:"red",
   },
-
   app_distanceconatiner: {
     height: "50%",
-    width: "100%",
+    width: "55%",
     paddingTop: "2%",
     flexDirection: "row",
-    paddingRight: "30%",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   app_distanceHeading: {
     fontStyle: "Sunflower",
@@ -965,16 +955,16 @@ const styles = StyleSheet.create({
     fontWeight: 300,
     color: "#FF0000",
   },
-
   app_arrivalContainer: {
     height: "50%",
-    width: "100%",
+    width: "90%",
     flexDirection: "row",
     paddingRight: "15%",
+    alignItems: "center",
+    // gap: 10,
     ...Platform.select({
       web: {
-        paddingRight: "20%",
-
+        // paddingRight: "15%",
       },
     }),
     justifyContent: "space-between",
@@ -1013,7 +1003,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#FFFCFC",
     borderRadius: 5,
-
+    elevation: 2,
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.3,
   },
@@ -1069,15 +1059,13 @@ const styles = StyleSheet.create({
     width: "85%",
     height: "35%",
     marginLeft: "7.5%",
-    padding: "2%",
+    padding: "3%",
     backgroundColor: "#FFFCFC",
     borderRadius: 5,
-    shadowOffset: { width: 1, height: 1 },
+    shadowOffset: { width: 1, height: 2 },
     shadowOpacity: 0.3,
     gap: "2%",
-    backgroundColor: "#FFFFFF",
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.3,
+    elevation: 3,
   },
   app_footerBoxRow1: {
     width: "94%",
@@ -1108,8 +1096,6 @@ const styles = StyleSheet.create({
   app_text2: {
     fontSize: 8,
   },
-
-
   app_availabilityButtonConatiner: {
     width: "100%",
     height: "18%",
@@ -1126,14 +1112,18 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: "1%",
     backgroundColor: "#FF7373",
+    ...Platform.select({
+      web:{
+        padding: "3%",
+      }
+    })
   },
   app_bookhospitalButtoncontainer: {
     width: "100%",
     height: "10%",
     ...Platform.select({
       web: {
-        height: "15%"
-
+        height: "15%",
       },
     }),
 
@@ -1147,7 +1137,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         height: "100%",
-        padding: 5,
+        padding: 10,
 
       },
     }),

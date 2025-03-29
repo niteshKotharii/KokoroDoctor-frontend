@@ -9,123 +9,229 @@ import {
   TouchableOpacity,
   Linking,
   Platform,
+  useWindowDimensions,
+  Dimensions,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import Header from "../components/Header";
 import Title from "../components/Title";
+import SearchBar from "../components/SearchBar";
+
+const {width, height} = Dimensions.get("window");
 
 const ContactUs = ({ navigation, route }) => {
-
+  const {width} = useWindowDimensions();
   return (
-    <View style={styles.container}>
-      <SideBarNavigation navigation={navigation} />
-
-      <View style={styles.imageContainer}>
-        <ImageBackground
-          source={require("../assets/Images/main_background.jpg")}
-          style={styles.imageBackground}
-          resizeMode="cover"
-        >
-          <View
-            style={[styles.overlay, { backgroundColor: "rgba(0, 0, 0, 0.6)" }]}
-          />
-          <View style={styles.parent}>
-            <View style={styles.Left}>
-              <SideBarNavigation navigation={navigation} />
-            </View>
-            <View style={styles.Right}>
-              <View style={styles.header}><Header navigation={navigation}/></View>
-              <View style={styles.title}><Title/></View>
-              <View style={styles.Contactbox}>
-                <Text style={styles.Contact}>Contact Us</Text>
-
-                {/* Clickable Website */}
-                <TouchableOpacity onPress={() => Linking.openURL("")}>
-                  <Text style={styles.website}>
-                    Website: <Text style={styles.linkText}>Kokoro.Doctor</Text>
-                  </Text>
-                </TouchableOpacity>
-
-                {/* Clickable Phone Number (Optional, if needed) */}
-                <TouchableOpacity onPress={() => Linking.openURL("")}>
-                  <Text style={styles.contact}>
-                    Phone: <Text style={styles.linkText}>7060334160</Text>
-                  </Text>
-                </TouchableOpacity>
-
-                {/* Social Media Section */}
-                <View style={styles.socialmedia}>
-                  <Text style={styles.socialtext}>Social:</Text>
-                  <View style={styles.iconContainer}>
-                    <View style={styles.socialIconBox}>
-                      <TouchableOpacity
-                        onPress={() =>
-                          Linking.openURL(
-                            "https://www.linkedin.com/company/metafiedkokoro"
-                          )
-                        }
-                      >
-                        <Image
-                          source={require("../assets/Icons/LinkedIn.png")}
-                          style={styles.socialIcon}
-                        />
-                      </TouchableOpacity>
+    <>
+      {(Platform.OS === "web" && width > 1000) && (
+        <View style={styles.container}>
+          <SideBarNavigation navigation={navigation} />
+    
+          <View style={styles.imageContainer}>
+            <ImageBackground
+              source={require("../assets/Images/main_background.jpg")}
+              style={styles.imageBackground}
+              resizeMode="cover"
+            >
+              <View
+                style={[styles.overlay, { backgroundColor: "rgba(0, 0, 0, 0.6)" }]}
+              />
+              <View style={styles.parent}>
+                <View style={styles.Left}>
+                  <SideBarNavigation navigation={navigation} />
+                </View>
+                <View style={styles.Right}>
+                  <View style={styles.header}><Header navigation={navigation}/></View>
+                  <View style={styles.title}><Title/></View>
+                  <View style={styles.Contactbox}>
+                    <Text style={styles.Contact}>Contact Us</Text>
+    
+                    {/* Clickable Website */}
+                    <TouchableOpacity onPress={() => Linking.openURL("")}>
+                      <Text style={styles.website}>
+                        Website: <Text style={styles.linkText}>Kokoro.Doctor</Text>
+                      </Text>
+                    </TouchableOpacity>
+    
+                    {/* Clickable Phone Number (Optional, if needed) */}
+                    <TouchableOpacity onPress={() => Linking.openURL("")}>
+                      <Text style={styles.contact}>
+                        Phone: <Text style={styles.linkText}>7060334160</Text>
+                      </Text>
+                    </TouchableOpacity>
+    
+                    {/* Social Media Section */}
+                    <View style={styles.socialmedia}>
+                      <Text style={styles.socialtext}>Social:</Text>
+                      <View style={styles.iconContainer}>
+                        <View style={styles.socialIconBox}>
+                          <TouchableOpacity
+                            onPress={() =>
+                              Linking.openURL(
+                                "https://www.linkedin.com/company/metafiedkokoro"
+                              )
+                            }
+                          >
+                            <Image
+                              source={require("../assets/Icons/LinkedIn.png")}
+                              style={styles.socialIcon}
+                            />
+                          </TouchableOpacity>
+                        </View>
+    
+                        <View style={styles.socialIconBox}>
+                          <TouchableOpacity
+                            onPress={() =>
+                              Linking.openURL(
+                                "https://www.instagram.com/kokoro.doc?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                              )
+                            }
+                          >
+                            <Image
+                              source={require("../assets/Icons/instagram.png")}
+                              style={styles.socialIcon}
+                            />
+                          </TouchableOpacity>
+                        </View>
+    
+                        <View style={styles.socialIconBox}>
+                          <TouchableOpacity onPress={() => Linking.openURL("/")}>
+                            <Image
+                              source={require("../assets/Icons/twitter.png")}
+                              style={styles.socialIcon}
+                            />
+                          </TouchableOpacity>
+                        </View>
+    
+                        <View style={styles.socialIconBox}>
+                          <TouchableOpacity onPress={() => Linking.openURL("/")}>
+                            <Image
+                              source={require("../assets/Icons/youtube.png")}
+                              style={styles.socialIcon}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                      </View>
                     </View>
-
-                    <View style={styles.socialIconBox}>
-                      <TouchableOpacity
-                        onPress={() =>
-                          Linking.openURL(
-                            "https://www.instagram.com/kokoro.doc?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-                          )
-                        }
-                      >
-                        <Image
-                          source={require("../assets/Icons/instagram.png")}
-                          style={styles.socialIcon}
-                        />
-                      </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.socialIconBox}>
-                      <TouchableOpacity onPress={() => Linking.openURL("/")}>
-                        <Image
-                          source={require("../assets/Icons/twitter.png")}
-                          style={styles.socialIcon}
-                        />
-                      </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.socialIconBox}>
-                      <TouchableOpacity onPress={() => Linking.openURL("/")}>
-                        <Image
-                          source={require("../assets/Icons/youtube.png")}
-                          style={styles.socialIcon}
-                        />
-                      </TouchableOpacity>
-                    </View>
+    
+                    {/* Clickable Email */}
+                    <TouchableOpacity
+                      onPress={() =>
+                        Linking.openURL("mailto:business.support@kokoro.doctor")
+                      }
+                    >
+                      <Text style={styles.Email}>
+                        Email:{" "}
+                        <Text style={styles.linkText}>
+                          business.support@kokoro.doctor
+                        </Text>
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
-
-                {/* Clickable Email */}
-                <TouchableOpacity
-                  onPress={() =>
-                    Linking.openURL("mailto:business.support@kokoro.doctor")
-                  }
-                >
-                  <Text style={styles.Email}>
-                    Email:{" "}
-                    <Text style={styles.linkText}>
-                      business.support@kokoro.doctor
-                    </Text>
-                  </Text>
-                </TouchableOpacity>
               </View>
-            </View>
+            </ImageBackground>
           </View>
-        </ImageBackground>
-      </View>
-    </View>
+        </View>
+      )}
+      {(Platform.OS !== "web" || width < 1000) && (
+        <View style={styles.appContainer}>
+          <View style={[styles.header, { height: "15%" }]}>
+            <Header navigation={navigation} />
+          </View>
+
+          <View style={styles.searchBar}>
+            <SearchBar />
+          </View>
+
+          <View style={styles.Contactbox}>
+              <Text style={styles.Contact}>Contact Us</Text>
+
+              {/* Clickable Website */}
+              <TouchableOpacity onPress={() => Linking.openURL("")}>
+                <Text style={styles.website}>
+                  Website: <Text style={styles.linkText}>Kokoro.Doctor</Text>
+                </Text>
+              </TouchableOpacity>
+
+              {/* Clickable Phone Number (Optional, if needed) */}
+              <TouchableOpacity onPress={() => Linking.openURL("")}>
+                <Text style={styles.contact}>
+                  Phone: <Text style={styles.linkText}>7060334160</Text>
+                </Text>
+              </TouchableOpacity>
+
+              {/* Social Media Section */}
+              <View style={styles.socialmedia}>
+                <Text style={styles.socialtext}>Social:</Text>
+                <View style={styles.iconContainer}>
+                  <View style={styles.socialIconBox}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        Linking.openURL(
+                          "https://www.linkedin.com/company/metafiedkokoro"
+                        )
+                      }
+                    >
+                      <Image
+                        source={require("../assets/Icons/LinkedIn.png")}
+                        style={styles.socialIcon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={styles.socialIconBox}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        Linking.openURL(
+                          "https://www.instagram.com/kokoro.doc?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                        )
+                      }
+                    >
+                      <Image
+                        source={require("../assets/Icons/instagram.png")}
+                        style={styles.socialIcon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={styles.socialIconBox}>
+                    <TouchableOpacity onPress={() => Linking.openURL("/")}>
+                      <Image
+                        source={require("../assets/Icons/twitter.png")}
+                        style={styles.socialIcon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={styles.socialIconBox}>
+                    <TouchableOpacity onPress={() => Linking.openURL("/")}>
+                      <Image
+                        source={require("../assets/Icons/youtube.png")}
+                        style={styles.socialIcon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+
+              {/* Clickable Email */}
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL("mailto:business.support@kokoro.doctor")
+                }
+              >
+                <Text style={styles.Email}>
+                  Email:{" "}
+                  <Text style={styles.linkText}>
+                    business.support@kokoro.doctor
+                  </Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
+        </View>
+      )}
+    </>
   );
 };
 
@@ -137,6 +243,12 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#fff",
     flexDirection: "row",
+  },
+  appContainer:{
+    flex: 1,
+    height: "100%",
+    width: "100%",
+    // backgroundColor: "pink",
   },
   imageContainer: {
     //borderWidth: 2,
@@ -188,13 +300,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   Contactbox: {
-    height: "37%",
-    width: "68%",
+    height: "28%",
     borderRadius: 20,
     backgroundColor: "#D9D9D9",
     alignSelf: "center",
-    marginVertical: "5%",
     marginVertical: "auto",
+    ...Platform.select({
+      web:{
+        width: width > 1000 ? "68%" : "95%",
+        height: width>1000 ? "37%" : "28%",
+      }
+    })
   },
   Contact: {
     fontWeight: 600,

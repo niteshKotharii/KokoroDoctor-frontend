@@ -77,7 +77,7 @@ const DoctorsInfoWithRating = ({ navigation, route, data }) => {
 
   const clinicData = {
     name: "Wisdom Clinics",
-    fee: "$499 fee",
+    fee: "₹800 fee",
     waitTime: "Max 15 min wait",
     layout: "Hsr Layout",
   };

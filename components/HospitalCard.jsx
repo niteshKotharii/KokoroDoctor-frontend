@@ -229,11 +229,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: "1%",
     // backgroundColor: "red",
+    gap: 15,
   },
   app_container1Left: {
     height: "100%",
     width: "60%",
-    marginLeft:"2%",
+    marginLeft:"5%",
     justifyContent: "space-between",
   },
   app_hospitalname: {
@@ -247,10 +248,10 @@ const styles = StyleSheet.create({
   },
   app_container1Right: {
     height: "100%",
-    width: "40%",
+    width: "30%",
     justifyContent: "space-between",
     paddingRight: "2%",
-    alignItems: "flex-end",
+    // alignItems: "flex-end",
   },
   app_rating: {
     // borderColor: "#000000",
@@ -258,9 +259,9 @@ const styles = StyleSheet.create({
     padding: 2,
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.1,
     shadowRadius: 2,
-    elevation: 2,
+    elevation: 1,
     backgroundColor: "#FFF",
   },
   app_conatiner2: {
@@ -272,9 +273,9 @@ const styles = StyleSheet.create({
     shadowOffset: 1,
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 2,
     flexDirection: "row",
     backgroundColor: "#F7F5F5",
     justifyContent: "space-between",
@@ -357,7 +358,7 @@ const styles = StyleSheet.create({
     width: "100%",
     ...Platform.select({
       web: {
-        padding: "1%", // Specific height for web
+        padding: "3%", // Specific height for web
       },
     }),
     backgroundColor: "#FF7373",

@@ -1,88 +1,164 @@
 import React, { useState } from "react";
-import { ImageBackground, Text, View, StyleSheet, Pressable, Platform } from "react-native";
+import { ImageBackground, Text, View, StyleSheet, Pressable, Platform, useWindowDimensions, Dimensions } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import Header from "../components/Header";
 import Title from "../components/Title";
+import SearchBar from "../components/SearchBar";
+
+const {width, height} = Dimensions.get("window");
 
 const Help = ({ navigation, route }) => {
+  const {width} = useWindowDimensions();
   return (
-    <View style={styles.container}>
-      <SideBarNavigation navigation={navigation} />
+    <>
+      {Platform.OS === "web" && width > 1000 && (
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <ImageBackground
+              source={require("../assets/Images/main_background.jpg")}
+              style={styles.imageBackground}
+              resizeMode="cover"
+            >
+              <View
+                style={[
+                  styles.overlay,
+                  { backgroundColor: "rgba(0, 0, 0, 0.6)" },
+                ]}
+              />
+              <View style={styles.parent}>
+                <View style={styles.Left}>
+                  <SideBarNavigation navigation={navigation} />
+                </View>
+                <View style={styles.Right}>
+                  <View style={styles.header}>
+                    <Header navigation={navigation} />
+                  </View>
+                  <View style={styles.title}>
+                    <Title />
+                  </View>
+                  <View style={styles.Helpbox}>
+                    <View style={styles.headerContainer}>
+                      <Text style={styles.head}>Help</Text>
+                    </View>
+                    <View style={styles.contentContainer}>
+                      <Text style={styles.sectionTitle}>FAQs</Text>
+                      <Text style={styles.question}>
+                        How can I improve my heart health?
+                      </Text>
+                      <Text style={styles.answer}>
+                        Eat well, exercise, manage stress, and avoid smoking.
+                      </Text>
 
-      <View style={styles.imageContainer}>
-        <ImageBackground
-          source={require("../assets/Images/main_background.jpg")}
-          style={styles.imageBackground}
-          resizeMode="cover"
-        >
-          <View
-            style={[styles.overlay, { backgroundColor: "rgba(0, 0, 0, 0.6)" }]}
-          />
-          <View style={styles.parent}>
-            <View style={styles.Left}>
-              <SideBarNavigation navigation={navigation} />
+                      <Text style={styles.question}>
+                        What are heart disease symptoms?
+                      </Text>
+                      <Text style={styles.answer}>
+                        Chest pain, shortness of breath, fatigue, and dizziness.
+                        See a doctor if you experience these.
+                      </Text>
+
+                      <Text style={styles.question}>
+                        When should I check my heart health?
+                      </Text>
+                      <Text style={styles.answer}>
+                        Regular check-ups are important, especially if you have
+                        risk factors.
+                      </Text>
+
+                      <Text style={styles.question}>
+                        What’s a healthy blood pressure?
+                      </Text>
+                      <Text style={styles.answer}>
+                        Below 120/80 mm Hg is ideal.
+                      </Text>
+
+                      <Text style={styles.sectionTitle}>Resources</Text>
+                      <Text style={styles.resource}>Heart Health Tips</Text>
+                      <Text style={styles.resource}>
+                        Exercise & Nutrition Guides
+                      </Text>
+                      <Text style={styles.resource}>Find a Doctor</Text>
+                      <Pressable
+                        onPress={() => {
+                          navigation.navigate("ContactUs");
+                        }}
+                      >
+                        <Text style={styles.contact}>
+                          For more help,{" "}
+                          <Text style={styles.link}>contact us</Text>.
+                        </Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
+        </View>
+      )}
+
+      {(Platform.OS !== "web" || width < 1000) && (
+        <View style={styles.appContainer}>
+          <View style={[styles.header, { height: "15%" }]}>
+            <Header navigation={navigation} />
+          </View>
+
+          <View style={styles.searchBar}>
+            <SearchBar />
+          </View>
+
+          <View style={styles.Helpbox}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.head}>Help</Text>
             </View>
-            <View style={styles.Right}>
-              <View style={styles.header}>
-                <Header navigation={navigation} />
-              </View>
-              <View style={styles.title}>
-                <Title />
-              </View>
-              <View style={styles.Helpbox}>
-                <View style={styles.headerContainer}>
-                  <Text style={styles.head}>Help</Text>
-                </View>
-                <View style={styles.contentContainer}>
-                  <Text style={styles.sectionTitle}>FAQs</Text>
-                  <Text style={styles.question}>
-                    How can I improve my heart health?
-                  </Text>
-                  <Text style={styles.answer}>
-                    Eat well, exercise, manage stress, and avoid smoking.
-                  </Text>
+            <View style={styles.contentContainer}>
+              <Text style={styles.sectionTitle}>FAQs</Text>
+              <Text style={styles.question}>
+                How can I improve my heart health?
+              </Text>
+              <Text style={styles.answer}>
+                Eat well, exercise, manage stress, and avoid smoking.
+              </Text>
 
-                  <Text style={styles.question}>
-                    What are heart disease symptoms?
-                  </Text>
-                  <Text style={styles.answer}>
-                    Chest pain, shortness of breath, fatigue, and dizziness. See
-                    a doctor if you experience these.
-                  </Text>
+              <Text style={styles.question}>
+                What are heart disease symptoms?
+              </Text>
+              <Text style={styles.answer}>
+                Chest pain, shortness of breath, fatigue, and dizziness. See a
+                doctor if you experience these.
+              </Text>
 
-                  <Text style={styles.question}>
-                    When should I check my heart health?
-                  </Text>
-                  <Text style={styles.answer}>
-                    Regular check-ups are important, especially if you have risk
-                    factors.
-                  </Text>
+              <Text style={styles.question}>
+                When should I check my heart health?
+              </Text>
+              <Text style={styles.answer}>
+                Regular check-ups are important, especially if you have risk
+                factors.
+              </Text>
 
-                  <Text style={styles.question}>
-                    What’s a healthy blood pressure?
-                  </Text>
-                  <Text style={styles.answer}>
-                    Below 120/80 mm Hg is ideal.
-                  </Text>
+              <Text style={styles.question}>
+                What’s a healthy blood pressure?
+              </Text>
+              <Text style={styles.answer}>Below 120/80 mm Hg is ideal.</Text>
 
-                  <Text style={styles.sectionTitle}>Resources</Text>
-                  <Text style={styles.resource}>Heart Health Tips</Text>
-                  <Text style={styles.resource}>
-                    Exercise & Nutrition Guides
-                  </Text>
-                  <Text style={styles.resource}>Find a Doctor</Text>
-                  <Pressable onPress={() => {navigation.navigate("ContactUs")}}>
-                    <Text style={styles.contact}>
-                      For more help, <Text style={styles.link}>contact us</Text>.
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
+              <Text style={styles.sectionTitle}>Resources</Text>
+              <Text style={styles.resource}>Heart Health Tips</Text>
+              <Text style={styles.resource}>Exercise & Nutrition Guides</Text>
+              <Text style={styles.resource}>Find a Doctor</Text>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("ContactUs");
+                }}
+              >
+                <Text style={styles.contact}>
+                  For more help, <Text style={styles.link}>contact us</Text>.
+                </Text>
+              </Pressable>
             </View>
           </View>
-        </ImageBackground>
-      </View>
-    </View>
+        </View>
+      )}
+    </>
   );
 };
 
@@ -94,6 +170,12 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#fff",
     flexDirection: "row",
+  },
+  appContainer:{
+    flex: 1,
+    height: "100%",
+    width: "100%",
+    // backgroundColor: "pink",
   },
   imageContainer: {
     //borderWidth: 2,
@@ -143,25 +225,21 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   Helpbox: {
-    flex: 1,
     flexDirection: "row",
     padding: 10,
-    width: "60%",
-    borderRadius: 20,
-    backgroundColor: "#D9D9D9",
-  },
-  Helpbox: {
-    flex: 1,
-    flexDirection: "row",
-    padding: 10,
-    width: "60%",
+    width: "95%",
     borderRadius: 20,
     backgroundColor: "#D9D9D9",
     alignSelf: "center",
     marginVertical: "auto",
     alignItems: "flex-start",
+    ...Platform.select({
+      web:{
+        width: width > 1000 ? "60%" : "95%",
+        height: width>1000 ? "65%" : "65%",
+      }
+    })
   },
-
   contain: {
     flexDirection: "column",
     padding: 20,

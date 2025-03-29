@@ -300,6 +300,7 @@ const styles = StyleSheet.create({
     })
   },
   appheader: {
+    zIndex: 2,
     ...Platform.select({
       web: {
         width:"100%",

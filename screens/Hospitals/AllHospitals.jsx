@@ -27,7 +27,7 @@ import Header from "../../components/Header";
 import SearchBar from "../../components/SearchBar";
 // import AppHospitalCard from "../../components/AppHospitalCard";
 import HospitalCard from "../../components/HospitalCard";
-import HeaderComponenet from "../../components/HeaderComponent"
+
 const width = Dimensions.get("window").width;
 const hospitalsdata = [
   { id: "1" },
@@ -338,7 +338,7 @@ const AllHospitals = ({ navigation, route }) => {
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
           <View style={styles.headContainer}>
-            <Header style={styles.app_header}navigation={navigation} />
+            <Header style={styles.header}navigation={navigation} />
           </View>
           <View style={styles.searchBarConatiner}>
             <SearchBar style={styles.searchinput} />
@@ -385,6 +385,7 @@ const styles = StyleSheet.create({
     height: "15%",
     width: "100%",
     justifyContent: "center",
+    zIndex: 2,
   },
   searchBarConatiner: {
     paddingTop:"1%",
@@ -417,25 +418,21 @@ const styles = StyleSheet.create({
     right: 0,   
     marginLeft:"45%", 
     alignItems:"center", 
+    justifyContent: "center",
     width:"15%",
     height:"6%",
     padding: 4,  
     ...Platform.select({
       web: {
-        width:"12%",
+        width:"15%",
         height: "8%", 
         paddingTop: 4,
         paddingBottom:2,
-
       },
       
-    }),
-    
+    }), 
     backgroundColor: "#990000",
-    
     borderRadius: 50,
-    borderWidth:5,
-    borderColor:"#00000040",
     elevation: 4,
     shadowColor: "#000",
     shadowOffset: { width: 1, height: 2 },
@@ -453,7 +450,6 @@ const styles = StyleSheet.create({
   // ...........App design ends
 
   //............web design start
-
   container: {
     // flex: 1,
     flexDirection: "row",

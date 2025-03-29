@@ -463,8 +463,8 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     overflow: "hidden",
     shadowOffset: {
-      width: 10,
-      height: 10,
+      width: 1,
+      height: 1,
     },
     shadowOpacity: 10,
     shadowRadius: 3,
@@ -542,8 +542,8 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     overflow: "hidden",
     shadowOffset: {
-      width: 10,
-      height: 10,
+      width: 1,
+      height: 1,
     },
     shadowOpacity: 10,
     shadowRadius: 3,
@@ -599,8 +599,8 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     overflow: "hidden",
     shadowOffset: {
-      width: 10,
-      height: 10,
+      width: 1,
+      height: 1,
     },
     shadowOpacity: 10,
     shadowRadius: 3,
@@ -666,6 +666,11 @@ const styles = StyleSheet.create({
     marginHorizontal: "5%",
     width: "90%",
     alignSelf: "center",
+    ...Platform.select({
+      web:{
+        marginVertical: 0,
+      }
+    })
   },
   continueButtonText: {
     color: "#fff",
