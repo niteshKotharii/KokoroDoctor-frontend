@@ -27,6 +27,7 @@ import HospitalBookingNext from "../screens/Hospitals/App/HospitalBookingNext";
 import BookHospitals from "../screens/Hospitals/BookHospitals";
 import HospitalCard from "../components/HospitalCard";
 import HospitalAvailability from"../screens/Hospitals/App/HospitalAvailability";
+import HospitalAvailabilitySlots from"../screens/Hospitals/App/HospitalAvailabilitySlots";
 import HospitalPaymentApp from"../screens/Hospitals/App/HospitalPaymentApp";
 
 import AboutUs from "../screens/AboutUs";
@@ -108,6 +109,7 @@ const HospitalNavigator = ({navigationRef}) => {
       <Stack.Screen name="HospitalCard" component={HospitalCard} options={{ headerShown: false }} /> 
       <Stack.Screen name="HospitalAvailability" component={HospitalAvailability} options={{ headerShown: false }} /> 
       <Stack.Screen name="HospitalBookingNext" component={HospitalBookingNext} options={{ headerShown: false }} />
+      <Stack.Screen name="HospitalAvailabilitySlots" component={HospitalAvailabilitySlots} options={{ headerShown: false }} />
       <Stack.Screen name="HospitalPaymentApp" component={HospitalPaymentApp} options={{ headerShown: false }} />  
     </Stack.Navigator>
   );
