@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet, Image, Pressable, useWindowDimensions, Linking } from "react-native";
+import { View, Text, FlatList, StyleSheet, Image, Pressable, useWindowDimensions, Linking, Alert } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import {BlurView} from 'expo-blur';
 // import MyLinearGradient1 from "../components/MyLinearGradient1";
-
+import {payment_api} from "../utils/PaymentService";
 
 const plans = [
   {
     name: "Elite Monthly Plan",
     oldPrice: "₹7,999",
-    newPrice: "₹2,999/month",
+    newPrice: "₹1,999/month",
     discount: "Save 62% – Limited Time Offer",
     features: [
       "Unlimited general cardiologist appointments",
@@ -22,7 +22,7 @@ const plans = [
   {
     name: "Executive Quarterly Plan",
     oldPrice: "₹22,999",
-    newPrice: "₹7,499/3 months",
+    newPrice: "₹4,999/3 months",
     discount: "Save 67% – Limited Time Offer",
     features: [
       "Unlimited general cardiologist appointments",
@@ -34,7 +34,7 @@ const plans = [
   {
     name: "Platinum Annual Plan",
     oldPrice: "₹79,999",
-    newPrice: "₹24,999/year",
+    newPrice: "₹9,999/year",
     discount: "Save 78% – Limited Time Offer",
     features: [
       "Unlimited general cardiologist appointments",
@@ -46,30 +46,23 @@ const plans = [
   },
 ];
 
-const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
-
 const PricingPlans = () => {
 
   const handleBuyNow = async (plan) => {
-    const pricePart = plan.newPrice.split('/')[0];
-    const amount = parseInt(pricePart.replace(/[^\d.]/g, ''), 10);
-
-    const response = await fetch(`${API_URL}/process-payment`, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ amount: amount }),
-    });
+    try {
+      const pricePart = plan.newPrice.split('/')[0];
+      const amount = parseInt(pricePart.replace(/[^\d.]/g, ''), 10);
   
-    if (!response.ok) {
-      throw new Error("Payment Failed");
+      const paymentLink = await payment_api(amount);
+      if (paymentLink) {
+        Linking.openURL(paymentLink).catch((err) => {
+          console.error("Failed to open payment link", err);
+          Alert.alert("Error", "Unable to open payment link. Please try again.");
+        });
+      }
+    } catch (error) {
+      Alert.alert("Payment Failed", error.message);
     }
-  
-    const data = await response.json();
-    const payment_link = data.payment_link;
-    Linking.openURL(payment_link).catch((err) => console.error('Failed to complete payment', err));
      
   };
 
@@ -143,9 +136,11 @@ const styles = StyleSheet.create({
     width: "100%",
     borderWidth: 1,
     borderColor: "#000000",
+    borderRadius: 10,
     alignSelf: "center",
     marginVertical: "3%",
     borderRadius: 5,
+    marginBottom: 90,
   },
   card: {
     backgroundColor: 'white',          
@@ -156,6 +151,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 3,  
     margin: 10,
+    marginTop: 40,
     height: "90%",      
   },
   cardContent: {

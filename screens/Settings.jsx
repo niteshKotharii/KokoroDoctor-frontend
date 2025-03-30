@@ -5,49 +5,76 @@ import {
   View,
   StyleSheet,
   Image,
+  Platform,
+  useWindowDimensions,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import Header from "../components/Header";
 import Title from "../components/Title";
+import SearchBar from "../components/SearchBar";
 
 const Settings = ({ navigation, route }) => {
-
+  const {width} = useWindowDimensions();
   return (
-    <View style={styles.container}>
-      <SideBarNavigation
-        navigation={navigation}
-      />
+    <>
+      {(Platform.OS === "web" && width > 1000) && (
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <ImageBackground
+              source={require("../assets/Images/main_background.jpg")}
+              style={styles.imageBackground}
+              resizeMode="cover"
+            >
+              <View
+                style={[
+                  styles.overlay,
+                  { backgroundColor: "rgba(0, 0, 0, 0.6)" },
+                ]}
+              />
+              <View style={styles.parent}>
+                <View style={styles.Left}>
+                  <SideBarNavigation navigation={navigation} />
+                </View>
+                <View style={styles.Right}>
+                  <View style={styles.header}>
+                    <Header navigation={navigation} />
+                  </View>
+                  <View style={styles.title}>
+                    <Title />
+                  </View>
 
-      <View style={styles.imageContainer}>
-        <ImageBackground
-          source={{
-            uri: "https://familypracticecenterpc.com/wp-content/uploads/2019/09/ask-the-doctors-about-heart-health.jpg",
-          }}
-          style={styles.imageBackground}
-          resizeMode="cover"
-        >
-          <View
-            style={[styles.overlay, { backgroundColor: "rgba(0, 0, 0, 0.6)" }]}
-          />
-          <View style={styles.parent}>
-            <View style={styles.Left}>
-              <SideBarNavigation navigation={navigation} /> 
-            </View>
-            <View style={styles.Right}>
-              <View style={styles.header}><Header navigation={navigation}/></View>
-              <View style={styles.title}><Title/></View>
-
-              <View style={styles.imageBox}>
-                <Image
-                    source={require("../assets/Images/coming_soon.png")}
-                    style={styles.comingSoon}
-                />
+                  <View style={styles.imageBox}>
+                    <Image
+                      source={require("../assets/Images/coming_soon.png")}
+                      style={styles.comingSoon}
+                    />
+                  </View>
+                </View>
               </View>
-            </View>
+            </ImageBackground>
           </View>
-        </ImageBackground>
-      </View>
-    </View>
+        </View>
+      )}
+
+      {(Platform.OS !== "web" || width < 1000) && (
+        <View style={styles.appContainer}>
+          <View style={[styles.header, { height: "15%" }]}>
+            <Header navigation={navigation} />
+          </View>
+
+          <View style={styles.searchBar}>
+            <SearchBar />
+          </View>
+
+          <View style={styles.imageBox}>
+            <Image
+              source={require("../assets/Images/coming_soon.png")}
+              style={styles.comingSoon}
+            />
+          </View>
+        </View>
+      )}
+    </>
   );
 };
 
@@ -59,6 +86,12 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#fff",
     flexDirection: "row",
+  },
+  appContainer:{
+    flex: 1,
+    height: "100%",
+    width: "100%",
+    // backgroundColor: "pink",
   },
   imageContainer: {
     //borderWidth: 2,
@@ -78,7 +111,7 @@ const styles = StyleSheet.create({
   },
   Right: {
     height: "100%",
-    width: "100%",
+    width: "85%",
     //borderWidth: 1,
   },
   imageBackground: {
@@ -94,16 +127,19 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   header: {
-    width:"12%",
-    marginLeft: "70%",
-    marginTop: 15,
-    // borderColor: "#FFFFFF",
-    // borderWidth: 1,
+    // borderWidth: 5,
+    // borderColor: "black",
+    zIndex: 2,
+    ...Platform.select({
+      web:{
+        width:"100%",
+      }
+    })
   },
   title: {
     // borderColor: "#FFFFFF",
     // borderWidth: 1,
-    marginRight: "18%",
+    marginVertical: "auto",
     alignSelf: "center",
   },
   imageBox: {
@@ -112,7 +148,7 @@ const styles = StyleSheet.create({
     // borderWidth: 10,
     // borderColor: "#000000",
     alignSelf: "center",
-    marginRight: "18%",
+    marginVertical: "auto",
   },
   comingSoon: {
     height: "100%",

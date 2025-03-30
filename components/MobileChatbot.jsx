@@ -185,7 +185,7 @@ const MobileChatbot = () => {
       return (
         <View style={[styles.messageBubble, styles.botMessage]}>
           <Image
-            source={require("../assets/Images/NewLogo.png")}
+            source={require("../assets/Images/KokoroLogo.png")}
             style={styles.avatar}
           />
           <View style={styles.botMessageBox}>

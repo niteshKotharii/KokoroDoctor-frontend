@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
-
 import {
   Alert,
   Image,
@@ -9,23 +8,35 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  TextInput,
-  Linking,
-  Keyboard,
   Platform,
-  Modal,
-  useWindowDimensions,
-  ScrollView,
-  FlatList,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 
-const HospitalDetails = ({ navigation, route }) => {
+const HospitalAvailability = ({ navigation, route }) => {
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const morningSlotArray = [
+    "9:45",
+    "10:00",
+    "10:30",
+    "10:45",
+    "11:00",
+    "11:15",
+  ];
+  const afternoonSlotArray = [
+    "12:00",
+    "12:30",
+    "12:45",
+    "1:15",
+    "1:00",
+    "1:45",
+  ];
+  const toggleSlotSelection = (slot) => {
+    setSelectedSlot(selectedSlot === slot ? null : slot);
+  };
   return (
     <View style={styles.parent}>
       <View style={styles.hospitalImage}>
         <Image
-          source={require("../../assets/Images//hospitalImage.jpeg")}
+          source={require("../../../assets/Images/hospitalImage.jpeg")}
           style={styles.image}
           resizeMode="cover"
         />
@@ -47,22 +58,20 @@ const HospitalDetails = ({ navigation, route }) => {
             </View>
           </View>
         </View>
-        <View style={styles.hospitalDetailsContainer2 }>
-          <TouchableOpacity  
-           >
+        <View style={styles.hospitalDetailsContainer2}>
+          <TouchableOpacity>
             <Icon
               style={styles.icondesign}
               name="call-outline"
               size={30}
               color="#FF7072"
-             
             />
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.bedReviewContainer}>
         <View style={styles.emergencyBed}>
-          <Icon style={styles.bedIcon} name="bed" size={30} color="#25BA58" />
+          <Image source={require("../../../assets/Icons/hospital-bed.png")} />
           <View style={styles.emergencyBedBody}>
             <Text style={styles.bedHeading}>Emergency Beds </Text>
             <Text style={styles.bedAvailability}>
@@ -82,76 +91,108 @@ const HospitalDetails = ({ navigation, route }) => {
         <Text style={styles.serviceheading}>Services & Availability</Text>
       </View>
       <View style={styles.footerBox}>
-        <View style={styles.footerBoxRow1}>
-          <View style={styles.box1}>
-            <Icon style={styles.bedIcon} name="bed" size={30} color="#25BA58" />
-
-            <View style={styles.box1Body}>
-              <Text>Emergency Bed</Text>
-              <Text>5 Bed Available</Text>
-            </View>
+        <View style={styles.footerSection1}>
+          <View style={styles.slotstoday}>
+            <Text style={{ fontSize: 13 }}>Today</Text>
+            <Text style={{ fontSize: 10 }}>No slots today</Text>
           </View>
-          <View style={styles.box1}>
-            <Icon style={styles.bedIcon} name="bed" size={30} color="#25BA58" />
-
-            <View style={styles.box1Body}>
-              <Text>Emergency Bed</Text>
-              <Text>5 Bed Available</Text>
-            </View>
+          <View style={styles.slotsnextDay}>
+            <Text style={{ fontSize: 13 }}>Tomorrow</Text>
+            <Text style={{ fontSize: 10, color: "#1FBF86" }}>
+              2 slots Avialable{" "}
+            </Text>
           </View>
-          <View style={styles.box1}>
-            <Icon style={styles.bedIcon} name="bed" size={30} color="#25BA58" />
-
-            <View style={styles.box1Body}>
-              <Text>Emergency Bed</Text>
-              <Text>5 Bed Available</Text>
-            </View>
+          <View style={styles.slotsnextDate}>
+            <Text style={{ fontSize: 13 }}>Mon,2 feb</Text>
+            <Text style={{ fontSize: 10, color: "#1FBF86" }}>
+              2 slots Avialable{" "}
+            </Text>
           </View>
         </View>
-        <View style={styles.footerBoxRow2}>
-          <View style={styles.box1}>
-            <Icon style={styles.bedIcon} name="bed" size={30} color="#25BA58" />
 
-            <View style={styles.box1Body}>
-              <Text>Emergency Bed</Text>
-              <Text>5 Bed Available</Text>
-            </View>
+        <View style={styles.footerSection2}>
+          <View style={styles.slotHeading}>
+            <Text>Morning</Text>
           </View>
-          <View style={styles.box1}>
-            <Icon style={styles.bedIcon} name="bed" size={30} color="#25BA58" />
-
-            <View style={styles.box1Body}>
-              <Text>Emergency Bed</Text>
-              <Text>5 Bed Available</Text>
-            </View>
-          </View>
-          <View style={styles.box1}>
-            <Icon style={styles.bedIcon} name="bed" size={30} color="#25BA58" />
-
-            <View style={styles.box1Body}>
-              <Text>Emergency Bed</Text>
-              <Text>5 Bed Available</Text>
-            </View>
+          <View style={styles.slotbox}>
+            {morningSlotArray.map((slot, index) => {
+              const isSelected = selectedSlot === slot;
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    // styles.symptomCard,
+                    styles.slot,
+                    isSelected && styles.selectedBed, // Apply selected style
+                  ]}
+                  onPress={() => toggleSlotSelection(slot)}
+                >
+                  <Text
+                    style={[
+                      styles.symptomText,
+                      isSelected && styles.selectedCardText, // Change text color if selected
+                    ]}
+                  >
+                    {slot}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </View>
         </View>
+
+        <View style={styles.footerSection3}>
+          <View style={styles.slotHeading}>
+            <Text>Afternoon</Text>
+          </View>
+          <View style={styles.slotbox}>
+            {afternoonSlotArray.map((slot, index) => {
+              const isSelected = selectedSlot === slot;
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.slot,
+                    isSelected && styles.selectedBed, // Apply selected style
+                  ]}
+                  onPress={() => toggleSlotSelection(slot)}
+                >
+                  <Text
+                    style={[
+                      styles.symptomText,
+                      isSelected && styles.selectedCardText, // Change text color if selected
+                    ]}
+                  >
+                    {slot}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
+
         <View style={styles.availabilityButtonConatiner}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("AllAvilability")}
+          >
             <View style={styles.availabilityButton}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text style={{ color: "#333333", fontSize: 16 }}>
-                  View Availability
+                <Text style={{ color: "#fff", fontSize: 16 }}>
+                  View All Availability
                 </Text>
-                <Icon name="chevron-forward" size={20} color="#333333" />
+                <Icon name="chevron-forward" size={20} color="#fff" />
               </View>
             </View>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.bookhospitalButtoncontainer}>
-        <TouchableOpacity>
-        <View style={styles.bookhospitalButton}>
-            <Text style={styles.bookHospitalText} >Book Hospital</Text>
-        </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("HospitalPaymentApp")}
+        >
+          <View style={styles.bookhospitalButton}>
+            <Text style={styles.bookHospitalText}>Book Hospital</Text>
+          </View>
         </TouchableOpacity>
       </View>
     </View>
@@ -173,9 +214,11 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   hospitalDetails: {
-    height: "15%",
+    height: "13%",
     width: "100%",
-    padding: "5%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
+    paddingTop:"2%",
 
     flexDirection: "row",
   },
@@ -212,6 +255,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingRight: "30%",
     justifyContent: "space-between",
+    
   },
   distanceHeading: {
     fontStyle: "Sunflower",
@@ -229,21 +273,26 @@ const styles = StyleSheet.create({
   arrivalContainer: {
     height: "50%",
     width: "100%",
+
     flexDirection: "row",
     paddingRight: "15%",
     justifyContent: "space-between",
+      justifyContent: "space-between",
+      
   },
   arrivalHeading: {
     fontStyle: "Sunflower",
     fontSize: 14,
     fontWeight: 300,
     color: "#9B9A9A",
+    
   },
   arrivingIn: {
     fontStyle: "Poppins",
     fontSize: 10,
     fontWeight: 300,
     color: "#2CBE5E",
+    
   },
 
   hospitalDetailsContainer2: {
@@ -255,8 +304,8 @@ const styles = StyleSheet.create({
   },
   icondesign: {
     padding: 10,
-    borderWidth:5,
-    borderColor:"#F4F3F3",
+    borderWidth: 5,
+    borderColor: "#F4F3F3",
     borderRadius: 50,
     backgroundColor: "#FFFF",
   },
@@ -274,6 +323,7 @@ const styles = StyleSheet.create({
   emergencyBed: {
     width: "50%",
     height: "100%",
+    paddingLeft: "2%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -302,6 +352,7 @@ const styles = StyleSheet.create({
   review: {
     width: "50%",
     height: "100%",
+    paddingLeft: "2%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -330,34 +381,55 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.3,
+    elevation: 2,
   },
-  footerBoxRow1: {
+  footerSection1: {
+    height: "20%",
     width: "94%",
-    height: "33%",
+    // backgroundColor:"red",
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    justifyContent: "space-around",
-    // backgroundColor:"yellow",
-    gap: "1.5%",
-  },
-  box1: {
-    width: "35%",
-    height: "100%",
-    padding: "2%",
-    borderRadius: "5%",
     justifyContent: "space-between",
-    backgroundColor: "#F1F1F1",
   },
-  footerBoxRow2: {
+  slotstoday: {
+    gap: 2,
+  },
+  slotsnextDay: {
+    gap: 2,
+  },
+  slotsnextDate: {
+    gap: 2,
+  },
+  footerSection2: {
+    height: "30%",
     width: "94%",
-    height: "40%",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    justifyContent: "space-around",
-    gap: "1.5%",
+    // backgroundColor: "green",
+    gap: 2,
+    paddingLeft: "2%",
   },
+  slotbox: {
+    width: "90%",
+    height: "90%",
+    flexDirection: "row",
+    gap: 2,
+    flexWrap: "wrap",
+  },
+  slot: {
+    height: "40%",
+    width: "20%",
+    padding: "1%",
+    borderWidth: 1,
+    borderColor: "#1680EC",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  footerSection3: {
+    height: "30%",
+    width: "94%",
+    // backgroundColor: "blue",
+    gap: 2,
+    paddingLeft: "2%",
+  },
+
   availabilityButtonConatiner: {
     width: "100%",
     height: "18%",
@@ -370,36 +442,49 @@ const styles = StyleSheet.create({
     height: "80%",
     alignItems: "center",
     justifyContent: "center",
-   
     marginLeft: "10%",
     borderRadius: 5,
     padding: "1%",
     backgroundColor: "#FF7373",
+    ...Platform.select({
+      web:{
+        padding: "3%",
+      }
+    })
   },
-  bookhospitalButtoncontainer:{
-     width:"100%",
-     height:"10%",
-     justifyContent:"center",
-     alignContent:"center",
+  bookhospitalButtoncontainer: {
+    width: "100%",
+    height: "10%",
+    justifyContent: "center",
+    alignContent: "center",
     //  backgroundColor:"red",
-
   },
-  bookhospitalButton:{
-
- width:"70%",
- height:"65%",
- marginLeft:"16.5%",
- justifyContent:"center",
- alignItems:"center",
- borderRadius:"2%",
- backgroundColor:"#FF7373",
-
-
+  bookhospitalButton: {
+    width: "70%",
+    height: "65%",
+    ...Platform.select({
+      web:{
+        padding:"4%",
+      },
+    }),
+    marginLeft: "16.5%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 3,
+    backgroundColor: "#FF7373",
   },
-  bookHospitalText:{
-  fontSize:14,
-  fontWeight:600,
+  bookHospitalText: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: "#fff",
   },
-
+  selectedCardText: {
+    color: "#fff",
+    fontWeight: "600",
+  },
+  selectedBed: {
+    backgroundColor: "#FFB6C1",
+    borderColor: "#FF69B4",
+  },
 });
-export default HospitalDetails;
+export default HospitalAvailability;

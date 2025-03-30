@@ -16,59 +16,57 @@ import DoctorResultShow from "./DoctorResultShow";
 const DoctorNearYou = ({ navigation }) => {
   const { width } = useWindowDimensions();
   const handleContinueButtonApp = () => {
-      navigation.navigate(DoctorResultShow);
-    };
+    navigation.navigate(DoctorResultShow);
+  };
 
   return (
     <>
-      {(Platform.OS !== "web" || width < 1000) && (
-        <View style={styles.appContainer}>
-          <View style={{ flex: 1 }}>
-            <View style={styles.headerContainer}>
-              <Text style={styles.headerText}>Find Doctor near you</Text>
-            </View>
-            <View style={styles.locationContainer}>
-              <TouchableOpacity style={styles.arrowIcon}>
-                <Image
-                  source={require("../../assets/Icons/LocationArrow .png")}
-                  style={styles.icon}
-                />
-              </TouchableOpacity>
-              <TextInput
-                style={styles.textArea}
-                placeholder="Enter Location"
-                placeholderTextColor="#444444"
-                multiline={true}
-              />
-            </View>
-            <View style={styles.detectLocationContainer}>
-              <View style={styles.iconBox}>
-                <Image
-                  source={require("../../assets/Icons/LocationLogo.png")}
-                  style={styles.locationIcon}
-                />
-              </View>
-              <TouchableOpacity style={styles.locationTextBox1}>
-                <Text style={styles.locationText1}>
-                  Give us your exact location
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.locationTextBox2}>
-                <Text style={styles.locationText2}>Detect Location</Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity
-              onPress={handleContinueButtonApp}
-              style={styles.skipButton}
-            >
+      <View style={styles.appContainer}>
+        <View style={{ flex: 1 }}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>Find Doctor near you</Text>
+          </View>
+          <View style={styles.locationContainer}>
+            <TouchableOpacity style={styles.arrowIcon}>
               <Image
-                source={require("../../assets/Images/right-arrow.png")}
-                style={styles.skipIcon}
+                source={require("../../assets/Icons/LocationArrow .png")}
+                style={styles.icon}
               />
             </TouchableOpacity>
+            <TextInput
+              style={styles.textArea}
+              placeholder="Enter Location"
+              placeholderTextColor="#444444"
+              multiline={true}
+            />
           </View>
+          <View style={styles.detectLocationContainer}>
+            <View style={styles.iconBox}>
+              <Image
+                source={require("../../assets/Icons/LocationLogo.png")}
+                style={styles.locationIcon}
+              />
+            </View>
+            <TouchableOpacity style={styles.locationTextBox1}>
+              <Text style={styles.locationText1}>
+                Give us your exact location
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.locationTextBox2}>
+              <Text style={styles.locationText2}>Detect Location</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            onPress={handleContinueButtonApp}
+            style={styles.skipButton}
+          >
+            <Image
+              source={require("../../assets/Images/right-arrow.png")}
+              style={styles.skipIcon}
+            />
+          </TouchableOpacity>
         </View>
-      )}
+      </View>
     </>
   );
 };

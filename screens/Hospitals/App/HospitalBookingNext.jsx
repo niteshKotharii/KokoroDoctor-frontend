@@ -9,59 +9,47 @@ import {
   Image,
   Platform,
   useWindowDimensions,
-  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  
 } from "react-native";
-import Header from "../../components/Header";
-import SearchBar from "../../components/SearchBar";
-import SideBarNavigation from "../../components/SideBarNavigation";
+// import Header from "../../../components/Header";
+// import SearchBar from "../../components/SearchBar";
+import SideBarNavigation from "../../../components/SideBarNavigation";
 import Icon from "react-native-vector-icons/FontAwesome";
-import MyLinearGradient1 from "../../components/MyLinearGradient1";
-import DoctorNearYou from "./DoctorNearYou";
-import DoctorResultShow from "./DoctorResultShow";
+import HospitalAvailability from "./HospitalAvailability";
+import MyLinearGradient1 from "../../../components/MyLinearGradient1";
+// import DoctorResultShow from "./DoctorResultShow";
 
-const ConsultWithDoctors = ({ navigation }) => {
-  const [selectedCards, setSelectedCards] = useState([]); // for selecting symptoms cards
-  const [selectedCountryCode, setSelectedCountryCode] = useState("+91"); //for selecting country code
+const HospitalBookingNext = ({ navigation }) => {
+  const [selectedBed, setSelectedBed] = useState(null); // Allow only one selection
+  const [selectedCountryCode, setSelectedCountryCode] = useState("+91"); // Country code selection
   const { width } = useWindowDimensions();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  //This is the array for symptoms cards
-  const symptoms = [
-    "Chest Pain",
-    "Shortness of breath",
-    "fainting",
-    "High blood pressure",
-    "Dizziness",
-    "Fatigue",
-    "Swelling in legs",
-    "Irregular heartbeat",
-    "Others",
+  // This is the array for bed booking options
+  const bedservice = [
+    "General Bed Booking",
+    "Private Room Booking",
+    "ICU (Intensive Care Unit) Bed Booking",
+    "VIP Bed Booking",
   ];
 
-  // This function related to selection of symptoms cards.
+  // Function to select only one bed at a time
   const toggleCardSelection = (item) => {
-    if (selectedCards.includes(item)) {
-      // If already selected, remove from array
-      setSelectedCards(selectedCards.filter((symptom) => symptom !== item));
-    } else {
-      // If not selected, add to array
-      setSelectedCards([...selectedCards, item]);
-    }
+    setSelectedBed(item); // Store only the selected item
   };
 
-  const handleContinueButtonApp = () => {
-    navigation.navigate(DoctorNearYou);
-  };
   const handleContinueButton = () => {
-    navigation.navigate(DoctorResultShow);
-  };
+    navigation.navigate(HospitalAvailability);
+  }
   return (
     <>
       {Platform.OS === "web" && width > 1000 && (
         <View style={styles.webContainer}>
           {/* Background Image */}
           <ImageBackground
-            source={require("../../assets/Images/background.jpg")}
+            source={require("../../../assets/Images/background.jpg")}
             style={styles.imageBackground}
             resizeMode="cover"
           >
@@ -75,10 +63,75 @@ const ConsultWithDoctors = ({ navigation }) => {
                 <SideBarNavigation navigation={navigation} />
               </View>
 
+              {/* Right Section - Main Content */}
               <View style={styles.Right}>
                 {/* Header */}
                 <View style={styles.header}>
-                  <Header navigation={navigation} />
+                  <View style={styles.welcomeContainer}>
+                    <Text style={styles.welcomeText}>Welcome Alex!</Text>
+                    <Text style={styles.subText}>
+                      Here is your sales Medical dashboard
+                    </Text>
+                  </View>
+
+                  {/* Search Bar */}
+                  <View style={styles.searchContainer}>
+                    <Image
+                      source={require("../../../assets/Icons/search.png")}
+                      style={styles.searchIcon}
+                      resizeMode="contain"
+                    />
+                    <TextInput
+                      style={styles.searchInput}
+                      placeholder="Search your query"
+                      placeholderTextColor="rgba(255, 255, 255, 1)"
+                    />
+                  </View>
+
+                  {/* Notification and Profile Section */}
+                  <View style={styles.iconsContainer}>
+                    <Image
+                      source={require("../../../assets/Icons/notification1.png")}
+                      style={styles.notificationIcon}
+                      resizeMode="contain"
+                    />
+                  </View>
+                  {/* Profile Dropdown */}
+                  <View style={styles.profileWrapper}>
+                    <TouchableOpacity
+                      onPress={() => setIsDropdownOpen(!isDropdownOpen)}
+                      style={styles.profileContainer}
+                    >
+                      <Image
+                        source={require("../../../assets/Icons/profile1.png")}
+                        style={styles.profileIcon}
+                        resizeMode="contain"
+                      />
+                      <Icon
+                        name={isDropdownOpen ? "caret-up" : "caret-down"}
+                        size={14}
+                        color="white"
+                        style={styles.caretIcon}
+                      />
+                    </TouchableOpacity>
+
+                    {/* Dropdown Content */}
+                    {isDropdownOpen && (
+                      <View style={styles.dropdownContainer}>
+                        <View style={styles.dropdownMenu}>
+                          <TouchableOpacity style={styles.dropdownItem}>
+                            <Text style={styles.dropdownText}>Profile</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={styles.dropdownItem}>
+                            <Text style={styles.dropdownText}>Settings</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={styles.dropdownItem}>
+                            <Text style={styles.dropdownText}>Logout</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    )}
+                  </View>
                 </View>
 
                 {/* 🔹 Gradient Section (Using MyLinearGradient) */}
@@ -114,10 +167,7 @@ const ConsultWithDoctors = ({ navigation }) => {
                           A verification code will be sent to this number
                         </Text>
 
-                        <TouchableOpacity
-                          style={styles.button}
-                          onPress={handleContinueButton}
-                        >
+                        <TouchableOpacity style={styles.button} onPress={handleContinueButton}>
                           <Text style={styles.buttonText}>Continue</Text>
                         </TouchableOpacity>
                       </View>
@@ -136,122 +186,117 @@ const ConsultWithDoctors = ({ navigation }) => {
         </View>
       )}
       {(Platform.OS !== "web" || width < 1000) && (
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          keyboardShouldPersistTaps="handled"
-        >
-          <View style={styles.appContainer}>
-            <View style={[styles.appheader, { height: "15%" }]}>
-              <Header navigation={navigation} />
-            </View>
-
-            <View style={styles.searchBar}>
-              <SearchBar />
-            </View>
-            <View style={styles.doctorTextBox}>
-              <Text style={styles.doctorText}>Consult with Doctor</Text>
-            </View>
-
-            <View style={styles.consultBox}>
-              <Text style={styles.consultBoxText}>Tell us your symptoms</Text>
-              <TextInput
-                style={styles.textArea}
-                placeholder="eg: chest pain"
-                placeholderTextColor="#999"
-                multiline={true}
-                numberOfLines={4}
-                textAlignVertical="top"
-                backgroundColor="#fff"
-                height="50%"
-                width="90%"
-                alignSelf="center"
-              />
-            </View>
-            <View style={styles.selectSymptomTextBox}>
-              <Text style={styles.selectSymptomText}>
-                Quick select symptoms
-              </Text>
-
-              <View style={styles.symptomGrid}>
-                {symptoms.map((item, index) => {
-                  const isSelected = selectedCards.includes(item);
-                  return (
-                    <TouchableOpacity
-                      key={index}
-                      style={[
-                        styles.symptomCard,
-                        isSelected && styles.selectedCard, // Apply selected style
-                      ]}
-                      onPress={() => toggleCardSelection(item)}
-                    >
-                      <Text
-                        style={[
-                          styles.symptomText,
-                          isSelected && styles.selectedCardText, // Change text color if selected
-                        ]}
-                      >
-                        {item}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-            </View>
-            <View style={styles.contactSection}>
-              <Text style={styles.contactText}>Enter Number</Text>
-              <View style={styles.contactContainer}>
-                <View style={styles.countryCode}>
-                  <TouchableOpacity
-                    onPress={() => setIsDropdownOpen(!isDropdownOpen)}
-                    style={styles.countryCodeButton}
-                  >
-                    <Text style={styles.countryCodeText}>
-                      {selectedCountryCode}
-                    </Text>
-                    <Icon
-                      name={isDropdownOpen ? "caret-up" : "caret-down"}
-                      size={14}
-                      color="black"
-                      style={{ marginLeft: 5 }}
-                    />
-                  </TouchableOpacity>
-
-                  {/* Dropdown List */}
-                  {isDropdownOpen && (
-                    <View style={styles.dropdown}>
-                      {["+91", "+1", "+44", "+61", "+81"].map((code) => (
-                        <TouchableOpacity
-                          key={code}
-                          style={styles.dropdownItem}
-                          onPress={() => {
-                            setSelectedCountryCode(code);
-                            setIsDropdownOpen(false);
-                          }}
-                        >
-                          <Text style={styles.dropdownText}>{code}</Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  )}
-                </View>
-                <TextInput
-                  placeholder="Enter your number"
-                  keyboardType="numeric"
-                  style={styles.contactInput}
-                />
-              </View>
-              <Text style={styles.verficationText}>
-                A verification code will be sent to this number
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={styles.buttonBox}
-              onPress={handleContinueButtonApp}
-            >
-              <Text style={styles.buttonText}>Continue</Text>
-            </TouchableOpacity>
+         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.appContainer}>
+          {/* <View style={[styles.appheader, { height: "15%" }]}>
+            <Header navigation={navigation} />
           </View>
-        </ScrollView>
+
+          <View style={styles.searchBar}>
+            <SearchBar />
+          </View> */}
+          <View style={styles.doctorTextBox}>
+            <Text style={styles.doctorText}>Book Hospital</Text>
+          </View>
+
+          <View style={styles.consultBox}>
+            <Text style={styles.consultBoxText}>Tell us your symptoms</Text>
+            <TextInput
+              style={styles.app_textArea}
+              placeholder="eg: chest pain"
+              placeholderTextColor="#999"
+              multiline={true}
+              numberOfLines={4}
+              textAlignVertical="top"
+              backgroundColor="#fff"
+              height="50%"
+              width="90%"
+              alignSelf="center"
+            />
+          </View>
+          <View style={styles.selectSymptomTextBox}>
+            <Text style={styles.selectSymptomText}>Choose Relevent Bed</Text>
+
+            <View style={styles.symptomGrid}>
+              {bedservice.map((item, index) => {
+                const isSelected = selectedBed==item;
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.symptomCard,
+                      isSelected && styles.selectedBed, // Apply selected style
+                    ]}
+                    onPress={() => toggleCardSelection(item)}
+                  >
+                    <Text
+                      style={[
+                        styles.symptomText,
+                        isSelected && styles.selectedCardText, // Change text color if selected
+                      ]}
+                    >
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
+          <View style={styles.contactSection}>
+            <Text style={styles.contactText}>Enter Number</Text>
+            <View style={styles.contactContainer}>
+              <View style={styles.countryCode}>
+                <TouchableOpacity
+                  onPress={() => setIsDropdownOpen(!isDropdownOpen)}
+                  style={styles.countryCodeButton}
+                >
+                  <Text style={styles.countryCodeText}>
+                    {selectedCountryCode}
+                  </Text>
+                  <Icon
+                    name={isDropdownOpen ? "caret-up" : "caret-down"}
+                    size={14}
+                    color="black"
+                    style={{ marginLeft: 5 }}
+                  />
+                </TouchableOpacity>
+
+                {/* Dropdown List */}
+                {isDropdownOpen && (
+                  <View style={styles.dropdown}>
+                    {["+91", "+1", "+44", "+61", "+81"].map((code) => (
+                      <TouchableOpacity
+                        key={code}
+                        style={styles.dropdownItem}
+                        onPress={() => {
+                          setSelectedCountryCode(code);
+                          setIsDropdownOpen(false);
+                        }}
+                      >
+                        <Text style={styles.dropdownText}>{code}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )}
+              </View>
+             
+              <TextInput
+                placeholder="Enter your number"
+                keyboardType="numeric"
+                style={styles.contactInput}
+                maxLength={10}
+              />
+             
+            </View>
+            <Text style={styles.verficationText}>
+              A verification code will be sent to this number
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.buttonBox} onPress={handleContinueButton}>
+            <Text style={styles.buttonText}>Continue</Text>
+          </TouchableOpacity>
+        </View>
+        </TouchableWithoutFeedback>
       )}
     </>
   );
@@ -285,29 +330,40 @@ const styles = StyleSheet.create({
   },
   Left: {
     width: "15%",
+    backgroundColor: "#f0f0f0",
   },
   Right: {
     flex: 1,
+    //alignItems: "center",
   },
   header: {
-    // borderWidth: 5,
-    // borderColor: "black",
-    zIndex: 2,
-    ...Platform.select({
-      web:{
-        width:"100%",
-      }
-    })
-  },
-  appheader: {
-    zIndex: 2,
     ...Platform.select({
       web: {
-        width:"100%",
+        height: "10%",
+        width: "70%",
+        //borderWidth: 1,
+        borderColor: "#fff",
+        flexDirection: "row",
+        //alignItems: "center",
+        justifyContent: "space-between",
+        //width: "85%",
+        //position: "absolute",
+        marginTop: "3%",
+        marginHorizontal: "5%",
       },
     }),
   },
+  appheader :{
+    ...Platform.select({
+      web:{
+        width:"12%",
+        marginLeft: "70%",
+        // marginTop: 15,
+      }
+    })
+  },
   doctorTextBox: {
+    marginTop:"10%",
     height: "5%",
     width: "50%",
     //borderWidth: 1,
@@ -342,14 +398,28 @@ const styles = StyleSheet.create({
     marginVertical: "5%",
     marginHorizontal: "5%",
   },
-  textArea: {
+  // textArea: {
+  //   //flexShrink:1
+  //   borderRadius: 20,
+  // },
+  app_textArea: {
     //flexShrink:1
-    borderRadius: 20,
+    ...Platform.select({
+      web:{
+        backgroundColor:"#fff",
+        marginRight:"5%",
+        marginLeft:"5%",
+        marginBottom:"5%",
+        minheight:"100%",
+      },
+    }),
+    borderRadius: 5,
   },
   selectSymptomTextBox: {
-    height: "22%",
+    height: "30%",
     width: "91%",
     //borderWidth: 1,
+    maxWidth:"100%",
     marginHorizontal: "5%",
     marginVertical: "3%",
     flexDirection: "column",
@@ -361,20 +431,22 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   symptomGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap", // Wrap items to next line
     gap: 8,
     height: "90%",
     width: "100%",
+    maxWidth:"100%",
+    maxHeight:"100%",
     //borderWidth: 1,
-    paddingHorizontal: "0.2%",
-    justifyContent: "space-between",
+    paddingHorizontal:"0.2%",
+    justifyContent:"space-between",
   },
 
   symptomCard: {
+    maxWidth:"100%",
+    maxHeight:"22%",
     borderWidth: 1,
     borderColor: "#FFB6C1",
-    borderRadius: 10,
+    borderRadius: 5,
     paddingVertical: "3%",
     paddingHorizontal: "4.6%",
     marginTop: "2%",
@@ -384,7 +456,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 5,
   },
-  selectedCard: {
+  selectedBed: {
     backgroundColor: "#FFB6C1",
     borderColor: "#FF69B4",
   },
@@ -392,7 +464,7 @@ const styles = StyleSheet.create({
   symptomText: {
     fontSize: 12,
     color: "#333", // Dark text color
-    textAlign: "center",
+    // textAlign: "center",
     fontWeight: "400",
   },
   selectedCardText: {
@@ -402,6 +474,7 @@ const styles = StyleSheet.create({
   contactSection: {
     height: "10%",
     width: "88%",
+    marginTop:"5%",
     //borderWidth: 1,
     marginHorizontal: "6%",
     flexDirection: "column",
@@ -452,7 +525,7 @@ const styles = StyleSheet.create({
     zIndex: 12,
   },
   dropdownItem: {
-    paddingVertical: "5%",
+    paddingVertical:"5%",
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
     paddingHorizontal: "18%",
@@ -503,7 +576,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.66)",
   },
-  searchBar: {},
+  searchBar:{
+  },
   searchIcon: {
     alignSelf: "center",
     width: 16,
@@ -516,10 +590,10 @@ const styles = StyleSheet.create({
     color: "white",
     ...Platform.select({
       web: {
-        outlineStyle: "none",
+        outlineStyle : "none",
         borderWidth: 0,
-      },
-    }),
+      }
+    })
   },
   iconsContainer: {
     flexDirection: "row",
@@ -551,7 +625,7 @@ const styles = StyleSheet.create({
     marginLeft: 1,
   },
   dropdownContainer: {
-    zIndex: 10,
+    zIndex:10,
     width: "100%",
     alignItems: "center",
   },
@@ -677,22 +751,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: "12%",
   },
-  buttonBox: {
-    height: "5%",
-    width: "75%",
+  buttonBox:{
+    height:"5%",
+    width:"75%",
     //borderWidth:1,
     backgroundColor: "rgb(250, 124, 149)",
-    alignSelf: "center",
-    marginVertical: "15%",
-    paddingVertical: "2%",
-    borderRadius: 10,
+    alignSelf:"center",
+    bottom:0,
+    // marginVertical:"15%",
+    paddingVertical:"2%",
+    borderRadius:10
   },
   buttonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
-    alignSelf: "center",
+    alignSelf:"center"
   },
 });
 
-export default ConsultWithDoctors;
+export default HospitalBookingNext;

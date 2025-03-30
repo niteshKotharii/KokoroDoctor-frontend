@@ -24,7 +24,7 @@ const doctors = [
     experience: "22 + Years",
     image: require("../assets/Images/dr_kislay.jpg"),
     slots: ["12:00 PM", "12:30 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {
@@ -52,7 +52,7 @@ const doctors = [
     experience: "22 + Years",
     image: require("../assets/Images/Dr_Sandip_Rungta.jpg"),
     slots: ["10:00 AM", "12:00 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {
@@ -80,7 +80,7 @@ const doctors = [
     experience: "14 + Years",
     image: require("../assets/Images/Dr_Abhinit_Gupta.jpg"),
     slots: ["15:00 PM", "16:00 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {
@@ -109,7 +109,7 @@ const doctors = [
     experience: "17 + Years",
     image: require("../assets/Images/Dr_Ritesh_Singh.jpg"),
     slots: ["12:00 PM", "12:30 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {
@@ -137,7 +137,7 @@ const doctors = [
     experience: "28 + Years",
     image: require("../assets/Images/Dr_Bikash_Majumder.jpg"),
     slots: ["13:00 PM", "14:30 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {
@@ -165,7 +165,7 @@ const doctors = [
     experience: "20 + Years",
     image: require("../assets/Images/Dr. Soumya Patra.jpg"),
     slots: ["12:00 PM", "12:30 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {
@@ -193,7 +193,7 @@ const doctors = [
     experience: "14 + Years",
     image: require("../assets/Images/Dr_Vinesh_Jain.jpg"),
     slots: ["12:30 PM", "14:30 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {
@@ -221,7 +221,7 @@ const doctors = [
     experience: "16 + Years",
     image: require("../assets/Images/Dr. Supratip Kundu.jpeg"),
     slots: ["11:00 AM", "12:30 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {
@@ -250,7 +250,7 @@ const doctors = [
     experience: "17 + Years",
     image: require("../assets/Images/Dr. Himanshu Yadav.jpeg"),
     slots: ["10:00 AM", "11:30 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {
@@ -279,7 +279,7 @@ const doctors = [
     experience: "17 + Years",
     image: require("../assets/Images/Dr. Dhiraj Kumar Giri.jpg"),
     slots: ["10:00 AM", "11:30 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {
@@ -306,7 +306,7 @@ const doctors = [
     experience: "15 + Years",
     image: require("../assets/Images/Dr. Kastubh Mahimane.jpg"),
     slots: ["10:00 AM", "11:30 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {
@@ -333,7 +333,7 @@ const doctors = [
     experience: "9 + Years",
     image: require("../assets/Images/Dr. Manidipa Majumdar.jpg"),
     slots: ["10:00 AM", "11:30 PM"],
-    consultationFees: "$400 fees",
+    consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
     rating: "4.9",
     availability: {

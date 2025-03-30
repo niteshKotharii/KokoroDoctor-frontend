@@ -19,11 +19,11 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Picker } from "@react-native-picker/picker";
-import { useChatbot } from "../../contexts/ChatbotContext";
+import { useChatbot } from "../../../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
-import SideBarNavigation from "../../components/SideBarNavigation";
-import Header from "../../components/Header";
-import SearchBar from "../../components/SearchBar";
+import SideBarNavigation from "../../../components/SideBarNavigation";
+import Header from "../../../components/Header";
+import SearchBar from "../../../components/SearchBar";
 
 const EmergencyLocation = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
@@ -118,7 +118,7 @@ const EmergencyLocation = ({ navigation, route }) => {
                       <View style={styles.hospitalProfile}>
                         <View style={styles.hospital}>
                           <Image
-                            source={require("../../assets/Images/apollo.png")}
+                            source={require("../../../assets/Images/apollo.png")}
                             style={styles.hospitalImage}
                           />
                           <Text style={styles.hospitalRating}>⭐ 4.5</Text>
@@ -316,11 +316,19 @@ const styles = StyleSheet.create({
   },
   bodyHeadContainer: {
     height: "8%",
+    ...Platform.select({
+      web:{
+        height:"10%",
+        maxHeight:"20%",
+       
+     marginBottom:"5%", },
+    }),
     width: "90%",
     justifyContent: "center",
     paddingTop: "8%",
     // backgroundColor: "yellow",
     // alignItems:"center"
+    
   },
   bodytitle: {
     fontSize: 24,
@@ -339,6 +347,13 @@ const styles = StyleSheet.create({
   locationinput: {
     height: "50%",
     width: "100%",
+    ...Platform.select({
+
+      web:{
+        paddingTop:"5%",
+        paddingBottom:"5%",
+      },
+    }),
     backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: "#ff7072",
@@ -351,6 +366,14 @@ const styles = StyleSheet.create({
   currlocationContainer: {
     height: "10%",
     width: "100%",
+    ...Platform.select({
+
+      web:{
+        marginTop:"2%",
+        paddingTop:"5%",
+        paddingBottom:"10%",
+      },
+    }),
     backgroundColor: "#ff7072",
     flexDirection: "row",
     justifyContent: "center",
@@ -360,6 +383,13 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "50%",
     // padding:"5%",
+    ...Platform.select({
+
+      web:{
+       
+        paddingBottom:"5%",
+      },
+    }),
     paddingLeft: "10%",
     paddingRight: "10%",
     paddingTop: "5%",
@@ -386,6 +416,13 @@ const styles = StyleSheet.create({
     height: "50%",
     width: "60%",
     padding: "2%",
+    ...Platform.select({
+
+      web:{
+       marginTop:"5%",
+       padding:"5%",
+      },
+    }),
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 2,

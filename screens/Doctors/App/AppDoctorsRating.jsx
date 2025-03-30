@@ -19,28 +19,28 @@ const AppDoctorsRating = ({navigation}) => {
     specialization: "Cardiologist",
     rating: 4.9,
     reviewCount: 5000,
-    profileImage: require('../../assets/Images/dr_kislay.jpg'),
+    profileImage: require('../../../assets/Images/dr_kislay.jpg'),
     reviews: [
       {
         id: 1,
         reviewer: "User Name",
         rating: 5,
         text: "Very Good Doctor",
-        userImage: require('../../assets/Images/user-icon.jpg')
+        userImage: require('../../../assets/Images/user-icon.jpg')
       },
       {
         id: 2,
         reviewer: "User Name",
         rating: 4,
         text: "Very Good Doctor",
-        userImage: require('../../assets/Images/user-icon.jpg')
+        userImage: require('../../../assets/Images/user-icon.jpg')
       },
       {
         id: 3,
         reviewer: "User Name",
         rating: 5,
         text: "Very Good Doctor",
-        userImage: require('../../assets/Images/user-icon.jpg')
+        userImage: require('../../../assets/Images/user-icon.jpg')
       }
     ]
   };
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     marginRight:25,
   },
   addReviewButtonText: {
-    color: '#000000',
+    color: '#fff',
     fontSize: 16,
     fontWeight: '500',
   },
