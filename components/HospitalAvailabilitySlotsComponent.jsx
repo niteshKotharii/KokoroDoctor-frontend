@@ -11,41 +11,37 @@ import {
   ScrollView,
 } from "react-native";
 
-
-
-
 const AvailabilitySlots = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
 
-  const doctors = route.params?.doctors || {};
-  // console.log(doctors);
+  const hospitals = route.params?.hospitals || {};
 
   const today = new Date()
     .toLocaleDateString("en-US", { weekday: "long" })
     .toLowerCase();
 
   useEffect(() => {
-    if (doctors.availability) {
+    if (hospitals.availability) {
       setSelectedDay(today); // Always set today as default, even if no slots
     }
-  }, [doctors.availability]);
+  }, [hospitals.availability]);
 
   const selectedSlots =
-    selectedDay && doctors.availability[selectedDay]?.slots
-      ? doctors.availability[selectedDay].slots
+    selectedDay && hospitals.availability[selectedDay]?.slots
+      ? hospitals.availability[selectedDay].slots
       : { morning: [], afternoon: [], evening: [] };
 
   const chunkSize = 3;
   
 
 
-  const availabilityArray = doctors?.availability
-  ? Object.keys(doctors.availability).map((day) => ({
+  const availabilityArray = hospitals?.availability
+  ? Object.keys(hospitals.availability).map((day) => ({
       day,
-      slotsAvailable: doctors.availability[day]?.slotsAvailable || 0,
-      slots: doctors.availability[day]?.slots || [0],
+      slotsAvailable: hospitals.availability[day]?.slotsAvailable || 0,
+      slots: hospitals.availability[day]?.slots || [0],
     }))
   : [];
 
@@ -67,11 +63,11 @@ const AvailabilitySlots = ({ navigation, route }) => {
   };
 
   const findNextAvailableDay = () => {
-    const days = Object.keys(doctors.availability);
+    const days = Object.keys(hospitals.availability);
     const currentIndex = days.indexOf(selectedDay);
 
     for (let i = currentIndex + 1; i < days.length; i++) {
-      if (doctors.availability[days[i]].slotsAvailable > 0) {
+      if (hospitals.availability[days[i]].slotsAvailable > 0) {
         setSelectedDay(days[i]);
         return;
       }
@@ -93,7 +89,7 @@ const AvailabilitySlots = ({ navigation, route }) => {
               <TouchableOpacity
                 style={[
                   styles.dayColumn,
-                  selectedDay === item.day && styles.selectedDay, // ✅ This ensures today's column is selected by default
+                  selectedDay === item.day && styles.selectedDay,
                 ]}
                 onPress={() => setSelectedDay(item.day)}
               >
@@ -253,6 +249,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     flexWrap: "nowrap",
+    paddingLeft: 5,
   },
   dayColumn: {
     alignItems: "center",
@@ -306,6 +303,12 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(243, 119, 119)",
     height: "20%",
     paddingTop: "3%",
+    ...Platform.select({
+      web:{
+        height: "27%",
+        width: "100%",
+      }
+    })
   },
   nextAvailableText: {
     color: "#fff",
@@ -324,6 +327,11 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 15,
     marginVertical: "1%",
+    ...Platform.select({
+      web:{
+        width: "100%",
+      }
+    })
   },
   selectedSlot: {
     backgroundColor: "#007BFF", // Highlighted color when selected

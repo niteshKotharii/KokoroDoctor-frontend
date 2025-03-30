@@ -19,7 +19,6 @@ import SideBarNavigation from "../../../components/SideBarNavigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import HospitalAvailability from "./HospitalAvailability";
 import MyLinearGradient1 from "../../../components/MyLinearGradient1";
-// import DoctorResultShow from "./DoctorResultShow";
 
 const HospitalBookingNext = ({ navigation }) => {
   const [selectedBed, setSelectedBed] = useState(null); // Allow only one selection
@@ -186,7 +185,7 @@ const HospitalBookingNext = ({ navigation }) => {
         </View>
       )}
       {(Platform.OS !== "web" || width < 1000) && (
-         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.appContainer}>
           {/* <View style={[styles.appheader, { height: "15%" }]}>
             <Header navigation={navigation} />

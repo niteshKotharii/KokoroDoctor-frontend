@@ -139,11 +139,11 @@ const styles = StyleSheet.create({
   },
   card: {
     width: "80%",
-    height: "90%",
+    height: "100%",
     borderRadius: 15,
     overflow: "hidden",
     backgroundColor: "red",
-    elevation: 10, // Shadow for Android
+    elevation: 2, // Shadow for Android
     shadowColor: "#000", // Shadow for iOS
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.5,
