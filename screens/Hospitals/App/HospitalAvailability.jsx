@@ -10,172 +10,84 @@ import {
   View,
   Platform,
   FlatList,
-} from "react-native"; 
-// const hospitals={
-//   id: "1",
-//   name: "Apollo Hospital",
-//   credential: "MultiSpeciality Hospital",
-  
-//   availability: {
-//     today: {
-//       slotsAvailable: 0,
-//     },
-//     tomorrow: {
-//       slotsAvailable: 10,
-//       slots: {
-//         morning: ["11:00 AM", "11:30 AM"],
-//         afternoon: [
-//           "12.00 PM",
-//           "12:30 PM",
-//           "1:00 PM",
-//           "1:30 PM",
-//           "2:00 PM",
-//           "3:00 PM",
-//         ],
-//         evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//       },
-//     },
-//     monday: {
-//       slotsAvailable: 10,
-//       slots: {
-//         morning: ["11:00 AM", "11:30 AM"],
-//         afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//         evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//       },
-//     },
-//     tuesday: {
-//       slotsAvailable: 10,
-//       slots: {
-//         morning: ["11:00 AM", "11:30 AM"],
-//         afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//         evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//       },
-//     },
-//     wednesday: {
-//       slotsAvailable: 10,
-//       slots: {
-//         morning: ["11:00 AM", "11:30 AM"],
-//         afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//         evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//       },
-//     },
-//     thursday: {
-//       slotsAvailable: 10,
-//       slots: {
-//         morning: ["11:00 AM", "11:30 AM"],
-//         afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//         evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//       },
-//     },
-//   },
-// }
+} from "react-native";
+
 const HospitalAvailability = ({ navigation, route }) => {
   //const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedDate, setSelectedDate] = useState("Today");
-    const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
-    const hospitals = route.params?.hospitals || {}; // Get doctor data from navigation
-    //const [expanded, setExpanded] = useState(false);
-    const [selectedDay, setSelectedDay] = useState(null);
-    const [selectedSlot, setSelectedSlot] = useState(null);
-  
-    const handleSearch = () => {
-      Alert.alert(`Search Results for: ${searchQuery}`);
-    };
-  
-    const toggleDropdown = () => {
-      setDropdownVisible(!dropdownVisible);
-    };
-  
-    const handleDateSelect = (date) => {
-      setSelectedDate(date);
-    };
-  
-    const handleTimeSelect = (time) => {
-      setSelectedTimeSlot(time);
-    };
-  
-    // Function to handle redirection for booking
-    const handleBooking = (timeSlot, doctorData, clinicData) => {
-      setSelectedTimeSlot(timeSlot);
-      // Navigate to a payment page passing the data through the route params
-      navigation.navigate(
-        "hospitalsPaymentScreen"
-        //EXAMPLE OF HOW TO PASS DATA AS A ROUTE PARAM
-        // , {
-        // doctorName: doctorData.name,
-        // doctorCredentials: doctorData.credentials,
-        // clinicName: clinicData.name,
-        // date: selectedDate,
-        // timeSlot: timeSlot,
-        // fee: clinicData.fee,
-        // }
-      );
-    };
-  
-    const handleSlotSelection = (slot) => {
-      setSelectedSlot((prevSlot) => (prevSlot === slot ? null : slot));
-    };
-    const selectedSlots =
-      selectedDay && hospitals.availability[selectedDay]?.slots
-        ? hospitals.availability[selectedDay].slots
-        : { morning: [], afternoon: [] };
-  
-    const chunkSize = 3;
-    // const availabilityArray = Object.keys(hospitals?.availability).map((day) => ({
-    //   day,
-    //   slotsAvailable: hospitals?.availability[day]?.slotsAvailable || 0,
-    //   slots: hospitals?.availability?.[day]?.slots || [0],
-    // }));
-    const availabilityArray = hospitals?.availability
-      ? Object.keys(hospitals.availability).map((day) => ({
-          day,
-          slotsAvailable: hospitals.availability[day]?.slotsAvailable || 0,
-          slots: hospitals.availability[day]?.slots || [0],
-        }))
-      : [];
-  
-    const chunkedAvailability = [];
-    for (let i = 0; i < availabilityArray.length; i += chunkSize) {
-      chunkedAvailability.push(availabilityArray.slice(i, i + chunkSize));
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const hospitals = route.params?.hospitals || {}; // Get doctor data from navigation
+  //const [expanded, setExpanded] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+
+  const handleSearch = () => {
+    Alert.alert(`Search Results for: ${searchQuery}`);
+  };
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleTimeSelect = (time) => {
+    setSelectedTimeSlot(time);
+  };
+
+  const handleSlotSelection = (slot) => {
+    setSelectedSlot((prevSlot) => (prevSlot === slot ? null : slot));
+  };
+  const selectedSlots =
+    selectedDay && hospitals.availability[selectedDay]?.slots
+      ? hospitals.availability[selectedDay].slots
+      : { morning: [], afternoon: [] };
+
+  const chunkSize = 3;
+  // const availabilityArray = Object.keys(hospitals?.availability).map((day) => ({
+  //   day,
+  //   slotsAvailable: hospitals?.availability[day]?.slotsAvailable || 0,
+  //   slots: hospitals?.availability?.[day]?.slots || [0],
+  // }));
+  const availabilityArray = hospitals?.availability
+    ? Object.keys(hospitals.availability).map((day) => ({
+        day,
+        slotsAvailable: hospitals.availability[day]?.slotsAvailable || 0,
+        slots: hospitals.availability[day]?.slots || [0],
+      }))
+    : [];
+
+  const chunkedAvailability = [];
+  for (let i = 0; i < availabilityArray.length; i += chunkSize) {
+    chunkedAvailability.push(availabilityArray.slice(i, i + chunkSize));
+  }
+
+  const [visibleChunks, setVisibleChunks] = useState(1); // Show first 3 days initially
+  const loadMoreDays = () => {
+    if (visibleChunks < chunkedAvailability.length) {
+      setVisibleChunks(visibleChunks + 1);
     }
-  
-    const [visibleChunks, setVisibleChunks] = useState(1); // Show first 3 days initially
-    const loadMoreDays = () => {
-      if (visibleChunks < chunkedAvailability.length) {
-        setVisibleChunks(visibleChunks + 1);
-      }
-    };
-    // const doctorData = {
-    //   name: "Dr Kislay Shrivasatva",
-    //   credentials: "MD,MS",
-    //   experience: "22 Years Experience",
-    //   rating: 4.5,
-    //   profileImage: require("../../assets/Images/dr_kislay.jpg"),
-    //   bio: "Dr Kislay Shrivasatva, MD (Cardiology), is a seasoned cardiologist with over 22 years of experience in treating heart conditions. Based in Bhopal, he specializes in coronary artery diseases, hypertension, heart failure, arrhythmias, and preventive cardiology. Dr Shrivasatva is skilled in interventional procedures such as angioplasty, CABG, valve repairs, and angiographies. After completing his MBBS and MD in Cardiology from top medical institutions, he developed expertise in both surgical and non-surgical heart care. Known for his comprehensive approach, he emphasizes heart disease detection, prevention, and lifestyle modifications. He is an active member of leading cardiology associations.",
-    //   reviews: [
-    //     { id: 1, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
-    //     { id: 2, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
-    //     { id: 3, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
-    //   ],
-    // };
-  
-    const clinicData = {
-      name: "Wisdom Clinics",
-      fee: "₹800 fee",
-      waitTime: "Max 15 min wait",
-      layout: "Hsr Layout",
-    };
-  
-    const availableDates = [
-      { id: "today", label: "Today", slotsAvailable: 0 },
-      { id: "tomorrow", label: "Tomorrow", slotsAvailable: 2 },
-      { id: "dayAfter", label: "Mon, 2 feb", slotsAvailable: 2 },
-    ];
-  
-    const timeSlots = {
-      morning: { label: "Morning (1 slot)", slots: ["10:30 AM"] },
-      afternoon: { label: "Afternoon (1 slot)", slots: ["12:30 PM"] },
-    };
+  };
+
+  const clinicData = {
+    name: "Wisdom Clinics",
+    fee: "₹800 fee",
+    waitTime: "Max 15 min wait",
+    layout: "Hsr Layout",
+  };
+
+  const availableDates = [
+    { id: "today", label: "Today", slotsAvailable: 0 },
+    { id: "tomorrow", label: "Tomorrow", slotsAvailable: 2 },
+    { id: "dayAfter", label: "Mon, 2 feb", slotsAvailable: 2 },
+  ];
+
+  const timeSlots = {
+    morning: { label: "Morning (1 slot)", slots: ["10:30 AM"] },
+    afternoon: { label: "Afternoon (1 slot)", slots: ["12:30 PM"] },
+  };
   const morningSlotArray = [
     "9:45",
     "10:00",
@@ -192,7 +104,7 @@ const HospitalAvailability = ({ navigation, route }) => {
     "1:00",
     "1:45",
   ];
-  
+
   const toggleSlotSelection = (slot) => {
     setSelectedSlot(selectedSlot === slot ? null : slot);
   };
@@ -207,7 +119,7 @@ const HospitalAvailability = ({ navigation, route }) => {
       </View>
       <View style={styles.hospitalDetails}>
         <View style={styles.hospitalDetailsContainer1}>
-          <View style={styles.hospitalDetailsContainer1Top}>
+          <View style={styles.hospitalDetailsContainer1Bottom}>
             <Text style={styles.hospitalname}>Apollo Hospital</Text>
             <Text style={styles.hospitaltype}>Multispecialty</Text>
           </View>
@@ -251,235 +163,129 @@ const HospitalAvailability = ({ navigation, route }) => {
           </View>
         </View>
       </View>
-      
-      {/* <View style={styles.footerBox}>
-        <View style={styles.footerSection1}>
-          <View style={styles.slotstoday}>
-            <Text style={{ fontSize: 13 }}>Today</Text>
-            <Text style={{ fontSize: 10 }}>No slots today</Text>
-          </View>
-          <View style={styles.slotsnextDay}>
-            <Text style={{ fontSize: 13 }}>Tomorrow</Text>
-            <Text style={{ fontSize: 10, color: "#1FBF86" }}>
-              2 slots Avialable{" "}
-            </Text>
-          </View>
-          <View style={styles.slotsnextDate}>
-            <Text style={{ fontSize: 13 }}>Mon,2 feb</Text>
-            <Text style={{ fontSize: 10, color: "#1FBF86" }}>
-              2 slots Avialable{" "}
-            </Text>
-          </View>
-        </View>
-
-        <View style={styles.footerSection2}>
-          <View style={styles.slotHeading}>
-            <Text>Morning</Text>
-          </View>
-          <View style={styles.slotbox}>
-            {morningSlotArray.map((slot, index) => {
-              const isSelected = selectedSlot === slot;
-              return (
+      <View style={styles.slotsHeadingContainer}>
+        <Text style={styles.BookSlotsText}>Book Slots</Text>
+      </View>
+      <View style={styles.footerBox}>
+        <Text style={styles.availabilityTimeText}>Available Time</Text>
+        <View style={styles.availabilityShowBox}>
+          <View style={styles.availabilityBox}>
+            <FlatList
+              //   data={availabilityList}
+              data={chunkedAvailability.slice(0, visibleChunks).flat()}
+              horizontal
+              keyExtractor={(item) => item.day}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ gap: 8 }}
+              renderItem={({ item }) => (
                 <TouchableOpacity
-                  key={index}
                   style={[
-                    // styles.symptomCard,
-                    styles.slot,
-                    isSelected && styles.selectedBed, // Apply selected style
+                    styles.dayColumn,
+                    selectedDay === item.day && styles.selectedDay,
                   ]}
-                  onPress={() => toggleSlotSelection(slot)}
+                  onPress={() => setSelectedDay(item.day)}
                 >
-                  <Text
-                    style={[
-                      styles.symptomText,
-                      isSelected && styles.selectedCardText, // Change text color if selected
-                    ]}
-                  >
-                    {slot}
+                  <Text style={styles.dayTitle}>
+                    {item.day.charAt(0).toUpperCase() + item.day.slice(1)}
+                  </Text>
+                  <Text style={styles.slotsAvailable}>
+                    {item.slotsAvailable > 0
+                      ? `${item.slotsAvailable} slots Available`
+                      : "No slot today"}
                   </Text>
                 </TouchableOpacity>
-              );
-            })}
+              )}
+              onEndReached={loadMoreDays}
+              onEndReachedThreshold={0.5}
+            />
           </View>
-        </View>
 
-        <View style={styles.footerSection3}>
-          <View style={styles.slotHeading}>
-            <Text>Afternoon</Text>
-          </View>
-          <View style={styles.slotbox}>
-            {afternoonSlotArray.map((slot, index) => {
-              const isSelected = selectedSlot === slot;
-              return (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.slot,
-                    isSelected && styles.selectedBed, // Apply selected style
-                  ]}
-                  onPress={() => toggleSlotSelection(slot)}
-                >
-                  <Text
-                    style={[
-                      styles.symptomText,
-                      isSelected && styles.selectedCardText, // Change text color if selected
-                    ]}
-                  >
-                    {slot}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </View>
+          {selectedDay && (
+            <View style={styles.timeSlotContainer}>
+              {/* Check if all slots are empty */}
+              {selectedSlots.morning.length === 0 &&
+              selectedSlots.afternoon.length === 0 ? (
+                <View style={styles.noSlotsContainer}>
+                  <Text style={styles.noSlots}>No slots available</Text>
+                </View>
+              ) : (
+                <>
+                  {/* Morning Slots */}
+                  <Text style={styles.slotCategory}>Morning</Text>
+                  <View style={styles.slotGrid}>
+                    {selectedSlots.morning.length > 0 ? (
+                      selectedSlots.morning.slice(0, 2).map((slot, index) => (
+                        <TouchableOpacity
+                          key={index}
+                          style={[
+                            styles.slotButton,
+                            selectedSlot === slot && styles.selectedSlot, // Apply selected style
+                          ]}
+                          onPress={() => handleSlotSelection(slot)}
+                        >
+                          <Text
+                            style={[
+                              styles.slotText,
+                              selectedSlot === slot && styles.selectedSlotText, // Change text color
+                            ]}
+                          >
+                            {slot}
+                          </Text>
+                        </TouchableOpacity>
+                      ))
+                    ) : (
+                      <Text style={styles.noSlots}>
+                        No morning slots available
+                      </Text>
+                    )}
+                  </View>
 
-        <View style={styles.availabilityButtonConatiner}>
+                  {/* Afternoon Slots */}
+                  <Text style={styles.slotCategory}>Afternoon</Text>
+                  <View style={styles.slotGrid}>
+                    {selectedSlots.afternoon.length > 0 ? (
+                      selectedSlots.afternoon.slice(0, 2).map((slot, index) => (
+                        <TouchableOpacity
+                          key={index}
+                          style={[
+                            styles.slotButton,
+                            selectedSlot === slot && styles.selectedSlot, // Apply selected style
+                          ]}
+                          onPress={() => handleSlotSelection(slot)}
+                        >
+                          <Text
+                            style={[
+                              styles.slotText,
+                              selectedSlot === slot && styles.selectedSlotText, // Change text color
+                            ]}
+                          >
+                            {slot}
+                          </Text>
+                        </TouchableOpacity>
+                      ))
+                    ) : (
+                      <Text style={styles.noSlots}>
+                        No afternoon slots available
+                      </Text>
+                    )}
+                  </View>
+                </>
+              )}
+            </View>
+          )}
+
           <TouchableOpacity
+            style={styles.viewAllButton}
             onPress={() =>
               navigation.navigate("HospitalAvailabilitySlots", {
-                hospitals:hospitals,
+                hospitals: hospitals,
               })
             }
           >
-            <View style={styles.availabilityButton}>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text style={{ color: "#fff", fontSize: 16 }}>
-                  View All Availability
-                </Text>
-                <Icon name="chevron-forward" size={20} color="#fff" />
-              </View>
-            </View>
+            <Text style={styles.viewAllText}>View All Availability →</Text>
           </TouchableOpacity>
         </View>
-      </View> */}
-<View style={styles.footerBox}>
-     
-                  <Text style={styles.availabilityTimeText}>Available Time</Text>
-                  <View style={styles.availabilityShowBox}>
-                    <View style={styles.availabilityBox}>
-                      <FlatList
-                        //   data={availabilityList}
-                        data={chunkedAvailability.slice(0, visibleChunks).flat()}
-                        horizontal
-                        keyExtractor={(item) => item.day}
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={{ gap: 8 }}
-                        renderItem={({ item }) => (
-                          <TouchableOpacity
-                            style={[
-                              styles.dayColumn,
-                              selectedDay === item.day && styles.selectedDay,
-                            ]}
-                            onPress={() => setSelectedDay(item.day)}
-                          >
-                            <Text style={styles.dayTitle}>
-                              {item.day.charAt(0).toUpperCase() + item.day.slice(1)}
-                            </Text>
-                            <Text style={styles.slotsAvailable}>
-                              {item.slotsAvailable > 0
-                                ? `${item.slotsAvailable} slots Available`
-                                : "No slot today"}
-                            </Text>
-                          </TouchableOpacity>
-                        )}
-                        onEndReached={loadMoreDays}
-                        onEndReachedThreshold={0.5}
-                      />
-                    </View>
-      
-                    {selectedDay && (
-                      <View style={styles.timeSlotContainer}>
-                        {/* Check if all slots are empty */}
-                        {selectedSlots.morning.length === 0 &&
-                        selectedSlots.afternoon.length === 0 ? (
-                          <View style={styles.noSlotsContainer}>
-                            <Text style={styles.noSlots}>No slots available</Text>
-                          </View>
-                        ) : (
-                          <>
-                            {/* Morning Slots */}
-                            <Text style={styles.slotCategory}>Morning</Text>
-                            <View style={styles.slotGrid}>
-                              {selectedSlots.morning.length > 0 ? (
-                                selectedSlots.morning
-                                  .slice(0, 2)
-                                  .map((slot, index) => (
-                                    <TouchableOpacity
-                                      key={index}
-                                      style={[
-                                        styles.slotButton,
-                                        selectedSlot === slot && styles.selectedSlot, // Apply selected style
-                                      ]}
-                                      onPress={() => handleSlotSelection(slot)}
-                                    >
-                                      <Text
-                                        style={[
-                                          styles.slotText,
-                                          selectedSlot === slot &&
-                                            styles.selectedSlotText, // Change text color
-                                        ]}
-                                      >
-                                        {slot}
-                                      </Text>
-                                    </TouchableOpacity>
-                                  ))
-                              ) : (
-                                <Text style={styles.noSlots}>
-                                  No morning slots available
-                                </Text>
-                              )}
-                            </View>
-      
-                            {/* Afternoon Slots */}
-                            <Text style={styles.slotCategory}>Afternoon</Text>
-                            <View style={styles.slotGrid}>
-                              {selectedSlots.afternoon.length > 0 ? (
-                                selectedSlots.afternoon
-                                  .slice(0, 2)
-                                  .map((slot, index) => (
-                                    <TouchableOpacity
-                                      key={index}
-                                      style={[
-                                        styles.slotButton,
-                                        selectedSlot === slot && styles.selectedSlot, // Apply selected style
-                                      ]}
-                                      onPress={() => handleSlotSelection(slot)}
-                                    >
-                                      <Text
-                                        style={[
-                                          styles.slotText,
-                                          selectedSlot === slot &&
-                                            styles.selectedSlotText, // Change text color
-                                        ]}
-                                      >
-                                        {slot}
-                                      </Text>
-                                    </TouchableOpacity>
-                                  ))
-                              ) : (
-                                <Text style={styles.noSlots}>
-                                  No afternoon slots available
-                                </Text>
-                              )}
-                            </View>
-                          </>
-                        )}
-                      </View>
-                    )}
-      
-                    <TouchableOpacity
-                      style={styles.viewAllButton}
-                      onPress={() =>
-                        navigation.navigate("HospitalAvailabilitySlots", {
-                          hospitals : hospitals,
-                        })
-                      }
-                    >
-                      <Text style={styles.viewAllText}>View All Availability →</Text>
-                    </TouchableOpacity>
-                  </View>
-               
-                </View>
+      </View>
       <View style={styles.bookhospitalButtoncontainer}>
         <TouchableOpacity
           onPress={() => navigation.navigate("HospitalPaymentApp")}
@@ -512,7 +318,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingLeft: "5%",
     paddingRight: "5%",
-    paddingTop:"2%",
+    paddingTop: "2%",
 
     flexDirection: "row",
   },
@@ -535,21 +341,25 @@ const styles = StyleSheet.create({
     fontStyle: "Poppins",
     fontWeight: "bold",
   },
-
   hospitalDetailsContainer1Bottom: {
-    width: "80%",
+    width: "100%",
     height: "50%",
-   
-  },
+    ...Platform.select({
+      web: {
+        marginTop: "2%",
+        gap: 1,
+      },
+    }),
 
+    // backgroundColor:"red",
+  },
   distanceconatiner: {
     height: "50%",
-    width: "100%",
+    width: "55%",
     paddingTop: "2%",
     flexDirection: "row",
-    paddingRight: "30%",
     justifyContent: "space-between",
-    
+    alignItems: "center",
   },
   distanceHeading: {
     fontStyle: "Sunflower",
@@ -563,32 +373,32 @@ const styles = StyleSheet.create({
     fontWeight: 300,
     color: "#FF0000",
   },
-
   arrivalContainer: {
     height: "50%",
-    width: "100%",
-
+    width: "90%",
     flexDirection: "row",
     paddingRight: "15%",
+    alignItems: "center",
+    // gap: 10,
+    ...Platform.select({
+      web: {
+        // paddingRight: "15%",
+      },
+    }),
     justifyContent: "space-between",
-      justifyContent: "space-between",
-      
   },
   arrivalHeading: {
     fontStyle: "Sunflower",
     fontSize: 14,
     fontWeight: 300,
     color: "#9B9A9A",
-    
   },
   arrivingIn: {
     fontStyle: "Poppins",
     fontSize: 10,
     fontWeight: 300,
     color: "#2CBE5E",
-    
   },
-
   hospitalDetailsContainer2: {
     width: "35%",
     height: "100%",
@@ -610,9 +420,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#FFFCFC",
     borderRadius: 5,
-
-    shadowOffset: { width: 1, height: 1 },
+    elevation: 2,
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.3,
+    shadowRadius: 4,
+    ...Platform.select({
+      web: {
+        marginTop: 10,
+      },
+    }),
   },
   emergencyBed: {
     width: "50%",
@@ -651,8 +467,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  
-  
+  slotsHeadingContainer: {
+    width: "85%",
+    height: "4%",
+    justifyContent: "center",
+    marginLeft: "7.5%",
+    // backgroundColor: "red",
+  },
+  BookSlotsText: {
+    fontSize: 12,
+    fontWeight: 600,
+  },
   footerBox: {
     width: "85%",
     height: "42%",
@@ -660,97 +485,11 @@ const styles = StyleSheet.create({
     padding: "2%",
     backgroundColor: "#FFFCFC",
     borderRadius: 5,
-    shadowOffset: { width: 1, height: 1 },
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.3,
-    gap: "2%",
-    backgroundColor: "#FFFFFF",
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.3,
+    shadowRadius: 4,
     elevation: 2,
   },
-  // footerSection1: {
-  //   height: "20%",
-  //   width: "94%",
-  //   // backgroundColor:"red",
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  // },
-  // slotstoday: {
-  //   gap: 2,
-  // },
-  // slotsnextDay: {
-  //   gap: 2,
-  // },
-  // slotsnextDate: {
-  //   gap: 2,
-  // },
-  // footerSection2: {
-  //   height: "30%",
-  //   width: "94%",
-  //   // backgroundColor: "green",
-  //   gap: 2,
-  //   paddingLeft: "2%",
-  // },
-  // slotbox: {
-  //   width: "90%",
-  //   height: "90%",
-  //   flexDirection: "row",
-  //   gap: 2,
-  //   flexWrap: "wrap",
-  // },
-  // slot: {
-  //   height: "40%",
-  //   width: "20%",
-  //   padding: "1%",
-  //   borderWidth: 1,
-  //   borderColor: "#1680EC",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  // },
-  // footerSection3: {
-  //   height: "30%",
-  //   width: "94%",
-  //   // backgroundColor: "blue",
-  //   gap: 2,
-  //   paddingLeft: "2%",
-  // },
-
-  // availabilityButtonConatiner: {
-  //   width: "100%",
-  //   height: "18%",
-  //   padding: "1%",
-  //   justifyContent: "center",
-  //   // backgroundColor: "yellow",
-  // },
-  // availabilityButton: {
-  //   width: "80%",
-  //   height: "80%",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   marginLeft: "10%",
-  //   borderRadius: 5,
-  //   padding: "1%",
-  //   backgroundColor: "#FF7373",
-  //   ...Platform.select({
-  //     web:{
-  //       padding: "3%",
-  //     }
-  //   })
-  // },
-
-  // availabilityContainer: {
-  //   height: "40%",
-  //   width: "88%",
-  //   //borderWidth: 1,
-  //   alignSelf: "center",
-  //   marginVertical: "8%",
-  //   overflow: "hidden",
-  //   ...Platform.select({
-  //     web: {
-  //       marginBottom: "5%",
-  //     },
-  //   }),
-  // },
   availabilityTimeText: {
     fontSize: 13,
     fontWeight: 600,
@@ -763,10 +502,8 @@ const styles = StyleSheet.create({
     //borderWidth:1,
     alignSelf: "center",
     borderRadius: 15,
-    boxShadow: " 0px 0px 4px 1px rgba(0, 0, 0, 0.25)",
     marginVertical: "2%",
     paddingTop: "3%",
-    paddingHorizontal: "2%",
     flexDirection: "column",
   },
   availabilityBox: {
@@ -775,7 +512,6 @@ const styles = StyleSheet.create({
     flexWrap: "nowrap",
     //borderWidth: 1,
   },
-
   dayColumn: {
     alignItems: "center",
     //borderWidth: 1,
@@ -865,9 +601,8 @@ const styles = StyleSheet.create({
   selectedSlotText: {
     color: "#FFFFFF", // Text color when selected
   },
-
   viewAllButton: {
-    backgroundColor: "rgb(237, 109, 111)",
+    backgroundColor: "#FF7373",
     paddingVertical: "2%",
     alignItems: "center",
     borderRadius: 8,
@@ -886,11 +621,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
   },
-
-
-
-
-
   bookhospitalButtoncontainer: {
     width: "100%",
     height: "10%",
@@ -902,8 +632,8 @@ const styles = StyleSheet.create({
     width: "70%",
     height: "65%",
     ...Platform.select({
-      web:{
-        padding:"4%",
+      web: {
+        padding: "4%",
       },
     }),
     marginLeft: "16.5%",

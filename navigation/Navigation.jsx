@@ -31,7 +31,12 @@ import HospitalAvailability from"../screens/Hospitals/App/HospitalAvailability";
 import HospitalAvailabilitySlots from"../screens/Hospitals/App/HospitalAvailabilitySlots";
 import HospitalPaymentApp from"../screens/Hospitals/App/HospitalPaymentApp";
 
-import AboutUs from "../screens/AboutUs";
+//AboutUs
+import AboutUsMain from "../screens/AboutUs/AboutUsMain";
+import AboutUsWhat from "../screens/AboutUs/AboutUsWhat";
+import AboutUsHow from "../screens/AboutUs/AboutUsHow";
+import AboutUsWhy from "../screens/AboutUs/AboutUsWhy";
+
 import ContactUs from "../screens/ContactUs";
 
 //Pricing
@@ -140,6 +145,29 @@ const PricingNavigator = ({navigationRef}) => {
   );
 }
 
+const AboutUsNavigator = ({navigationRef}) => {
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
+  return (
+    <Stack.Navigator
+      initialRouteName="AboutUsMain"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: theme.container.backgroundColor,
+          },
+          headerTintColor: theme.text.color,
+        }}
+    >
+
+      <Stack.Screen name="AboutUsMain" component={AboutUsMain} options={{ headerShown: false }} /> 
+      <Stack.Screen name="AboutUsWhat" component={AboutUsWhat} options={{ headerShown: false }} /> 
+      <Stack.Screen name="AboutUsHow" component={AboutUsHow} options={{ headerShown: false }} /> 
+      <Stack.Screen name="AboutUsWhy" component={AboutUsWhy} options={{ headerShown: false }} /> 
+    </Stack.Navigator>
+  );
+}
+
 const AppNavigation = ({ navigationRef }) => {
   const { isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
@@ -164,7 +192,7 @@ const AppNavigation = ({ navigationRef }) => {
           <Stack.Screen name="Medilocker" component={Medilocker} options={{ headerShown: false }} /> 
           <Stack.Screen name="Doctors" component={DoctorNavigator} options={{ headerShown: false }} /> 
           <Stack.Screen name="Hospitals" component={HospitalNavigator} options={{ headerShown: false }} /> 
-          <Stack.Screen name="AboutUs" component={AboutUs} options={{ headerShown: false }} /> 
+          <Stack.Screen name="AboutUs" component={AboutUsNavigator} options={{ headerShown: false }} /> 
           <Stack.Screen name="ContactUs" component={ContactUs} options={{ headerShown: false }} /> 
           <Stack.Screen name="Pricing" component={PricingNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="BillReceipt" component={BillReceipt} options={{ headerShown: false }} />

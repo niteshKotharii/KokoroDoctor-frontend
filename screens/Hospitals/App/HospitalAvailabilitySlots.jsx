@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
   bookAppointmentButton: {
     height: "5%",
     width: "70%",
-
     maxHeight: "5%",
     maxWidth: "70%",
     //borderWidth: 1,

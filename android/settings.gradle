@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'D3Player'
+rootProject.name = 'kokoro.doctor'
 
 dependencyResolutionManagement {
   versionCatalogs {

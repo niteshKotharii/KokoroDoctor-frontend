@@ -25,12 +25,8 @@ import Header from "../../components/Header";
 const HospitalsInfoWithRating = ({ navigation }) => {
   const { width } = useWindowDimensions();
   const [searchQuery, setSearchQuery] = useState("");
-  const [dropdownVisible, setDropdownVisible] = useState(false);
   const { setChatbotConfig } = useChatbot();
   const phoneNumber = "+918069991061";
-  const [location, setLocation] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState("Today");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const route = useRoute();
@@ -45,10 +41,6 @@ const HospitalsInfoWithRating = ({ navigation }) => {
 
   const handleSearch = () => {
     Alert.alert(`Search Results for: ${searchQuery}`);
-  };
-
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
   };
 
   const handleCallPress = () => {
@@ -492,7 +484,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
             </View>
           </View>
           <View style={styles.app_bookhospitalButtoncontainer}>
-            <TouchableOpacity onPress={() => navigation.navigate("BookHospitals")}>
+            <TouchableOpacity onPress={() => navigation.navigate("BookHospitals", {hospitals:hospitals})}>
               <View style={styles.app_bookhospitalButton}>
                 <Text style={styles.app_bookHospitalText}>Book Hospital</Text>
               </View>
@@ -1040,7 +1032,6 @@ const styles = StyleSheet.create({
     fontWeight: 300,
     color: "#2CBE5E",
   },
-
   app_hospitalDetailsContainer2: {
     width: "35%",
     height: "100%",
@@ -1063,8 +1054,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFCFC",
     borderRadius: 5,
     elevation: 2,
-    shadowOffset: { width: 1, height: 1 },
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   app_emergencyBed: {
     width: "50%",
@@ -1121,10 +1113,11 @@ const styles = StyleSheet.create({
     padding: "3%",
     backgroundColor: "#FFFCFC",
     borderRadius: 5,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.3,
+    shadowRadius: 4,
     gap: "2%",
-    elevation: 3,
+    elevation: 2,
   },
   app_footerBoxRow1: {
     width: "94%",

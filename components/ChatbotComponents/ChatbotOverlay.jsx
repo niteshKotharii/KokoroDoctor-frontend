@@ -27,7 +27,7 @@ const ChatBotOverlay = ({ navigationRef }) => {
 
   // Screens where chatbot SHOULD be visible
   // Define screens where the chatbot should be hidden
-  const hiddenScreensWeb = ['AboutUs', 'ContactUs', 'Help', 'Settings', 'Login', 'Signup', 'ForgotPassword', 'ResetPassword', 'PasswordSuccess', 'MobileChatbot'];
+  const hiddenScreensWeb = ['AboutUsMain', 'AboutUsWhat', 'AboutUsHow', 'AboutUsWhy', 'ContactUs', 'Help', 'Settings', 'Login', 'Signup', 'ForgotPassword', 'ResetPassword', 'PasswordSuccess', 'MobileChatbot'];
   const shownScreensMobile = ['LandingPage'];
 
   // Check platform and visibility conditions

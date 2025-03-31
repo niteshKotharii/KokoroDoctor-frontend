@@ -1,4 +1,4 @@
-package com.anonymous.D3Player
+package com.anonymous.kokoro.doctor
 
 import android.app.Application
 import android.content.res.Configuration

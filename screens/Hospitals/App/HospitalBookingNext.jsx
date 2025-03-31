@@ -11,6 +11,7 @@ import {
   useWindowDimensions,
   TouchableWithoutFeedback,
   Keyboard,
+  ScrollView,
   
 } from "react-native";
 // import Header from "../../../components/Header";
@@ -19,12 +20,14 @@ import SideBarNavigation from "../../../components/SideBarNavigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import HospitalAvailability from "./HospitalAvailability";
 import MyLinearGradient1 from "../../../components/MyLinearGradient1";
+import Header from "../../../components/Header";
 
-const HospitalBookingNext = ({ navigation }) => {
+const HospitalBookingNext = ({ navigation, route }) => {
   const [selectedBed, setSelectedBed] = useState(null); // Allow only one selection
   const [selectedCountryCode, setSelectedCountryCode] = useState("+91"); // Country code selection
   const { width } = useWindowDimensions();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const hospitals = route.params?.hospitals || {};
 
   // This is the array for bed booking options
   const bedservice = [
@@ -40,7 +43,7 @@ const HospitalBookingNext = ({ navigation }) => {
   };
 
   const handleContinueButton = () => {
-    navigation.navigate(HospitalAvailability);
+    navigation.navigate("HospitalAvailability", {hospitals:hospitals});
   }
   return (
     <>
@@ -185,117 +188,119 @@ const HospitalBookingNext = ({ navigation }) => {
         </View>
       )}
       {(Platform.OS !== "web" || width < 1000) && (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.appContainer}>
-          {/* <View style={[styles.appheader, { height: "15%" }]}>
-            <Header navigation={navigation} />
-          </View>
-
-          <View style={styles.searchBar}>
-            <SearchBar />
-          </View> */}
-          <View style={styles.doctorTextBox}>
-            <Text style={styles.doctorText}>Book Hospital</Text>
-          </View>
-
-          <View style={styles.consultBox}>
-            <Text style={styles.consultBoxText}>Tell us your symptoms</Text>
-            <TextInput
-              style={styles.app_textArea}
-              placeholder="eg: chest pain"
-              placeholderTextColor="#999"
-              multiline={true}
-              numberOfLines={4}
-              textAlignVertical="top"
-              backgroundColor="#fff"
-              height="50%"
-              width="90%"
-              alignSelf="center"
-            />
-          </View>
-          <View style={styles.selectSymptomTextBox}>
-            <Text style={styles.selectSymptomText}>Choose Relevent Bed</Text>
-
-            <View style={styles.symptomGrid}>
-              {bedservice.map((item, index) => {
-                const isSelected = selectedBed==item;
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    style={[
-                      styles.symptomCard,
-                      isSelected && styles.selectedBed, // Apply selected style
-                    ]}
-                    onPress={() => toggleCardSelection(item)}
-                  >
-                    <Text
-                      style={[
-                        styles.symptomText,
-                        isSelected && styles.selectedCardText, // Change text color if selected
-                      ]}
-                    >
-                      {item}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled">
+          <View style={styles.appContainer}>
+            <View style={[styles.appheader, { height: "15%" }]}>
+              <Header navigation={navigation} />
             </View>
-          </View>
-          <View style={styles.contactSection}>
-            <Text style={styles.contactText}>Enter Number</Text>
-            <View style={styles.contactContainer}>
-              <View style={styles.countryCode}>
-                <TouchableOpacity
-                  onPress={() => setIsDropdownOpen(!isDropdownOpen)}
-                  style={styles.countryCodeButton}
-                >
-                  <Text style={styles.countryCodeText}>
-                    {selectedCountryCode}
-                  </Text>
-                  <Icon
-                    name={isDropdownOpen ? "caret-up" : "caret-down"}
-                    size={14}
-                    color="black"
-                    style={{ marginLeft: 5 }}
-                  />
-                </TouchableOpacity>
 
-                {/* Dropdown List */}
-                {isDropdownOpen && (
-                  <View style={styles.dropdown}>
-                    {["+91", "+1", "+44", "+61", "+81"].map((code) => (
-                      <TouchableOpacity
-                        key={code}
-                        style={styles.dropdownItem}
-                        onPress={() => {
-                          setSelectedCountryCode(code);
-                          setIsDropdownOpen(false);
-                        }}
-                      >
-                        <Text style={styles.dropdownText}>{code}</Text>
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                )}
-              </View>
-             
+            {/* <View style={styles.searchBar}>
+              <SearchBar />
+            </View> */}
+            <View style={styles.doctorTextBox}>
+              <Text style={styles.doctorText}>Book Hospital</Text>
+            </View>
+
+            <View style={styles.consultBox}>
+              <Text style={styles.consultBoxText}>Tell us your symptoms</Text>
               <TextInput
-                placeholder="Enter your number"
-                keyboardType="numeric"
-                style={styles.contactInput}
-                maxLength={10}
+                style={styles.app_textArea}
+                placeholder="eg: chest pain"
+                placeholderTextColor="#999"
+                multiline={true}
+                numberOfLines={4}
+                textAlignVertical="top"
+                backgroundColor="#fff"
+                height="50%"
+                width="90%"
+                alignSelf="center"
               />
-             
             </View>
-            <Text style={styles.verficationText}>
-              A verification code will be sent to this number
-            </Text>
+            <View style={styles.selectSymptomTextBox}>
+              <Text style={styles.selectSymptomText}>Choose Relevent Bed</Text>
+
+              <View style={styles.symptomGrid}>
+                {bedservice.map((item, index) => {
+                  const isSelected = selectedBed==item;
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      style={[
+                        styles.symptomCard,
+                        isSelected && styles.selectedBed, // Apply selected style
+                      ]}
+                      onPress={() => toggleCardSelection(item)}
+                    >
+                      <Text
+                        style={[
+                          styles.symptomText,
+                          isSelected && styles.selectedCardText, // Change text color if selected
+                        ]}
+                      >
+                        {item}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
+            <View style={styles.contactSection}>
+              <Text style={styles.contactText}>Enter Number</Text>
+              <View style={styles.contactContainer}>
+                <View style={styles.countryCode}>
+                  <TouchableOpacity
+                    onPress={() => setIsDropdownOpen(!isDropdownOpen)}
+                    style={styles.countryCodeButton}
+                  >
+                    <Text style={styles.countryCodeText}>
+                      {selectedCountryCode}
+                    </Text>
+                    <Icon
+                      name={isDropdownOpen ? "caret-up" : "caret-down"}
+                      size={14}
+                      color="black"
+                      style={{ marginLeft: 5 }}
+                    />
+                  </TouchableOpacity>
+
+                  {/* Dropdown List */}
+                  {isDropdownOpen && (
+                    <View style={styles.dropdown}>
+                      {["+91", "+1", "+44", "+61", "+81"].map((code) => (
+                        <TouchableOpacity
+                          key={code}
+                          style={styles.dropdownItem}
+                          onPress={() => {
+                            setSelectedCountryCode(code);
+                            setIsDropdownOpen(false);
+                          }}
+                        >
+                          <Text style={styles.dropdownText}>{code}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  )}
+                </View>
+              
+                <TextInput
+                  placeholder="Enter your number"
+                  keyboardType="numeric"
+                  style={styles.contactInput}
+                  maxLength={10}
+                />
+              
+              </View>
+              <Text style={styles.verficationText}>
+                A verification code will be sent to this number
+              </Text>
+            </View>
+            <TouchableOpacity style={styles.buttonBox} onPress={handleContinueButton}>
+              <Text style={styles.buttonText}>Continue</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.buttonBox} onPress={handleContinueButton}>
-            <Text style={styles.buttonText}>Continue</Text>
-          </TouchableOpacity>
-        </View>
-        </TouchableWithoutFeedback>
+        </ScrollView>
       )}
     </>
   );
@@ -355,14 +360,11 @@ const styles = StyleSheet.create({
   appheader :{
     ...Platform.select({
       web:{
-        width:"12%",
-        marginLeft: "70%",
-        // marginTop: 15,
+        width:"100%",
       }
     })
   },
   doctorTextBox: {
-    marginTop:"10%",
     height: "5%",
     width: "50%",
     //borderWidth: 1,
@@ -382,7 +384,7 @@ const styles = StyleSheet.create({
     width: "90%",
     //borderWidth: 1,
     alignSelf: "center",
-    backgroundColor: "rgb(250, 124, 149)",
+    backgroundColor: "#FF7072",
     flexDirection: "column",
     borderRadius: 5,
     shadowColor: "#000", // Optional: add slight shadow for elevation
@@ -410,6 +412,8 @@ const styles = StyleSheet.create({
         marginLeft:"5%",
         marginBottom:"5%",
         minheight:"100%",
+        outlineStyle: "none",
+        borderWidth: 0,
       },
     }),
     borderRadius: 5,
@@ -543,6 +547,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingTop: "1%",
     alignSelf: "center",
+    outlineStyle: "none",
   },
   verficationText: {
     fontSize: 10,
@@ -641,16 +646,6 @@ const styles = StyleSheet.create({
     zIndex: 10,
     marginLeft: "100%",
   },
-  // dropdownItem: {
-  //   paddingVertical: ,
-  //   borderBottomWidth: 1,
-  //   borderBottomColor: "#ddd",
-  //   paddingHorizontal: 15,
-  // },
-  // dropdownText: {
-  //   fontSize: 16,
-  //   color: "#333",
-  // },
   gradientBox: {
     width: "75%",
     height: "65%",
@@ -672,9 +667,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: "3%",
     borderRadius: 2,
     shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
     zIndex: 1,
   },
   formTitle: {
@@ -754,7 +749,7 @@ const styles = StyleSheet.create({
     height:"5%",
     width:"75%",
     //borderWidth:1,
-    backgroundColor: "rgb(250, 124, 149)",
+    backgroundColor: "#FF7072",
     alignSelf:"center",
     bottom:0,
     // marginVertical:"15%",

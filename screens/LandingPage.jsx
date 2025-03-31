@@ -93,48 +93,48 @@ const LandingPage = ({ navigation, route }) => {
       {(Platform.OS!=='web' || width < 1000 ) && (
         <View style={styles.appContainer}>
 
-            <View style={[styles.header, {height: "15%"}]}>
-              <Header navigation={navigation}/>
+          <View style={[styles.header, {height: "15%"}]}>
+            <Header navigation={navigation}/>
+          </View>
+
+          <View style={styles.searchBar}>
+            <SearchBar/>
+          </View>
+
+          <View style={styles.cards}>
+
+            <View style={styles.cardsRow}>
+              <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("Doctors"))}>
+                <Image
+                  source={require("../assets/Images/Consultation.png")}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("Medilocker"))}>
+                <Image
+                  source={require("../assets/Images/Medilocker.png")}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
             </View>
 
-            <View style={styles.searchBar}>
-              <SearchBar/>
+            <View style={styles.cardsRow}>
+              <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("Hospitals"))}>
+                <Image
+                  source={require("../assets/Images/BookHospital.png")}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("MobileChatbot"))}>
+                <Image
+                  source={require("../assets/Images/twenty-four_Support.png")}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
             </View>
 
-            <View style={styles.cards}>
-
-              <View style={styles.cardsRow}>
-                <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("Doctors"))}>
-                  <Image
-                    source={require("../assets/Images/Consultation.png")}
-                    style={styles.image}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("Medilocker"))}>
-                  <Image
-                    source={require("../assets/Images/Medilocker.png")}
-                    style={styles.image}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.cardsRow}>
-                <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("Hospitals"))}>
-                  <Image
-                    source={require("../assets/Images/BookHospital.png")}
-                    style={styles.image}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.cardStyle} onPress={() => (navigation.navigate("MobileChatbot"))}>
-                  <Image
-                    source={require("../assets/Images/twenty-four_Support.png")}
-                    style={styles.image}
-                  />
-                </TouchableOpacity>
-              </View>
-
-            </View>
+          </View>
         </View>
       )}
     </>

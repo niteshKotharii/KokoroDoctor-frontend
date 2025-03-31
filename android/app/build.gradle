@@ -109,9 +109,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.D3Player'
+    namespace 'com.anonymous.kokoro.doctor'
     defaultConfig {
-        applicationId 'com.anonymous.D3Player'
+        applicationId 'com.anonymous.kokoro.doctor'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
