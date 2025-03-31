@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Kokoro.doctor",
-    "slug": "Kokoro.doctor",
+    "slug": "Kokoro-doctor",
     "version": "1.0.0",
     "platforms": [
       "ios",
@@ -30,6 +30,14 @@
     "entryPoint": "./index.js",
     "android": {
       "package": "com.anonymous.kokoro.doctor"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "ea916d92-2026-4c6f-b98c-aa645e7d5685"
+      }
     }
   },
   "name": "Kokoro.doctor"
