@@ -62,7 +62,7 @@ const Login = ({ navigation }) => {
           <StatusBar
             barStyle="light-content"
             backgroundColor="transparent"
-            translucent
+
           />
 
           <View style={styles.mainContainer}>
@@ -182,7 +182,7 @@ const Login = ({ navigation }) => {
       {/* Mobile Version (for smaller screens) */}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.mobileContainer}>
-          <statusbar barStyle="light-content" backgroundColor="#fff" />
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={styles.logoContainer}>
             <Image
               source={require("../../assets/Images/KokoroLogo.png")}

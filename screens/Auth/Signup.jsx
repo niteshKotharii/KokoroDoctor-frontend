@@ -312,7 +312,7 @@ const Signup = ({ navigation }) => {
       {/* Mobile Version (for smaller screens) */}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.mobileContainer}>
-          <statusbar barStyle="light-content" backgroundColor="#fff" />
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={styles.logoContainer}>
             <Image
               source={require("../../assets/Images/KokoroLogo.png")}
