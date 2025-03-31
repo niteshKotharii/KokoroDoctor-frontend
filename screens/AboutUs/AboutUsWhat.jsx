@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 const AboutUsWhat = ({ navigation }) => {
   return (
     <View style={styles.appContainer}>
+      <StatusBar barStyle="light-content" backgroundColor="#fff" />
       <ImageBackground
         source={require("../../assets/Images/HeartImage.jpg")}
         style={styles.imageBackground}

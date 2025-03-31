@@ -182,6 +182,7 @@ const Login = ({ navigation }) => {
       {/* Mobile Version (for smaller screens) */}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.mobileContainer}>
+          <statusbar barStyle="light-content" backgroundColor="#fff" />
           <View style={styles.logoContainer}>
             <Image
               source={require("../../assets/Images/KokoroLogo.png")}
@@ -475,7 +476,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
     paddingHorizontal: "5%",
-    paddingTop: "15%",
+    paddingTop: "5%",
   },
   logoContainer: {
     flexDirection: "row",

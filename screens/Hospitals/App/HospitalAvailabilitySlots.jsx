@@ -9,6 +9,7 @@ import {
   View,
   Platform,
   useWindowDimensions,
+  StatusBar,
 } from "react-native";
 import HospitalAvailabilitySlotsComponent from "../../../components/HospitalComponents/HospitalAvailabilitySlotsComponent";
 const HospitalAvailabilitySlots = ({ navigation, route }) => {
@@ -23,6 +24,7 @@ const HospitalAvailabilitySlots = ({ navigation, route }) => {
     <>
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={{ flex: 1 }}>
             <View style={styles.HeadingContainer}>
               <View style={styles.hospitaldetail}>
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     flexDirection: "column",
-    backgroundColor: "#FFFF",
+    backgroundColor: "#FFF",
   },
   HeadingContainer: {
     marginTop: "10%",

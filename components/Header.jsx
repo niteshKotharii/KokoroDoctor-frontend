@@ -290,7 +290,11 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 5,
+    ...Platform.select({
+      web:{
+        marginTop: 5,
+      }
+    })
   },
   appHeaderContainer: {
     ...Platform.select({

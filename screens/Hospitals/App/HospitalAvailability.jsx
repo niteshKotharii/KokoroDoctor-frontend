@@ -10,6 +10,7 @@ import {
   View,
   Platform,
   FlatList,
+  StatusBar,
 } from "react-native";
 
 const HospitalAvailability = ({ navigation, route }) => {
@@ -110,6 +111,7 @@ const HospitalAvailability = ({ navigation, route }) => {
   };
   return (
     <View style={styles.parent}>
+      <StatusBar barStyle="light-content" backgroundColor="#fff" />
       <View style={styles.hospitalImage}>
         <Image
           source={require("../../../assets/Images/hospitalImage.jpeg")}

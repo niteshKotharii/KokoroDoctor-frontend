@@ -16,6 +16,7 @@ import {
   Share,
   ScrollView,
   Pressable,
+  StatusBar,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import * as DocumentPicker from "expo-document-picker";
@@ -446,6 +447,7 @@ const Medilocker = ({ navigation }) => {
       )}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={styles.appHeader}>
             <Header navigation={navigation} />
           </View>
@@ -963,7 +965,7 @@ const styles = StyleSheet.create({
   appContainer: {
     width: "100%",
     height: "100%",
-    backgroundColor: "#FFFF",
+    backgroundColor: "#fff",
   },
   appHeader: {
     height: "15%",

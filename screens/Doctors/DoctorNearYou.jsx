@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   useWindowDimensions,
+  StatusBar,
   //Modal,
   //TouchableWithoutFeedback,
 } from "react-native";
@@ -22,6 +23,7 @@ const DoctorNearYou = ({ navigation }) => {
   return (
     <>
       <View style={styles.appContainer}>
+        <StatusBar barStyle="light-content" backgroundColor="#fff" />
         <View style={{ flex: 1 }}>
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Find Doctor near you</Text>

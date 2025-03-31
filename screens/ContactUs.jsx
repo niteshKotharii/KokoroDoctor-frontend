@@ -11,6 +11,7 @@ import {
   Platform,
   useWindowDimensions,
   Dimensions,
+  StatusBar,
 } from "react-native";
 import SideBarNavigation from "../components/SideBarNavigation";
 import Header from "../components/Header";
@@ -136,6 +137,7 @@ const ContactUs = ({ navigation, route }) => {
       )}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={[styles.header, { height: "15%" }]}>
             <Header navigation={navigation} />
           </View>
@@ -248,6 +250,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "100%",
     width: "100%",
+    backgroundColor: "#fff",
     // backgroundColor: "pink",
   },
   imageContainer: {

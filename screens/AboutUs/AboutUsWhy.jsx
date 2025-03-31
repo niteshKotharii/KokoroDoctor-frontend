@@ -25,7 +25,7 @@ const FeatureItem = ({ number, title, subtitle }) => {
 const AboutUsWhy = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-
+      <StatusBar barStyle="light-content" backgroundColor="#fff" />
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="black" />

@@ -13,6 +13,7 @@ import {
   Platform,
   ScrollView,
   useWindowDimensions,
+  StatusBar,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../../contexts/ChatbotContext";
@@ -234,6 +235,7 @@ const DoctorResultShow = ({ navigation, route }) => {
       )}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={[styles.header, { height: "15%" }]}>
             <Header navigation={navigation} />
           </View>
@@ -263,6 +265,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     hieght: "100%",
     width: "100%",
+    backgroundColor: "#fff",
   },
   searchBar: {},
 

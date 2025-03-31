@@ -8,6 +8,7 @@ import {
   Platform,
   Linking,
   useWindowDimensions,
+  StatusBar,
 } from "react-native";
 import { AntDesign, Feather, FontAwesome5 } from "@expo/vector-icons";
 
@@ -30,6 +31,7 @@ const BookingConfirmation = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={styles.container.backgroundColor} />
       <View style={styles.top}>
         <View style={styles.bookingLogo}>
           <Image source={require("../../../assets/Icons/BookingConfirmation.png")} style={styles.bookingLogoImage}/>

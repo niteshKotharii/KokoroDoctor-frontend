@@ -12,6 +12,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  StatusBar,
   
 } from "react-native";
 // import Header from "../../../components/Header";
@@ -191,6 +192,7 @@ const HospitalBookingNext = ({ navigation, route }) => {
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
           keyboardShouldPersistTaps="handled">
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={styles.appContainer}>
             <View style={[styles.appheader, { height: "15%" }]}>
               <Header navigation={navigation} />
@@ -318,6 +320,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "100%",
     width: "100%",
+    backgroundColor: "#fff",
   },
   imageBackground: {
     width: "100%",

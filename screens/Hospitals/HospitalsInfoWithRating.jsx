@@ -12,7 +12,8 @@ import {
   Linking,
   Keyboard,
   Platform,
-  useWindowDimensions
+  useWindowDimensions,
+  StatusBar
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
@@ -362,6 +363,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
       )}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.app_parent}>
+          <StatusBar barStyle="light-content" backgroundColor="#fff"/>
           <View style={styles.app_hospitalImage}>
             <Image
               source={require("../../assets/Images/hospitalImage.jpeg")}

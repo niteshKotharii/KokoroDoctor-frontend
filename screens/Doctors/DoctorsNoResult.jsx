@@ -11,6 +11,7 @@ import {
   Linking,
   Keyboard,
   Platform,
+  StatusBar,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../contexts/ChatbotContext";
@@ -155,6 +156,7 @@ const Doctors = ({ navigation, route }) => {
   return (
     <>
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="#fff" />
         <View style={styles.imageContainer}>
           <ImageBackground
             source={require("../assets/Images/MedicineBackground.png")}
@@ -251,6 +253,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: "100%",
     width: "100%",
+    backgroundColor: "#fff",
   },
   imageContainer: {
     height: "100%",

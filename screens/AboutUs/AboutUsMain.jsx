@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Platform,
   useWindowDimensions,
+  StatusBar,
 } from "react-native";
 import SideBarNavigation from "../../components/SideBarNavigation";
 import { Ionicons } from '@expo/vector-icons';
@@ -291,320 +292,321 @@ const AboutUsMain = ({ navigation, route }) => {
       
       {(Platform.OS!=='web' || width<1000) && (
         <ScrollView style={styles.appContainer} ref={scrollViewRef}>
-        {/* Header Section */}
-        <View style={styles.appHeader}>
-          <View style={styles.appContentWrapper}>
-            {/* Menu and Profile Icons */}
-            <View style={[styles.header, {height: "15%"}]}>
-              <Header navigation={navigation}/>
-            </View>
-  
-            {/* Main Title */}
-            <View style={styles.appTitleContainer}>
-              <Text style={styles.appTitle}>Kokoro.Doctor</Text>
-              <Text style={styles.appSubtitle}>
-                Your AI-Powered Heart Health Companion
-              </Text>
-            </View>
-          </View>
-        </View>
-  
-        {/* About Us Section */}
-        <View style={styles.appSection}>
-          <Text style={styles.appSectionTitle}>About Us</Text>
-          <Text style={styles.appParagraph}>
-            <Text style={styles.appBold}>Kokoro.Doctor</Text> was founded with a
-            mission to make AI-powered heart health accessible to everyone. As an
-            I Member at Harvard Innovation Labs, our team of experts in AI,
-            healthcare, and business is dedicated to bridging the gap between
-            early detection and life-saving action.
-          </Text>
-  
-          {/* Two Vertical Sections */}
-          <View style={styles.appRow}>
-            {/* Left Side */}
-            <View style={[styles.appColumn]}>
-              <Image
-                source={require("../../assets/Images/heartfail.png")} // Replace with your actual image path
-                style={[styles.appAboutImage, styles.appLeftImage]}
-                resizeMode="cover"
-              />
-              <Text style={styles.appParagraph}>
-                With extensive research and cutting-edge technology,
-                <Text style={styles.appBold}> Kokoro.Doctor</Text> ensures that
-                patients, doctors, and caregivers receive the best possible tools
-                for cardiac care. Our commitment to affordable, data-driven
-                healthcare makes us a leader in the field of heart health
-                solutions.
-              </Text>
-            </View>
-  
-            {/* Right Side */}
-            <View style={[styles.appColumn]}>
-              <Image
-                source={require("../../assets/Images/doctorwithtablet.png")} // Replace with your actual image path
-                style={[styles.appAboutImage, styles.appRightImage]}
-                resizeMode="cover"
-              />
-              <Text style={styles.appParagraph}>
-                We envision a world where no one suffers due to lack of timely
-                heart care. By leveraging AI, medical expertise, and innovation,{" "}
-                <Text style={styles.appBold}> Kokoro.Doctor</Text> is at the
-                forefront of the next healthcare revolution.
-              </Text>
-            </View>
-          </View>
-        </View>
-        
-        {/* Urgent Need Section */}
-        <View style={styles.appUrgentNeedSection}>
-          <Text style={styles.appUrgentNeedTitle}>The Urgent Need for Better</Text>
-          <Text style={styles.appUrgentNeedTitle}>Heart Care</Text>
-          <Text style={styles.appUrgentNeedDescription}>
-            Heart disease is the leading cause of death globally, yet millions
-            still lack quick, reliable, and affordable access to cardiac care.
-          </Text>
-  
-          {/* Problem Section */}
-          <View style={styles.appProblemcontainer}>
-            {/* Main Problem Box */}
-            <View style={styles.appProblemBox}>
-              <Text style={styles.appProblemTitle}>The Problem</Text>
-  
-              {/* Problem Statements */}
-              <View style={styles.appProblemContent}>
-                <Text style={styles.appProblemText}>
-                  Lack of cardiologists in many cities and towns.
-                </Text>
-                <View style={styles.appSeparator} />
-                <Text style={styles.appProblemText}>
-                  Long waiting times for checkups and tests.
-                </Text>
-                <View style={styles.appSeparator} />
-                <Text style={styles.appProblemText}>
-                  Expensive treatments that many cannot afford.
-                </Text>
-                <View style={styles.appSeparator} />
-                <Text style={styles.appProblemText}>
-                  Delayed action - many people ignore early warning signs.
+          <StatusBar barStyle="light-content" backgroundColor="#FF6B6B"/>
+          {/* Header Section */}
+          <View style={styles.appHeader}>
+            <View style={styles.appContentWrapper}>
+              {/* Menu and Profile Icons */}
+              <View style={[styles.header, {height: "15%"}]}>
+                <Header navigation={navigation}/>
+              </View>
+    
+              {/* Main Title */}
+              <View style={styles.appTitleContainer}>
+                <Text style={styles.appTitle}>Kokoro.Doctor</Text>
+                <Text style={styles.appSubtitle}>
+                  Your AI-Powered Heart Health Companion
                 </Text>
               </View>
             </View>
           </View>
-        </View>
-  
-        {/* What If Section */}
-        <View style={styles.appWhatIfSection}>
-          <Text style={styles.appWhatIfTitle}>
-            What if you could assess your heart health instantly?
-          </Text>
-          <Text style={styles.appWhatIfSubtitle}>
-            That's why we created Kokoro.Doctor.
-          </Text>
-  
-          {/* Expandable Options */}
-          <TouchableOpacity
-            style={styles.appExpandableOption}
-            onPress={() => {navigation.navigate("AboutUsWhat")}}
-          >
-            <Text style={styles.appExpandableText}>What is Kokoro.Doctor?</Text>
-            <Ionicons name="chevron-forward" size={20} color="#E57373" />
-          </TouchableOpacity>
-  
-          <TouchableOpacity
-            style={styles.appExpandableOption}
-            onPress={() => {navigation.navigate("AboutUsHow")}}
-          >
-            <Text style={styles.appExpandableText}>How Kokoro.Doctor Works?</Text>
-            <Ionicons name="chevron-forward" size={20} color="#E57373" />
-          </TouchableOpacity>
-  
-          <TouchableOpacity
-            style={styles.appExpandableOption}
-            onPress={() => {navigation.navigate("AboutUsWhy")}}
-          >
-            <Text style={styles.appExpandableText}>
-              Why Kokoro.Doctor Stands Out?
+    
+          {/* About Us Section */}
+          <View style={styles.appSection}>
+            <Text style={styles.appSectionTitle}>About Us</Text>
+            <Text style={styles.appParagraph}>
+              <Text style={styles.appBold}>Kokoro.Doctor</Text> was founded with a
+              mission to make AI-powered heart health accessible to everyone. As an
+              I Member at Harvard Innovation Labs, our team of experts in AI,
+              healthcare, and business is dedicated to bridging the gap between
+              early detection and life-saving action.
             </Text>
-            <Ionicons name="chevron-forward" size={20} color="#E57373" />
-          </TouchableOpacity>
-        </View>
-  
-        {/* Vision Section */}
-        <View style={styles.appVisionSection}>
-          <Text style={styles.appVisionTitle}>The Bigger Vision</Text>
-          <Text style={styles.appVisionSubtitle}>A Global Mission</Text>
-          <Text style={styles.appVisionDescription}>
-            For too long, heart disease has been a silent killer—especially in
-            communities with poor healthcare access.
-          </Text>
-  
-          {/* Benefits Boxes */}
-          <ImageBackground
-            source={require("../../assets/Images/heart_background.png")}
-            style={styles.appBenefitsContainer}
-            imageStyle={{ opacity: 1.0 }} 
-          >
-            <Text style={styles.appBeliefText}>
-              At Kokoro.Doctor, we believe in:
+    
+            {/* Two Vertical Sections */}
+            <View style={styles.appRow}>
+              {/* Left Side */}
+              <View style={[styles.appColumn]}>
+                <Image
+                  source={require("../../assets/Images/heartfail.png")} // Replace with your actual image path
+                  style={[styles.appAboutImage, styles.appLeftImage]}
+                  resizeMode="cover"
+                />
+                <Text style={styles.appParagraph}>
+                  With extensive research and cutting-edge technology,
+                  <Text style={styles.appBold}> Kokoro.Doctor</Text> ensures that
+                  patients, doctors, and caregivers receive the best possible tools
+                  for cardiac care. Our commitment to affordable, data-driven
+                  healthcare makes us a leader in the field of heart health
+                  solutions.
+                </Text>
+              </View>
+    
+              {/* Right Side */}
+              <View style={[styles.appColumn]}>
+                <Image
+                  source={require("../../assets/Images/doctorwithtablet.png")} // Replace with your actual image path
+                  style={[styles.appAboutImage, styles.appRightImage]}
+                  resizeMode="cover"
+                />
+                <Text style={styles.appParagraph}>
+                  We envision a world where no one suffers due to lack of timely
+                  heart care. By leveraging AI, medical expertise, and innovation,{" "}
+                  <Text style={styles.appBold}> Kokoro.Doctor</Text> is at the
+                  forefront of the next healthcare revolution.
+                </Text>
+              </View>
+            </View>
+          </View>
+          
+          {/* Urgent Need Section */}
+          <View style={styles.appUrgentNeedSection}>
+            <Text style={styles.appUrgentNeedTitle}>The Urgent Need for Better</Text>
+            <Text style={styles.appUrgentNeedTitle}>Heart Care</Text>
+            <Text style={styles.appUrgentNeedDescription}>
+              Heart disease is the leading cause of death globally, yet millions
+              still lack quick, reliable, and affordable access to cardiac care.
             </Text>
-            <View style={[styles.appBenefitBox, styles.appFirstBenefitBox]}>
-              <Text style={styles.appBenefitText}>No more delayed heart care</Text>
-            </View>
-            <View style={[styles.appBenefitBox, styles.appSecondBenefitBox]}>
-              <Text style={styles.appBenefitText}>
-                No more preventable heart attacks
-              </Text>
-            </View>
-            <View style={[styles.appBenefitBox, styles.appThirdBenefitBox]}>
-              <Text style={styles.appBenefitText}>
-                No family suffering because they couldn't get help in time
-              </Text>
-            </View>
-          </ImageBackground>
-        </View>
-  
-        {/* Pricing Section */}
-        <View style={styles.appPricingSection}>
-          <Text style={styles.appPricingTitle}>Pricing</Text>
-          <Text style={styles.appPricingDescription}>
-            We believe affordable healthcare should be a reality for everyone.
-          </Text>
-  
-          {/* Monthly Plan */}
-          <View style={styles.appPricingPlan}>
-            <Text style={styles.appPriceAmount}>₹999</Text>
-            <Text style={styles.appPricePeriod}>per month</Text>
-          </View>
-  
-          {/* Yearly Plan */}
-          <View style={styles.appYearlyPlanContainer}>
-            <View style={styles.appSaveBadge}>
-              <Text style={styles.appSaveText}>SAVE 15%</Text>
-            </View>
-            <View style={[styles.appPricingPlan, styles.appSecondPricingPlan]}>
-              <Text style={styles.appPriceAmount}>₹4999</Text>
-              <Text style={styles.appPricePeriod}>per year</Text>
+    
+            {/* Problem Section */}
+            <View style={styles.appProblemcontainer}>
+              {/* Main Problem Box */}
+              <View style={styles.appProblemBox}>
+                <Text style={styles.appProblemTitle}>The Problem</Text>
+    
+                {/* Problem Statements */}
+                <View style={styles.appProblemContent}>
+                  <Text style={styles.appProblemText}>
+                    Lack of cardiologists in many cities and towns.
+                  </Text>
+                  <View style={styles.appSeparator} />
+                  <Text style={styles.appProblemText}>
+                    Long waiting times for checkups and tests.
+                  </Text>
+                  <View style={styles.appSeparator} />
+                  <Text style={styles.appProblemText}>
+                    Expensive treatments that many cannot afford.
+                  </Text>
+                  <View style={styles.appSeparator} />
+                  <Text style={styles.appProblemText}>
+                    Delayed action - many people ignore early warning signs.
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
-  
-          {/* Pricing Note */}
-          <Text style={styles.appPricingNote}>
-            *This includes unlimited AI heart health assessments, emergency
-            alerts, priority doctor consultations, and secure MediLocker.
-          </Text>
-        </View>
-  
-        {/* Join Revolution Section */}
-        <View style={styles.appJoinSection}>
-          <Text style={styles.appJoinTitle}>Join the Revolution in</Text>
-          <Text style={styles.appJoinTitle}>Heart Health</Text>
-          <Text style={styles.appJoinDescription}>
-            Over 100,000 users have already taken
-          </Text>
-          <Text style={styles.appJoinDescription}>
-            their first AI-powered heart checkup,
-          </Text>
-          <Text style={styles.appJoinDescription}>
-            and we are just getting started.
-          </Text>
-  
-          {/* Categories */}
-          <View style={styles.appCategoriesContainer}>
-            {/* Patients Section */}
-            <View style={styles.appCategoryItem}>
-              <Text style={styles.appBoldLeft}>Patients:</Text>
-              <View style={styles.appFullWidthDivider} />
-              <Text style={styles.appBoldBelow}>
-                Take charge of your heart health
-              </Text>
-            </View>
-  
-            {/* Healthcare Providers Section */}
-            <View style={styles.appCategoryItem}>
-              <Text style={styles.appBoldLeft}>Healthcare Providers:</Text>
-              <View style={styles.appFullWidthDivider} />
-              <Text style={styles.appBoldBelow}>
-                Partner with us for better patient outcomes
-              </Text>
-            </View>
-  
-            {/* Investors & Innovators Section */}
-            <View style={styles.appCategoryItem}>
-              <Text style={styles.appBoldLeft}>Investors & Innovators:</Text>
-              <View style={styles.appFullWidthDivider} />
-              <Text style={styles.appBoldBelow}>
-                Be part of the future of AI-driven healthcare
-              </Text>
-            </View>
-          </View>
-  
-          {/* CTA Box */}
-          <View style={styles.appCtaContainer}>
-            <Text style={styles.appCtaText}>Your heart deserves the</Text>
-            <Text style={styles.appCtaText}> best care</Text>
+    
+          {/* What If Section */}
+          <View style={styles.appWhatIfSection}>
+            <Text style={styles.appWhatIfTitle}>
+              What if you could assess your heart health instantly?
+            </Text>
+            <Text style={styles.appWhatIfSubtitle}>
+              That's why we created Kokoro.Doctor.
+            </Text>
+    
+            {/* Expandable Options */}
             <TouchableOpacity
-              style={styles.appCtaButton}
-              onPress={() => {
-                /* Scroll to top function here */
-              }}
+              style={styles.appExpandableOption}
+              onPress={() => {navigation.navigate("AboutUsWhat")}}
             >
-              <Text style={styles.appButtonText}>Check Your Heart Now</Text>
+              <Text style={styles.appExpandableText}>What is Kokoro.Doctor?</Text>
+              <Ionicons name="chevron-forward" size={20} color="#E57373" />
+            </TouchableOpacity>
+    
+            <TouchableOpacity
+              style={styles.appExpandableOption}
+              onPress={() => {navigation.navigate("AboutUsHow")}}
+            >
+              <Text style={styles.appExpandableText}>How Kokoro.Doctor Works?</Text>
+              <Ionicons name="chevron-forward" size={20} color="#E57373" />
+            </TouchableOpacity>
+    
+            <TouchableOpacity
+              style={styles.appExpandableOption}
+              onPress={() => {navigation.navigate("AboutUsWhy")}}
+            >
+              <Text style={styles.appExpandableText}>
+                Why Kokoro.Doctor Stands Out?
+              </Text>
+              <Ionicons name="chevron-forward" size={20} color="#E57373" />
+            </TouchableOpacity>
+          </View>
+    
+          {/* Vision Section */}
+          <View style={styles.appVisionSection}>
+            <Text style={styles.appVisionTitle}>The Bigger Vision</Text>
+            <Text style={styles.appVisionSubtitle}>A Global Mission</Text>
+            <Text style={styles.appVisionDescription}>
+              For too long, heart disease has been a silent killer—especially in
+              communities with poor healthcare access.
+            </Text>
+    
+            {/* Benefits Boxes */}
+            <ImageBackground
+              source={require("../../assets/Images/heart_background.png")}
+              style={styles.appBenefitsContainer}
+              imageStyle={{ opacity: 1.0 }} 
+            >
+              <Text style={styles.appBeliefText}>
+                At Kokoro.Doctor, we believe in:
+              </Text>
+              <View style={[styles.appBenefitBox, styles.appFirstBenefitBox]}>
+                <Text style={styles.appBenefitText}>No more delayed heart care</Text>
+              </View>
+              <View style={[styles.appBenefitBox, styles.appSecondBenefitBox]}>
+                <Text style={styles.appBenefitText}>
+                  No more preventable heart attacks
+                </Text>
+              </View>
+              <View style={[styles.appBenefitBox, styles.appThirdBenefitBox]}>
+                <Text style={styles.appBenefitText}>
+                  No family suffering because they couldn't get help in time
+                </Text>
+              </View>
+            </ImageBackground>
+          </View>
+    
+          {/* Pricing Section */}
+          <View style={styles.appPricingSection}>
+            <Text style={styles.appPricingTitle}>Pricing</Text>
+            <Text style={styles.appPricingDescription}>
+              We believe affordable healthcare should be a reality for everyone.
+            </Text>
+    
+            {/* Monthly Plan */}
+            <View style={styles.appPricingPlan}>
+              <Text style={styles.appPriceAmount}>₹999</Text>
+              <Text style={styles.appPricePeriod}>per month</Text>
+            </View>
+    
+            {/* Yearly Plan */}
+            <View style={styles.appYearlyPlanContainer}>
+              <View style={styles.appSaveBadge}>
+                <Text style={styles.appSaveText}>SAVE 15%</Text>
+              </View>
+              <View style={[styles.appPricingPlan, styles.appSecondPricingPlan]}>
+                <Text style={styles.appPriceAmount}>₹4999</Text>
+                <Text style={styles.appPricePeriod}>per year</Text>
+              </View>
+            </View>
+    
+            {/* Pricing Note */}
+            <Text style={styles.appPricingNote}>
+              *This includes unlimited AI heart health assessments, emergency
+              alerts, priority doctor consultations, and secure MediLocker.
+            </Text>
+          </View>
+    
+          {/* Join Revolution Section */}
+          <View style={styles.appJoinSection}>
+            <Text style={styles.appJoinTitle}>Join the Revolution in</Text>
+            <Text style={styles.appJoinTitle}>Heart Health</Text>
+            <Text style={styles.appJoinDescription}>
+              Over 100,000 users have already taken
+            </Text>
+            <Text style={styles.appJoinDescription}>
+              their first AI-powered heart checkup,
+            </Text>
+            <Text style={styles.appJoinDescription}>
+              and we are just getting started.
+            </Text>
+    
+            {/* Categories */}
+            <View style={styles.appCategoriesContainer}>
+              {/* Patients Section */}
+              <View style={styles.appCategoryItem}>
+                <Text style={styles.appBoldLeft}>Patients:</Text>
+                <View style={styles.appFullWidthDivider} />
+                <Text style={styles.appBoldBelow}>
+                  Take charge of your heart health
+                </Text>
+              </View>
+    
+              {/* Healthcare Providers Section */}
+              <View style={styles.appCategoryItem}>
+                <Text style={styles.appBoldLeft}>Healthcare Providers:</Text>
+                <View style={styles.appFullWidthDivider} />
+                <Text style={styles.appBoldBelow}>
+                  Partner with us for better patient outcomes
+                </Text>
+              </View>
+    
+              {/* Investors & Innovators Section */}
+              <View style={styles.appCategoryItem}>
+                <Text style={styles.appBoldLeft}>Investors & Innovators:</Text>
+                <View style={styles.appFullWidthDivider} />
+                <Text style={styles.appBoldBelow}>
+                  Be part of the future of AI-driven healthcare
+                </Text>
+              </View>
+            </View>
+    
+            {/* CTA Box */}
+            <View style={styles.appCtaContainer}>
+              <Text style={styles.appCtaText}>Your heart deserves the</Text>
+              <Text style={styles.appCtaText}> best care</Text>
+              <TouchableOpacity
+                style={styles.appCtaButton}
+                onPress={() => {
+                  /* Scroll to top function here */
+                }}
+              >
+                <Text style={styles.appButtonText}>Check Your Heart Now</Text>
+                <View style={styles.appIconctaContainer}>
+                  <Ionicons
+                    name="arrow-up"
+                    size={20}
+                    color="#fff"
+                    style={styles.appCtaArrowIcon}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+    
+          {/* Final Thoughts Section */}
+          <View style={styles.appFinalSection}>
+            <Text style={styles.appFinalTitle}>Final Thoughts</Text>
+            <Text style={styles.appFinalText}>
+              This is not just another health app-{" "}
+              <Text style={styles.appRedText}>
+                This is a revolution in heart care.
+              </Text>
+            </Text>
+            <Text style={styles.appFinalText}>
+              With insights from{" "}
+              <Text style={styles.appRedText}>Harvard Innovation Labs</Text>, AI
+              innovation, and a patient-centered approach,{" "}
+              <Text style={styles.appRedText}>
+                Kokoro.Doctor is bridging the gap between early detection and
+                life-saving action.
+              </Text>
+            </Text>
+            <Text style={styles.appFinalText}>
+              Join us in redefining heart health-{" "}
+              <Text style={styles.appRedText}>one heartbeat at a time</Text>
+            </Text>
+            <TouchableOpacity
+              style={styles.appAtTopButton}
+              onPress={scrollToTop}
+            >
+              <Text style={styles.appButtonText}>At top</Text>
               <View style={styles.appIconctaContainer}>
                 <Ionicons
                   name="arrow-up"
                   size={20}
                   color="#fff"
-                  style={styles.appCtaArrowIcon}
+                  style={styles.appArrowIcon}
                 />
               </View>
             </TouchableOpacity>
-          </View>
-        </View>
-  
-        {/* Final Thoughts Section */}
-        <View style={styles.appFinalSection}>
-          <Text style={styles.appFinalTitle}>Final Thoughts</Text>
-          <Text style={styles.appFinalText}>
-            This is not just another health app-{" "}
-            <Text style={styles.appRedText}>
-              This is a revolution in heart care.
-            </Text>
-          </Text>
-          <Text style={styles.appFinalText}>
-            With insights from{" "}
-            <Text style={styles.appRedText}>Harvard Innovation Labs</Text>, AI
-            innovation, and a patient-centered approach,{" "}
-            <Text style={styles.appRedText}>
-              Kokoro.Doctor is bridging the gap between early detection and
-              life-saving action.
-            </Text>
-          </Text>
-          <Text style={styles.appFinalText}>
-            Join us in redefining heart health-{" "}
-            <Text style={styles.appRedText}>one heartbeat at a time</Text>
-          </Text>
-          <TouchableOpacity
-            style={styles.appAtTopButton}
-            onPress={scrollToTop}
-          >
-            <Text style={styles.appButtonText}>At top</Text>
-            <View style={styles.appIconctaContainer}>
-              <Ionicons
-                name="arrow-up"
-                size={20}
-                color="#fff"
-                style={styles.appArrowIcon}
-              />
+    
+            {/* Brand Footer */}
+            <View style={styles.appBrandFooter}>
+              <Text style={styles.appFooterKokoro}>Kokoro</Text>
+              <Text style={styles.appFooterDoctor}>Doctor</Text>
             </View>
-          </TouchableOpacity>
-  
-          {/* Brand Footer */}
-          <View style={styles.appBrandFooter}>
-            <Text style={styles.appFooterKokoro}>Kokoro</Text>
-            <Text style={styles.appFooterDoctor}>Doctor</Text>
           </View>
-        </View>
       </ScrollView>
       )}
     </>

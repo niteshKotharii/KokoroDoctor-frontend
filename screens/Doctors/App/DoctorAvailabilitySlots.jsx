@@ -7,6 +7,7 @@ import {
   View,
   Platform,
   useWindowDimensions,
+  StatusBar,
 } from "react-native";
 import DoctorAvailabilitySlotsComponent from "../../../components/DoctorComponents/DoctorAvailabilitySlotsComponent";
 const DoctorAvailabilitySlots = ({ navigation, route }) => {
@@ -16,6 +17,7 @@ const DoctorAvailabilitySlots = ({ navigation, route }) => {
     <>
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={{ flex: 1 }}>
             <View style={styles.imageContainer}>
               <Image source={doctors.image} style={styles.doctorImage} />
@@ -48,6 +50,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     flexDirection: "column",
+    backgroundColor: "#fff",
   },
   imageContainer: {
     height: "17%",

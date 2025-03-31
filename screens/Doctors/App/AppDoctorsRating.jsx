@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
-  useWindowDimensions
+  useWindowDimensions,
+  StatusBar
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -67,6 +68,7 @@ const AppDoctorsRating = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={styles.container.backgroundColor} />
       <ScrollView contentContainerStyle={{paddingHorizontal:16, marginTop: 35}}>
         {/* Doctor Profile Section */}
         <View style={styles.doctorProfileContainer}>

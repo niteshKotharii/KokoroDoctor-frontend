@@ -13,6 +13,7 @@ import {
   ScrollView,
   useWindowDimensions,
   Linking,
+  StatusBar,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../../../contexts/ChatbotContext";
@@ -66,6 +67,7 @@ const HospitalPaymentApp = ({ navigation, route }) => {
 
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.mobileContainerWrapper}>
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <ScrollView
             style={styles.scrollView}
             contentContainerStyle={styles.scrollViewContent}
@@ -204,7 +206,7 @@ const styles = StyleSheet.create({
   // Mobile styles
   mobileContainerWrapper: {
     flex: 1,
-    backgroundColor: "#ccc",
+    backgroundColor: "#fff",
   },
   scrollView: {
     flex: 1,

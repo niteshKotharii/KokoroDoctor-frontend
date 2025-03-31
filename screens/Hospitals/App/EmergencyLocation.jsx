@@ -15,6 +15,7 @@ import {
   Platform,
   Modal,
   useWindowDimensions,
+  StatusBar,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -90,6 +91,7 @@ const EmergencyLocation = ({ navigation, route }) => {
 
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={styles.main}>
             <View style={styles.body}>
               <View style={styles.bodyHeadContainer}>
@@ -161,6 +163,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "100%",
     width: "100%",
+    backgroundColor: "#fff",
     // backgroundColor: "pink",
   },
   body: {

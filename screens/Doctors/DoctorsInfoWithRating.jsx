@@ -12,6 +12,7 @@ import {
   Platform,
   useWindowDimensions,
   Dimensions,
+  StatusBar,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SideBarNavigation from "../../components/SideBarNavigation";
@@ -321,6 +322,7 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
       )}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           {/* <View style={{ flex: 1 }}> */}
           <View style={styles.appImageContainer}>
             <Image source={doctors.image} style={styles.doctorImage} />
@@ -516,6 +518,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     flexDirection: "column",
+    backgroundColor: "#fff",
   },
   imageContainer: {
     height: "100%",

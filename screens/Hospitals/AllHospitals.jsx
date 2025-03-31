@@ -18,6 +18,7 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
+  StatusBar,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../../contexts/ChatbotContext";
@@ -334,6 +335,7 @@ const AllHospitals = ({ navigation, route }) => {
 
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
+          <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={styles.headContainer}>
             <Header style={styles.header}navigation={navigation} />
           </View>
@@ -376,6 +378,7 @@ const styles = StyleSheet.create({
   appContainer: {
      height: "100%",
      width: "100%",
+     backgroundColor: "#fff",
   },
   headContainer: {
     flex:1,
