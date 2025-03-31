@@ -113,6 +113,65 @@ const HospitalsInfoWithRating = ({ navigation }) => {
     afternoon: { label: "Afternoon (1 slot)", slots: ["12:30 PM"] },
   };
 
+  const hospitals={
+    id: "1",
+    name: "Apollo Hospital",
+    credential: "MultiSpeciality Hospital",
+    
+    availability: {
+      today: {
+        slotsAvailable: 0,
+      },
+      tomorrow: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: [
+            "12.00 PM",
+            "12:30 PM",
+            "1:00 PM",
+            "1:30 PM",
+            "2:00 PM",
+            "3:00 PM",
+          ],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      monday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+    },
+  }
+
   return (
     <>
       {Platform.OS === "web" && width > 1000 && (
@@ -419,7 +478,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
               </View>
             </View>
             <View style={styles.app_availabilityButtonConatiner}>
-              <TouchableOpacity onPress={() => navigation.navigate("HospitalAvailability")}>
+              <TouchableOpacity onPress={() => navigation.navigate("HospitalAvailability",{hospitals:hospitals})}>
                 <View style={styles.app_availabilityButton}>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text style={{ color: "#fff", fontSize: 16 }}>
