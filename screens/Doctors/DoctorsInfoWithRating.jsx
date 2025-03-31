@@ -18,7 +18,7 @@ import { useChatbot } from "../../contexts/ChatbotContext";
 import SideBarNavigation from "../../components/SideBarNavigation";
 import Header from "../../components/Header";
 
-const DoctorsInfoWithRating = ({ navigation, route, data }) => {
+const DoctorsInfoWithRating = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);

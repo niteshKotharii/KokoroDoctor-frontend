@@ -11,6 +11,64 @@ import {
   Platform,
 } from "react-native";
 
+const hospitals={
+  id: "1",
+  name: "Apollo Hospital",
+  credential: "MultiSpeciality Hospital",
+  
+  availability: {
+    today: {
+      slotsAvailable: 0,
+    },
+    tomorrow: {
+      slotsAvailable: 10,
+      slots: {
+        morning: ["11:00 AM", "11:30 AM"],
+        afternoon: [
+          "12.00 PM",
+          "12:30 PM",
+          "1:00 PM",
+          "1:30 PM",
+          "2:00 PM",
+          "3:00 PM",
+        ],
+        evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+      },
+    },
+    monday: {
+      slotsAvailable: 10,
+      slots: {
+        morning: ["11:00 AM", "11:30 AM"],
+        afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+        evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+      },
+    },
+    tuesday: {
+      slotsAvailable: 10,
+      slots: {
+        morning: ["11:00 AM", "11:30 AM"],
+        afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+        evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+      },
+    },
+    wednesday: {
+      slotsAvailable: 10,
+      slots: {
+        morning: ["11:00 AM", "11:30 AM"],
+        afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+        evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+      },
+    },
+    thursday: {
+      slotsAvailable: 10,
+      slots: {
+        morning: ["11:00 AM", "11:30 AM"],
+        afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+        evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+      },
+    },
+  },
+}
 const HospitalAvailability = ({ navigation, route }) => {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const morningSlotArray = [
@@ -29,6 +87,7 @@ const HospitalAvailability = ({ navigation, route }) => {
     "1:00",
     "1:45",
   ];
+  
   const toggleSlotSelection = (slot) => {
     setSelectedSlot(selectedSlot === slot ? null : slot);
   };
@@ -173,7 +232,11 @@ const HospitalAvailability = ({ navigation, route }) => {
 
         <View style={styles.availabilityButtonConatiner}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("AllAvilability")}
+            onPress={() =>
+              navigation.navigate("HospitalAvailabilitySlots", {
+                hospitals:hospitals,
+              })
+            }
           >
             <View style={styles.availabilityButton}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>

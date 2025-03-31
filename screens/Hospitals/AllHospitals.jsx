@@ -29,7 +29,7 @@ import SearchBar from "../../components/SearchBar";
 import HospitalCard from "../../components/HospitalCard";
 
 const width = Dimensions.get("window").width;
-const hospitalsdata = [
+const hospitals = [
   { id: "1" },
   { id: "2" },
   { id: "3" },
@@ -43,9 +43,6 @@ const hospitalsdata = [
 ];
 
 const AllHospitals = ({ navigation, route }) => {
-  //This is for web.......
-  // const [searchQuery, setSearchQuery] = useState("");
-  // const [dropdownVisible, setDropdownVisible] = useState(false);
   const { setChatbotConfig } = useChatbot();
   const phoneNumber = "+918069991061";
   const {width} = useWindowDimensions();
@@ -102,7 +99,7 @@ const AllHospitals = ({ navigation, route }) => {
   };
 
   const moveRight = () => {
-    if (startIndex < hospitalsdata.length - 3) {
+    if (startIndex < hospitals.length - 3) {
       setStartIndex(startIndex + 1);
     }
   };
@@ -118,7 +115,7 @@ const AllHospitals = ({ navigation, route }) => {
   };
 
   const slideRight = () => {
-    if (currentIndex < hospitalsdata.length - 6) {
+    if (currentIndex < hospitals.length - 6) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -162,7 +159,7 @@ const AllHospitals = ({ navigation, route }) => {
                             </TouchableOpacity>
                           </View>
                           
-                          {hospitalsdata
+                          {hospitals
                             .slice(startIndex, startIndex + 3)
                             .map((hospital) => (
                               <View key={hospital.id} style={styles.box}>
@@ -305,7 +302,7 @@ const AllHospitals = ({ navigation, route }) => {
                           </TouchableOpacity>
                         </View>
 
-                        {hospitalsdata
+                        {hospitals
                           .slice(currentIndex, currentIndex + 6)
                           .map((hospital) => (
                             <View key={hospital.id} style={styles.box1}>
@@ -346,7 +343,7 @@ const AllHospitals = ({ navigation, route }) => {
           <View style={styles.appbody}>           
             <FlatList
               style={styles.flatListConatainer}
-              data={hospitalsdata}
+              data={hospitals}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
               

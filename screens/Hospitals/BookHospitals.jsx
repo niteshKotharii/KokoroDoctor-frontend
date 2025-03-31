@@ -258,19 +258,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   appContainer: {
-    ...Platform.select({
-      ios: {
-        paddingTop: "8%",
-      },
-      android: {
-        paddingTop: "2%",
-      },
-    }),
- 
+    marginTop: "6%", 
     flex: 1,
     height: "100%",
     width: "100%",
-   
   },
   imageBackground: {
     width: "100%",
