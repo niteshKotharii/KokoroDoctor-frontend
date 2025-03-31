@@ -361,6 +361,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: "3%",
     fontSize: 16,
     width: "100%",
+    outlineStyle: "none",
+    borderwidth: 0,
   },
   passwordContainer: {
     flexDirection: "row",

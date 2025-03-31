@@ -543,6 +543,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     width: "100%",
     backgroundColor: "#FFFFFF",
+    outlineStyle: "none",
+    borderwidth: 0,
   },
   locationInputContainer: {
     flexDirection: "row",
@@ -580,6 +582,8 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 15,
     fontSize: 16,
+    outlineStyle: "none",
+    borderwidth: 0,
   },
   eyeIconContainer: {
     paddingHorizontal: 15,
