@@ -29,6 +29,7 @@ const BookHospitals = ({ navigation }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   //This is the array for symptoms cards
+ 
   const symptoms = [
     "Chest Pain",
     "Shortness of breath",
