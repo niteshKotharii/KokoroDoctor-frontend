@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useChatbot } from '../contexts/ChatbotContext';
+import { useChatbot } from '../../contexts/ChatbotContext';
 import ChatBot from "./ChatBot";
 import { Platform, Pressable, Text, useWindowDimensions, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';

@@ -215,17 +215,11 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 25,
-   ...Platform.select({
-      ios: {
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.2,
-          shadowRadius: 4,
-      },
-      android: {
-          elevation: 5,
-      },
-   }),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 2,
   },
   reviewContent: {
     flexDirection: 'row',
@@ -260,11 +254,11 @@ const styles = StyleSheet.create({
   },
   bookButton: {
     backgroundColor: '#FF7072',
-    paddingVertical: 14,
+    paddingVertical: 10,
     borderRadius: 8,
     alignItems: 'center',
     marginHorizontal:"auto",
-    width: "80%",
+    width: "70%",
   },
   bookButtonText: {
     color: '#FFFFFF',

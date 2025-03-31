@@ -16,13 +16,12 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Picker as RNPickerSelect } from '@react-native-picker/picker';
-import { useChatbot } from '../contexts/ChatbotContext';
+import { useChatbot } from '../../contexts/ChatbotContext';
 import * as Speech from 'expo-speech';
-import { AuthContext } from '../contexts/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
+import {askBot}  from "../../utils/ChatBotService";
 
 const { width } = Dimensions.get("window");
-
-const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
 
 const ChatBot = () => {
     const { chatbotConfig, isChatExpanded, setIsChatExpanded } = useChatbot();
@@ -73,35 +72,22 @@ const ChatBot = () => {
         setIsLoading(true);
     
         try {
-            const response = await fetch(`${API_URL}/chat`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    user_id: userId,
-                    message: messageToSend,
-                    language: selectedLanguage
-                })
-            });
+
+            const botReply = await askBot(userId, messageToSend, selectedLanguage);
         
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-        
-            const botReply = await response.json();
-        
-            setMessages(prevMessages => {
-                const updatedMessages = [...prevMessages, { sender: 'bot', text: botReply.text }];
-                const newMessageIndex = updatedMessages.length - 1; // Get the index of the latest bot message
-                setPlayingMessage(newMessageIndex); // Set playingMessage to the new message index
-                Speech.speak(botReply.text, {
-                    language: selectedLanguage,
-                    onDone: () => setPlayingMessage(null),
-                    onStopped: () => setPlayingMessage(null),
+            if(botReply){
+                setMessages(prevMessages => {
+                    const updatedMessages = [...prevMessages, { sender: 'bot', text: botReply.text }];
+                    const newMessageIndex = updatedMessages.length - 1; // Get the index of the latest bot message
+                    setPlayingMessage(newMessageIndex); // Set playingMessage to the new message index
+                    Speech.speak(botReply.text, {
+                        language: selectedLanguage,
+                        onDone: () => setPlayingMessage(null),
+                        onStopped: () => setPlayingMessage(null),
+                    });
+                    return updatedMessages;
                 });
-                return updatedMessages;
-            });
+            }
     
         } catch (error) {
             console.error("Error communicating with Bot:", error);
@@ -114,24 +100,6 @@ const ChatBot = () => {
         setIsLoading(false);
         Keyboard.dismiss();
     }; 
-    
-    const getChatHistory = async (userId) => {
-        try {
-            const response = await fetch(`${API_URL}/chat/history/${userId}`, {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            })
-            
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    
-            const botReply = await response.json(); 
-    
-            // console.log(botReply);
-    
-        } catch (error) {
-            console.error("Error communicating with Bot:", error);
-        }
-    };
     
     const toggleTTS = (index, text) => {
         if (playingMessage === index) {
@@ -151,7 +119,7 @@ const ChatBot = () => {
         if (isLoading && index === messages.length) {
             return (
                 <View style={[styles.messageContainer, styles.botMessage]}>
-                    <Image source={require("../assets/Images/KokoroLogo.png")} style={styles.avatar} />
+                    <Image source={require("../../assets/Images/KokoroLogo.png")} style={styles.avatar} />
                     <View style={styles.botMessageBox}>
                         <Animated.Text style={styles.typingDots}>{typingText}</Animated.Text>
                     </View>
@@ -162,7 +130,7 @@ const ChatBot = () => {
         return (
             <View style={[styles.messageContainer, item.sender === 'user' ? styles.userMessage : styles.botMessage]}>
                 <Image 
-                    source={item.sender === 'user' ? require("../assets/Images/user-icon.jpg") : require("../assets/Images/KokoroLogo.png")}
+                    source={item.sender === 'user' ? require("../../assets/Images/user-icon.jpg") : require("../../assets/Images/KokoroLogo.png")}
                     style={styles.avatar}
                 />
                 <View style={item.sender === 'user' ? styles.userMessageBox : styles.botMessageBox}>
@@ -225,7 +193,7 @@ const ChatBot = () => {
                 <MaterialIcons name="mic" size={24} color="black" style={styles.voiceIcon}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => Alert.alert("Attach Photo")}> 
-                <Image source={require("../assets/Icons/photo.png")} style={styles.chatIcon}/>
+                <Image source={require("../../assets/Icons/photo.png")} style={styles.chatIcon}/>
             </TouchableOpacity>
             <TextInput
                 value={userMessage}
@@ -238,7 +206,7 @@ const ChatBot = () => {
                 enterKeyHint="send"
             />
             <TouchableOpacity onPress={sendMessageToBot}> 
-                <Image source={require("../assets/Icons/send.png")} style={styles.sendIcon}/>
+                <Image source={require("../../assets/Icons/send.png")} style={styles.sendIcon}/>
             </TouchableOpacity>
         </View>
         </View>
@@ -248,32 +216,16 @@ const ChatBot = () => {
 
 const styles = StyleSheet.create({
     chatContainer: {  
-        ...Platform.select({
-            android: {
-                width:"60%",
-                minWidth: 300,
-                borderWidth: 3,
-                borderColor: "#6495ed",
-                backgroundColor: "#fff",
-                position: "absolute",
-                marginRight: 40,
-                bottom: "7%",
-                borderRadius: 15,
-                padding: 10,
-            },
-            web:{
-                width: width > 900 ? "80%" : "60%",
-                minWidth: 300,
-                borderWidth: 3,
-                borderColor: "#6495ed",
-                backgroundColor: "#fff",
-                position: "absolute",
-                left: width > 900 ? "28%" : "0%", // Center it dynamically
-                bottom: width > 900 ? "3%" : "8%",
-                borderRadius: 15,
-                padding: 10,
-            }
-        }),
+        width: "80%",
+        minWidth: 300,
+        borderWidth: 3,
+        borderColor: "#6495ed",
+        backgroundColor: "#fff",
+        position: "absolute",
+        left: "28%", // Center it dynamically
+        bottom: "3%",
+        borderRadius: 15,
+        padding: 10,
     },
     messageList: {
         flexGrow: 1,

@@ -50,7 +50,7 @@ const ConsultWithDoctors = ({ navigation }) => {
   };
 
   const handleContinueButtonApp = () => {
-    navigation.navigate(DoctorNearYou);
+    navigation.navigate(DoctorResultShow);
   };
   const handleContinueButton = () => {
     navigation.navigate(DoctorResultShow);

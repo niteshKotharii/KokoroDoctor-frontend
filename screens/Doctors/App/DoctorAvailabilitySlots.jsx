@@ -8,8 +8,8 @@ import {
   Platform,
   useWindowDimensions,
 } from "react-native";
-import AvailabilitySlots from "../../components/AvailabilitySlots";
-const AppointmentAvailabilitySlots = ({ navigation, route }) => {
+import DoctorAvailabilitySlotsComponent from "../../../components/DoctorComponents/DoctorAvailabilitySlotsComponent";
+const DoctorAvailabilitySlots = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   const doctors = route.params?.doctors || {};
   return (
@@ -27,12 +27,12 @@ const AppointmentAvailabilitySlots = ({ navigation, route }) => {
             <View style={styles.availabilityContainer}>
               <Text style={styles.availabilityTimeText}>Available Time</Text>
               <View style={styles.availabilitySlotContainer}>
-                <AvailabilitySlots route={route} />
+                <DoctorAvailabilitySlotsComponent navigation={navigation} route={route} doctors={doctors} />
               </View>
             </View>
             <TouchableOpacity
               style={styles.bookAppointmentButton}
-              //   onPress={handleBookAppointment}
+              onPress={() => {navigation.navigate("AppDoctorsRating")}}
             >
               <Text style={styles.bookAppointmentText}>Book Appointment</Text>
             </TouchableOpacity>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     height: "17%",
     width: "75%",
     //borderWidth: 1,
-    marginVertical: "15%",
+    marginVertical: "10%",
     marginBottom: "5%",
     alignSelf: "center",
   },
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     height: 90,
     width: 90,
     alignSelf: "center",
-    borderRadius: 40,
+    borderRadius: 50,
   },
   doctorName: {
     fontSize: 22,
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
     fontWeight: 600,
   },
 });
-export default AppointmentAvailabilitySlots;
+export default DoctorAvailabilitySlots;

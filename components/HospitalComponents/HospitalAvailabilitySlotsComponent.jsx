@@ -11,36 +11,35 @@ import {
   ScrollView,
 } from "react-native";
 
-const AvailabilitySlots = ({ navigation, route }) => {
+const HospitalAvailabilitySlotsComponent = ({ navigation, route, hospitals }) => {
   const { width } = useWindowDimensions();
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
-
-  const doctors = route.params?.doctors || {};
 
   const today = new Date()
     .toLocaleDateString("en-US", { weekday: "long" })
     .toLowerCase();
 
   useEffect(() => {
-    if (doctors.availability) {
+    if (hospitals.availability) {
       setSelectedDay(today); // Always set today as default, even if no slots
     }
-  }, [doctors.availability]);
+  }, [hospitals.availability]);
 
   const selectedSlots =
-    selectedDay && doctors.availability[selectedDay]?.slots
-      ? doctors.availability[selectedDay].slots
+    selectedDay && hospitals.availability[selectedDay]?.slots
+      ? hospitals.availability[selectedDay].slots
       : { morning: [], afternoon: [], evening: [] };
 
   const chunkSize = 3;
-  const availabilityArray = doctors?.availability
-  ? Object.keys(doctors.availability).map((day) => ({
-      day,
-      slotsAvailable: doctors.availability[day]?.slotsAvailable || 0,
-      slots: doctors.availability[day]?.slots || [0],
-    }))
-  : [];
+
+  const availabilityArray = hospitals?.availability
+    ? Object.keys(hospitals.availability).map((day) => ({
+        day,
+        slotsAvailable: hospitals.availability[day]?.slotsAvailable || 0,
+        slots: hospitals.availability[day]?.slots || [0],
+      }))
+    : [];
 
   const chunkedAvailability = [];
   for (let i = 0; i < availabilityArray.length; i += chunkSize) {
@@ -60,11 +59,11 @@ const AvailabilitySlots = ({ navigation, route }) => {
   };
 
   const findNextAvailableDay = () => {
-    const days = Object.keys(doctors.availability);
+    const days = Object.keys(hospitals.availability);
     const currentIndex = days.indexOf(selectedDay);
 
     for (let i = currentIndex + 1; i < days.length; i++) {
-      if (doctors.availability[days[i]].slotsAvailable > 0) {
+      if (hospitals.availability[days[i]].slotsAvailable > 0) {
         setSelectedDay(days[i]);
         return;
       }
@@ -86,7 +85,7 @@ const AvailabilitySlots = ({ navigation, route }) => {
               <TouchableOpacity
                 style={[
                   styles.dayColumn,
-                  selectedDay === item.day && styles.selectedDay, // ✅ This ensures today's column is selected by default
+                  selectedDay === item.day && styles.selectedDay,
                 ]}
                 onPress={() => setSelectedDay(item.day)}
               >
@@ -246,6 +245,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     flexWrap: "nowrap",
+    paddingLeft: 5,
   },
   dayColumn: {
     alignItems: "center",
@@ -286,11 +286,11 @@ const styles = StyleSheet.create({
     marginVertical: "18%",
     height: "70%",
     ...Platform.select({
-        web:{
-           // borderWidth:1,
-            width:"60%"
-        }
-    })
+      web: {
+        // borderWidth:1,
+        width: "70%",
+      },
+    }),
   },
   noSlots: {
     color: "gray",
@@ -302,20 +302,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: "2%",
     marginTop: "26%",
     borderRadius: 8,
-    backgroundColor: "rgb(237, 109, 111)",
+    backgroundColor: "rgb(243, 119, 119)",
     height: "20%",
     paddingTop: "3%",
     ...Platform.select({
-        web:{
-           borderWidth:1, 
-           paddingHorizontal:"2%"
-        }
-    })
+      web: {
+        height: "27%",
+      },
+    }),
   },
   nextAvailableText: {
     color: "#fff",
     fontSize: 15,
     fontWeight: 600,
+    textAlign: "center",
   },
   slotCategory: {
     fontSize: 15,
@@ -329,6 +329,11 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 15,
     marginVertical: "1%",
+    ...Platform.select({
+      web: {
+        width: "100%",
+      },
+    }),
   },
   selectedSlot: {
     backgroundColor: "#007BFF", // Highlighted color when selected
@@ -351,15 +356,6 @@ const styles = StyleSheet.create({
     borderColor: "rgba(22, 128, 236, 0.75)",
     borderWidth: 1,
     width: "26%",
-    ...Platform.select({
-        web:{
-            borderWidth:1,
-            width:"30%",
-            paddingHorizontal: "2%",
-            paddingVertical:"3%"
-
-        }
-    })
   },
 });
-export default AvailabilitySlots;
+export default HospitalAvailabilitySlotsComponent;

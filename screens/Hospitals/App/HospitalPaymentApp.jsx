@@ -74,19 +74,18 @@ const HospitalPaymentApp = ({ navigation, route }) => {
             <View style={styles.mobileContainer}>
               {/* Header with back button and title */}
 
-              <View style={styles.doctorInfoContainer}>
+              <View style={styles.hospitalInfoContainer}>
                 <Text style={styles.verifiedText}>
                   Verified Cardiologist Available
                 </Text>
-                <View style={styles.doctorProfileSection}>
+                <View style={styles.hospitalProfileSection}>
                   <Image
-                    source={require("../../../assets/Images/dr_kislay.jpg")}
-                    style={styles.profileImagei}
+                    source={require("../../../assets/Images/hospitalImage.jpeg")}
+                    style={styles.profileImage}
                   />
-                  <View style={styles.doctorTextInfo}>
-                    <Text style={styles.doctorName}>Dr Kislay Shrivasatva</Text>
-                    <Text style={styles.doctorSpecialty}>(Cardiologist)</Text>
-                    <Text style={styles.yearsText}>22 + Years</Text>
+                  <View style={styles.hospitalTextInfo}>
+                    <Text style={styles.hospitalName}>Apollo Hospital</Text>
+                    <Text style={styles.hospitalSpecialty}>(MultiSpeciality)</Text>
                   </View>
                   <TouchableOpacity style={styles.callButton}>
                     {/* <View style={styles.callIconContainer}> */}
@@ -236,7 +235,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: "4%",
   },
-  doctorInfoContainer: {
+  hospitalInfoContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -255,41 +254,29 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     alignSelf: "flex-start",
   },
-  dverifiedText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#333",
-    marginBottom: 15,
-    alignSelf: "flex-start",
-  },
-  doctorProfileSection: {
+  hospitalProfileSection: {
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
   },
-  doctorTextInfo: {
+  hospitalTextInfo: {
     flex: 1,
     paddingLeft: 10,
   },
-  profileImagei: {
+  profileImage: {
     width: 60,
     height: 60,
     borderRadius: 30,
   },
-  doctorName: {
+  hospitalName: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#333",
   },
-  doctorSpecialty: {
+  hospitalSpecialty: {
     fontSize: 14,
     color: "#555",
-  },
-  yearsText: {
-    fontSize: 12,
-    color: "#777",
-    marginTop: 2,
   },
   callButton: {
     alignItems: "center",

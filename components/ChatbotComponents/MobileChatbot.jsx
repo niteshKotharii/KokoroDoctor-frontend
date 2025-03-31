@@ -15,9 +15,8 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as Speech from "expo-speech";
-import { AuthContext } from "../contexts/AuthContext";
-
-const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
+import { AuthContext } from "../../contexts/AuthContext";
+import {askBot}  from "../../utils/ChatBotService";
 
 const languages = [
   { label: "English (In)", value: "en" },
@@ -46,7 +45,7 @@ const MobileChatbot = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [typingText, setTypingText] = useState(".");
   const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
-  const { user, setUser } = useContext(AuthContext);
+  const { user} = useContext(AuthContext);
 
   // Set userID
   useEffect(() => {
@@ -93,41 +92,29 @@ const MobileChatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: userId,
-          message: messageToSend,
-          language: selectedLanguage,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      const botReply = await askBot(userId, messageToSend, selectedLanguage);
+      if(botReply){
+        const botMessage = {
+          id: Date.now().toString(),
+          sender: "bot",
+          text: botReply.text || "Sorry, I couldn’t process that.",
+          timestamp: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        };
+        setMessages(prevMessages => {
+            const updatedMessages = [...prevMessages, botMessage];
+            const newMessageIndex = updatedMessages.length - 1; // Get the index of the latest bot message
+            setPlayingMessage(newMessageIndex); // Set playingMessage to the new message index
+            Speech.speak(botReply.text, {
+                language: selectedLanguage.value,
+                onDone: () => setPlayingMessage(null),
+                onStopped: () => setPlayingMessage(null),
+            });
+            return updatedMessages;
+        });
       }
-
-      const botReply = await response.json();
-      const botMessage = {
-        id: Date.now().toString(),
-        sender: "bot",
-        text: botReply.text || "Sorry, I couldn’t process that.",
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      };
-      setMessages(prevMessages => {
-          const updatedMessages = [...prevMessages, botMessage];
-          const newMessageIndex = updatedMessages.length - 1; // Get the index of the latest bot message
-          setPlayingMessage(newMessageIndex); // Set playingMessage to the new message index
-          Speech.speak(botReply.text, {
-              language: selectedLanguage.value,
-              onDone: () => setPlayingMessage(null),
-              onStopped: () => setPlayingMessage(null),
-          });
-          return updatedMessages;
-      });
     } catch (error) {
       console.error("Error sending message:", error);
       setMessages((prev) => [
@@ -148,23 +135,7 @@ const MobileChatbot = () => {
     }
   };
 
-  const getChatHistory = async (userId) => {
-    try {
-      const response = await fetch(`${API_URL}/chat/history/${userId}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-
-      const botReply = await response.json();
-
-      // console.log(botReply);
-    } catch (error) {
-      console.error("Error communicating with Bot:", error);
-    }
-  };
+  
 
   const toggleTTS = (index, text) => {
     if (playingMessage === index) {
@@ -185,7 +156,7 @@ const MobileChatbot = () => {
       return (
         <View style={[styles.messageBubble, styles.botMessage]}>
           <Image
-            source={require("../assets/Images/KokoroLogo.png")}
+            source={require("../../assets/Images/KokoroLogo.png")}
             style={styles.avatar}
           />
           <View style={styles.botMessageBox}>
@@ -207,8 +178,8 @@ const MobileChatbot = () => {
         <Image
           source={
             item.sender === "user"
-              ? require("../assets/Images/user-icon.jpg")
-              : require("../assets/Images/KokoroLogo.png")
+              ? require("../../assets/Images/user-icon.jpg")
+              : require("../../assets/Images/KokoroLogo.png")
           }
           style={styles.avatar}
         />
@@ -263,7 +234,7 @@ const MobileChatbot = () => {
         <View style={styles.languageContainer}>
           <Pressable onPress={() => setModalVisible(!modalVisible)}>
             <Image
-              source={require("../assets/Icons/languageSelector.png")}
+              source={require("../../assets/Icons/languageSelector.png")}
               style={{ width: 30, height: 30 }}
             />
           </Pressable>

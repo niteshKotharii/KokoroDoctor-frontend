@@ -11,17 +11,18 @@ import {
   FlatList,
   Platform,
   useWindowDimensions,
+  Dimensions,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { useChatbot } from "../../contexts/ChatbotContext";
 import SideBarNavigation from "../../components/SideBarNavigation";
 import Header from "../../components/Header";
+
+const {width, height} = Dimensions.get("window");
 
 const DoctorsInfoWithRating = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const { setChatbotConfig } = useChatbot();
   const [selectedDate, setSelectedDate] = useState("Today");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const doctors = route.params?.doctors || {}; // Get doctor data from navigation
@@ -198,30 +199,15 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                                   {review.text}
                                 </Text>
                                 <View style={styles.reviewerContainer}>
-                                  <MaterialIcons
-                                    name="star"
-                                    size={16}
-                                    color="#FFD700"
+                                  <MaterialIcons name="star" size={16} color="#FFD700"
                                   />
-                                  <MaterialIcons
-                                    name="star"
-                                    size={16}
-                                    color="#FFD700"
+                                  <MaterialIcons name="star" size={16} color="#FFD700"
                                   />
-                                  <MaterialIcons
-                                    name="star"
-                                    size={16}
-                                    color="#FFD700"
+                                  <MaterialIcons name="star" size={16} color="#FFD700"
                                   />
-                                  <MaterialIcons
-                                    name="star"
-                                    size={16}
-                                    color="#FFD700"
+                                  <MaterialIcons name="star" size={16} color="#FFD700"
                                   />
-                                  <MaterialIcons
-                                    name="star"
-                                    size={16}
-                                    color="#FFD700"
+                                  <MaterialIcons name="star" size={16} color="#FFD700"
                                   />
                                   <Text style={styles.reviewerName}>
                                     {review.reviewer}
@@ -336,7 +322,7 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
           {/* <View style={{ flex: 1 }}> */}
-          <View style={styles.imageContainer}>
+          <View style={styles.appImageContainer}>
             <Image source={doctors.image} style={styles.doctorImage} />
             <Text style={styles.doctorName}>{doctors.name}</Text>
             <Text style={styles.doctorCredentials}>({doctors.credential})</Text>
@@ -394,7 +380,7 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                     <TouchableOpacity
                       style={[
                         styles.dayColumn,
-                        selectedDay === item.day && styles.selectedDay, // ✅ This ensures today's column is selected by default
+                        selectedDay === item.day && styles.selectedDay,
                       ]}
                       onPress={() => setSelectedDay(item.day)}
                     >
@@ -493,18 +479,16 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                 </View>
               )}
 
-              {/* {!expanded && ( */}
               <TouchableOpacity
                 style={styles.viewAllButton}
                 onPress={() =>
-                  navigation.navigate("AppointmentAvailabilitySlots", {
-                    doctors,
+                  navigation.navigate("DoctorAvailabilitySlots", {
+                    doctors : doctors,
                   })
                 }
               >
                 <Text style={styles.viewAllText}>View All Availability →</Text>
               </TouchableOpacity>
-              {/* )} */}
             </View>
           </View>
           <TouchableOpacity
@@ -533,21 +517,19 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "column",
   },
-
   imageContainer: {
+    height: "100%",
+    width: "100%",
+    //borderWidth: 1,
+    marginVertical: "10%",
+    alignSelf: "center",
+  },
+  appImageContainer : {
     height: "17%",
     width: "75%",
     //borderWidth: 1,
-    marginVertical: "15%",
-    marginBottom: "5%",
+    marginVertical: "8%",
     alignSelf: "center",
-    ...Platform.select({
-      web: {
-        height: "100%",
-        width: "100%",
-        marginBottom: "15%",
-      },
-    }),
   },
   experienceRatingContainer: {
     height: "7%",
@@ -570,7 +552,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#ddd",
         boxShadow: " 0px 0px 4px 3px rgba(0, 0, 0, 0.25)",
-        marginTop: "-165%",
+        // marginTop: "-165%",
       },
     }),
   },
@@ -586,6 +568,7 @@ const styles = StyleSheet.create({
     height: 28,
     width: 28,
     marginHorizontal: "3%",
+    borderRadius: 50,
   },
   experienceDetail: {
     height: "94%",
@@ -690,10 +673,10 @@ const styles = StyleSheet.create({
     marginVertical: "8%",
     overflow: "hidden",
     ...Platform.select({
-      web:{
-        marginBottom:"5%"
-      }
-    })
+      web: {
+        marginBottom: "5%",
+      },
+    }),
   },
   availabilityTimeText: {
     fontSize: 13,
@@ -838,10 +821,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "rgb(237, 109, 111)",
     ...Platform.select({
-      web:{
-        marginBottom:"15%"
-      }
-    })
+      web: {
+        marginBottom: "15%",
+      },
+    }),
   },
   bookAppointmentText: {
     alignSelf: "center",
@@ -881,11 +864,11 @@ const styles = StyleSheet.create({
     // borderColor: "black",
     zIndex: 2,
     ...Platform.select({
-      web:{
-        width:"100%",
+      web: {
+        width: "100%",
         marginBottom: 20,
-      }
-    })
+      },
+    }),
   },
   contentContainer: {
     flex: 1,

@@ -26,7 +26,7 @@ import SideBarNavigation from "../../components/SideBarNavigation";
 import Header from "../../components/Header";
 import SearchBar from "../../components/SearchBar";
 // import AppHospitalCard from "../../components/AppHospitalCard";
-import HospitalCard from "../../components/HospitalCard";
+import HospitalCard from "../../components/HospitalComponents/HospitalCard";
 
 const width = Dimensions.get("window").width;
 const hospitals = [

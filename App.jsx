@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import AppNavigation from './navigation/Navigation';
 import { ChatbotProvider } from './contexts/ChatbotContext';
-import ChatBotOverlay from './components/ChatbotOverlay';
+import ChatBotOverlay from './components/ChatbotComponents/ChatbotOverlay';
 import {AuthProvider} from './contexts/AuthContext';
 
 const App = () => {

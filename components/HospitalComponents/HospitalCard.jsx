@@ -31,7 +31,7 @@ const HospitalCard = ({ navigation }) => {
           {/* Image Section */}
           <View style={styles.imageContainer}>
             <Image
-              source={require("../assets/Images/HospitalImage.jpg")} // Importing local image
+              source={require("../../assets/Images/HospitalImage.jpg")} // Importing local image
               style={styles.image}
               resizeMode="cover"
             />
@@ -59,7 +59,7 @@ const HospitalCard = ({ navigation }) => {
           <View style={styles.app_top}>
             <View style={styles.app_imageContainer}>
               <Image
-                source={require("../assets/Images/hospitalImage.jpeg")}
+                source={require("../../assets/Images/hospitalImage.jpeg")}
                 style={styles.app_image}
                 resizeMode="cover"
               />
@@ -99,7 +99,7 @@ const HospitalCard = ({ navigation }) => {
               </View>
               <View style={styles.app_conatiner3}>
                 <View style={styles.app_container3Left}>
-                  <Image source={require("../assets/Icons/GreenDot.png")}/>
+                  <Image source={require("../../assets/Icons/GreenDot.png")}/>
                   <Text style={styles.app_bedAvialable}>
                     Emergency Beds Available
                   </Text>

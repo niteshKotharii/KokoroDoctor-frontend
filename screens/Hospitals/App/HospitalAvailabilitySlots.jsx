@@ -10,13 +10,13 @@ import {
   Platform,
   useWindowDimensions,
 } from "react-native";
-import AvailabilitySlots from "../../../components/HospitalAvailabilitySlotsComponent";
-const AppointmentAvailabilitySlots = ({ navigation, route }) => {
+import HospitalAvailabilitySlotsComponent from "../../../components/HospitalComponents/HospitalAvailabilitySlotsComponent";
+const HospitalAvailabilitySlots = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   const hospitals = route.params?.hospitals || {};
 
   const handleBookAppointment = () => {
-    navigation.navigate();
+    navigation.navigate("HospitalPaymentApp");
   }
 
   return (
@@ -46,7 +46,7 @@ const AppointmentAvailabilitySlots = ({ navigation, route }) => {
             <View style={styles.availabilityContainer}>
               <Text style={styles.availabilityTimeText}>Available Time</Text>
               <View style={styles.availabilitySlotContainer}>
-                <AvailabilitySlots route={route} />
+                <HospitalAvailabilitySlotsComponent route={route} hospitals={hospitals}/>
               </View>
             </View>
             <TouchableOpacity
@@ -170,4 +170,4 @@ const styles = StyleSheet.create({
     fontWeight: 600,
   },
 });
-export default AppointmentAvailabilitySlots;
+export default HospitalAvailabilitySlots;

@@ -12,7 +12,6 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
-import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating";
 
 const doctors = [
   {
@@ -23,7 +22,7 @@ const doctors = [
     description:
       "MD(Cardiology) Specialization in Treating Heart Conditions, seasoned cardiologist with over 22 years of experience in treating heart conditions.",
     experience: "22 + Years",
-    image: require("../assets/Images/dr_kislay.jpg"),
+    image: require("../../assets/Images/dr_kislay.jpg"),
     slots: ["12:00 PM", "12:30 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -82,7 +81,7 @@ const doctors = [
     description:
       "With 22 years Of practice, Dr. Rungta is known for his proficiency in cardiac electrophysiology.",
     experience: "22 + Years",
-    image: require("../assets/Images/Dr_Sandip_Rungta.jpg"),
+    image: require("../../assets/Images/Dr_Sandip_Rungta.jpg"),
     slots: ["10:00 AM", "12:00 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -141,7 +140,7 @@ const doctors = [
     description:
       "DM - CardiologyCardiologist,Interventional Cardiologist, 14 Years Experience Overall (8 years as specialist)",
     experience: "14 + Years",
-    image: require("../assets/Images/Dr_Abhinit_Gupta.jpg"),
+    image: require("../../assets/Images/Dr_Abhinit_Gupta.jpg"),
     slots: ["15:00 PM", "16:00 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -201,7 +200,7 @@ const doctors = [
     description:
       "MBBS, Interventional Cardiologist, 17 Years Experience Overall (7 years as specialist)",
     experience: "17 + Years",
-    image: require("../assets/Images/Dr_Ritesh_Singh.jpg"),
+    image: require("../../assets/Images/Dr_Ritesh_Singh.jpg"),
     slots: ["12:00 PM", "12:30 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -260,7 +259,7 @@ const doctors = [
     description:
       "With 28 years in the field. Dr. Majumder is esteemed for his work in clinical cardiology",
     experience: "28 + Years",
-    image: require("../assets/Images/Dr_Bikash_Majumder.jpg"),
+    image: require("../../assets/Images/Dr_Bikash_Majumder.jpg"),
     slots: ["13:00 PM", "14:30 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -319,7 +318,7 @@ const doctors = [
     description:
       "Dr. Patra has 20 years of experience and specializes in pediatric cardiology.",
     experience: "20 + Years",
-    image: require("../assets/Images/Dr. Soumya Patra.jpg"),
+    image: require("../../assets/Images/Dr. Soumya Patra.jpg"),
     slots: ["12:00 PM", "12:30 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -378,7 +377,7 @@ const doctors = [
     description:
       "Cardiologist,Interventional Cardiologist, 14 Years Experience Overall  (12 years as specialist)",
     experience: "14 + Years",
-    image: require("../assets/Images/Dr_Vinesh_Jain.jpg"),
+    image: require("../../assets/Images/Dr_Vinesh_Jain.jpg"),
     slots: ["12:30 PM", "14:30 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -437,7 +436,7 @@ const doctors = [
     description:
       "DM - Cardiology, Cardiologist,Interventional Cardiologist, 16 Years Experience Overall (7 years as specialist)",
     experience: "16 + Years",
-    image: require("../assets/Images/Dr. Supratip Kundu.jpeg"),
+    image: require("../../assets/Images/Dr. Supratip Kundu.jpeg"),
     slots: ["11:00 AM", "12:30 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -497,7 +496,7 @@ const doctors = [
     description:
       "MBBS, Interventional Cardiologist, 17 Years Experience Overall (7 years as specialist)",
     experience: "17 + Years",
-    image: require("../assets/Images/Dr. Himanshu Yadav.jpeg"),
+    image: require("../../assets/Images/Dr. Himanshu Yadav.jpeg"),
     slots: ["10:00 AM", "11:30 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -557,7 +556,7 @@ const doctors = [
     description:
       "MBBS, Interventional Cardiologist, 17 Years Experience Overall (7 years as specialist)",
     experience: "17 + Years",
-    image: require("../assets/Images/Dr. Dhiraj Kumar Giri.jpg"),
+    image: require("../../assets/Images/Dr. Dhiraj Kumar Giri.jpg"),
     slots: ["10:00 AM", "11:30 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -615,7 +614,7 @@ const doctors = [
     specialization: "Interventional Cardiologist",
     description: "Interventional Cardiologist, 15 Years Experience",
     experience: "15 + Years",
-    image: require("../assets/Images/Dr. Kastubh Mahimane.jpg"),
+    image: require("../../assets/Images/Dr. Kastubh Mahimane.jpg"),
     slots: ["10:00 AM", "11:30 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -673,7 +672,7 @@ const doctors = [
     specialization: "Consultation Interventional Cardiologist",
     description: "Interventional Cardiologist, 9 Years Experience",
     experience: "9 + Years",
-    image: require("../assets/Images/Dr. Manidipa Majumdar.jpg"),
+    image: require("../../assets/Images/Dr. Manidipa Majumdar.jpg"),
     slots: ["10:00 AM", "11:30 PM"],
     consultationFees: "₹800 fees",
     ratingreview: "4.9 (5000)",
@@ -728,7 +727,7 @@ const doctors = [
 const { width, height } = Dimensions.get("window");
 const DoctorAppointmentScreen = ({ navigation, route }) => {
   const [selectedSlot, setSelectedSlot] = useState({});
-  const { width } = useWindowDimensions("windows");
+  const { width } = useWindowDimensions();
 
   const handleSlotSelect = (doctorId, slot) => {
     setSelectedSlot((prevSlots) => ({
@@ -760,7 +759,7 @@ const DoctorAppointmentScreen = ({ navigation, route }) => {
                         </View>
                         <View style={styles.verifiedContainer}>
                           <Image
-                            source={require("../assets/Images/Medical_Council_of_India_Logo.png")}
+                            source={require("../../assets/Images/Medical_Council_of_India_Logo.png")}
                             style={styles.imageBox}
                           />
                           <Text style={styles.verifiedBox}>
@@ -857,7 +856,7 @@ const DoctorAppointmentScreen = ({ navigation, route }) => {
                       </View>
                       <View style={styles.rating}>
                         <Image
-                          source={require("../assets/Icons/Star.png")}
+                          source={require("../../assets/Icons/Star.png")}
                           style={styles.starIcon}
                         />
                         <Text>{item.rating}</Text>
@@ -896,7 +895,7 @@ const DoctorAppointmentScreen = ({ navigation, route }) => {
                       >
                         <Text style={styles.buttonText}>Book Appointment</Text>
                         <Image
-                          source={require("../assets/Icons/arrow.png")}
+                          source={require("../../assets/Icons/arrow.png")}
                           style={styles.arrowIcon}
                         />
                       </TouchableOpacity>

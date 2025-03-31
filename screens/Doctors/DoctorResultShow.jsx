@@ -20,7 +20,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import SideBarNavigation from "../../components/SideBarNavigation";
 import Header from "../../components/Header";
 import SearchBar from "../../components/SearchBar";
-import DoctorAppointmentData from "../../components/DoctorsAppointmentData";
+import DoctorAppointmentData from "../../components/DoctorComponents/DoctorsAppointmentData";
 
 // Create a platform-specific location implementation
 const GetLocationPolyfill = {
@@ -88,7 +88,7 @@ const DoctorResultShow = ({ navigation, route }) => {
   useFocusEffect(
     useCallback(() => {
       // Reset chatbot height when this screen is focused
-      setChatbotConfig({ height: "32%" });
+      setChatbotConfig({ height: "50%" });
     }, [])
   );
 

@@ -15,6 +15,7 @@ import ConsultWithDoctors from "../screens/Doctors/ConsultWithDoctors";
 import DoctorNearYou from "../screens/Doctors/DoctorNearYou";
 import DoctorResultShow from "../screens/Doctors/DoctorResultShow";
 import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating";
+import DoctorAvailabilitySlots from "../screens/Doctors/App/DoctorAvailabilitySlots";
 import AppDoctorsRating from "../screens/Doctors/App/AppDoctorsRating";
 import DoctorsPaymentScreen from "../screens/Doctors/DoctorsPaymentScreen";
 import BookingConfirmation from "../screens/Doctors/App/BookingConfirmation";
@@ -25,7 +26,7 @@ import EmergencyLocation from "../screens/Hospitals/App/EmergencyLocation";
 import HospitalsInfoWithRating from "../screens/Hospitals/HospitalsInfoWithRating";
 import HospitalBookingNext from "../screens/Hospitals/App/HospitalBookingNext";
 import BookHospitals from "../screens/Hospitals/BookHospitals";
-import HospitalCard from "../components/HospitalCard";
+import HospitalCard from "../components/HospitalComponents/HospitalCard";
 import HospitalAvailability from"../screens/Hospitals/App/HospitalAvailability";
 import HospitalAvailabilitySlots from"../screens/Hospitals/App/HospitalAvailabilitySlots";
 import HospitalPaymentApp from"../screens/Hospitals/App/HospitalPaymentApp";
@@ -44,7 +45,7 @@ import Error from "../screens/Error";
 import Medilocker from "../screens/Medilocker";
 import Settings from "../screens/Settings";
 import Help from "../screens/Help";
-import MobileChatbot from "../components/MobileChatbot";
+import MobileChatbot from "../components/ChatbotComponents/MobileChatbot";
 
 const Stack = createNativeStackNavigator();
 
@@ -79,6 +80,7 @@ const DoctorNavigator = ({navigationRef}) => {
       <Stack.Screen name="ConsultWithDoctors" component={ConsultWithDoctors} options={{ headerShown: false }} /> 
       <Stack.Screen name="DoctorResultShow" component={DoctorResultShow} options={{ headerShown: false }} /> 
       <Stack.Screen name="DoctorsInfoWithRating" component={DoctorsInfoWithRating} options={{ headerShown: false }} /> 
+      <Stack.Screen name="DoctorAvailabilitySlots" component={DoctorAvailabilitySlots} options={{ headerShown: false }} /> 
       <Stack.Screen name="DoctorsPaymentScreen" component={DoctorsPaymentScreen} options={{ headerShown: false }} />
       <Stack.Screen name="DoctorNearYou" component={DoctorNearYou} options={{ headerShown: false }} /> 
       <Stack.Screen name="AppDoctorsRating" component={AppDoctorsRating} options={{ headerShown: false }} /> 
