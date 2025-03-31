@@ -9,6 +9,7 @@ import {
   Pressable,
   Platform,
   useWindowDimensions,
+  Dimensions,
   ScrollView,
 } from "react-native";
 import DoctorsInfoWithRating from "../screens/Doctors/DoctorsInfoWithRating";
@@ -30,15 +31,46 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
@@ -58,15 +90,46 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
@@ -86,15 +149,46 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
@@ -115,15 +209,46 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
@@ -143,15 +268,46 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
@@ -171,15 +327,46 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
@@ -199,15 +386,46 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
@@ -227,15 +445,46 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
@@ -256,15 +505,46 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
@@ -285,15 +565,46 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
@@ -312,15 +623,46 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
@@ -339,23 +681,54 @@ const doctors = [
     availability: {
       today: {
         slotsAvailable: 0,
-        slots: [],
       },
       tomorrow: {
-        slotsAvailable: 2,
-        slots: ["10:30 AM", "12:30 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
       monday: {
-        slotsAvailable: 2,
-        slots: ["9:00 AM", "1:00 PM"],
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      tuesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      wednesday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
+      },
+      thursday: {
+        slotsAvailable: 10,
+        slots: {
+          morning: ["11:00 AM", "11:30 AM"],
+          afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
+          evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
+        },
       },
     },
   },
 ];
-
+const { width, height } = Dimensions.get("window");
 const DoctorAppointmentScreen = ({ navigation, route }) => {
   const [selectedSlot, setSelectedSlot] = useState({});
-  const { width } = useWindowDimensions();
+  const { width } = useWindowDimensions("windows");
 
   const handleSlotSelect = (doctorId, slot) => {
     setSelectedSlot((prevSlots) => ({
@@ -363,7 +736,7 @@ const DoctorAppointmentScreen = ({ navigation, route }) => {
       [doctorId]: prevSlots[doctorId] === slot ? null : slot, // Toggle selection
     }));
   };
-  
+
   return (
     <>
       {Platform.OS === "web" && width > 1000 && (
@@ -496,7 +869,7 @@ const DoctorAppointmentScreen = ({ navigation, route }) => {
                           <Text style={styles.aboutDocText}>About Doc</Text>
                           <View style={styles.descriptionContainer}>
                             <Text style={styles.description}>
-                              {item.description.slice(0, 70)}...
+                              {item.description.slice(0, 60)}...
                             </Text>
                             <TouchableOpacity>
                               <Text style={styles.knowMore}>Know more</Text>
@@ -568,6 +941,11 @@ const styles = StyleSheet.create({
   },
   cardBox: {
     flexDirection: "column",
+    ...Platform.select({
+      web: {
+        flexDirection: "column",
+      },
+    }),
     //backgroundColor: "#fff",
   },
   cardHeaderInfo: {
@@ -576,6 +954,12 @@ const styles = StyleSheet.create({
     //borderWidth: 1,
     flexDirection: "row",
     justifyContent: "space-around",
+    ...Platform.select({
+      web: {
+        height: "34%",
+        //borderWidth:1
+      },
+    }),
   },
   doctorImage: {
     height: 67,
@@ -588,6 +972,12 @@ const styles = StyleSheet.create({
     width: "52%",
     //borderWidth: 1,
     alignSelf: "center",
+    ...Platform.select({
+      web: {
+        //borderWidth:1,
+        height: "82%",
+      },
+    }),
   },
 
   rating: {
@@ -609,12 +999,20 @@ const styles = StyleSheet.create({
   secondSection: {
     height: "60%",
     width: "90%",
-    // borderWidth: 1,
+    //borderWidth: 1,
     alignSelf: "center",
     backgroundColor: " rgb(244, 243, 243)",
     borderRadius: 10,
     padding: "2%",
     marginVertical: "0.5%",
+    ...Platform.select({
+      web: {
+        width: "90%",
+        height: "56%",
+        marginTop: "1%",
+        //borderWidth:1
+      },
+    }),
   },
   doctorInfo: {
     height: "71%",
@@ -625,20 +1023,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: "2%",
   },
   aboutDoc: {
-    height: "100%",
+    height: "104%",
     width: "50%",
     //borderWidth: 1,
     flexDirection: "column",
+    ...Platform.select({
+      web: {
+        flexDirection: "column",
+        padding: "1%",
+        //borderWidth:1,
+        height: "104%",
+      },
+    }),
   },
   aboutDocText: {
     fontSize: 13,
     fontWeight: 500,
-    //paddingHorizontal: "10%",
   },
   aboutDocDetails: {
     fontSize: 10,
     fontWeight: 400,
   },
+
   docFees: {
     height: "100%",
     width: "50%",
@@ -721,8 +1127,8 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     ...Platform.select({
       web: {
-        fontSize: 18,
-        fontWeight: "bold",
+        fontSize: 16,
+        fontWeight: 600,
       },
     }),
   },
@@ -732,7 +1138,8 @@ const styles = StyleSheet.create({
     color: "#444444",
     ...Platform.select({
       web: {
-        fontSize: 14,
+        fontSize: 12,
+        fontWeight: 300,
         color: "#666",
       },
     }),
@@ -769,10 +1176,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     ...Platform.select({
       web: {
-        // borderWidth: 1,
+        //borderWidth: 1,
         // borderColor: "#000000",
-        width: "75%",
-        flexDirection: "row",
+        width: "95%",
+        flexDirection: "column",
         //justifyContent: "space-around",
       },
     }),
@@ -783,7 +1190,7 @@ const styles = StyleSheet.create({
     color: "#000",
     ...Platform.select({
       web: {
-        fontSize: 14,
+        fontSize: 10,
         marginTop: "1%",
       },
     }),
