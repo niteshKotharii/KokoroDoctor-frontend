@@ -31,7 +31,7 @@ const HospitalCard = ({ navigation }) => {
           {/* Image Section */}
           <View style={styles.imageContainer}>
             <Image
-              source={require("../../assets/Images/HospitalImage.jpg")} // Importing local image
+              source={require("../../assets/Images/HospitalImage2.jpg")} // Importing local image
               style={styles.image}
               resizeMode="cover"
             />

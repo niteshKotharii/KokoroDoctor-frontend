@@ -78,7 +78,7 @@ const HospitalsInfoWithRating = ({ navigation }) => {
     credentials: "HSR Layout",
     experience: "Trusted Since 1983",
     rating: 4.5,
-    profileImage: require("../../assets/Images/HospitalImage.jpg"),
+    profileImage: require("../../assets/Images/HospitalImage2.jpg"),
     bio: "Apollo Hospitals is a leading healthcare provider in India, founded in 1983 by Dr. Prathap C. Reddy. It offers a wide range of medical services, including surgery, diagnostics, and specialized care in fields like cardiology and oncology. Known for its advanced technology and high-quality patient care, Apollo operates numerous hospitals across India and internationally. It also has a strong presence in telemedicine and healthcare insurance.",
     reviews: [
       { id: 1, rating: 5, text: "Very good Hospital", reviewer: "Mr Donald" },
