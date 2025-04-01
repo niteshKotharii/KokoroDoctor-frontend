@@ -3,7 +3,7 @@ import {API_URL} from "../env-vars";
 
 const medilocker_API = `${API_URL}/medilocker`;
 
-export const fetch = async(email) => {
+export const FetchFromServer = async(email) => {
     try {
         const response = await fetch(`${medilocker_API}/fetch`, {
             method: "POST",

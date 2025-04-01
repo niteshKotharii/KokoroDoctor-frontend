@@ -26,7 +26,7 @@ import Header from "../components/Header";
 import * as FileSystem from "expo-file-system";
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
-import {fetch, upload, download, remove} from "../utils/MedilockerService";
+import {FetchFromServer, upload, download, remove} from "../utils/MedilockerService";
 const { width, height } = Dimensions.get("window");
 
 const Medilocker = ({ navigation }) => {
@@ -46,8 +46,7 @@ const Medilocker = ({ navigation }) => {
 
     const loadFilesFromServer = async () => {
       try {
-
-        const data = await fetch(user?.email);
+        const data = await FetchFromServer(user?.email);
         if (data?.files) {
           const mappedFiles = data.files.map((file) => ({
             name: file.filename,
