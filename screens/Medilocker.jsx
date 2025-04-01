@@ -26,7 +26,7 @@ import * as FileSystem from "expo-file-system";
 import * as Sharing from 'expo-sharing';
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
-import {FetchFromServer, upload, download, remove, share} from "../utils/MedilockerService";
+import {FetchFromServer, upload, download, remove, shortenUrl} from "../utils/MedilockerService";
 const { width, height } = Dimensions.get("window");
 
 const Medilocker = ({ navigation }) => {
@@ -214,11 +214,19 @@ const Medilocker = ({ navigation }) => {
       const downloadUrl = data.download_url;
 
       if (Platform.OS === "web") {
-        // If the Web Share API is available, use it.
+        
+        //Shorten URL
+        let urlToShare = downloadUrl;
+        try {
+          urlToShare = await shortenUrl(downloadUrl);
+        } catch (error) {
+          console.error('Failed to shorten URL:', error);
+        }
+
         if (navigator.share) {
           await navigator.share({
             title: fileName,
-            url: downloadUrl,
+            url: urlToShare,
             text: `Check out this file: ${fileName}`,
           });
         } else {

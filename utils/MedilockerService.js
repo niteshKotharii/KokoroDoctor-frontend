@@ -102,3 +102,13 @@ export const remove = async (email, fileName) => {
         Alert.alert(`Error: ${err.message}`);
     }
 };
+
+export const shortenUrl = async (longUrl) => {
+    const apiUrl = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`;
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error('Failed to shorten URL');
+    }
+    const shortenedUrl = await response.text();
+    return shortenedUrl;
+};
