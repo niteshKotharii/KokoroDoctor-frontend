@@ -26,7 +26,7 @@ import Header from "../components/Header";
 import * as FileSystem from "expo-file-system";
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
-import {FetchFromServer, upload, download, remove} from "../utils/MedilockerService";
+import {FetchFromServer, upload, download, remove, share} from "../utils/MedilockerService";
 const { width, height } = Dimensions.get("window");
 
 const Medilocker = ({ navigation }) => {
@@ -208,15 +208,29 @@ const Medilocker = ({ navigation }) => {
     }
   };
 
-  const shareFile = async () => {
+  const shareFile = async (fileName) => {
     if (!selectedFile) return;
     try {
-      await Share.share({
-        message: `Check out this file: ${selectedFile.name}`,
-        url: selectedFile.uri,
-      });
+      const response = await download(user?.email, fileName);
+      const downloadUrl = response.download_url;
+
+      // Use the cache directory for temporary storage.
+      const localUri = FileSystem.cacheDirectory + fileName;
+
+      // Download the file to the cache.
+      const downloadResult = await FileSystem.downloadAsync(downloadUrl, localUri);
+
+      // Check if sharing is available.
+      if (!(await Sharing.isAvailableAsync())) {
+        console.error('Sharing is not available on this device');
+        return;
+      }
+
+      await Sharing.shareAsync(downloadResult.uri);
+
+      await FileSystem.deleteAsync(downloadResult.uri);
     } catch (error) {
-      console.log("Sharing error:", error);
+      console.error("Sharing error:", error);
     }
     setMenuVisible(false);
   };
@@ -356,24 +370,20 @@ const Medilocker = ({ navigation }) => {
                               <View style={styles.actionButtons}>
                                 {/* Download Button */}
                                 <TouchableOpacity
-                                  onPress={() => downloadFile(item.name)}
-                                >
-                                  <MaterialIcons
-                                    name="file-download"
-                                    size={24}
-                                    color="#FF7072"
-                                  />
+                                  onPress={() => downloadFile(item.name)}>
+                                  <MaterialIcons name="file-download" size={24} color="#FF7072"/>
                                 </TouchableOpacity>
 
                                 {/* Delete Button */}
                                 <TouchableOpacity
-                                  onPress={() => removeFile(item.name)}
-                                >
-                                  <MaterialIcons
-                                    name="delete"
-                                    size={24}
-                                    color="#FF7072"
-                                  />
+                                  onPress={() => removeFile(item.name)}>
+                                  <MaterialIcons name="delete" size={24} color="#FF7072"/>
+                                </TouchableOpacity>
+
+                                {/* Share Button */}
+                                <TouchableOpacity
+                                  onPress={() => shareFile(item.name)}>
+                                  <MaterialIcons name="share" size={24} color="#FF7072" />
                                 </TouchableOpacity>
                               </View>
                             </View>
@@ -453,7 +463,7 @@ const Medilocker = ({ navigation }) => {
                   style={[styles.appfileItem, !isGridView && styles.approwItem]}
                 >
                   <TouchableOpacity
-                    onPress={() => console.log("File Opened:", item)}
+                    onPress={() => {}}
                   >
                     <Image
                       source={require("../assets/Icons/FileIcon.png")}

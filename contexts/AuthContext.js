@@ -41,10 +41,9 @@ export const AuthProvider = ({ children }) => {
         try {
             const newUser = await login(email, password);
             setUser(newUser?.user);
-            alert("Login Successful! You are now logged in!");
             navigation.navigate("LandingPage");
         } catch (error) {
-            alert(
+            console.error(
                 `Login Failed: ${error.response?.data?.detail || "Something went wrong!"}`
             );
         }
@@ -54,7 +53,6 @@ export const AuthProvider = ({ children }) => {
         try {
             await logOut();
             setUser(null);
-            alert("You have been successfully logged out.");
         } catch (error) {
             alert("Logout Failed: Something went wrong!");
         }
@@ -63,10 +61,9 @@ export const AuthProvider = ({ children }) => {
     const googleLoginHandler = async (response) => {
         try {
             const googleUser = await handleGoogleLogin(response);
-            setUser(googleUser);
-            alert("Google Login Successful!");          
+            setUser(googleUser);      
         } catch (error) {
-            alert("Google Login Failed: Something went wrong!");
+            console.error(`Google Login Failed: ${error.message}`);
         }
     };
 

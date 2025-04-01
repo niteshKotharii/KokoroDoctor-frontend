@@ -16,7 +16,7 @@ export const FetchFromServer = async(email) => {
         });
     
         if (!response.ok) {
-        throw new Error("Failed to load files from server");
+            throw new Error("Failed to load files from server");
         }
 
         const data = await response.json();
@@ -39,7 +39,7 @@ export const upload = async (payload) => {
         });
     
         if (!response.ok) {
-        throw new Error("File upload failed");
+            throw new Error("File upload failed");
         }
     
         const data = await response.json();
@@ -91,8 +91,7 @@ export const remove = async (email, fileName) => {
         });
     
         if (!response.ok) {
-            Alert.alert("Error", "Failed to remove file from server.");
-            return;
+            throw new Error("Delete request failed");
         }
 
         const data = await response.json();
