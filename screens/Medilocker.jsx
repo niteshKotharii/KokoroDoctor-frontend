@@ -26,7 +26,7 @@ import Header from "../components/Header";
 import * as FileSystem from "expo-file-system";
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
-import {API_URL} from "../env-vars";
+import {fetch, upload, download, remove} from "../utils/MedilockerService";
 const { width, height } = Dimensions.get("window");
 
 const Medilocker = ({ navigation }) => {
@@ -40,26 +40,14 @@ const Medilocker = ({ navigation }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadStatus, setUploadStatus] = useState(null);
+  
   useEffect(() => {
     if (!user) return;
 
     const loadFilesFromServer = async () => {
       try {
-        const response = await fetch(`${API_URL}/fetch`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: user.email,
-          }),
-        });
 
-        if (!response.ok) {
-          throw new Error("Failed to load files from server");
-        }
-
-        const data = await response.json();
+        const data = await fetch(user?.email);
         if (data?.files) {
           const mappedFiles = data.files.map((file) => ({
             name: file.filename,
@@ -183,20 +171,7 @@ const Medilocker = ({ navigation }) => {
         ],
       };
 
-      const response = await fetch(`${API_URL}/upload`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error("File upload failed");
-      }
-
-      const data = await response.json();
-      // console.log("Upload successful", data);
+      const data = await upload(payload);
 
       setFiles((prevFiles) => [...prevFiles, newFile]);
     } catch (err) {
@@ -210,22 +185,7 @@ const Medilocker = ({ navigation }) => {
 
   const downloadFile = async (fileName) => {
     try {
-      const response = await fetch(`${API_URL}/download`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user?.email,
-          filename: fileName,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Download request failed");
-      }
-
-      const data = await response.json();
+      const data = await download(user?.email, fileName);
       const downloadUrl = data.download_url;
 
       if (Platform.OS === "web") {
@@ -240,23 +200,7 @@ const Medilocker = ({ navigation }) => {
 
   const removeFile = async (fileName) => {
     try {
-      const response = await fetch(`${API_URL}/delete`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user?.email,
-          filename: fileName,
-        }),
-      });
-
-      if (!response.ok) {
-        Alert.alert("Error", "Failed to remove file from server.");
-        return;
-      }
-
-      const data = await response.json();
+      const data = await remove(user?.email, fileName);
 
       setFiles(files.filter((file) => file.name !== fileName));
       Alert.alert("Deleted", `${fileName} has been removed`);
