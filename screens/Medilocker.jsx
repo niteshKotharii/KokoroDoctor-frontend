@@ -209,10 +209,9 @@ const Medilocker = ({ navigation }) => {
   };
 
   const shareFile = async (fileName) => {
-    if (!selectedFile) return;
     try {
-      const response = await download(user?.email, fileName);
-      const downloadUrl = response.download_url;
+      const data = await download(user?.email, fileName);
+      const downloadUrl = data.download_url;
 
       // Use the cache directory for temporary storage.
       const localUri = FileSystem.cacheDirectory + fileName;
@@ -494,7 +493,7 @@ const Medilocker = ({ navigation }) => {
               >
                 <View style={styles.appmenu}>
                   <TouchableOpacity
-                    onPress={() => alert("Copy feature coming soon!")}
+                    onPress={() => {}}
                   >
                     <View style={styles.appmenuItem}>
                       <MaterialIcons
@@ -529,7 +528,7 @@ const Medilocker = ({ navigation }) => {
                     </View>
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={shareFile}>
+                  <TouchableOpacity onPress={() => shareFile(selectedFile.name)}>
                     <View style={styles.appmenuItem}>
                       <MaterialIcons name="share" size={20} color="#FF7072" />
                       <Text style={styles.appmenuText}>Share</Text>
