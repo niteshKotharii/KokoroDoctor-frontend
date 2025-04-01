@@ -4,15 +4,14 @@ import * as Google from "expo-auth-session/providers/google";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const API_URL = "https://b6dy3ctlt9.execute-api.ap-south-1.amazonaws.com/prod";
+import {API_URL, androidClientId, iosClientId, webClientId} from "../env-vars";
 
 // Google Auth Request
 export const useGoogleAuth = () => {
   return Google.useAuthRequest({
-    androidClientId: "",
-    iosClientId: "",
-    webClientId:
-      "569847732356-rl6pnkut18s91cvsfipcuhlkptpoj8fh.apps.googleusercontent.com",
+    androidClientId: androidClientId,
+    iosClientId: iosClientId,
+    webClientId: webClientId,
     redirectUri: "https://kokoro.doctor",
     useProxy: false,
   });

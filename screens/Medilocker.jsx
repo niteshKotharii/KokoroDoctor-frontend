@@ -26,7 +26,7 @@ import Header from "../components/Header";
 import * as FileSystem from "expo-file-system";
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
-const API_URL = "https://b6dy3ctlt9.execute-api.ap-south-1.amazonaws.com/prod/medilocker";
+import {API_URL} from "../env-vars";
 const { width, height } = Dimensions.get("window");
 
 const Medilocker = ({ navigation }) => {

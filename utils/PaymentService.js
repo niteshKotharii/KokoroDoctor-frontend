@@ -1,4 +1,4 @@
-const API_URL = "https://b6dy3ctlt9.execute-api.ap-south-1.amazonaws.com/prod";
+import {API_URL} from "../env-vars";
 
 export const payment_api = async (amount) => {
     try {

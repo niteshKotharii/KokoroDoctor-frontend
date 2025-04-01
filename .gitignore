@@ -35,4 +35,4 @@ yarn-error.*
 *.tsbuildinfo
 
 #security keys
-env-vars.js
+# env-vars.js
