@@ -1,4 +1,4 @@
-const API_URL = "https://mphzlicqj3.execute-api.ap-south-1.amazonaws.com/prod";
+const API_URL = "https://b6dy3ctlt9.execute-api.ap-south-1.amazonaws.com/prod";
 
 export const askBot = async (userId, messageToSend, selectedLanguage) => {
     try {
