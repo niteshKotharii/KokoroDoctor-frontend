@@ -170,7 +170,7 @@ const Login = ({ navigation }) => {
                     style={styles.googleIcon}
                   />
                   <Text style={styles.googleButtonText}>
-                    Sign in with Google
+                    Continue with Google
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -279,7 +279,7 @@ const Login = ({ navigation }) => {
                 source={require("../../assets/Images/google-icon.png")}
                 style={styles.mobileGoogleIcon}
               />
-              <Text style={styles.mobileGoogleText}>Sign in with Google</Text>
+              <Text style={styles.mobileGoogleText}>Continue with Google</Text>
             </TouchableOpacity>
           </View>
         </View>

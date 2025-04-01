@@ -264,7 +264,7 @@ const Signup = ({ navigation }) => {
                     style={styles.googleIcon}
                   />
                   <Text style={styles.googleButtonText}>
-                    Sign Up with Google
+                    Continue with Google
                   </Text>
                 </TouchableOpacity>
               </ScrollView>
@@ -424,7 +424,7 @@ const Signup = ({ navigation }) => {
                 source={require("../../assets/Images/google-icon.png")}
                 style={styles.googleIcon}
               />
-              <Text style={styles.googleButtonText}>Sign Up with Google</Text>
+              <Text style={styles.googleButtonText}>Continue with Google</Text>
             </TouchableOpacity>
           </View>
 

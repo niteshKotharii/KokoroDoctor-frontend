@@ -61,7 +61,8 @@ export const AuthProvider = ({ children }) => {
     const googleLoginHandler = async (response) => {
         try {
             const googleUser = await handleGoogleLogin(response);
-            setUser(googleUser);      
+            setUser(googleUser); 
+            navigation.navigate("LandingPage");   
         } catch (error) {
             console.error(`Google Login Failed: ${error.message}`);
         }
