@@ -13,7 +13,6 @@ import {
   useWindowDimensions,
   Dimensions,
   Platform,
-  Share,
   ScrollView,
   Pressable,
   StatusBar,
@@ -24,6 +23,7 @@ import * as WebBrowser from 'expo-web-browser';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Header from "../components/Header";
 import * as FileSystem from "expo-file-system";
+import * as Sharing from 'expo-sharing';
 import { AntDesign, FontAwesome, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../contexts/AuthContext";
 import {FetchFromServer, upload, download, remove, share} from "../utils/MedilockerService";

@@ -10,6 +10,7 @@ import {
   useWindowDimensions,
   FlatList,
   StatusBar,
+  ScrollView,
 } from "react-native";
 import SideBarNavigation from "../../components/SideBarNavigation";
 import HealthCarePlan from "../../components/HealthCarePlan";
@@ -88,7 +89,7 @@ const MainPricing = ({ navigation, route }) => {
       )}
 
       {(Platform.OS !== "web" || width < 1000) && (
-        <View style={styles.appContainer}>
+        <ScrollView style={styles.appContainer}>
           <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={[styles.header, { height: "15%" }]}>
             <Header navigation={navigation} />
@@ -172,7 +173,7 @@ const MainPricing = ({ navigation, route }) => {
               style={styles.sparkle}
             />
           </View>
-        </View>
+        </ScrollView>
       )}
     </>
   );
