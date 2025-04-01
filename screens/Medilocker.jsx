@@ -213,21 +213,32 @@ const Medilocker = ({ navigation }) => {
       const data = await download(user?.email, fileName);
       const downloadUrl = data.download_url;
 
-      // Use the cache directory for temporary storage.
-      const localUri = FileSystem.cacheDirectory + fileName;
+      if (Platform.OS === "web") {
+        // If the Web Share API is available, use it.
+        if (navigator.share) {
+          await navigator.share({
+            title: fileName,
+            url: downloadUrl,
+            text: `Check out this file: ${fileName}`,
+          });
+        } else {
+          // Fallback to opening the download URL in a new tab.
+          window.open(downloadUrl, "_blank");
+        }
+      } else {
 
-      // Download the file to the cache.
-      const downloadResult = await FileSystem.downloadAsync(downloadUrl, localUri);
+        const localUri = FileSystem.cacheDirectory + fileName;
 
-      // Check if sharing is available.
-      if (!(await Sharing.isAvailableAsync())) {
-        console.error('Sharing is not available on this device');
-        return;
+        const downloadResult = await FileSystem.downloadAsync(downloadUrl, localUri);
+  
+        if (!(await Sharing.isAvailableAsync())) {
+          console.error('Sharing is not available on this device');
+          return;
+        }
+  
+        await Sharing.shareAsync(downloadResult.uri);
+        await FileSystem.deleteAsync(downloadResult.uri);
       }
-
-      await Sharing.shareAsync(downloadResult.uri);
-
-      await FileSystem.deleteAsync(downloadResult.uri);
     } catch (error) {
       console.error("Sharing error:", error);
     }
