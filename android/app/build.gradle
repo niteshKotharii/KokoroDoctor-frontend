@@ -86,9 +86,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.kokoro.doctor'
+    namespace 'com.kokoro.doctor'
     defaultConfig {
-        applicationId 'com.anonymous.kokoro.doctor'
+        applicationId 'com.kokoro.doctor'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

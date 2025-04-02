@@ -22,14 +22,14 @@
       "expo-router"
     ],
     "ios": {
-      "bundleIdentifier": "com.anonymous.kokoro.doctor"
+      "bundleIdentifier": "com.kokoro.doctor"
     },
     "web": {
       "bundler": "metro"
     },
     "entryPoint": "./index.js",
     "android": {
-      "package": "com.anonymous.kokoro.doctor"
+      "package": "com.kokoro.doctor"
     },
     "extra": {
       "router": {
