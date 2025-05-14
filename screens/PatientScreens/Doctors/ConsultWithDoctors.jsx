@@ -86,11 +86,14 @@ const ConsultWithDoctors = ({ navigation }) => {
                 <MyLinearGradient1 style={styles.gradientBox}>
                   {/* Consultation Form */}
                   <View style={styles.formBox}>
-                    <Text style={styles.formTitle}>Subscribe to a Doctor</Text>
+                    {/* <Text style={styles.formTitle}>Subscribe to a Doctor</Text> */}
 
                     <View style={styles.formContent}>
                       {/* Left Section */}
                       <View style={styles.leftSection}>
+                        <Text style={styles.formTitle}>
+                          Subscribe to a Doctor
+                        </Text>
                         <Text style={styles.inputLabel}>
                           Tell us your symptoms
                         </Text>
@@ -127,7 +130,51 @@ const ConsultWithDoctors = ({ navigation }) => {
                       <View style={styles.verticalLine} />
 
                       {/* Right Section */}
-                      <View style={styles.rightSection}></View>
+                      <View style={styles.rightSection}>
+                        <Image
+                          source={require("../../../assets/DoctorsPortal/Images/MedicalVault.png")}
+                          style={styles.MedicalImage}
+                        />
+                        <Text style={styles.secureText}>
+                          Your secure digital medical vault
+                        </Text>
+                        <View style={styles.medilockerTextBox}>
+                          <Text style={styles.medilockerText}>
+                            Tired of searching for medical documents when you
+                            need them the most? MediLocker is here to make your
+                            life easier!
+                          </Text>
+                        </View>
+                        <View style={styles.keyPointBox}>
+                          <View style={styles.iconBox}>
+                            <Image
+                              source={require("../../../assets/DoctorsPortal/Icons/star.png")}
+                              style={styles.starIcon}
+                            />
+                            <Image
+                              source={require("../../../assets/DoctorsPortal/Icons/star.png")}
+                              style={styles.starIcon}
+                            />
+                            <Image
+                              source={require("../../../assets/DoctorsPortal/Icons/star.png")}
+                              style={styles.starIcon}
+                            />
+                            <Image
+                              source={require("../../../assets/DoctorsPortal/Icons/star.png")}
+                              style={styles.starIcon}
+                            />
+                          </View>
+                          <View style={styles.keyPointTextBox}>
+                            <Text style={styles.keyPointText}>Store All Medical Records in One Place</Text>
+                            <Text style={styles.keyPointText}>Access Anytime, Anywhere</Text>
+                            <Text style={styles.keyPointText}>100% Secure & Private</Text>
+                            <Text style={styles.keyPointText}>Share with a Tap</Text>
+                          </View>
+                        </View>
+                        <TouchableOpacity style={styles.tryMedilockerButton}>
+                          <Text style={styles.tryText}>Try Medilocker</Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
                 </MyLinearGradient1>
@@ -297,16 +344,16 @@ const styles = StyleSheet.create({
     // borderColor: "black",
     zIndex: 2,
     ...Platform.select({
-      web:{
-        width:"100%",
-      }
-    })
+      web: {
+        width: "100%",
+      },
+    }),
   },
   appheader: {
     zIndex: 2,
     ...Platform.select({
       web: {
-        width:"100%",
+        width: "100%",
       },
     }),
   },
@@ -594,7 +641,7 @@ const styles = StyleSheet.create({
   },
   formBox: {
     width: "88%",
-    height: "90%",
+    height: "84%",
     backgroundColor: "rgba(255, 255, 255, 1)",
     paddingHorizontal: "3%",
     borderRadius: 2,
@@ -603,6 +650,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     zIndex: 1,
+    //borderWidth: 1,
   },
   formTitle: {
     fontSize: 24,
@@ -612,19 +660,98 @@ const styles = StyleSheet.create({
   },
   formContent: {
     flexDirection: "row",
+    //borderWidth: 1,
+    marginVertical: "1.5%",
+    height: "95%",
+    borderColor: "blue",
+    width: "100%",
+    alignSelf: "center",
+    justifyContent: "space-between",
   },
   leftSection: {
     flex: 1,
-    paddingRight: "10%",
+    //borderWidth: 1,
   },
   rightSection: {
     flex: 1,
-    paddingLeft: "10%",
+    flexDirection: "column",
+    //marginRight:"6%",
+    //borderWidth: 1,
+  },
+  MedicalImage: {
+    marginLeft: "35%",
+    height: 80,
+    width: 80,
+  },
+  secureText: {
+    marginVertical: "3%",
+    fontWeight: 500,
+    fontSize: 16,
+    //marginLeft: "7%",
+    alignSelf: "center",
+  },
+  medilockerTextBox: {
+    height: "17%",
+    width: "100%",
+    //borderWidth: 1,
+    alignSelf: "center",
+  },
+  medilockerText: {
+    fontWeight: 500,
+    fontSize: 13,
+  },
+  keyPointBox: {
+    height: "25%",
+    width: "80%",
+    //borderWidth: 1,
+    marginTop: "3%",
+    flexDirection: "row",
+  },
+  iconBox: {
+    height: "100%",
+    width: "10%",
+    //borderWidth: 1,
+    borderColor: "red",
+    flexDirection: "column",
+    justifyContent:"space-around"
+  },
+  starIcon: {
+    //alignSelf: "center",
+  },
+  keyPointTextBox: {
+    height: "100%",
+    width: "90%",
+    //borderWidth: 1,
+    borderColor: "green",
+    justifyContent:"space-around"
+  },
+  keyPointText:{
+    fontSize:12,
+    fontWeight:400,
+    color:"#444444"
+  },
+  tryMedilockerButton: {
+    height: "8%",
+    width: "45%",
+    borderWidth: 1,
+    alignSelf: "center",
+    borderColor: "#FF7072",
+    borderRadius: 5,
+    marginVertical: "8%",
+  },
+  tryText: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: "#000000",
+    alignSelf: "center",
+    marginTop: "3%",
   },
   verticalLine: {
     width: 1,
     backgroundColor: "#ddd",
-    marginHorizontal: "1%",
+    marginHorizontal: "5%",
+    height: "75%",
+    alignSelf: "center",
   },
   inputLabel: {
     fontSize: 16,
@@ -633,23 +760,23 @@ const styles = StyleSheet.create({
     marginTop: "5%",
   },
   textArea: {
-    backgroundColor:"#fff",
+    backgroundColor: "#fff",
     borderRadius: 5,
     ...Platform.select({
-      web:{
-        borderRadius:2,
-        marginLeft:"1%",
-        marginRight:"5%",
-        padding:"1%",
+      web: {
+        borderRadius: 2,
+        marginLeft: "1%",
+        marginRight: "5%",
+        padding: "1%",
         maxWidth: "100%",
-        marginBottom:"5%",
+        marginBottom: "5%",
         outlineStyle: "none",
         borderWidth: 1,
-        borderColor:"#979699",
-        marginTop:"7%",
-        height:"20%"
+        borderColor: "#979699",
+        marginTop: "7%",
+        height: "20%",
       },
-    }),  
+    }),
   },
   mobileInput: {
     width: "75%",
@@ -658,7 +785,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     padding: "5%",
     fontSize: 14,
-    marginTop: "1%",
+    marginTop: "0%",
     color: "#333",
   },
   additionalText: {
@@ -672,7 +799,7 @@ const styles = StyleSheet.create({
     paddingVertical: "4%",
     borderRadius: 8,
     alignItems: "center",
-    marginTop: "12%",
+    marginTop: "5%",
   },
   buttonBox: {
     height: "5%",

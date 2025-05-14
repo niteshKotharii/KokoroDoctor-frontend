@@ -728,6 +728,19 @@ const { width, height } = Dimensions.get("window");
 const DoctorAppointmentScreen = ({ navigation, route }) => {
   const [selectedSlot, setSelectedSlot] = useState({});
   const { width } = useWindowDimensions();
+  const [subscriberCounts, setSubscriberCounts] = useState(
+    doctors.reduce((acc, doctor) => {
+      acc[doctor.id] = 0;
+      return acc;
+    }, {})
+  );
+
+  const handleHeartButtonPress = (doctorId) => {
+    setSubscriberCounts((prevCounts) => ({
+      ...prevCounts,
+      [doctorId]: prevCounts[doctorId] + 1,
+    }));
+  };
 
   const handleSlotSelect = (doctorId, slot) => {
     setSelectedSlot((prevSlots) => ({
@@ -768,7 +781,25 @@ const DoctorAppointmentScreen = ({ navigation, route }) => {
                             <Text style={styles.mci}> MCI</Text>
                           </Text>
                         </View>
+                        <View style={styles.subscriberCount}>
+                          <View style={styles.countBox}>
+                            <TouchableOpacity
+                              style={styles.heartButtonBox}
+                              onPress={() => handleHeartButtonPress(item.id)}
+                            >
+                              <Image
+                                source={require("../../../assets/Icons/heart1.png")}
+                                style={styles.heartImage}
+                              />
+                            </TouchableOpacity>
+                            <Text style={styles.numberText}>{subscriberCounts[item.id]}</Text>
+                          </View>
+                          <Text style={styles.subscriberCountText}>
+                            Subscribers Count
+                          </Text>
+                        </View>
                       </View>
+                      <View></View>
                       <View style={styles.descriptionContainer}>
                         <Text style={styles.description}>
                           {item.description}
@@ -821,9 +852,7 @@ const DoctorAppointmentScreen = ({ navigation, route }) => {
                         }
                       }}
                     >
-                      <Text style={{ fontWeight: "600" }}>
-                        Book Appointment
-                      </Text>
+                      <Text style={{ fontWeight: "600", color:"#FFFFFF" }}>Subscribe</Text>
                     </Pressable>
                   </View>
                 </View>
@@ -1167,7 +1196,39 @@ const styles = StyleSheet.create({
   mci: {
     color: "#FF7373",
   },
-
+  subscriberCount: {
+    width: "30%",
+    //borderWidth: 1,
+    flexDirection: "row",
+  },
+  countBox: {
+    height: "100%",
+    width: "30%",
+    //borderWidth: 1,
+    borderColor: "blue",
+  },
+  heartButtonBox: {
+    height: "60%",
+    width: "60%",
+    //borderWidth: 1,
+    alignSelf: "center",
+  },
+  heartImage: {
+    height: 18,
+    width: 20,
+    alignSelf: "center",
+  },
+  numberText: {
+    fontSize: 12,
+    fontWeight: 300,
+    color: "#000000",
+    alignSelf: "center",
+  },
+  subscriberCountText: {
+    fontSize: 11,
+    fontWeight: 500,
+    color: "#000000",
+  },
   descriptionContainer: {
     height: "77%",
     width: "100%",

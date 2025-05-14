@@ -880,6 +880,8 @@ const styles = StyleSheet.create({
     marginBottom: "10%",
     borderRadius: 20,
     overflow: "hidden",
+    width:"90%",
+    marginHorizontal:"5%",
   },
   doctorProfileCard: {
     width: "60%",
@@ -887,7 +889,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#fff",
     borderRadius: 20,
-    padding: 20,
+    padding: "2%",
     margin: 10,
   },
   doctorLeftSection: {
