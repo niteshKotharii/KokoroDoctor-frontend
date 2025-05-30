@@ -1,13 +1,58 @@
-import { useState } from "react"
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity, TextInput, Image } from "react-native"
-import SideBarNavigation from "../../../components/DoctorsPortalComponents/NewestSidebar"
-import SettingsNavigation from "../../../components/DoctorsPortalComponents/SettingsNavigation"
-import HeaderNavigation from "../../../components/DoctorsPortalComponents/HeaderNavigation"
+import { useState } from "react";
+import { Text, View, StyleSheet, ScrollView, TouchableOpacity, TextInput, Image, Alert } from "react-native";
+import SideBarNavigation from "../../../components/DoctorsPortalComponents/NewestSidebar";
+import SettingsNavigation from "../../../components/DoctorsPortalComponents/SettingsNavigation";
+import HeaderNavigation from "../../../components/DoctorsPortalComponents/HeaderNavigation";
+import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from "expo-file-system";
 
 const MedicalProof = ({ navigation, route }) => {
-  const handleBrowseFile = () => {
-    // Add your file browsing logic here
-    console.log("Browse file clicked");
+  // State for each file upload field
+  const [medicalRegistrationFile, setMedicalRegistrationFile] = useState(null);
+  const [degreeCertificateFile, setDegreeCertificateFile] = useState(null);
+  const [governmentIdFile, setGovernmentIdFile] = useState(null);
+
+  const convertFileToBase64 = async (fileUri) => {
+    try {
+      const base64 = await FileSystem.readAsStringAsync(fileUri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      return `data:application/octet-stream;base64,${base64}`;
+    } catch (error) {
+      console.error("Error converting file to Base64:", error);
+      return null;
+    }
+  };
+
+  const handleBrowseFile = async (setFileState) => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({ type: "*/*" });
+      
+      if (result.canceled === true) {
+        return;
+      }
+      
+      if (!result.assets || result.assets.length === 0) {
+        Alert.alert("Error", "No file data received.");
+        return;
+      }
+      
+      const fileUri = result.assets[0].uri;
+      const fileName = result.assets[0].name || "Unknown File";
+      
+      const base64String = await convertFileToBase64(fileUri);
+      
+      const newFile = {
+        name: fileName,
+        base64: base64String,
+      };
+      
+      setFileState(newFile);
+      
+    } catch (err) {
+      Alert.alert("Error", "Something went wrong while picking the file.");
+      console.error(err);
+    }
   };
 
   return (
@@ -86,7 +131,7 @@ const MedicalProof = ({ navigation, route }) => {
                       <View style={styles.uploadButtonContainer}>
                         <TouchableOpacity 
                           style={styles.uploadButton}
-                          onPress={handleBrowseFile}
+                          onPress={() => handleBrowseFile(setMedicalRegistrationFile)}
                         >
                           <View style={styles.uploadIconContainer}>
                             <Image 
@@ -95,7 +140,9 @@ const MedicalProof = ({ navigation, route }) => {
                             />
                           </View>
                           <View style={styles.browseTextContainer}>
-                            <Text style={styles.browseText}>Browse File</Text>
+                            <Text style={styles.browseText} numberOfLines={1} ellipsizeMode="middle">
+                              {medicalRegistrationFile ? medicalRegistrationFile.name : "Browse File"}
+                            </Text>
                           </View>
                         </TouchableOpacity>
                       </View>
@@ -116,7 +163,7 @@ const MedicalProof = ({ navigation, route }) => {
                       <View style={styles.uploadButtonContainer}>
                         <TouchableOpacity 
                           style={styles.uploadButton}
-                          onPress={handleBrowseFile}
+                          onPress={() => handleBrowseFile(setDegreeCertificateFile)}
                         >
                           <View style={styles.uploadIconContainer}>
                             <Image 
@@ -125,7 +172,9 @@ const MedicalProof = ({ navigation, route }) => {
                             />
                           </View>
                           <View style={styles.browseTextContainer}>
-                            <Text style={styles.browseText}>Browse File</Text>
+                            <Text style={styles.browseText} numberOfLines={1} ellipsizeMode="middle">
+                              {degreeCertificateFile ? degreeCertificateFile.name : "Browse File"}
+                            </Text>
                           </View>
                         </TouchableOpacity>
                       </View>
@@ -142,7 +191,7 @@ const MedicalProof = ({ navigation, route }) => {
                       <View style={styles.uploadButtonContainer}>
                         <TouchableOpacity 
                           style={styles.uploadButton}
-                          onPress={handleBrowseFile}
+                          onPress={() => handleBrowseFile(setGovernmentIdFile)}
                         >
                           <View style={styles.uploadIconContainer}>
                             <Image 
@@ -151,7 +200,9 @@ const MedicalProof = ({ navigation, route }) => {
                             />
                           </View>
                           <View style={styles.browseTextContainer}>
-                            <Text style={styles.browseText}>Browse File</Text>
+                            <Text style={styles.browseText} numberOfLines={1} ellipsizeMode="middle">
+                              {governmentIdFile ? governmentIdFile.name : "Browse File"}
+                            </Text>
                           </View>
                         </TouchableOpacity>
                       </View>
@@ -167,6 +218,7 @@ const MedicalProof = ({ navigation, route }) => {
     </View>
   )
 }
+
 
 const styles = StyleSheet.create({
   container: {

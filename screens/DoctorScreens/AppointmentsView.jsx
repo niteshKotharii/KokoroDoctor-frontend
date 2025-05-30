@@ -112,7 +112,10 @@ const AppointmentsView = ({ navigation }) => {
             <Text style={styles.syncButtonText}>Sync Google Calender</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.newAppointmentButton}>
+          <TouchableOpacity
+            style={styles.newAppointmentButton}
+            onPress={() => navigation.navigate("BookAppointmentsView")}
+          >
             <Text style={styles.newAppointmentText}>New Appointment</Text>
           </TouchableOpacity>
         </View>

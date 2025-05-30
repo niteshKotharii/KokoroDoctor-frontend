@@ -1,7 +1,17 @@
-"use client"
-
 import { useState } from "react"
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity, TextInput, Image } from "react-native"
+import { 
+  Text, 
+  View, 
+  StyleSheet, 
+  ScrollView, 
+  TouchableOpacity, 
+  TextInput, 
+  Image,
+  Alert,
+  Platform 
+} from "react-native"
+import * as DocumentPicker from "expo-document-picker"
+import * as FileSystem from "expo-file-system"
 import SideBarNavigation from "../../../components/DoctorsPortalComponents/NewestSidebar"
 import SettingsNavigation from "../../../components/DoctorsPortalComponents/SettingsNavigation"
 import HeaderNavigation from "../../../components/DoctorsPortalComponents/HeaderNavigation"
@@ -15,9 +25,43 @@ const ProfileSetting = ({ navigation, route }) => {
   const [countryCode, setCountryCode] = useState("+91")
   const [profilePhoto, setProfilePhoto] = useState(null)
 
-  const handleBrowseFile = () => {
-    console.log("Browse for profile photo")
-  }
+  const pickProfilePhoto = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: "image/*", // Only allow image files for profile photos
+      });
+      
+      if (result.canceled === true) {
+        return;
+      }
+      
+      if (!result.assets || result.assets.length === 0) {
+        alert("Error: No file data received.");
+        return;
+      }
+      
+      const asset = result.assets[0];
+      
+      // For web - create a data URL
+      if (Platform.OS === "web") {
+        setProfilePhoto(asset.uri);
+      } 
+      // For mobile - read the file and create a URI
+      else {
+        const fileUri = asset.uri;
+        const fileInfo = await FileSystem.getInfoAsync(fileUri);
+        
+        if (fileInfo.exists) {
+          setProfilePhoto(fileUri);
+        }
+      }
+      
+      Alert.alert("Success", "Profile photo selected successfully");
+      
+    } catch (err) {
+      Alert.alert("Error", `Failed to pick image: ${err.message}`);
+    }
+  };
 
   const handlePhoneNumberChange = (text) => {
     const cleanedText = text.replace(/[^0-9]/g, "")
@@ -46,7 +90,7 @@ const ProfileSetting = ({ navigation, route }) => {
 
         {/* Right Content Area */}
         <View style={styles.Right}>
-          {/* Moved header out of scrollview */}
+         
           <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.contentCard}>
               <Text style={styles.contentTitle}>Profile Setting</Text>
@@ -54,12 +98,26 @@ const ProfileSetting = ({ navigation, route }) => {
               <HeaderNavigation navigation={navigation} />
               <View style={styles.formContainer}>
                 <View style={styles.profilePhotoContainer}>
-                  <View style={styles.profilePhotoCircle}></View>
-                  <TouchableOpacity style={styles.editIconContainer} onPress={handleBrowseFile}>
-                    <Image source={require("../../../assets/DoctorsPortal/Icons/pencil.png")} style={styles.pencilIcon} />
+                  {profilePhoto ? (
+                    <Image 
+                      source={{ uri: profilePhoto }} 
+                      style={styles.profilePhoto} 
+                    />
+                  ) : (
+                    <View style={styles.profilePhotoCircle}></View>
+                  )}
+                  <TouchableOpacity 
+                    style={styles.editIconContainer} 
+                    onPress={pickProfilePhoto}
+                  >
+                    <Image 
+                      source={require("../../../assets/DoctorsPortal/Icons/pencil.png")} 
+                      style={styles.pencilIcon} 
+                    />
                   </TouchableOpacity>
                 </View>
                 <View style={styles.divider} />
+                {/* Rest of your form remains the same */}
                 <View style={styles.formRow}>
                   <Text style={styles.inputLabel}>Name</Text>
                   <View style={styles.nameInputContainer}>
@@ -120,6 +178,7 @@ const ProfileSetting = ({ navigation, route }) => {
     </View>
   )
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -188,9 +247,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profilePhoto: {
-    width: 78,
-    height: 78,
-    borderRadius: 39,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
   },
   editIconContainer: {
     position: "absolute",

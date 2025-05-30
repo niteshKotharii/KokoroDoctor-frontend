@@ -115,7 +115,7 @@ const AppDoctorsRating = ({navigation}) => {
         
         {/* Book Appointment Button */}
         <TouchableOpacity style={styles.bookButton} onPress={() => {navigation.navigate("DoctorsPaymentScreen")}}>
-          <Text style={styles.bookButtonText}>Book Appointment</Text>
+          <Text style={styles.bookButtonText}>Subscribe</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

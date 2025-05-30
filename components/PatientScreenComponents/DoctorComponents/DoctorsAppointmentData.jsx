@@ -18,7 +18,7 @@ const doctors = [
     id: "1",
     name: "Dr Kislay Shrivastava",
     credential: "Cardiologist",
-    specialization: "MD (Cardiology) - 22 Years Experience",
+    specialization: "MD(Cardiology)-22 Yrs Exp",
     description:
       "MD(Cardiology) Specialization in Treating Heart Conditions, seasoned cardiologist with over 22 years of experience in treating heart conditions.",
     experience: "22 + Years",
@@ -77,7 +77,7 @@ const doctors = [
     id: "2",
     name: "Dr. Sandip Rungta",
     credential: "Cardiologist",
-    specialization: "MD (Cardiology) - 22 Years Experience",
+    specialization: "MD(Cardiology)-22 Yrs Exp",
     description:
       "With 22 years Of practice, Dr. Rungta is known for his proficiency in cardiac electrophysiology.",
     experience: "22 + Years",
@@ -136,7 +136,7 @@ const doctors = [
     id: "3",
     name: "Dr. Abhinit Gupta",
     credential: "Interventional Cardiologist",
-    specialization: "MBBS, MD - General Medicine - 14 Years Experience",
+    specialization: "MBBS,MD-General Medicine-14 Yrs Exp",
     description:
       "DM - CardiologyCardiologist,Interventional Cardiologist, 14 Years Experience Overall (8 years as specialist)",
     experience: "14 + Years",
@@ -195,8 +195,7 @@ const doctors = [
     id: "4",
     name: "Dr. Ritesh Singh Gangwar",
     credential: "Interventional Cardiologist",
-    specialization:
-      "DM - Cardiology, MD - General Medicine- 17 Years Experience",
+    specialization: "DM Cardiology,MD-General Medicine-17 Yrs Exp",
     description:
       "MBBS, Interventional Cardiologist, 17 Years Experience Overall (7 years as specialist)",
     experience: "17 + Years",
@@ -255,7 +254,7 @@ const doctors = [
     id: "5",
     name: "Dr. Bikash Majumder",
     credential: "Clinical Cardiology",
-    specialization: "Clinical Cardiology- 28 Years Experience",
+    specialization: "Clinical Cardiology-28 yrs Exp",
     description:
       "With 28 years in the field. Dr. Majumder is esteemed for his work in clinical cardiology",
     experience: "28 + Years",
@@ -314,7 +313,7 @@ const doctors = [
     id: "6",
     name: "Dr. Soumya Patra",
     credential: "Pediatric Cardiologist",
-    specialization: "Pediatric Cardiology- 20 Years Experience",
+    specialization: "Pediatric Cardiology-20 Years Exp",
     description:
       "Dr. Patra has 20 years of experience and specializes in pediatric cardiology.",
     experience: "20 + Years",
@@ -373,7 +372,7 @@ const doctors = [
     id: "7",
     name: "Dr. Vinesh Jain",
     credential: "Cardiologist",
-    specialization: "Cardiologist- 14 Years Experience",
+    specialization: "Cardiologist-14 Years Exp",
     description:
       "Cardiologist,Interventional Cardiologist, 14 Years Experience Overall  (12 years as specialist)",
     experience: "14 + Years",
@@ -432,7 +431,7 @@ const doctors = [
     id: "8",
     name: "Dr. Supratip Kundu",
     credential: "Interventional Cardiologist",
-    specialization: "MBBS, MD - General Medicine- 16 Years Experience",
+    specialization: "MBBS,MD-General Medicine-16 Years Exp",
     description:
       "DM - Cardiology, Cardiologist,Interventional Cardiologist, 16 Years Experience Overall (7 years as specialist)",
     experience: "16 + Years",
@@ -491,8 +490,7 @@ const doctors = [
     id: "9",
     name: "Dr. Himanshu Yadav",
     credential: "Interventional Cardiologist",
-    specialization:
-      "DM - Cardiology, MD - General Medicine- 17 Years Experience",
+    specialization: "DM-Cardiology,MD-General Medicine-17 Years Exp",
     description:
       "MBBS, Interventional Cardiologist, 17 Years Experience Overall (7 years as specialist)",
     experience: "17 + Years",
@@ -551,8 +549,7 @@ const doctors = [
     id: "10",
     name: "Dr. Dhiraj Kumar Giri",
     credential: "Interventional Cardiologist",
-    specialization:
-      "DM - Cardiology, MD - General Medicine- 17 Years Experience",
+    specialization: "DM-Cardiology,MD-General Medicine-17 Years Exp",
     description:
       "MBBS, Interventional Cardiologist, 17 Years Experience Overall (7 years as specialist)",
     experience: "17 + Years",
@@ -670,7 +667,7 @@ const doctors = [
     name: "Dr. Manidipa Majumdar",
     credential: "Consultation Interventional Cardiologist",
     specialization: "Consultation Interventional Cardiologist",
-    description: "Interventional Cardiologist, 9 Years Experience",
+    description: "Interventional Cardiologist, 9 Years Exp",
     experience: "9 + Years",
     image: require("../../../assets/Images/Dr. Manidipa Majumdar.jpg"),
     slots: ["10:00 AM", "11:30 PM"],
@@ -792,10 +789,12 @@ const DoctorAppointmentScreen = ({ navigation, route }) => {
                                 style={styles.heartImage}
                               />
                             </TouchableOpacity>
-                            <Text style={styles.numberText}>{subscriberCounts[item.id]}</Text>
+                            <Text style={styles.numberText}>
+                              {subscriberCounts[item.id]}
+                            </Text>
                           </View>
                           <Text style={styles.subscriberCountText}>
-                            Subscribers Count
+                            Subscribers
                           </Text>
                         </View>
                       </View>
@@ -852,7 +851,9 @@ const DoctorAppointmentScreen = ({ navigation, route }) => {
                         }
                       }}
                     >
-                      <Text style={{ fontWeight: "600", color:"#FFFFFF" }}>Subscribe</Text>
+                      <Text style={{ fontWeight: "600", color: "#FFFFFF" }}>
+                        Subscribe
+                      </Text>
                     </Pressable>
                   </View>
                 </View>
@@ -879,16 +880,49 @@ const DoctorAppointmentScreen = ({ navigation, route }) => {
                       <Image source={item.image} style={styles.doctorImage} />
                       <View style={styles.doctorDetails}>
                         <Text style={styles.name}>{item.name}</Text>
-                        <Text style={styles.specialization}>
-                          {item.specialization}
-                        </Text>
+                        <View style={styles.specializationBox}>
+                          <View style={styles.specializationTextBox}>
+                            <Text style={styles.specialization}>
+                              {item.specialization}
+                            </Text>
+                          </View>
+                          <View style={styles.verifiedByMCI}>
+                            <Image
+                              source={require("../../../assets/Images/Medical_Council_of_India_Logo.png")}
+                              style={styles.imageMCI}
+                            />
+                            <Text style={styles.verifiedBox}>
+                              <Text style={styles.mobileVerified}>
+                                Verified
+                              </Text>
+                              <Text style={styles.mobileBy}>by</Text>
+                              <Text style={styles.mobileMCI}>MCI</Text>
+                            </Text>
+                          </View>
+                        </View>
                       </View>
-                      <View style={styles.rating}>
-                        <Image
-                          source={require("../../../assets/Icons/Star.png")}
-                          style={styles.starIcon}
-                        />
-                        <Text>{item.rating}</Text>
+                      <View style={styles.rightContainer}>
+                        <View style={styles.countBox}>
+                          <TouchableOpacity
+                            style={styles.heartButtonBox}
+                            onPress={() => handleHeartButtonPress(item.id)}
+                          >
+                            <Image
+                              source={require("../../../assets/Icons/heart1.png")}
+                              style={styles.heartImage}
+                            />
+                          </TouchableOpacity>
+                          <Text style={styles.numberText}>
+                            {subscriberCounts[item.id]}
+                          </Text>
+                        </View>
+                        <View style={styles.rating}>
+                          <Image
+                            source={require("../../../assets/Icons/Star.png")}
+                            style={styles.starIcon}
+                          />
+                          <Text style={styles.ratingText}>{item.rating}</Text>
+                        </View>
                       </View>
                     </View>
                     <View style={styles.secondSection}>
@@ -922,7 +956,7 @@ const DoctorAppointmentScreen = ({ navigation, route }) => {
                           })
                         }
                       >
-                        <Text style={styles.buttonText}>Book Appointment</Text>
+                        <Text style={styles.buttonText}>Subscribe</Text>
                         <Image
                           source={require("../../../assets/Icons/arrow.png")}
                           style={styles.arrowIcon}
@@ -958,14 +992,15 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     height: 204,
-    width: "98%",
-    //borderWidth: 1,
+    width: "99%",
+    borderWidth: 1,
     borderRadius: 15,
     marginBottom: 14,
     backgroundColor: "#fff",
     alignSelf: "center",
     boxShadow: " 0px 0px 4px 1px rgba(0, 0, 0, 0.25)",
     padding: "0.5%",
+    borderColor: "#dcdcdc",
   },
   cardBox: {
     flexDirection: "column",
@@ -974,7 +1009,6 @@ const styles = StyleSheet.create({
         flexDirection: "column",
       },
     }),
-    //backgroundColor: "#fff",
   },
   cardHeaderInfo: {
     height: "37%",
@@ -996,10 +1030,12 @@ const styles = StyleSheet.create({
     marginVertical: "1%",
   },
   doctorDetails: {
-    height: "78%",
-    width: "52%",
+    height: "100%",
+    width: "56%",
     //borderWidth: 1,
     alignSelf: "center",
+    marginRight: "11%",
+    paddingLeft:"1%",
     ...Platform.select({
       web: {
         //borderWidth:1,
@@ -1010,18 +1046,23 @@ const styles = StyleSheet.create({
 
   rating: {
     height: "30%",
-    width: "15%",
+    width: "47%",
     //borderWidth: 1,
-    marginVertical: "3.5%",
+    marginVertical: "3%",
     borderRadius: 7,
     boxShadow: " 0px 0px 4px 0px rgba(0, 0, 0, 0.25)",
     flexDirection: "row",
     justifyContent: "space-evenly",
-    marginRight: "4%",
+    marginRight: "20%",
   },
   starIcon: {
-    height: 15,
-    width: 15,
+    height: 13,
+    width: 13,
+    alignSelf: "center",
+  },
+  ratingText: {
+    fontSize: 12,
+    fontWeight: 400,
     alignSelf: "center",
   },
   secondSection: {
@@ -1160,9 +1201,20 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  specializationBox: {
+    //borderWidth: 1,
+    height: "68%",
+    flexDirection: "row",
+  },
+  specializationTextBox: {
+    //borderWidth: 1,
+    width: "60%",
+    height: "100%",
+    borderColor: "#adff2f",
+  },
   specialization: {
-    fontSize: 12,
-    fontWeight: 300,
+    fontSize: 11,
+    fontWeight: 400,
     color: "#444444",
     ...Platform.select({
       web: {
@@ -1171,6 +1223,19 @@ const styles = StyleSheet.create({
         color: "#666",
       },
     }),
+  },
+  verifiedByMCI: {
+    //borderWidth: 1,
+    width: "40%",
+    height: "40%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  imageMCI: {
+    height: 10,
+    width: 10,
+    marginVertical: "3%",
+    marginHorizontal: "2%",
   },
 
   verifiedContainer: {
@@ -1181,10 +1246,37 @@ const styles = StyleSheet.create({
     paddingVertical: "0.5%",
   },
   verifiedBox: {
-    flexDirection: "row",
     //borderWidth: 1,
-    borderColor: "#000000",
+    height: "80%",
     width: "70%",
+    justifyContent: "space-evenly",
+    alignSelf: "center",
+    alignItems: "center",
+    ...Platform.select({
+      web: {
+        flexDirection: "row",
+        //borderWidth: 1,
+        borderColor: "#000000",
+        width: "70%",
+      },
+    }),
+  },
+  mobileVerified: {
+    fontSize: 7,
+    fontWeight: 300,
+    color: "green",
+    //alignSelf:"center"
+  },
+  mobileBy: {
+    fontSize: 7,
+    fontWeight: 300,
+    //alignSelf:"center"
+  },
+  mobileMCI: {
+    fontSize: 7,
+    fontWeight: 300,
+    color: "#FF7373",
+    //alignSelf:"center"
   },
   verified: {
     fontSize: 14,
@@ -1193,34 +1285,71 @@ const styles = StyleSheet.create({
     paddingHorizontal: "3%",
     fontWeight: 300,
   },
+  by: {
+    fontSize: 14,
+    fontWeight: 300,
+  },
   mci: {
     color: "#FF7373",
+    fontSize: 14,
+    fontWeight: 300,
   },
+  rightContainer: {
+    //borderWidth: 1,
+    width: "25%",
+    right: "10%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  // subscribeRatingBox: {
+  //   borderWidth: 1,
+  //   width: "16%",
+  //   flexDirection:"row",
+  //   justifyContent:"space-around",
+  //   marginRight:"8%"
+  // },
   subscriberCount: {
     width: "30%",
     //borderWidth: 1,
     flexDirection: "row",
   },
   countBox: {
-    height: "100%",
-    width: "30%",
     //borderWidth: 1,
     borderColor: "blue",
+    height: "75%",
+    width: "45%",
+    marginTop:"3%",
+    ...Platform.select({
+      web: {
+        height: "100%",
+        width: "30%",
+        //borderWidth: 1,
+        borderColor: "blue",
+        alignSelf:"center"
+      },
+    }),
   },
   heartButtonBox: {
     height: "60%",
-    width: "60%",
+    width: "75%",
     //borderWidth: 1,
     alignSelf: "center",
   },
   heartImage: {
-    height: 18,
-    width: 20,
+    height: 22,
+    width: 24.5,
     alignSelf: "center",
+    ...Platform.select({
+      web:{
+        height:20,
+        width:23,
+        alignSelf:"center"
+      }
+    })
   },
   numberText: {
-    fontSize: 12,
-    fontWeight: 300,
+    fontSize: 13,
+    fontWeight: 400,
     color: "#000000",
     alignSelf: "center",
   },

@@ -1,99 +1,435 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
-  Image,
   TextInput,
   Platform,
-  Pressable,
-  useWindowDimensions,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import NewestSidebar from "../../components/DoctorsPortalComponents/NewestSidebar"; // Import the separate sidebar component
+import NewestSidebar from "../../components/DoctorsPortalComponents/NewestSidebar";
 
 const CalendarView = ({ navigation }) => {
-  const { width } = useWindowDimensions();
-  const [viewMode, setViewMode] = useState("Day");
+  const [viewMode, setViewMode] = useState("Week"); // Set default to Week view
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [searchText, setSearchText] = useState("");
+  const [currentWeek, setCurrentWeek] = useState(generateWeekDates());
+  const [appointmentData, setAppointmentData] = useState({});
+  const horizontalScrollRef = useRef(null);
 
-  // Sample data - in a real app this would come from API
-  const appointmentData = {
-    Monday: [
-      {
+  // Generate current week dates
+  function generateWeekDates() {
+    const today = new Date();
+    const day = today.getDay(); // 0 is Sunday, 1 is Monday, etc.
+    
+    // Adjust to make Monday the first day (if day is 0/Sunday, go back 6 days)
+    const mondayOffset = day === 0 ? -6 : 1 - day;
+    
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + mondayOffset);
+    
+    const weekDays = [];
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + i);
+      weekDays.push({
+        name: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()],
+        shortName: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()],
+        date: date.getDate(),
+        fullDate: date
+      });
+    }
+    
+    // Reorder to have Monday first
+    return [
+      weekDays[1], // Mon
+      weekDays[2], // Tue
+      weekDays[3], // Wed
+      weekDays[4], // Thu
+      weekDays[5], // Fri
+      weekDays[6], // Sat
+      weekDays[0]  // Sun
+    ];
+  }
+
+  // Custom predefined appointment data that matches the design
+  const generatePredefinedAppointments = () => {
+    // Create a base structure with all time slots and days
+    const timeSlots = ["9:00 AM", "11:00 AM", "1:00 PM", "3:00 PM", "5:00 PM"];
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    
+    // Initialize empty appointment data
+    const appointmentsData = {};
+    days.forEach(day => {
+      appointmentsData[day] = {};
+      timeSlots.forEach(time => {
+        appointmentsData[day][time] = { 
+          hasAppointment: false, 
+          data: null 
+        };
+      });
+    });
+    
+    // Set specific appointments according to design
+    // Monday 9:00 AM
+    appointmentsData["Monday"]["9:00 AM"] = {
+      hasAppointment: true,
+      data: {
         time: "9:00 AM",
         patientName: "Sarah Johnson",
         appointmentType: "Regular Checkup",
         status: "Confirmed",
         statusColor: "#4cd964",
-      },
-    ],
-    Tuesday: [],
-    Wednesday: [
-      {
+      }
+    };
+    
+    // Monday 11:00 AM
+    appointmentsData["Monday"]["11:00 AM"] = {
+      hasAppointment: true,
+      data: {
+        time: "11:00 AM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Monday 1:00 PM
+    appointmentsData["Monday"]["1:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "1:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Monday 3:00 PM
+    appointmentsData["Monday"]["3:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "3:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Monday 5:00 PM
+    appointmentsData["Monday"]["5:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "5:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+
+    // Wednesday 9:00 AM (Emergency)
+    appointmentsData["Wednesday"]["9:00 AM"] = {
+      hasAppointment: true,
+      data: {
         time: "9:00 AM",
         patientName: "Sarah Johnson",
         appointmentType: "Acute Pain",
         status: "Emergency",
         statusColor: "#ff3b30",
-      },
-    ],
-    Thursday: [],
-    Friday: [
-      {
+      }
+    };
+    
+    // Wednesday 11:00 AM
+    appointmentsData["Wednesday"]["11:00 AM"] = {
+      hasAppointment: true,
+      data: {
+        time: "11:00 AM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+
+    // Wednesday 3:00 PM
+    appointmentsData["Wednesday"]["3:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "3:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Thursday 11:00 AM
+    appointmentsData["Thursday"]["11:00 AM"] = {
+      hasAppointment: true,
+      data: {
+        time: "11:00 AM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Friday 9:00 AM (Follow up)
+    appointmentsData["Friday"]["9:00 AM"] = {
+      hasAppointment: true,
+      data: {
         time: "9:00 AM",
         patientName: "Sarah Johnson",
         appointmentType: "Post Surgery",
         status: "Follow Up",
         statusColor: "#ffcc00",
-      },
-    ],
-    Saturday: [],
-    Sunday: [],
+      }
+    };
+    
+    // Friday 11:00 AM
+    appointmentsData["Friday"]["11:00 AM"] = {
+      hasAppointment: true,
+      data: {
+        time: "11:00 AM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Friday 1:00 PM
+    appointmentsData["Friday"]["1:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "1:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Friday 3:00 PM
+    appointmentsData["Friday"]["3:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "3:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Friday 5:00 PM
+    appointmentsData["Friday"]["5:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "5:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Saturday 11:00 AM
+    appointmentsData["Saturday"]["11:00 AM"] = {
+      hasAppointment: true,
+      data: {
+        time: "11:00 AM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Saturday 1:00 PM
+    appointmentsData["Saturday"]["1:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "1:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Saturday 3:00 PM
+    appointmentsData["Saturday"]["3:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "3:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Saturday 5:00 PM
+    appointmentsData["Saturday"]["5:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "5:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Sunday 11:00 AM
+    appointmentsData["Sunday"]["11:00 AM"] = {
+      hasAppointment: true,
+      data: {
+        time: "11:00 AM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Sunday 1:00 PM
+    appointmentsData["Sunday"]["1:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "1:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Sunday 3:00 PM
+    appointmentsData["Sunday"]["3:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "3:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    // Sunday 5:00 PM
+    appointmentsData["Sunday"]["5:00 PM"] = {
+      hasAppointment: true,
+      data: {
+        time: "5:00 PM",
+        patientName: "Sarah Johnson",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    return appointmentsData;
   };
 
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-  // Function to simulate API data loading
   useEffect(() => {
-    // This would be an API call in a real app
-    console.log("Loading calendar data...");
+    // Set predefined appointment data
+    setAppointmentData(generatePredefinedAppointments());
   }, []);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const renderAppointment = (day) => {
-    const appointments = appointmentData[day] || [];
+  const handleAddAppointment = (day, timeSlot) => {
+    // Function to add a new appointment to a specific day and time slot
+    console.log(`Adding appointment on ${day} at ${timeSlot}`);
+    
+    // Here you would typically open a modal or navigate to a form screen
+    // For this example, we'll just add a default appointment
+    const dayName = day.name === 'Mon' ? 'Monday' : 
+                   day.name === 'Tue' ? 'Tuesday' : 
+                   day.name === 'Wed' ? 'Wednesday' : 
+                   day.name === 'Thu' ? 'Thursday' : 
+                   day.name === 'Fri' ? 'Friday' : 
+                   day.name === 'Sat' ? 'Saturday' : 'Sunday';
+    
+    const newAppointmentData = { ...appointmentData };
+    
+    newAppointmentData[dayName][timeSlot] = {
+      hasAppointment: true,
+      data: {
+        time: timeSlot,
+        patientName: "New Patient",
+        appointmentType: "Regular Checkup",
+        status: "Confirmed",
+        statusColor: "#4cd964",
+      }
+    };
+    
+    setAppointmentData(newAppointmentData);
+  };
 
-    if (appointments.length === 0) {
+  const renderTimeSlot = (time) => {
+    return (
+      <View style={styles.timeSlotContainer}>
+        <Text style={styles.timeSlotText}>{time}</Text>
+      </View>
+    );
+  };
+
+  const renderAppointment = (day, timeSlot) => {
+    const dayName = day.name === 'Mon' ? 'Monday' : 
+                   day.name === 'Tue' ? 'Tuesday' : 
+                   day.name === 'Wed' ? 'Wednesday' : 
+                   day.name === 'Thu' ? 'Thursday' : 
+                   day.name === 'Fri' ? 'Friday' : 
+                   day.name === 'Sat' ? 'Saturday' : 'Sunday';
+    
+    const slotData = appointmentData[dayName] && appointmentData[dayName][timeSlot];
+    
+    if (!slotData || !slotData.hasAppointment) {
       return (
-        <View style={styles.emptyAppointmentCard}>
+        <TouchableOpacity 
+          style={styles.emptyAppointmentCard}
+          onPress={() => handleAddAppointment(day, timeSlot)}
+        >
           <Text style={styles.availableText}>Available</Text>
-        </View>
+        </TouchableOpacity>
       );
     }
 
-    return appointments.map((appointment, index) => (
-      <View
-        key={index}
-        style={[
-          styles.appointmentCard,
-          day === "Monday"
-            ? styles.confirmedCard
-            : day === "Wednesday"
-            ? styles.emergencyCard
-            : day === "Friday"
-            ? styles.followUpCard
-            : styles.emptyAppointmentCard,
-        ]}
-      >
+    const appointment = slotData.data;
+    let cardStyle;
+    
+    if (appointment.status === "Confirmed") {
+      cardStyle = styles.confirmedCard;
+    } else if (appointment.status === "Emergency") {
+      cardStyle = styles.emergencyCard;
+    } else if (appointment.status === "Follow Up") {
+      cardStyle = styles.followUpCard;
+    } else {
+      cardStyle = styles.confirmedCard; // Default style
+    }
+    
+    return (
+      <View style={[styles.appointmentCard, cardStyle]}>
         <View style={styles.timeContainer}>
-          <Text style={styles.timeText}>{appointment.time}</Text>
+          <Text style={styles.timeText}>
+            {appointment.time.replace('AM', '').replace('PM', '')}
+            <Text style={styles.amPmText}>
+              {appointment.time.includes('AM') ? 'AM' : 'PM'}
+            </Text>
+          </Text>
         </View>
 
         <View style={styles.statusContainer}>
@@ -114,13 +450,13 @@ const CalendarView = ({ navigation }) => {
           </Text>
         </View>
       </View>
-    ));
+    );
   };
 
   return (
     <View style={styles.container}>
       {/* Sidebar for larger screens or when open */}
-      {(width >= 900 || sidebarOpen) && (
+      {sidebarOpen && (
         <View style={styles.sidebarContainer}>
           <NewestSidebar
             navigation={navigation}
@@ -133,7 +469,7 @@ const CalendarView = ({ navigation }) => {
       {/* Main Content */}
       <View style={styles.contentContainer}>
         {/* Header with menu button for smaller screens */}
-        {width < 900 && !sidebarOpen && (
+        {!sidebarOpen && (
           <TouchableOpacity style={styles.menuButton} onPress={toggleSidebar}>
             <MaterialIcons name="menu" size={24} color="black" />
           </TouchableOpacity>
@@ -197,7 +533,7 @@ const CalendarView = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Search and Filter Controls - Now in a single row */}
+        {/* Search and Filter Controls */}
         <View style={styles.controlsContainer}>
           <View style={styles.filterButtonsContainer}>
             <View style={styles.searchContainer}>
@@ -234,30 +570,144 @@ const CalendarView = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Calendar Grid */}
+        {/* Calendar Grid with Horizontal Scrolling */}
         <ScrollView style={styles.calendarGrid}>
-          <View style={styles.daysContainer}>
-            {days.map((day, index) => (
-              <View key={index} style={styles.dayColumn}>
-                <Text style={styles.dayHeader}>{day}</Text>
-                {renderAppointment(
-                  day === "Mon"
-                    ? "Monday"
-                    : day === "Tue"
-                    ? "Tuesday"
-                    : day === "Wed"
-                    ? "Wednesday"
-                    : day === "Thu"
-                    ? "Thursday"
-                    : day === "Fri"
-                    ? "Friday"
-                    : day === "Sat"
-                    ? "Saturday"
-                    : "Sunday"
-                )}
-              </View>
-            ))}
+          {/* Day headers with dates */}
+          <View style={styles.daysHeaderRow}>
+            <View style={styles.timeColumnHeader}>
+              {/* Empty corner cell */}
+            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} ref={horizontalScrollRef}>
+              {currentWeek.map((day, index) => (
+                <View key={index} style={styles.dayHeaderCell}>
+                  <Text style={styles.dayName}>{day.name} {day.date}</Text>
+                </View>
+              ))}
+            </ScrollView>
           </View>
+
+          {/* Time slots and appointments */}
+          <ScrollView>
+            {/* 9:00 AM Row */}
+            <View style={styles.timeRow}>
+              <View style={styles.timeColumn}>
+                {renderTimeSlot("9:00AM")}
+              </View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} 
+                onScroll={(e) => {
+                  if (horizontalScrollRef.current) {
+                    horizontalScrollRef.current.scrollTo({ 
+                      x: e.nativeEvent.contentOffset.x, 
+                      animated: false 
+                    });
+                  }
+                }}
+                scrollEventThrottle={16}
+              >
+                {currentWeek.map((day, index) => (
+                  <View key={index} style={styles.appointmentSlot}>
+                    {renderAppointment(day, "9:00 AM")}
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+
+            {/* 11:00 AM Row */}
+            <View style={styles.timeRow}>
+              <View style={styles.timeColumn}>
+                {renderTimeSlot("11:00AM")}
+              </View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}
+                onScroll={(e) => {
+                  if (horizontalScrollRef.current) {
+                    horizontalScrollRef.current.scrollTo({ 
+                      x: e.nativeEvent.contentOffset.x, 
+                      animated: false 
+                    });
+                  }
+                }}
+                scrollEventThrottle={16}
+              >
+                {currentWeek.map((day, index) => (
+                  <View key={index} style={styles.appointmentSlot}>
+                    {renderAppointment(day, "11:00 AM")}
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+
+            {/* 1:00 PM Row */}
+            <View style={styles.timeRow}>
+              <View style={styles.timeColumn}>
+                {renderTimeSlot("01:00PM")}
+              </View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}
+                onScroll={(e) => {
+                  if (horizontalScrollRef.current) {
+                    horizontalScrollRef.current.scrollTo({ 
+                      x: e.nativeEvent.contentOffset.x, 
+                      animated: false 
+                    });
+                  }
+                }}
+                scrollEventThrottle={16}
+              >
+                {currentWeek.map((day, index) => (
+                  <View key={index} style={styles.appointmentSlot}>
+                    {renderAppointment(day, "1:00 PM")}
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+
+            {/* 3:00 PM Row */}
+            <View style={styles.timeRow}>
+              <View style={styles.timeColumn}>
+                {renderTimeSlot("03:00PM")}
+              </View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}
+                onScroll={(e) => {
+                  if (horizontalScrollRef.current) {
+                    horizontalScrollRef.current.scrollTo({ 
+                      x: e.nativeEvent.contentOffset.x, 
+                      animated: false 
+                    });
+                  }
+                }}
+                scrollEventThrottle={16}
+              >
+                {currentWeek.map((day, index) => (
+                  <View key={index} style={styles.appointmentSlot}>
+                    {renderAppointment(day, "3:00 PM")}
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+
+            {/* 5:00 PM Row */}
+            <View style={styles.timeRow}>
+              <View style={styles.timeColumn}>
+                {renderTimeSlot("05:00PM")}
+              </View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}
+                onScroll={(e) => {
+                  if (horizontalScrollRef.current) {
+                    horizontalScrollRef.current.scrollTo({ 
+                      x: e.nativeEvent.contentOffset.x, 
+                      animated: false 
+                    });
+                  }
+                }}
+                scrollEventThrottle={16}
+              >
+                {currentWeek.map((day, index) => (
+                  <View key={index} style={styles.appointmentSlot}>
+                    {renderAppointment(day, "5:00 PM")}
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+          </ScrollView>
         </ScrollView>
       </View>
     </View>
@@ -271,7 +721,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   sidebarContainer: {
-    width: "15%", // Adjusted to percentage
+    width: "15%", // Using percentage as requested
     backgroundColor: "#f5f5f5",
     ...Platform.select({
       web: {
@@ -394,21 +844,47 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f2ff",
     borderRadius: 12,
   },
-  daysContainer: {
+  daysHeaderRow: {
     flexDirection: "row",
-    flex: 1,
-    padding: "1.5%",
+    marginBottom: "1%",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
   },
-  dayColumn: {
-    flex: 1,
+  timeColumnHeader: {
+    width: 80,
     alignItems: "center",
-    marginHorizontal: "0.5%",
+    justifyContent: "center",
   },
-  dayHeader: {
+  dayHeaderCell: {
+    width: 180,
+    alignItems: "center",
+    paddingVertical: "1%",
+  },
+  dayName: {
     fontSize: 16,
     fontWeight: "bold",
-    marginBottom: 12,
     color: "#333",
+  },
+  timeRow: {
+    flexDirection: "row",
+    marginBottom: "1%",
+  },
+  timeColumn: {
+    width: 80,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  timeSlotContainer: {
+    paddingVertical: "5%",
+  },
+  timeSlotText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#666",
+  },
+  appointmentSlot: {
+    width: 180,
+    padding: 4,
   },
   appointmentCard: {
     width: "100%",
@@ -448,6 +924,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
   },
+  amPmText: {
+    fontSize: 12,
+    color: "#666",
+  },
   statusContainer: {
     marginBottom: "5%",
   },
@@ -457,6 +937,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignSelf: "flex-start",
   },
+  
   statusText: {
     color: "#fff",
     fontSize: 12,

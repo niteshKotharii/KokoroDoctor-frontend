@@ -198,7 +198,7 @@ const ConsultWithDoctors = ({ navigation }) => {
               <SearchBar />
             </View>
             <View style={styles.doctorTextBox}>
-              <Text style={styles.doctorText}>Consult with Doctor</Text>
+              <Text style={styles.doctorText}>Subscribe with Doctor</Text>
             </View>
 
             <View style={styles.consultBox}>
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   },
   doctorTextBox: {
     height: "5%",
-    width: "50%",
+    width: "54%",
     //borderWidth: 1,
     marginHorizontal: "5%",
     marginVertical: "1%",

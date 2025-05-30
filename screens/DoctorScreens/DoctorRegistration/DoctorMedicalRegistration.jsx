@@ -20,6 +20,15 @@ const DoctorMedicalRegistration = ({ navigation }) => {
   const [hospital, setHospital] = useState("");
   const [fileName, setFileName] = useState("");
 
+  const [formData, setFormData] = useState({
+    licenseNo: "",
+    experience: "",
+    hospital: "",
+  });
+  const handleChange = (key, value) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
   const pickDocument = async () => {
     const result = await DocumentPicker.getDocumentAsync({});
     if (!result.canceled) {
@@ -28,12 +37,7 @@ const DoctorMedicalRegistration = ({ navigation }) => {
   };
 
   const handleContinue = () => {
-    if (
-      !licenseNo ||
-      
-      !hospital ||
-      !fileName
-    ) {
+    if (!licenseNo || !hospital || !fileName) {
       Alert.alert(
         "Missing Information",
         "Please fill all fields and upload the document."
@@ -58,10 +62,15 @@ const DoctorMedicalRegistration = ({ navigation }) => {
 
           <Text style={styles.label}>Medical License no</Text>
           <TextInput
-            style={styles.input}
-            placeholder="789654133613264788"
-            value={licenseNo}
-            onChangeText={setLicenseNo}
+            placeholder="Enter number"
+            placeholderTextColor="#c0c0c0"
+            keyboardType="phone-pad"
+            style={[
+              styles.input,
+              { color: formData.licenseNo ? "black" : "#c0c0c0" },
+            ]}
+            value={formData.licenseNo}
+            onChangeText={(val) => handleChange("licenseNo", val)}
           />
 
           {/* Upload */}
@@ -94,17 +103,38 @@ const DoctorMedicalRegistration = ({ navigation }) => {
 
           {/* Year of Experience Dropdown */}
           <Text style={styles.label}>Year of Experience</Text>
-          <TouchableOpacity style={styles.dropdownBox}>
+          {/* <TouchableOpacity style={styles.dropdownBox}>
             <Text style={styles.dropdownText}>{experience || "22"}</Text>
             <Ionicons name="chevron-down" size={20} color="#777" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <TextInput
+            placeholder="Enter year..."
+            placeholderTextColor="#c0c0c0"
+            keyboardType="phone-pad"
+            style={[
+              styles.input,
+              { color: formData.experience ? "black" : "#c0c0c0" },
+            ]}
+            value={formData.experience}
+            onChangeText={(val) => handleChange("experience", val)}
+          />
 
           <Text style={styles.label}>Affiliated Hospital/Clinic</Text>
-          <TextInput
+          {/* <TextInput
             style={styles.input}
             placeholder="lorem ipsum"
             value={hospital}
             onChangeText={setHospital}
+          /> */}
+          <TextInput
+            placeholder="Enter name..."
+            placeholderTextColor="#c0c0c0"
+            style={[
+              styles.input,
+              { color: formData.hospital ? "black" : "#c0c0c0" },
+            ]}
+            value={formData.hospital}
+            onChangeText={(val) => handleChange("hospital", val)}
           />
 
           {/* Buttons */}

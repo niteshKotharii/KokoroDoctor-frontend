@@ -1,13 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import AppNavigation from "./navigation/PatientNavigation";
 import { ChatbotProvider } from "./contexts/ChatbotContext";
 import ChatBotOverlay from "./components/PatientScreenComponents/ChatbotComponents/ChatbotOverlay";
 import { AuthProvider } from "./contexts/AuthContext";
-import DoctorAppNavigation from "./navigation/DoctorsNavigation";
 import { RegistrationProvider } from "./contexts/RegistrationContext";
 import { RoleProvider, useRole } from "./contexts/RoleContext";
+import AppNavigation from "./navigation/PatientNavigation";
+import DoctorAppNavigation from "./navigation/DoctorsNavigation";
 
+// New component to conditionally render navigation based on role
 const NavigationHandler = ({ navigationRef }) => {
   const { role } = useRole();
 
@@ -17,9 +18,14 @@ const NavigationHandler = ({ navigationRef }) => {
         <DoctorAppNavigation navigationRef={navigationRef} />
       </RegistrationProvider>
     );
-  } else {
+  }
+
+  if (role === "patient") {
     return <AppNavigation navigationRef={navigationRef} />;
   }
+
+  // Default: show landing screen with buttons to set role
+  return <AppNavigation navigationRef={navigationRef} />;
 };
 
 const App = () => {

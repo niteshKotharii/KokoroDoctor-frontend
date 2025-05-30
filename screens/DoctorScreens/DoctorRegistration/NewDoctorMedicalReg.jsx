@@ -18,21 +18,41 @@ const NewDoctorMedicalReg = ({ navigation }) => {
   const [specialization, setSpecialization] = useState("");
   const [experience, setExperience] = useState("");
   const [hospital, setHospital] = useState("");
-  const [fileName, setFileName] = useState("");
 
-  const pickDocument = async () => {
+  const [documents, setDocuments] = useState({
+    medicalCouncil: null,
+    degreeCertificate: null,
+    govID: null,
+  });
+
+  const pickDocument = async (type) => {
     const result = await DocumentPicker.getDocumentAsync({});
     if (!result.canceled) {
-      setFileName(result.assets[0].name);
+      setDocuments((prev) => ({
+        ...prev,
+        [type]: result.assets[0].name,
+      }));
     }
   };
 
   const handleContinue = () => {
-    // if (!licenseNo || !specialization || !experience || !hospital || !fileName) {
-    //   Alert.alert("Missing Information", "Please fill all fields and upload the document.");
-    //   return;
-    // }
-    navigation.navigate("EstablishmentTiming"); // Replace this
+    const { medicalCouncil, degreeCertificate, govID } = documents;
+    if (
+      !licenseNo ||
+      !specialization ||
+      !experience ||
+      !hospital ||
+      !medicalCouncil ||
+      !degreeCertificate ||
+      !govID
+    ) {
+      Alert.alert(
+        "Missing Information",
+        "Please fill all fields and upload all documents."
+      );
+      return;
+    }
+    navigation.navigate("NextScreen");
   };
 
   return (
@@ -40,30 +60,30 @@ const NewDoctorMedicalReg = ({ navigation }) => {
       {/* Left Nav */}
       <NewSideNav />
 
-      {/* Right Side (85%) */}
+      {/* Right Panel */}
       <View style={styles.rightPanel}>
-        {/* Form Area (85% of Right) */}
         <ScrollView contentContainerStyle={styles.formSection}>
           <Text style={styles.heading}>
             Hang On! Medical Registration Proof
           </Text>
 
           <Text style={styles.label}>Medical Council Registration Id</Text>
-
-          {/* Upload */}
-          {fileName ? (
+          {documents.medicalCouncil ? (
             <View style={styles.uploadedContainer}>
               <Text style={styles.uploadedText}>Document Uploaded</Text>
               <AntDesign name="checkcircle" size={20} color="green" />
               <Ionicons name="document" size={30} color="#cb6a6a" />
-              <Text style={styles.pdfText}>PDF</Text>
+              {/* <Text style={styles.pdfText}>PDF</Text> */}
             </View>
           ) : (
             <View style={styles.browseRow}>
               <Text style={styles.text}>
                 Please upload document for verification
               </Text>
-              <TouchableOpacity style={styles.uploadBox} onPress={pickDocument}>
+              <TouchableOpacity
+                style={styles.uploadBox}
+                onPress={() => pickDocument("medicalCouncil")}
+              >
                 <AntDesign name="cloudupload" size={22} color="#ff5d73" />
                 <Text style={styles.uploadText}>Browse File</Text>
               </TouchableOpacity>
@@ -71,21 +91,22 @@ const NewDoctorMedicalReg = ({ navigation }) => {
           )}
 
           <Text style={styles.label}>Degree Certificate</Text>
-
-          {/* Upload */}
-          {fileName ? (
+          {documents.degreeCertificate ? (
             <View style={styles.uploadedContainer}>
               <Text style={styles.uploadedText}>Document Uploaded</Text>
               <AntDesign name="checkcircle" size={20} color="green" />
               <Ionicons name="document" size={30} color="#cb6a6a" />
-              <Text style={styles.pdfText}>PDF</Text>
+              {/* <Text style={styles.pdfText}>PDF</Text> */}
             </View>
           ) : (
             <View style={styles.browseRow}>
               <Text style={styles.text}>
                 Please upload document for verification
               </Text>
-              <TouchableOpacity style={styles.uploadBox} onPress={pickDocument}>
+              <TouchableOpacity
+                style={styles.uploadBox}
+                onPress={() => pickDocument("degreeCertificate")}
+              >
                 <AntDesign name="cloudupload" size={22} color="#ff5d73" />
                 <Text style={styles.uploadText}>Browse File</Text>
               </TouchableOpacity>
@@ -93,21 +114,22 @@ const NewDoctorMedicalReg = ({ navigation }) => {
           )}
 
           <Text style={styles.label}>Government ID Proof</Text>
-
-          {/* Upload */}
-          {fileName ? (
+          {documents.govID ? (
             <View style={styles.uploadedContainer}>
               <Text style={styles.uploadedText}>Document Uploaded</Text>
               <AntDesign name="checkcircle" size={20} color="green" />
               <Ionicons name="document" size={30} color="#cb6a6a" />
-              <Text style={styles.pdfText}>PDF</Text>
+              {/* <Text style={styles.pdfText}>PDF</Text> */}
             </View>
           ) : (
             <View style={styles.browseRow}>
               <Text style={styles.text}>
                 Please upload document for verification
               </Text>
-              <TouchableOpacity style={styles.uploadBox} onPress={pickDocument}>
+              <TouchableOpacity
+                style={styles.uploadBox}
+                onPress={() => pickDocument("govID")}
+              >
                 <AntDesign name="cloudupload" size={22} color="#ff5d73" />
                 <Text style={styles.uploadText}>Browse File</Text>
               </TouchableOpacity>
@@ -130,7 +152,6 @@ const NewDoctorMedicalReg = ({ navigation }) => {
           </TouchableOpacity>
         </ScrollView>
 
-        {/* Image Stack (15% of Right Panel) */}
         <SideImageStyle />
       </View>
     </View>
@@ -181,7 +202,6 @@ const styles = StyleSheet.create({
   browseRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 0,
     marginBottom: 16,
     width: "34%",
   },
@@ -189,6 +209,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "500",
     color: "#333",
+    flex: 1,
   },
   uploadBox: {
     borderWidth: 1,
@@ -213,17 +234,20 @@ const styles = StyleSheet.create({
   uploadedContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
     marginBottom: 16,
+    width: "34%",
+    gap: 8,
   },
   uploadedText: {
     fontSize: 12,
     fontWeight: "500",
+    color: "green",
   },
   pdfText: {
     fontSize: 12,
     fontWeight: "500",
     color: "#cb6a6a",
+    marginLeft: 4,
   },
   continueBtn: {
     flexDirection: "row",
@@ -237,7 +261,6 @@ const styles = StyleSheet.create({
     height: "8%",
     marginBottom: 20,
     marginTop: 35,
-    alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
   },
@@ -247,7 +270,6 @@ const styles = StyleSheet.create({
     paddingLeft: 45,
   },
   iconCon: {
-    marginLeft: "10%",
     width: 34,
     height: 34,
     backgroundColor: "white",
@@ -261,7 +283,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
-
   skipBtn: {
     backgroundColor: "#23c16b",
     paddingVertical: 12,

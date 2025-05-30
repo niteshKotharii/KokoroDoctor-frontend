@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -20,31 +20,75 @@ const DoctorsLogin = () => {
     email: "",
     location: "",
     phone: "",
+    password: "",
     otp: ["", "", "", ""],
   });
 
   const [showOTPInput, setShowOTPInput] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
+  const otpInputs = useRef([]);
 
   const handleChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  // const handleOTPChange = (index, value) => {
-  //   const updatedOTP = [...formData.otp];
-  //   updatedOTP[index] = value;
-  //   setFormData((prev) => ({ ...prev, otp: updatedOTP }));
-  // };
+  const handleOTPChange = (index, value) => {
+    const updatedOTP = [...formData.otp];
+    updatedOTP[index] = value;
+    setFormData((prev) => ({ ...prev, otp: updatedOTP }));
+
+    if (value === "" && index > 0) {
+      otpInputs.current[index - 1].focus();
+    } else if (/^\d$/.test(value) && index < otpInputs.current.length - 1) {
+      otpInputs.current[index + 1].focus();
+    }
+  };
   // const handleContinue = () => {
   //   const enteredOTP = formData.otp.join("");
   //   if (enteredOTP === generatedOTP) {
   //     setOtpVerified(true);
-  //     navigation.navigate("DoctorMedicalRegistration")
+  //     navigation.navigate("DoctorMedicalRegistration");
   //   } else {
   //     setOtpVerified(false);
   //     alert("Invalid OTP. Please try again.");
   //   }
   // };
+  const handleContinue = async () => {
+    const enteredOTP = formData.otp.join("");
+
+    if (enteredOTP !== generatedOTP) {
+      alert("Invalid OTP. Please try again.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://YOUR_BACKEND_URL/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          location: formData.location,
+          phone: formData.phone,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Registration successful!");
+        navigation.navigate("DoctorMedicalRegistration");
+      } else {
+        alert(data.error || "Registration failed.");
+      }
+    } catch (error) {
+      alert("Network error. Try again.");
+      console.error("Registration error:", error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -58,31 +102,59 @@ const DoctorsLogin = () => {
             <Text style={styles.inputHeading}>Name</Text>
             <TextInput
               placeholder="Enter your name..."
-              style={styles.inputContainer}
+              placeholderTextColor="#c0c0c0"
+              style={[
+                styles.inputContainer,
+                { color: formData.name ? "black" : "#c0c0c0" },
+              ]}
               value={formData.name}
               onChangeText={(val) => handleChange("name", val)}
             />
             <Text style={styles.inputHeading}>Email Id</Text>
             <TextInput
               placeholder="Enter your email..."
-              style={styles.inputContainer}
+              placeholderTextColor="#c0c0c0"
+              style={[
+                styles.inputContainer,
+                { color: formData.email ? "black" : "#c0c0c0" },
+              ]}
               value={formData.email}
               onChangeText={(val) => handleChange("email", val)}
             />
             <Text style={styles.inputHeading}>Establishment Location</Text>
             <TextInput
               placeholder="Enter your location..."
-              style={styles.inputContainer}
+              placeholderTextColor="#c0c0c0"
+              style={[
+                styles.inputContainer,
+                { color: formData.location ? "black" : "#c0c0c0" },
+              ]}
               value={formData.location}
               onChangeText={(val) => handleChange("location", val)}
             />
             <Text style={styles.inputHeading}>Phone No</Text>
             <TextInput
               placeholder="Enter your phone number..."
+              placeholderTextColor="#c0c0c0"
               keyboardType="phone-pad"
-              style={styles.inputContainer}
+              style={[
+                styles.inputContainer,
+                { color: formData.phone ? "black" : "#c0c0c0" },
+              ]}
               value={formData.phone}
               onChangeText={(val) => handleChange("phone", val)}
+            />
+            <Text style={styles.inputHeading}>Password</Text>
+            <TextInput
+              placeholder="Enter your password..."
+              placeholderTextColor="#c0c0c0"
+              secureTextEntry
+              style={[
+                styles.inputContainer,
+                { color: formData.password ? "black" : "#c0c0c0" },
+              ]}
+              value={formData.password}
+              onChangeText={(val) => handleChange("password", val)}
             />
 
             <Text style={styles.note}>
@@ -97,19 +169,19 @@ const DoctorsLogin = () => {
             </TouchableOpacity>
 
             {/* {showOTPInput && (
-                            <View style={styles.otpInputContainer}>
-                                {formData.otp.map((digit, index) => (
-                                    <TextInput
-                                        key={index}
-                                        style={styles.otpInput}
-                                        maxLength={1}
-                                        keyboardType="number-pad"
-                                        value={digit}
-                                        onChangeText={(val) => handleOTPChange(index, val)}
-                                    />
-                                ))}
-                            </View>
-                        )} */}
+              <View style={styles.otpInputContainer}>
+                {formData.otp.map((digit, index) => (
+                  <TextInput
+                    key={index}
+                    style={styles.otpInput}
+                    maxLength={1}
+                    keyboardType="number-pad"
+                    value={digit}
+                    onChangeText={(val) => handleOTPChange(index, val)}
+                  />
+                ))}
+              </View>
+            )} */}
             {showOTPInput &&
               (otpVerified ? (
                 <View style={styles.verificationContainer}>
@@ -127,6 +199,7 @@ const DoctorsLogin = () => {
                   {formData.otp.map((digit, index) => (
                     <TextInput
                       key={index}
+                      ref={(ref) => (otpInputs.current[index] = ref)}
                       style={styles.otpInput}
                       maxLength={1}
                       keyboardType="number-pad"
@@ -139,14 +212,20 @@ const DoctorsLogin = () => {
 
             <TouchableOpacity
               style={styles.continueContainer}
-              // onPress={handleContinue}
-              onPress={() => navigation.navigate("DoctorMedicalRegistration")}
+              onPress={handleContinue}
+              // onPress={() => navigation.navigate("DoctorMedicalRegistration")}
             >
               <Text style={styles.continueText}>Continue</Text>
               <Image
                 style={styles.arrowIcon}
                 source={require("../../../assets/DoctorsPortal/Icons/ArrowIcon.png")}
               />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.continueContainer}
+              onPress={() => navigation.navigate("DoctorMedicalRegistration")}
+            >
+              <Text style={styles.continueText}>Skip</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -182,7 +261,7 @@ const styles = StyleSheet.create({
   },
   details: {
     width: "60%",
-    gap: 10,
+    gap: 5,
   },
   inputHeading: {
     fontSize: 16,
@@ -194,11 +273,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: "#fff",
     borderRadius: 8,
-    shadowColor: "#000",
+    shadowColor: "#fff",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 3,
+    //color:"#c0c0c0"
   },
   note: {
     fontSize: 13,
@@ -255,7 +335,7 @@ const styles = StyleSheet.create({
     marginLeft: "10%",
     width: "40%",
     height: 40,
-    marginTop: "10%",
+    marginTop: "5%",
     backgroundColor: "#FF7072",
     flexDirection: "row",
     alignItems: "center",

@@ -83,7 +83,10 @@ const NewestSidebar = ({ closeSidebar, activeItem = "Calendar" }) => {
   return (
     <View style={styles.sidebar_content}>
       {/* Top Section with Logo */}
-      <View style={styles.top_sidebar}>
+      <TouchableOpacity
+        style={styles.top_sidebar}
+        onPress={() => navigation.navigate("DoctorPatientLandingPage")}
+      >
         <View style={styles.topimage_sidebar}>
           <Image
             source={require("../../assets/DoctorsPortal/Images/KokoroLogo.png")}
@@ -99,7 +102,7 @@ const NewestSidebar = ({ closeSidebar, activeItem = "Calendar" }) => {
             <MaterialIcons name="arrow-back" size={24} color="grey" />
           </Pressable>
         )}
-      </View>
+      </TouchableOpacity>
 
       {/* Upper Menu Items */}
       <View style={styles.upper_sidebar}>

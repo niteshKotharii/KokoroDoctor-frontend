@@ -26,6 +26,7 @@ import ProfileSetting from "../screens/DoctorScreens/Settings/ProfileSetting";
 import SubscriberFees from "../screens/DoctorScreens/Settings/SubscriberFees";
 import ThemeSettings from "../screens/DoctorScreens/Settings/ThemeSettings";
 import Reminder from "../screens/DoctorScreens/ReminderNewest";
+import BookAppointmentScreen from "../screens/DoctorScreens/BookAppointmentsView";
 
 const Stack = createNativeStackNavigator();
 
@@ -150,6 +151,11 @@ const DoctorAppNavigation = ({ navigationRef }) => {
           <Stack.Screen
             name="ReminderNewest"
             component={Reminder}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="BookAppointmentsView"
+            component={BookAppointmentScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

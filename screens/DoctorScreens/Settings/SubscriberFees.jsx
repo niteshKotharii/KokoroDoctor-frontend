@@ -1,7 +1,5 @@
-"use client"
-
-import { useState } from "react"
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity, TextInput } from "react-native"
+import { useState, useRef, useEffect } from "react"
+import { Text, View, StyleSheet, ScrollView, TouchableOpacity, TextInput, Animated, Easing } from "react-native"
 import SideBarNavigation from "../../../components/DoctorsPortalComponents/NewestSidebar"
 import SettingsNavigation from "../../../components/DoctorsPortalComponents/SettingsNavigation"
 import HeaderNavigation from "../../../components/DoctorsPortalComponents/HeaderNavigation"
@@ -10,23 +8,76 @@ const SubscriberFees = ({ navigation, route }) => {
   const [fees, setFees] = useState("1999") 
   const [regularCheckups, setRegularCheckups] = useState(1)
   const [emergencyCheckups, setEmergencyCheckups] = useState(1)
+  const [enableEmergencyConsults, setEnableEmergencyConsults] = useState(false)
+  const [emergencyConsultsLimit, setEmergencyConsultsLimit] = useState(3)
 
   const handleIncrement = (type) => {
     if (type === 'regular') {
       setRegularCheckups(prev => prev + 1)
-    } else {
+    } else if (type === 'emergency') {
       setEmergencyCheckups(prev => prev + 1)
+    } else if (type === 'limit') {
+      setEmergencyConsultsLimit(prev => prev + 1)
     }
   }
 
   const handleDecrement = (type) => {
     if (type === 'regular' && regularCheckups > 0) {
       setRegularCheckups(prev => prev - 1)
-    } else if (emergencyCheckups > 0) {
+    } else if (type === 'emergency' && emergencyCheckups > 0) {
       setEmergencyCheckups(prev => prev - 1)
+    } else if (type === 'limit' && emergencyConsultsLimit > 0) {
+      setEmergencyConsultsLimit(prev => prev - 1)
     }
   }
+//CustomSwitch component
+const CustomSwitch = ({ value, onValueChange, disabled = false }) => {
+  const translateX = useRef(new Animated.Value(value ? 24 : 4)).current; 
 
+  useEffect(() => {
+    Animated.timing(translateX, {
+      toValue: value ? 24 : 4,
+      duration: 200,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  }, [value, translateX]);
+
+  return (
+    <TouchableOpacity 
+      activeOpacity={0.8} 
+      onPress={() => {
+        if (!disabled) {
+          onValueChange(!value);
+        }
+      }} 
+      disabled={disabled} 
+      style={switchStyles.container}
+    >
+      <View
+        style={[
+          switchStyles.track,
+          {
+            backgroundColor: value ? "#FF7072" : "#FFFFFF",
+            borderWidth: 1,
+            borderColor: value ? "#FF7072" : "#D1D1D1",
+            opacity: disabled ? 0.5 : 1,
+          },
+        ]}
+      >
+        <Animated.View
+          style={[
+            switchStyles.thumb,
+            {
+              backgroundColor: "#FFFFFF",
+              transform: [{ translateX }], // Use translateX 
+            },
+          ]}
+        />
+      </View>
+    </TouchableOpacity>
+  );
+}
   return (
     <View style={styles.container}>
       <View style={styles.parent}>
@@ -105,6 +156,33 @@ const SubscriberFees = ({ navigation, route }) => {
                   </View>
                 </View>
                 <View style={styles.divider} />
+
+                <View style={styles.formRow}>
+                  <Text style={styles.inputLabel}>Enable emergency Consults</Text>
+                  <View style={styles.counterContainer}>
+                    <CustomSwitch
+                      value={enableEmergencyConsults}
+                      onValueChange={setEnableEmergencyConsults}
+                    />
+                    <Text style={styles.limitLabel}>Limit</Text>
+                    <TouchableOpacity 
+                      style={styles.counterButton}
+                      onPress={() => handleDecrement('limit')}
+                    >
+                      <Text style={styles.counterButtonText}>-</Text>
+                    </TouchableOpacity>
+                    <View style={styles.counterValueContainer}>
+                      <Text style={styles.counterValue}>{emergencyConsultsLimit}</Text>
+                    </View>
+                    <TouchableOpacity 
+                      style={styles.counterButton}
+                      onPress={() => handleIncrement('limit')}
+                    >
+                      <Text style={styles.counterButtonText}>+</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <View style={styles.divider} />
               </View>
             </View>
           </ScrollView>
@@ -113,8 +191,6 @@ const SubscriberFees = ({ navigation, route }) => {
     </View>
   )
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -264,6 +340,38 @@ const styles = StyleSheet.create({
   },
   counterValue: {
     fontSize: 16,
+  },
+  limitLabel: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#333",
+    marginLeft: 20,
+    marginRight: 10,
+  }
+})
+
+// Styles for the custom switch
+const switchStyles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  track: {
+    width: 52,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: "center",
+  },
+  thumb: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: "#FFFFFF",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
   },
 })
 

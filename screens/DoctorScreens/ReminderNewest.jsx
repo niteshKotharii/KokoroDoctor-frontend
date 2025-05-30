@@ -9,128 +9,11 @@ import {
   ScrollView,
   Platform,
   Pressable,
-  useWindowDimensions,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import NewestSidebar from "../../components/DoctorsPortalComponents/NewestSidebar"; // Import the sidebar component
 
-// Newest Side Navigation Bar Component
-const NewestSidebar = ({ activeItem = "Reminder" }) => {
-  const navigation = useNavigation();
-  const { width } = useWindowDimensions();
-  const [selectedItem, setSelectedItem] = useState(activeItem);
-
-  const menuItems = [
-    {
-      name: "Calendar",
-      icon: require("../../assets/DoctorsPortal/Icons/calendar.png"),
-    },
-    {
-      name: "Appointments",
-      icon: require("../../assets/DoctorsPortal/Icons/appointment.png"),
-    },
-    {
-      name: "History",
-      icon: require("../../assets/DoctorsPortal/Icons/history.png"),
-    },
-    {
-      name: "Reminder",
-      icon: require("../../assets/DoctorsPortal/Icons/reminder.png"),
-    },
-    {
-      name: "Notification",
-      icon: require("../../assets/DoctorsPortal/Icons/notification2.png"),
-    },
-  ];
-
-  const lowerMenuItems = [
-    {
-      name: "Settings",
-      icon: require("../../assets/DoctorsPortal/Icons/GearSix.png"),
-    },
-    {
-      name: "Contact Us",
-      icon: require("../../assets/DoctorsPortal/Icons/cloudcheck.png"),
-    },
-    {
-      name: "Help",
-      icon: require("../../assets/DoctorsPortal/Icons/help.png"),
-    },
-  ];
-
-  const handleSidebarClick = (menu) => {
-    setSelectedItem(menu);
-    navigation.navigate(menu);
-  };
-
-  return (
-    <View style={sidebarStyles.parent}>
-      {/* Top Section with Logo */}
-      <View style={sidebarStyles.top_sidebar}>
-        <View style={sidebarStyles.topimage_sidebar}>
-          <Image
-            source={require("../../assets/DoctorsPortal/Images/KokoroLogo.png")}
-            style={sidebarStyles.heartImage}
-          />
-        </View>
-        <Text style={sidebarStyles.title}>Kokoro.Doctor</Text>
-      </View>
-
-      {/* Upper Menu Items */}
-      <View style={sidebarStyles.upper_sidebar}>
-        {menuItems.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            activeOpacity={0.6}
-            style={[
-              sidebarStyles.menuItemContainer,
-              selectedItem === item.name && sidebarStyles.selectedMenuItem,
-            ]}
-            onPress={() => handleSidebarClick(item.name)}
-          >
-            <Image source={item.icon} style={sidebarStyles.menuIcon} />
-            <Text
-              style={[
-                sidebarStyles.menuText,
-                selectedItem === item.name && sidebarStyles.selectedMenuText,
-              ]}
-            >
-              {item.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* Lower Menu Items */}
-      <View style={sidebarStyles.lower_sidebar}>
-        {lowerMenuItems.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            activeOpacity={0.6}
-            style={[
-              sidebarStyles.menuItemContainer,
-              selectedItem === item.name && sidebarStyles.selectedMenuItem,
-            ]}
-            onPress={() => handleSidebarClick(item.name)}
-          >
-            <Image source={item.icon} style={sidebarStyles.menuIcon} />
-            <Text
-              style={[
-                sidebarStyles.menuText,
-                selectedItem === item.name && sidebarStyles.selectedMenuText,
-              ]}
-            >
-              {item.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </View>
-  );
-};
-
-// Main Reminder Screen Component
-const Reminder = () => {
+const ReminderScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showTypeDropdown, setShowTypeDropdown] = useState(false);
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
@@ -139,41 +22,36 @@ const Reminder = () => {
   const [reminders, setReminders] = useState([
     {
       id: 1,
-      time: "9:00 AM",
+      time: "09:00",
       priority: "Medium",
       title: "Routine Checkup",
-      patient: "Starch Johnson",
+      patient: "Sarah Johnson",
       enabled: true,
     },
     {
       id: 2,
-      time: "10:30 AM",
-      priority: "High",
-      title: "Follow-up Visit",
+      time: "09:00",
+      priority: "Medium",
+      title: "Routine Checkup",
       patient: "Sarah Johnson",
-      enabled: false,
+      enabled: true,
     },
     {
       id: 3,
-      time: "2:15 PM",
-      priority: "Low",
-      title: "Annual Physical",
-      patient: "Michael Brown",
+      time: "09:00",
+      priority: "Medium",
+      title: "Routine Checkup",
+      patient: "Sarah Johnson",
       enabled: true,
     },
   ]);
 
-  const reminderTypes = [
-    "All Types",
-    "Routine Checkup",
-    "Follow-up",
-    "Emergency",
-  ];
+  const reminderTypes = ["All Types", "Routine Checkup", "Follow-up", "Emergency"];
   const reminderStatuses = ["All Status", "Enabled", "Disabled"];
 
   const toggleReminder = (id) => {
-    setReminders((prevReminders) =>
-      prevReminders.map((reminder) =>
+    setReminders(prevReminders =>
+      prevReminders.map(reminder =>
         reminder.id === id
           ? { ...reminder, enabled: !reminder.enabled }
           : reminder
@@ -181,157 +59,147 @@ const Reminder = () => {
     );
   };
 
-  const filteredReminders = reminders.filter((reminder) => {
-    const matchesSearch =
-      reminder.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      reminder.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesType =
-      selectedType === "All Types" || reminder.title === selectedType;
-    const matchesStatus =
-      selectedStatus === "All Status" ||
-      (selectedStatus === "Enabled" && reminder.enabled) ||
-      (selectedStatus === "Disabled" && !reminder.enabled);
-
+  const filteredReminders = reminders.filter(reminder => {
+    const matchesSearch = reminder.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         reminder.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesType = selectedType === "All Types" || reminder.title === selectedType;
+    const matchesStatus = selectedStatus === "All Status" || 
+                         (selectedStatus === "Enabled" && reminder.enabled) ||
+                         (selectedStatus === "Disabled" && !reminder.enabled);
+    
     return matchesSearch && matchesType && matchesStatus;
   });
 
   return (
     <View style={styles.container}>
       {/* Side Navigation Bar */}
-      <NewestSidebar activeItem="Reminder" />
+      <View style={styles.sidebarContainer}>
+        <NewestSidebar activeItem="Reminder" />
+      </View>
 
       {/* Main Content Area */}
       <View style={styles.mainContent}>
         <Text style={styles.screenTitle}>Reminder</Text>
-
+        
         {/* Search and Filter Section */}
         <View style={styles.searchFilterContainer}>
           <View style={styles.searchContainer}>
+            <MaterialIcons name="search" size={20} color="#888" style={styles.searchIcon} />
             <TextInput
               style={styles.searchInput}
-              placeholder="Search appointments..."
-              placeholderTextColor="#999"
+              placeholder="Search Appointment"
               value={searchQuery}
               onChangeText={setSearchQuery}
             />
           </View>
-
+          
           <View style={styles.filterContainer}>
             {/* Type Dropdown */}
-            <View style={styles.dropdownWrapper}>
-              <TouchableOpacity
-                style={styles.filterButton}
-                onPress={() => {
-                  setShowTypeDropdown(!showTypeDropdown);
-                  setShowStatusDropdown(false);
-                }}
-              >
-                <Text style={styles.filterButtonText}>{selectedType}</Text>
-                <Image
-                  source={require("../../assets/DoctorsPortal/Icons/DropdownArrow.png")}
-                  style={styles.dropdownIcon}
-                />
-              </TouchableOpacity>
-
-              {showTypeDropdown && (
-                <View style={[styles.dropdown, { zIndex: 2 }]}>
-                  {reminderTypes.map((type, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      style={styles.dropdownItem}
-                      onPress={() => {
-                        setSelectedType(type);
-                        setShowTypeDropdown(false);
-                      }}
-                    >
-                      <Text style={styles.dropdownItemText}>{type}</Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              )}
-            </View>
-
+            <TouchableOpacity 
+              style={styles.filterButton}
+              onPress={() => {
+                setShowTypeDropdown(!showTypeDropdown);
+                setShowStatusDropdown(false);
+              }}
+            >
+              <Text style={styles.filterButtonText}>{selectedType}</Text>
+              <MaterialIcons name="arrow-drop-down" size={20} color="#888" />
+            </TouchableOpacity>
+            
             {/* Status Dropdown */}
-            <View style={styles.dropdownWrapper}>
-              <TouchableOpacity
-                style={styles.filterButton}
-                onPress={() => {
-                  setShowStatusDropdown(!showStatusDropdown);
-                  setShowTypeDropdown(false);
-                }}
-              >
-                <Text style={styles.filterButtonText}>{selectedStatus}</Text>
-                <Image
-                  source={require("../../assets/DoctorsPortal/Icons/DropdownArrow.png")}
-                  style={styles.dropdownIcon}
-                />
-              </TouchableOpacity>
-
-              {showStatusDropdown && (
-                <View style={[styles.dropdown, { zIndex: 1 }]}>
-                  {reminderStatuses.map((status, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      style={styles.dropdownItem}
-                      onPress={() => {
-                        setSelectedStatus(status);
-                        setShowStatusDropdown(false);
-                      }}
-                    >
-                      <Text style={styles.dropdownItemText}>{status}</Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              )}
-            </View>
+            <TouchableOpacity 
+              style={styles.filterButton}
+              onPress={() => {
+                setShowStatusDropdown(!showStatusDropdown);
+                setShowTypeDropdown(false);
+              }}
+            >
+              <Text style={styles.filterButtonText}>{selectedStatus}</Text>
+              <MaterialIcons name="arrow-drop-down" size={20} color="#888" />
+            </TouchableOpacity>
+            
+            {/* New Reminder Button */}
+            <TouchableOpacity style={styles.newReminderButton}>
+              <MaterialIcons name="add" size={20} color="#FFF" />
+              <Text style={styles.newReminderText}>New Reminder</Text>
+            </TouchableOpacity>
+            
+            {/* Notification Icon */}
+            <TouchableOpacity style={styles.notificationButton}>
+              <MaterialIcons name="notifications" size={24} color="#333" />
+            </TouchableOpacity>
           </View>
+          
+          {/* Type Dropdown Menu */}
+          {showTypeDropdown && (
+            <View style={[styles.dropdown, { top: 130, left: '26%' }]}>
+              {reminderTypes.map((type, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.dropdownItem}
+                  onPress={() => {
+                    setSelectedType(type);
+                    setShowTypeDropdown(false);
+                  }}
+                >
+                  <Text style={styles.dropdownItemText}>{type}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+          
+          {/* Status Dropdown Menu */}
+          {showStatusDropdown && (
+            <View style={[styles.dropdown, { top: 130, left: '41%' }]}>
+              {reminderStatuses.map((status, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.dropdownItem}
+                  onPress={() => {
+                    setSelectedStatus(status);
+                    setShowStatusDropdown(false);
+                  }}
+                >
+                  <Text style={styles.dropdownItemText}>{status}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
         </View>
-
-        {/* Reminders List */}
-        <ScrollView style={styles.remindersContainer}>
+        
+        {/* Reminders Cards Grid */}
+        <ScrollView style={styles.remindersContainer} contentContainerStyle={styles.reminderGrid}>
           {filteredReminders.length > 0 ? (
             filteredReminders.map((reminder) => (
               <View key={reminder.id} style={styles.reminderCard}>
                 <View style={styles.reminderHeader}>
-                  <View style={styles.timePriorityContainer}>
-                    <Text style={styles.timeText}>[{reminder.time}]</Text>
-                    <Text
-                      style={[
-                        styles.priorityText,
-                        reminder.priority === "High" && styles.highPriority,
-                        reminder.priority === "Medium" && styles.mediumPriority,
-                        reminder.priority === "Low" && styles.lowPriority,
-                      ]}
-                    >
-                      {reminder.priority}
-                    </Text>
+                  <View style={styles.iconContainer}>
+                    <MaterialIcons name="alarm" size={20} color="#FF7072" />
                   </View>
-
-                  <View style={styles.reminderTitleContainer}>
-                    <Text style={styles.reminderTitle}>{reminder.title}</Text>
+                  <Text style={styles.patientName}>{reminder.patient}</Text>
+                  <View style={styles.timeContainer}>
+                    <Text style={styles.timeLabel}>[{reminder.time}] AM</Text>
+                    <View style={styles.priorityBadge}>
+                      <Text style={styles.priorityText}>{reminder.priority}</Text>
+                    </View>
                   </View>
                 </View>
-
-                <View style={styles.reminderFooter}>
-                  <TouchableOpacity
-                    style={[
-                      styles.toggleButton,
-                      reminder.enabled
-                        ? styles.toggleButtonOn
-                        : styles.toggleButtonOff,
-                    ]}
+                
+                <View style={styles.reminderContent}>
+                  <Text style={styles.reminderTitle}>{reminder.title}</Text>
+                </View>
+                
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity 
+                    style={styles.enableButton}
                     onPress={() => toggleReminder(reminder.id)}
                   >
-                    <Text style={styles.toggleButtonText}>
-                      {reminder.enabled ? "Enable" : "Disable"}
-                    </Text>
+                    <Text style={styles.buttonText}>Enable</Text>
                   </TouchableOpacity>
-
+                  
                   <TouchableOpacity style={styles.snoozeButton}>
-                    <Text style={styles.snoozeButtonText}>Snooze</Text>
+                    <Text style={styles.buttonText}>Snooze</Text>
                   </TouchableOpacity>
-
-                  <Text style={styles.patientName}>{reminder.patient}</Text>
                 </View>
               </View>
             ))
@@ -346,88 +214,105 @@ const Reminder = () => {
   );
 };
 
-// Main Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
     backgroundColor: "#FFF",
+  },
+  sidebarContainer: {
+    width: "15%",
     height: "100%",
   },
   mainContent: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#F8F8F8",
+    backgroundColor: "#FDF8F8",
   },
   screenTitle: {
     fontSize: 24,
     fontWeight: "bold",
     color: "#333",
     marginBottom: 20,
-    marginLeft: 5,
   },
   searchFilterContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#E6E9FF",
+    padding: 16,
+    borderRadius: 10,
     marginBottom: 20,
+    position: "relative",
   },
   searchContainer: {
-    width: "50%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFF",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    width: "40%",
+  },
+  searchIcon: {
+    marginRight: 8,
   },
   searchInput: {
-    height: 40,
-    borderColor: "#DDD",
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 15,
-    backgroundColor: "#FFF",
+    flex: 1,
     fontSize: 14,
     color: "#333",
   },
   filterContainer: {
     flexDirection: "row",
-    width: "45%",
-    justifyContent: "space-between",
-  },
-  dropdownWrapper: {
-    width: "48%",
-    position: "relative",
+    alignItems: "center",
   },
   filterButton: {
+    backgroundColor: "#FFF",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    borderWidth: 1,
-    borderColor: "#DDD",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    backgroundColor: "#FFF",
-    width: "100%",
+    marginRight: 10,
+    width: 120,
   },
   filterButtonText: {
     color: "#333",
     fontSize: 14,
   },
-  dropdownIcon: {
-    width: 16,
-    height: 16,
-    tintColor: "#666",
+  newReminderButton: {
+    backgroundColor: "#FF7072",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginRight: 10,
+  },
+  newReminderText: {
+    color: "#FFF",
+    fontSize: 14,
+    fontWeight: "500",
+    marginLeft: 5,
+  },
+  notificationButton: {
+    padding: 8,
   },
   dropdown: {
     position: "absolute",
-    top: 40,
-    left: 0,
-    width: "100%",
     backgroundColor: "#FFF",
     borderWidth: 1,
     borderColor: "#DDD",
     borderRadius: 8,
+    width: 120,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 5,
+    zIndex: 10,
   },
   dropdownItem: {
     padding: 12,
@@ -441,13 +326,17 @@ const styles = StyleSheet.create({
   remindersContainer: {
     flex: 1,
   },
+  reminderGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
   reminderCard: {
     backgroundColor: "#FFF",
-    borderRadius: 12,
+    borderRadius: 10,
     padding: 16,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: "#EEE",
+    marginBottom: 16,
+    width: "32%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
@@ -456,85 +345,66 @@ const styles = StyleSheet.create({
   },
   reminderHeader: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 12,
   },
-  timePriorityContainer: {
+  iconContainer: {
+    marginRight: 10,
+  },
+  patientName: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  timeContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
-  timeText: {
-    color: "#555",
+  timeLabel: {
     fontSize: 14,
+    color: "#666",
     marginRight: 10,
   },
-  priorityText: {
+  priorityBadge: {
+    backgroundColor: "#FFF8E1",
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
+  },
+  priorityText: {
+    color: "#FFA000",
     fontSize: 12,
     fontWeight: "500",
   },
-  highPriority: {
-    backgroundColor: "#FFEBEE",
-    color: "#D32F2F",
-  },
-  mediumPriority: {
-    backgroundColor: "#FFF8E1",
-    color: "#FFA000",
-  },
-  lowPriority: {
-    backgroundColor: "#E8F5E9",
-    color: "#388E3C",
-  },
-  reminderTitleContainer: {
-    flex: 1,
-    marginLeft: 15,
+  reminderContent: {
+    marginBottom: 16,
   },
   reminderTitle: {
-    color: "#333",
-    fontWeight: "600",
-    fontSize: 16,
+    fontSize: 15,
+    color: "#555",
   },
-  reminderFooter: {
+  buttonContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    alignItems: "center",
-    marginTop: 10,
   },
-  toggleButton: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+  enableButton: {
+    backgroundColor: "#FF7072",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     borderRadius: 6,
     marginRight: 10,
   },
-  toggleButtonOn: {
-    backgroundColor: "#4CAF50",
-  },
-  toggleButtonOff: {
-    backgroundColor: "#F44336",
-  },
-  toggleButtonText: {
-    color: "#FFF",
-    fontSize: 12,
-    fontWeight: "500",
-  },
   snoozeButton: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 6,
     backgroundColor: "#2196F3",
-    marginRight: "auto",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 6,
   },
-  snoozeButtonText: {
+  buttonText: {
     color: "#FFF",
     fontSize: 12,
     fontWeight: "500",
-  },
-  patientName: {
-    color: "#333",
-    fontWeight: "600",
-    fontSize: 14,
   },
   noResultsContainer: {
     flex: 1,
@@ -548,75 +418,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// Sidebar Styles (separate to avoid conflicts)
-const sidebarStyles = StyleSheet.create({
-  parent: {
-    width: "15%",
-    height: "100%",
-    backgroundColor: "#FFF",
-    borderRightWidth: 1,
-    borderRightColor: "#EEE",
-  },
-  top_sidebar: {
-    height: "10%",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: "5%",
-    marginBottom: 40,
-    marginTop: 10,
-  },
-  topimage_sidebar: {
-    width: "15%",
-    marginVertical: "1%",
-    flexDirection: "row",
-  },
-  heartImage: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-  },
-  title: {
-    width: "70%",
-    fontSize: 18,
-    color: "rgba(0, 0, 0, 0.46)",
-    fontWeight: "bold",
-    marginLeft: 10,
-  },
-  upper_sidebar: {
-    height: "40%",
-    marginBottom: 50,
-  },
-  lower_sidebar: {
-    height: "30%",
-    justifyContent: "center",
-    paddingBottom: 20,
-  },
-  menuItemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    marginBottom: 8,
-  },
-  menuIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 12,
-    resizeMode: "contain",
-    tintColor: "#666",
-  },
-  menuText: {
-    width: "85%",
-    fontSize: 14,
-    color: "#333",
-  },
-  selectedMenuItem: {
-    backgroundColor: "#FF7072",
-  },
-  selectedMenuText: {
-    color: "#FFF",
-  },
-});
-
-export default Reminder;
+export default ReminderScreen;

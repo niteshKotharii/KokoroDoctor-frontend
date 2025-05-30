@@ -36,7 +36,7 @@ const DoctorAvailabilitySlots = ({ navigation, route }) => {
               style={styles.bookAppointmentButton}
               onPress={() => {navigation.navigate("AppDoctorsRating")}}
             >
-              <Text style={styles.bookAppointmentText}>Book Appointment</Text>
+              <Text style={styles.bookAppointmentText}>Subscribe</Text>
             </TouchableOpacity>
           </View>
         </View>

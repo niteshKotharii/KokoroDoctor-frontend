@@ -33,7 +33,7 @@ const NewSideNav = () => {
     // setSelectedItem(menu);  //used for the red color color but is not working as intended
     if (menu === "Home") {
       if (isRegistered) {
-        navigation.navigate("CalendarView"); 
+        navigation.navigate("CalendarView");
       } else {
         navigation.navigate("DoctorPatientLandingPage");
       }
@@ -50,7 +50,10 @@ const NewSideNav = () => {
   return (
     <>
       <View style={styles.parent}>
-        <View style={styles.top_sidebar}>
+        <TouchableOpacity
+          style={styles.top_sidebar}
+          onPress={() => navigation.navigate("DoctorPatientLandingPage")}
+        >
           <View style={styles.topimage_sidebar}>
             <Image
               source={require("../../assets/Images/KokoroLogo.png")}
@@ -59,7 +62,7 @@ const NewSideNav = () => {
           </View>
 
           <Text style={styles.title}>Kokoro.Doctor</Text>
-        </View>
+        </TouchableOpacity>
 
         <View style={styles.upper_sidebar}>
           {/* Dynamic Menu Items with Icons */}

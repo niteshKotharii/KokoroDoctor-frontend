@@ -18,7 +18,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SideBarNavigation from "../../../components/PatientScreenComponents/SideBarNavigation";
 import Header from "../../../components/PatientScreenComponents/Header";
 
-const {width, height} = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 const DoctorsInfoWithRating = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
@@ -200,15 +200,30 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                                   {review.text}
                                 </Text>
                                 <View style={styles.reviewerContainer}>
-                                  <MaterialIcons name="star" size={16} color="#FFD700"
+                                  <MaterialIcons
+                                    name="star"
+                                    size={16}
+                                    color="#FFD700"
                                   />
-                                  <MaterialIcons name="star" size={16} color="#FFD700"
+                                  <MaterialIcons
+                                    name="star"
+                                    size={16}
+                                    color="#FFD700"
                                   />
-                                  <MaterialIcons name="star" size={16} color="#FFD700"
+                                  <MaterialIcons
+                                    name="star"
+                                    size={16}
+                                    color="#FFD700"
                                   />
-                                  <MaterialIcons name="star" size={16} color="#FFD700"
+                                  <MaterialIcons
+                                    name="star"
+                                    size={16}
+                                    color="#FFD700"
                                   />
-                                  <MaterialIcons name="star" size={16} color="#FFD700"
+                                  <MaterialIcons
+                                    name="star"
+                                    size={16}
+                                    color="#FFD700"
                                   />
                                   <Text style={styles.reviewerName}>
                                     {review.reviewer}
@@ -353,6 +368,22 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
               </TouchableOpacity>
             </View>
           </View>
+          <View style={styles.OfflineOnlineMode}>
+            <TouchableOpacity style={styles.OfflineMode}>
+              <Image
+                source={require("../../../assets/Icons/offline.png")}
+                style={styles.offlineIcon}
+              />
+              <Text style={styles.offlineText}>Offline Appointment</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.OnlineMode}>
+            <Image
+                source={require("../../../assets/Icons/videocall.png")}
+                style={styles.onlineIcon}
+              />
+              <Text style={styles.onlineText}>Online Appointment</Text>
+            </TouchableOpacity>
+          </View>
 
           <View style={styles.consultationFess}>
             <View style={styles.iconBox}>
@@ -485,7 +516,7 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                 style={styles.viewAllButton}
                 onPress={() =>
                   navigation.navigate("DoctorAvailabilitySlots", {
-                    doctors : doctors,
+                    doctors: doctors,
                   })
                 }
               >
@@ -497,7 +528,7 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
             style={styles.bookAppointmentButton}
             onPress={handleBookAppointment}
           >
-            <Text style={styles.bookAppointmentText}>Book Appointment</Text>
+            <Text style={styles.bookAppointmentText}>Subscribe</Text>
           </TouchableOpacity>
           {/* </View> */}
         </View>
@@ -527,7 +558,7 @@ const styles = StyleSheet.create({
     marginVertical: "10%",
     alignSelf: "center",
   },
-  appImageContainer : {
+  appImageContainer: {
     height: "17%",
     width: "75%",
     //borderWidth: 1,
@@ -611,12 +642,66 @@ const styles = StyleSheet.create({
     color: "#000000",
     alignSelf: "center",
   },
+
+  OfflineOnlineMode: {
+    //borderWidth:1,
+    height: "7%",
+    width: "88%",
+    alignSelf: "center",
+    marginVertical: "2%",
+    borderRadius: 5,
+    boxShadow: " 0px 0px 4px 3px rgba(0, 0, 0, 0.25)",
+    backgroundColor: "rgba(255, 252, 252, 1)",
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  OfflineMode: {
+    borderWidth: 1,
+    height: "90%",
+    width: "49%",
+    alignSelf: "center",
+    borderColor: "#FF7072",
+    backgroundColor: "rgb(237, 111, 128)",
+    flexDirection:"row",
+    justifyContent:"space-around",
+    borderTopLeftRadius:5,
+    borderBottomLeftRadius:5
+  },
+  offlineIcon:{
+    alignSelf:"center",
+    height:20,
+    width:20
+  },
+  offlineText:{
+    color:"#fff",
+    alignSelf:"center",
+    fontSize:14,
+    fontWeight:500
+  },
+  OnlineMode: {
+    //borderWidth: 1,
+    height: "90%",
+    width: "49%",
+    alignSelf: "center",
+    flexDirection:"row",
+    justifyContent:"space-around"
+  },
+  onlineIcon:{
+    alignSelf:"center",
+    width:20,
+    height:14
+  },
+  onlineText:{
+    alignSelf:"center",
+    fontSize:14,
+    fontWeight:500
+  },
   consultationFess: {
     height: "7%",
     width: "88%",
     //borderWidth: 1,
     alignSelf: "center",
-    marginVertical: "2.5%",
+    marginVertical: "0.4%",
     borderRadius: 5,
     //borderColor:"red",
     boxShadow: " 0px 0px 4px 3px rgba(0, 0, 0, 0.25)",
@@ -673,7 +758,7 @@ const styles = StyleSheet.create({
     width: "88%",
     //borderWidth: 1,
     alignSelf: "center",
-    marginVertical: "8%",
+    marginVertical: "4%",
     overflow: "hidden",
     ...Platform.select({
       web: {
@@ -880,8 +965,8 @@ const styles = StyleSheet.create({
     marginBottom: "10%",
     borderRadius: 20,
     overflow: "hidden",
-    width:"90%",
-    marginHorizontal:"5%",
+    width: "90%",
+    marginHorizontal: "5%",
   },
   doctorProfileCard: {
     width: "60%",
@@ -1112,3 +1197,4 @@ const styles = StyleSheet.create({
 });
 
 export default DoctorsInfoWithRating;
+

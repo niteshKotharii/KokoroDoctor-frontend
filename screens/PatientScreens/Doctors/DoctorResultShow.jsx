@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import {
   Alert,
   Image,
@@ -22,7 +22,7 @@ import SideBarNavigation from "../../../components/PatientScreenComponents/SideB
 import Header from "../../../components/PatientScreenComponents/Header";
 import SearchBar from "../../../components/PatientScreenComponents/SearchBar";
 import DoctorAppointmentData from "../../../components/PatientScreenComponents/DoctorComponents/DoctorsAppointmentData";
-
+import PromoModal from "../../../components/PatientScreenComponents/PromoModal";
 // Create a platform-specific location implementation
 const GetLocationPolyfill = {
   getCurrentPosition: (options) => {
@@ -85,6 +85,21 @@ const DoctorResultShow = ({ navigation, route }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { width } = useWindowDimensions();
+  const [showPromo, setShowPromo] = useState(false);
+
+  useEffect(() => {
+    let timeoutId;
+
+    if (Platform.OS !== "web") {
+      timeoutId = setTimeout(() => {
+        setShowPromo(true);
+      }, 1000);
+    }
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -248,6 +263,7 @@ const DoctorResultShow = ({ navigation, route }) => {
           </View>
         </View>
       )}
+      <PromoModal isVisible={showPromo} onClose={() => setShowPromo(false)} />
     </>
   );
 };
@@ -301,10 +317,10 @@ const styles = StyleSheet.create({
     // borderColor: "black",
     zIndex: 2,
     ...Platform.select({
-      web:{
-        width:"100%",
-      }
-    })
+      web: {
+        width: "100%",
+      },
+    }),
   },
   contentContainer: {
     ...Platform.select({
