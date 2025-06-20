@@ -1,16 +1,26 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { View, Image, Text, TouchableOpacity, StyleSheet, Platform, Pressable, useWindowDimensions } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+  Pressable,
+  useWindowDimensions,
+} from "react-native";
 
-const SideBarNavigation = ({
-  navigation, closeSidebar 
-}) => {
-  const {width} = useWindowDimensions();
+const SideBarNavigation = ({ navigation, closeSidebar }) => {
+  const { width } = useWindowDimensions();
   const [selectedItem, setSelectedItem] = useState(null);
 
   const menuItems = [
     { name: "Home", icon: require("../../assets/Icons/HomeProfile.png") },
-    { name: "Subscribe to Sr.Doctors", icon: require("../../assets/Icons/doctorTool.png") },
+    {
+      name: "Subscribe to Sr.Doctors",
+      icon: require("../../assets/Icons/doctorTool.png"),
+    },
     {
       name: "Book Hospital",
       icon: require("../../assets/Icons/Medical Shield.png"),
@@ -39,17 +49,29 @@ const SideBarNavigation = ({
     if (menu === "Home") {
       navigation.navigate("LandingPage");
     } else if (menu === "About Us") {
-      navigation.navigate("AboutUs");
+      navigation.navigate("PatientAppNavigation", {
+        screen: "AboutUs",
+      });
     } else if (menu === "Subscribe to Sr.Doctors") {
-      navigation.navigate("Doctors");
+      navigation.navigate("PatientAppNavigation", {
+        screen: "Doctors",
+      });
     } else if (menu === "Book Hospital") {
-      navigation.navigate("Hospitals");
+      navigation.navigate("PatientAppNavigation", {
+        screen: "Hospitals",
+      });
     } else if (menu === "24/7 Cardiac Support") {
-      navigation.navigate("MobileChatbot");
+      navigation.navigate("PatientAppNavigation", {
+        screen: "MobileChatbot",
+      });
     } else if (menu === "Contact Us") {
-      navigation.navigate("ContactUs");
-    }else if (menu === "Settings") {
-      navigation.navigate("Reminder");
+      navigation.navigate("PatientAppNavigation", {
+        screen: "ContactUs",
+      });
+    } else if (menu === "Settings") {
+      navigation.navigate("PatientAppNavigation", {
+        screen: "Reminder",
+      });
     } else {
       navigation.navigate(menu);
     }
@@ -58,7 +80,6 @@ const SideBarNavigation = ({
   return (
     <View style={styles.sidebar_content}>
       <View style={styles.top_sidebar}>
-
         <View style={styles.topimage_sidebar}>
           <Image
             source={require("../../assets/Images/KokoroLogo.png")}
@@ -68,12 +89,11 @@ const SideBarNavigation = ({
 
         <Text style={styles.title}>Kokoro.Doctor</Text>
 
-        {(Platform.OS !== 'web' || width<900) &&
+        {(Platform.OS !== "web" || width < 900) && (
           <Pressable onPress={closeSidebar}>
             <MaterialIcons name="arrow-back" size={24} color="grey" />
           </Pressable>
-        }
-
+        )}
       </View>
       <View style={styles.upper_sidebar}>
         {/* Dynamic Menu Items with Icons */}
@@ -161,7 +181,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   title: {
-    width:"70%",
+    width: "70%",
     fontSize: 18,
     color: "rgba(0, 0, 0, 0.46)",
     fontWeight: "bold",
@@ -169,8 +189,8 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         width: "85%",
-      }
-    })
+      },
+    }),
   },
   upper_sidebar: {
     justifyContent: "center",
@@ -195,7 +215,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   menuText: {
-    width:"85%",
+    width: "85%",
     fontSize: 16,
     color: "#333",
   },
@@ -206,6 +226,5 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
 });
-
 
 export default SideBarNavigation;

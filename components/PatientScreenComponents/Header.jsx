@@ -14,19 +14,38 @@ import {
 import { AuthContext } from "../../contexts/AuthContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import SideBarNavigation from "./SideBarNavigation";
+//import DoctorPatientLandingPage from "../../screens/DoctorScreens/DoctorRegistration/DoctorPatientLandingPage1";
 
-const {width, height} = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 const Header = ({ navigation }) => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, setRole } = useContext(AuthContext);
   const { width } = useWindowDimensions();
   const [isSideBarVisible, setIsSideBarVisible] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
-  const handleOptionPress = (screen) => {
+  // const handleOptionPress = (screen) => {
+  //   setDropdownVisible(false);
+  //   navigation.navigate(screen);
+  // };
+  const handleOptionPress = () => {
     setDropdownVisible(false);
-    navigation.navigate(screen);
+    navigation.navigate("DoctorPatientLandingPage");
   };
+
+  // const handleOptionPress = async (type) => {
+  //   setDropdownVisible(false);
+
+  //   if (type === "Login") {
+  //     await AsyncStorage.setItem("userRole", "doctor"); // or "patient"
+  //     setRole("doctor");
+  //   }
+
+  //   if (type === "Signup") {
+  //     await AsyncStorage.setItem("userRole", "doctor");
+  //     setRole("doctor");
+  //   }
+  // };
 
   return (
     <View style={styles.header}>
@@ -36,47 +55,58 @@ const Header = ({ navigation }) => {
           {Platform.OS === "web" && width > 1000 && (
             <View style={[styles.userInfo, styles.userInfoWeb]}>
               <View style={styles.welcomeContainer}>
-                <Text style={styles.welcomeText}>Welcome {user?.name ? user?.name : "User"}!</Text>
+                <Text style={styles.welcomeText}>
+                  Welcome {user?.name ? user?.name : "User"}!
+                </Text>
                 <Text style={styles.subText}>
                   Here is your sales Medical dashboard
                 </Text>
               </View>
-        
+
               {/* Search Bar */}
               <View style={styles.searchContainer}>
-                <Image source={require("../../assets/Icons/search.png")} style={styles.searchIcon} resizeMode="contain"/>
+                <Image
+                  source={require("../../assets/Icons/search.png")}
+                  style={styles.searchIcon}
+                  resizeMode="contain"
+                />
                 <TextInput
                   style={styles.searchInput}
                   placeholder="Search your query"
                   placeholderTextColor="rgba(255, 255, 255, 1)"
                 />
               </View>
-        
+
               {/* Notification and Profile Section */}
-              <View style={{flexDirection:"row", gap: 10}}>
-                <Pressable style={styles.iconsContainer}>             
-                  <Image source={require("../../assets/Icons/notification1.png")} style={styles.notificationIcon} resizeMode="contain"/>
+              <View style={{ flexDirection: "row", gap: 10 }}>
+                <Pressable style={styles.iconsContainer}>
+                  <Image
+                    source={require("../../assets/Icons/notification1.png")}
+                    style={styles.notificationIcon}
+                    resizeMode="contain"
+                  />
                 </Pressable>
-                
+
                 {/* Profile Dropdown */}
                 <View style={styles.profileWrapper}>
-                  <Pressable onPress={() => setDropdownVisible(!dropdownVisible)}>
-                    <Image source={user?.picture ? { uri: user.picture } : require("../../assets/Images/user-icon.jpg")}
+                  <Pressable
+                    onPress={() => setDropdownVisible(!dropdownVisible)}
+                  >
+                    <Image
+                      source={
+                        user?.picture
+                          ? { uri: user.picture }
+                          : require("../../assets/Images/user-icon.jpg")
+                      }
                       style={styles.userIcon}
                     />
                   </Pressable>
                   {dropdownVisible && (
                     <View style={[styles.dropdownMain, styles.dropdownWeb]}>
-                      <Pressable
-                        onPress={() => {}}
-                        style={styles.dropdownItem}
-                      >
+                      <Pressable onPress={() => {}} style={styles.dropdownItem}>
                         <Text style={styles.dropdownText}>Profile</Text>
                       </Pressable>
-                      <Pressable
-                        onPress={logout}
-                        style={styles.dropdownItem}
-                      >
+                      <Pressable onPress={logout} style={styles.dropdownItem}>
                         <Text style={styles.dropdownText}>Logout</Text>
                       </Pressable>
                     </View>
@@ -132,26 +162,38 @@ const Header = ({ navigation }) => {
                   </View>
 
                   <View style={[styles.userInfo, styles.userInfoApp]}>
-                    <Pressable onPress={()=>{setDropdownVisible(!dropdownVisible)}}>
-                      <Image source={user?.picture ? { uri: user.picture } : require("../../assets/Images/user-icon.jpg")}
+                    <Pressable
+                      onPress={() => {
+                        setDropdownVisible(!dropdownVisible);
+                      }}
+                    >
+                      <Image
+                        source={
+                          user?.picture
+                            ? { uri: user.picture }
+                            : require("../../assets/Images/user-icon.jpg")
+                        }
                         style={styles.userIcon}
                       />
                     </Pressable>
                     <Pressable>
-                      <MaterialIcons name="notifications-none" size={24} color="black"/>
+                      <MaterialIcons
+                        name="notifications-none"
+                        size={24}
+                        color="black"
+                      />
                     </Pressable>
                     {dropdownVisible && (
-                      <View style={[styles.dropdownMain, styles.dropdownLoggedIn]}>
+                      <View
+                        style={[styles.dropdownMain, styles.dropdownLoggedIn]}
+                      >
                         <Pressable
                           onPress={() => {}}
                           style={styles.dropdownItem}
                         >
                           <Text style={styles.dropdownText}>Profile</Text>
                         </Pressable>
-                        <Pressable
-                          onPress={logout}
-                          style={styles.dropdownItem}
-                        >
+                        <Pressable onPress={logout} style={styles.dropdownItem}>
                           <Text style={styles.dropdownText}>Logout</Text>
                         </Pressable>
                       </View>
@@ -160,14 +202,29 @@ const Header = ({ navigation }) => {
                 </View>
 
                 <View style={styles.usernameApp}>
-                  <Text style={{fontWeight: "600", color: "#000000", fontSize: 20,}}>Hello,</Text>
-                  <Text style={{fontWeight: "800", color: "#000000", fontSize: 20,}}> {user?.name ? user?.name : "User"}!</Text>    
+                  <Text
+                    style={{
+                      fontWeight: "600",
+                      color: "#000000",
+                      fontSize: 20,
+                    }}
+                  >
+                    Hello,
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: "800",
+                      color: "#000000",
+                      fontSize: 20,
+                    }}
+                  >
+                    {" "}
+                    {user?.name ? user?.name : "User"}!
+                  </Text>
                 </View>
               </View>
             </>
           )}
-
-          
         </>
       ) : (
         // Show login/signup buttons when not logged in
@@ -175,16 +232,32 @@ const Header = ({ navigation }) => {
           {Platform.OS === "web" && width > 1000 && (
             <View style={styles.authButtonsWeb}>
               <Pressable
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => navigation.navigate("DoctorPatientLandingPage")}
+                //onPress={() => handleOptionPress("DoctorPatientLandingPage")}
                 style={styles.authButton}
               >
-                <Text style={[styles.authText, {color: width<1000? "#000" : "#fff"}]}>Login</Text>
+                <Text
+                  style={[
+                    styles.authText,
+                    { color: width < 1000 ? "#000" : "#fff" },
+                  ]}
+                >
+                  Login
+                </Text>
               </Pressable>
               <Pressable
-                onPress={() => navigation.navigate("Signup")}
+                onPress={() => navigation.navigate("DoctorPatientLandingPage")}
+                //onPress={() => handleOptionPress("DoctorPatientLandingPage")}
                 style={styles.authButton}
               >
-                <Text style={[styles.authText, {color: width<1000? "#000" : "#fff"}]}>Signup</Text>
+                <Text
+                  style={[
+                    styles.authText,
+                    { color: width < 1000 ? "#000" : "#fff" },
+                  ]}
+                >
+                  Signup
+                </Text>
               </Pressable>
             </View>
           )}
@@ -223,7 +296,12 @@ const Header = ({ navigation }) => {
                       style={{ height: 30, width: 30 }}
                     />
                     <Text
-                      style={{fontWeight: "800", color: "#000000", fontSize: 16,}}>
+                      style={{
+                        fontWeight: "800",
+                        color: "#000000",
+                        fontSize: 16,
+                      }}
+                    >
                       Kokoro.Doctor
                     </Text>
                   </View>
@@ -235,18 +313,26 @@ const Header = ({ navigation }) => {
                       <MaterialIcons name="person" size={30} color="black" />
                     </Pressable>
                     <Pressable>
-                      <MaterialIcons name="notifications" size={30} color="black"/>
+                      <MaterialIcons
+                        name="notifications"
+                        size={30}
+                        color="black"
+                      />
                     </Pressable>
                     {dropdownVisible && (
-                      <View style={[styles.dropdownMain, styles.dropdownLoggedOut]}>
+                      <View
+                        style={[styles.dropdownMain, styles.dropdownLoggedOut]}
+                      >
                         <Pressable
-                          onPress={() => handleOptionPress("Login")}
+                          //onPress={() => handleOptionPress("Login")}
+                          onPress={handleOptionPress}
                           style={styles.dropdownItem}
                         >
                           <Text style={styles.dropdownText}>Login</Text>
                         </Pressable>
                         <Pressable
-                          onPress={() => handleOptionPress("Signup")}
+                          ///onPress={() => handleOptionPress("Signup")}
+                          onPress={handleOptionPress}
                           style={styles.dropdownItem}
                         >
                           <Text style={styles.dropdownText}>Signup</Text>
@@ -291,10 +377,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     ...Platform.select({
-      web:{
+      web: {
         marginTop: 5,
-      }
-    })
+      },
+    }),
   },
   appHeaderContainer: {
     ...Platform.select({
@@ -348,7 +434,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     marginRight: 20,
   },
-  authButtonsApp:{
+  authButtonsApp: {
     flexDirection: "row",
     alignItems: "center",
     gap: 15,
@@ -382,11 +468,9 @@ const styles = StyleSheet.create({
   },
   userInfoWeb: {
     width: "100%",
-    justifyContent:"space-around",
+    justifyContent: "space-around",
   },
-  userInfoApp:{
-    
-  },
+  userInfoApp: {},
   userIcon: {
     width: 40,
     height: 40,
@@ -418,7 +502,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
-  dropdownMain:{
+  dropdownMain: {
     position: "absolute",
     backgroundColor: "#fff",
     borderWidth: 1,
@@ -435,11 +519,11 @@ const styles = StyleSheet.create({
     top: 30,
     right: 0,
   },
-  dropdownLoggedIn: {  
+  dropdownLoggedIn: {
     top: 40,
     right: 0,
   },
-  dropdownWeb:{
+  dropdownWeb: {
     top: 40,
     right: -70,
   },
@@ -471,7 +555,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.66)",
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.1)"
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
   },
   searchIcon: {
     width: 16,
@@ -483,8 +567,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     borderWidth: 0,
-    backgroundColor: "transparent", 
-    paddingVertical: 0, 
+    backgroundColor: "transparent",
+    paddingVertical: 0,
     outlineStyle: "none",
   },
   iconsContainer: {

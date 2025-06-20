@@ -1,32 +1,11 @@
 import React, { useRef } from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ChatbotProvider } from "./contexts/ChatbotContext";
 import ChatBotOverlay from "./components/PatientScreenComponents/ChatbotComponents/ChatbotOverlay";
 import { AuthProvider } from "./contexts/AuthContext";
-import { RegistrationProvider } from "./contexts/RegistrationContext";
-import { RoleProvider, useRole } from "./contexts/RoleContext";
-import AppNavigation from "./navigation/PatientNavigation";
-import DoctorAppNavigation from "./navigation/DoctorsNavigation";
-
-// New component to conditionally render navigation based on role
-const NavigationHandler = ({ navigationRef }) => {
-  const { role } = useRole();
-
-  if (role === "doctor") {
-    return (
-      <RegistrationProvider>
-        <DoctorAppNavigation navigationRef={navigationRef} />
-      </RegistrationProvider>
-    );
-  }
-
-  if (role === "patient") {
-    return <AppNavigation navigationRef={navigationRef} />;
-  }
-
-  // Default: show landing screen with buttons to set role
-  return <AppNavigation navigationRef={navigationRef} />;
-};
+import { RoleProvider } from "./contexts/RoleContext";
+import RootNavigation, { linking } from "./navigation/RootNavigator";
 
 const App = () => {
   const navigationRef = useRef(null);
@@ -36,8 +15,10 @@ const App = () => {
       <ThemeProvider>
         <ChatbotProvider>
           <RoleProvider>
-            <NavigationHandler navigationRef={navigationRef} />
-            <ChatBotOverlay navigationRef={navigationRef} />
+            <NavigationContainer linking={linking} ref={navigationRef}>
+              <RootNavigation/>
+              <ChatBotOverlay navigationRef={navigationRef} />
+            </NavigationContainer>
           </RoleProvider>
         </ChatbotProvider>
       </ThemeProvider>

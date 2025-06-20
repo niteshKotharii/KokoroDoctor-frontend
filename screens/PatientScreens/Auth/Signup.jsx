@@ -16,6 +16,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { useGoogleAuth } from "../../../utils/AuthService";
+import { useRole } from "../../../contexts/RoleContext";
 
 const Signup = ({ navigation }) => {
   const { width } = useWindowDimensions();
@@ -31,12 +32,14 @@ const Signup = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [referralModalVisible, setReferralModalVisible] = useState(false);
   const [referralCode, setReferralCode] = useState("");
+  const { setRole } = useRole();
 
   useEffect(() => {
     if (response) {
       googleLogin(response)
         .then(() => {
-          navigation.navigate("LandingPage");
+          //navigation.navigate("LandingPage");
+          setRole("doctor");
         })
         .catch((error) => {
           console.error("Google login error:", error);
@@ -54,7 +57,13 @@ const Signup = ({ navigation }) => {
 
   const handleSignUp = () => {
     const fullName = firstName + " " + lastName;
-    signup(fullName, email, password, phoneNumber, location, navigation);
+    signup(fullName, email, password, phoneNumber, location, navigation)
+      .then(() => {
+        setRole("doctor");
+      })
+      .catch((error) => {
+        console.log("Signup error:", error);
+      });
   };
 
   const handleReferralCode = () => {

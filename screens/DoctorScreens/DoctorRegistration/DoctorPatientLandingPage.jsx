@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import NewSideNav from "../../../components/DoctorsPortalComponents/NewSideNav";
 import {
-  ImageBackground,
   StyleSheet,
   View,
   Text,
@@ -9,216 +8,215 @@ import {
   TouchableOpacity,
   Platform,
   useWindowDimensions,
-  FlatList,
-  StatusBar,
-  ScrollView,
   Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useRole } from "../../../contexts/RoleContext";
 
 const DoctorPatientLandingPage = () => {
   const { width } = useWindowDimensions();
   const navigation = useNavigation();
-  const { setRole, role } = useRole();
-
-  // useEffect(() => {
-  //   if (!role) return; // Don't run on initial render
-
-  //   if (role === "doctor") {
-  //     navigation.navigate("DoctorsSignUp");
-  //   } else if (role === "patient") {
-  //     navigation.navigate("LandingPage");
-  //   }
-  // }, [role]);
-  const [isNavigating, setIsNavigating] = useState(false);
-  const navigationTimeoutRef = useRef(null);
-
-  // Use this flag to control navigation with debounce to prevent double-clicks
-  const navigateToRolePage = (selectedRole) => {
-    // Prevent multiple clicks
-    if (isNavigating) return;
-    
-    // Set navigating state to prevent further clicks
-    setIsNavigating(true);
-    setRole(selectedRole);
-    
-    // Clear any existing timeout
-    if (navigationTimeoutRef.current) {
-      clearTimeout(navigationTimeoutRef.current);
-    }
-    
-    // Navigate after a short delay to prevent double navigation
-    navigationTimeoutRef.current = setTimeout(() => {
-      if (selectedRole === "doctor") {
-        navigation.navigate("DoctorsSignUp");
-      } else if (selectedRole === "patient") {
-        navigation.navigate("LandingPage");
-      }
-    }, 300);
-  };
-
-  // Reset navigation flag when component mounts (e.g., when coming back)
-  useEffect(() => {
-    setIsNavigating(false);
-    
-    // Add event listener for back button/navigation
-    const unsubscribe = navigation.addListener('focus', () => {
-      // When this screen gets focus (including when back button is pressed)
-      setIsNavigating(false);
-      
-      // Clear any pending navigation timeouts
-      if (navigationTimeoutRef.current) {
-        clearTimeout(navigationTimeoutRef.current);
-        navigationTimeoutRef.current = null;
-      }
-    });
-    
-    // Clean up on unmount
-    return () => {
-      unsubscribe();
-      if (navigationTimeoutRef.current) {
-        clearTimeout(navigationTimeoutRef.current);
-      }
-    };
-  }, [navigation]);
-
 
   return (
     <>
-      <View style={styles.wrapper}>
-        <NewSideNav />
-        <View style={styles.content}>
-          <View style={styles.cloud_Image1}>
-            <Image
-              source={require("../../../assets/DoctorsPortal/Icons/cloudIcon1.png")}
-            />
-          </View>
-          <View style={styles.contentContainer}>
-            <View style={styles.cloud_Image2}>
+      {Platform.OS === "web" && width > 1000 && (
+        <View style={styles.wrapper}>
+          <NewSideNav />
+          <View style={styles.content}>
+            <View style={styles.cloud_Image1}>
               <Image
-                source={require("../../../assets/DoctorsPortal/Icons/cloudIcon2.png")}
+                source={require("../../../assets/DoctorsPortal/Icons/cloudIcon1.png")}
               />
             </View>
-            <View style={styles.content_box}>
-              <View style={styles.contentHeading}>
-                <Text
-                  style={{
-                    fontSize: 30,
-                    fontWeight: "600",
-                    color: "#444444",
-                    textAlign: "center",
-                    fontStyle: "Poppins",
-                  }}
-                >
-                  Register as a Patient or Doctor
-                </Text>
-              </View>
-              <View style={styles.content_body}>
-                <View style={styles.box}>
-                  {/* <TouchableOpacity style={styles.touchableBox}> */}
-                  <Pressable
-                    // onPress={() => {
-                    //   setRole("patient");
-                    //   //navigation.navigate("LandingPage");
-                    // }}
-                    onPress={() => navigateToRolePage("patient")}
-                    style={({ hovered, pressed }) => [
-                      styles.touchableBox,
-                      hovered || pressed ? styles.selectedBox : null,
-                    ]}
-                  >
-                    <Text style={styles.boxText}>Patient</Text>
-                    <Image
-                      source={require("../../../assets/DoctorsPortal/Icons/patientIcon.png")}
-                      style={styles.box_Icon}
-                    />
-                  </Pressable>
-                  {/* </TouchableOpacity> */}
-                </View>
-
-                <View style={styles.box}>
-                  <Pressable
-                    // onPress={() => {
-                    //   setRole("doctor");
-                    //   //navigation.navigate('DoctorsSignUp');
-                    // }}
-                    onPress={() => navigateToRolePage("doctor")}
-                    style={({ hovered, pressed }) => [
-                      styles.touchableBox,
-                      hovered || pressed ? styles.selectedBox : null,
-                    ]}
-                  >
-                    <Text style={styles.boxText}>Doctor</Text>
-                    <Image
-                      source={require("../../../assets/DoctorsPortal/Icons/DoctorIcon.png")}
-                      style={styles.box_Icon}
-                    />
-                  </Pressable>
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.cloud_Image3}>
-              <Image
-                source={require("../../../assets/DoctorsPortal/Icons/cloudIcon3.png")}
-              />
-            </View>
-          </View>
-          <View style={styles.imageConatiner2}>
-            <View style={styles.imageConatiner2_upper}>
-              <Image
-                source={require("../../../assets/DoctorsPortal/Icons/icon1.png")}
-                // style={styles.icondesign}
-              />
-              <View style={styles.innerImageContainer}>
+            <View style={styles.contentContainer}>
+              <View style={styles.cloud_Image2}>
                 <Image
-                  source={require("../../../assets/DoctorsPortal/Icons/icon2.png")}
+                  source={require("../../../assets/DoctorsPortal/Icons/cloudIcon2.png")}
+                />
+              </View>
+              <View style={styles.content_box}>
+                <View style={styles.contentHeading}>
+                  <Text
+                    style={{
+                      fontSize: 30,
+                      fontWeight: "600",
+                      color: "#444444",
+                      textAlign: "center",
+                      fontStyle: "Poppins",
+                    }}
+                  >
+                    Register as a Patient or Doctor
+                  </Text>
+                </View>
+                <View style={styles.content_body}>
+                  <View style={styles.box}>
+                    <Pressable
+                      onPress={() =>
+                        navigation.navigate("PatientAppNavigation", {
+                          screen: "Signup",
+                        })
+                      }
+                      style={({ hovered, pressed }) => [
+                        styles.touchableBox,
+                        hovered || pressed ? styles.selectedBox : null,
+                      ]}
+                    >
+                      <Text style={styles.boxText}>Patient</Text>
+                      <Image
+                        source={require("../../../assets/DoctorsPortal/Icons/patientIcon.png")}
+                        style={styles.box_Icon}
+                      />
+                    </Pressable>
+                  </View>
+
+                  <View style={styles.box}>
+                    <Pressable
+                      onPress={() =>
+                        navigation.navigate("DoctorAppNavigation", {
+                          screen: "DoctorsSignUp",
+                        })
+                      }
+                      style={({ hovered, pressed }) => [
+                        styles.touchableBox,
+                        hovered || pressed ? styles.selectedBox : null,
+                      ]}
+                    >
+                      <Text style={styles.boxText}>Doctor</Text>
+                      <Image
+                        source={require("../../../assets/DoctorsPortal/Icons/DoctorIcon.png")}
+                        style={styles.box_Icon}
+                      />
+                    </Pressable>
+                  </View>
+                </View>
+              </View>
+
+              <View style={styles.cloud_Image3}>
+                <Image
+                  source={require("../../../assets/DoctorsPortal/Icons/cloudIcon3.png")}
+                />
+              </View>
+            </View>
+            <View style={styles.imageConatiner2}>
+              <View style={styles.imageConatiner2_upper}>
+                <Image
+                  source={require("../../../assets/DoctorsPortal/Icons/icon1.png")}
+                  // style={styles.icondesign}
+                />
+                <View style={styles.innerImageContainer}>
+                  <Image
+                    source={require("../../../assets/DoctorsPortal/Icons/icon2.png")}
+                    style={styles.icondesign}
+                  />
+                  <Image
+                    source={require("../../../assets/DoctorsPortal/Icons/icon3.png")}
+                    style={styles.icondesign}
+                  />
+                </View>
+                <Image
+                  source={require("../../../assets/DoctorsPortal/Icons/icon4.png")}
+                  // style={styles.icondesign}
+                />
+                <Image
+                  source={require("../../../assets/DoctorsPortal/Icons/icon5.png")}
+                  // style={styles.icondesign}
+                />
+                <Image
+                  source={require("../../../assets/DoctorsPortal/Icons/icon6.png")}
                   style={styles.icondesign}
                 />
                 <Image
-                  source={require("../../../assets/DoctorsPortal/Icons/icon3.png")}
+                  source={require("../../../assets/DoctorsPortal/Icons/icon7.png")}
+                  // style={styles.icondesign}
+                />
+                <Image
+                  source={require("../../../assets/DoctorsPortal/Icons/icon8.png")}
+                  style={styles.icondesign}
+                />
+                <Image
+                  source={require("../../../assets/DoctorsPortal/Icons/icon9.png")}
+                  style={styles.icondesign}
+                />
+                <Image
+                  source={require("../../../assets/DoctorsPortal/Icons/icon10.png")}
                   style={styles.icondesign}
                 />
               </View>
-              <Image
-                source={require("../../../assets/DoctorsPortal/Icons/icon4.png")}
-                // style={styles.icondesign}
-              />
-              <Image
-                source={require("../../../assets/DoctorsPortal/Icons/icon5.png")}
-                // style={styles.icondesign}
-              />
-              <Image
-                source={require("../../../assets/DoctorsPortal/Icons/icon6.png")}
-                style={styles.icondesign}
-              />
-              <Image
-                source={require("../../../assets/DoctorsPortal/Icons/icon7.png")}
-                // style={styles.icondesign}
-              />
-              <Image
-                source={require("../../../assets/DoctorsPortal/Icons/icon8.png")}
-                style={styles.icondesign}
-              />
-              <Image
-                source={require("../../../assets/DoctorsPortal/Icons/icon9.png")}
-                style={styles.icondesign}
-              />
-              <Image
-                source={require("../../../assets/DoctorsPortal/Icons/icon10.png")}
-                style={styles.icondesign}
-              />
-            </View>
-            <View style={styles.imageConatiner2_lower}>
-              <Image
-                source={require("../../../assets/DoctorsPortal/Images/rectanglebase.png")}
-                style={styles.rectanglebase}
-              />
+              <View style={styles.imageConatiner2_lower}>
+                <Image
+                  source={require("../../../assets/DoctorsPortal/Images/rectanglebase.png")}
+                  style={styles.rectanglebase}
+                />
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      )}
+      {(Platform.OS !== "web" || width < 1000) && (
+        <View style={styles.app_wrapper}>
+          <View style={styles.app_HeadingContainer}>
+            <View style={styles.text_container}>
+              
+              <Text style={styles.app_headingText}>
+                Register as a Patient or Doctor
+              </Text>
+            </View>
+          </View>
+          <View style={styles.app_ButtonContainer}>
+            <View style={styles.app_box}>
+              {/* <TouchableOpacity style={styles.touchableBox}> */}
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("PatientAppNavigation", {
+                    screen: "Signup",
+                  })
+                }
+                style={({ hovered, pressed }) => [
+                  styles.touchableBox,
+                  hovered || pressed ? styles.selectedBox : null,
+                ]}
+              >
+                <Text style={styles.app_boxText}>Patient</Text>
+                <Image
+                  source={require("../../../assets/DoctorsPortal/Icons/patientIcon.png")}
+                  style={styles.app_box_Icon}
+                />
+              </Pressable>
+              {/* </TouchableOpacity> */}
+            </View>
+            <View style={styles.app_box}>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("DoctorAppNavigation", {
+                    screen: "DoctorsSignUp",
+                  })
+                }
+                style={({ hovered, pressed }) => [
+                  styles.touchableBox,
+                  hovered || pressed ? styles.selectedBox : null,
+                ]}
+              >
+                <Text style={styles.app_boxText}>Doctor</Text>
+                <Image
+                  source={require("../../../assets/DoctorsPortal/Icons/DoctorIcon.png")}
+                  style={styles.app_box_Icon}
+                />
+              </Pressable>
+            </View>
+          </View>
+
+          <TouchableOpacity
+            style={styles.GetStartedContainer}
+            // onPress={handleContinue}
+            onPress={() => navigation.navigate("")}
+          >
+            <Text style={styles.GetStartedText}>Get Started</Text>
+            <Image
+              style={styles.arrowIcon}
+              source={require("../../../assets/DoctorsPortal/Icons/ArrowIcon.png")}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
     </>
   );
 };
@@ -360,6 +358,110 @@ const styles = StyleSheet.create({
     height: "100%",
 
     alignItems: "flex-end",
+  },
+
+  //... App Styling ...//
+  app_wrapper: {
+    height: "100%",
+    width: "100%",
+    backgroundColor: "#FCF5F7",
+  },
+  app_HeadingContainer: {
+    marginTop: "20%",
+    height: "10%",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text_container: {
+    width: "50%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  app_headingText: {
+    fontSize: 32,
+    fontWeight: "600",
+    fontFamily: "Poppins",
+    textAlign: "center",
+    flexWrap: "wrap",
+  },
+  app_ButtonContainer: {
+    width: "100%",
+    height: "60%",
+    //flexDirection:"row",
+    alignItems: "center",
+    justifyContent: "space-around",
+  },
+  app_box: {
+    width: "75%",
+    height: "40%",
+    backgroundColor: "#FFFFFF",
+    flexDirection: "row",
+    alignItems: "flex-end",
+    borderRadius: 14,
+
+    shadowColor: "#00000040",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 8,
+    elevation: 5,
+    cursor: "pointer",
+  },
+  touchableBox: {
+    width: "100%",
+    height: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: "5%",
+  },
+
+  app_boxText: {
+    fontStyle: "Montserrat",
+    fontSize: 32,
+    fontWeight: "400",
+    color: "#000000",
+  },
+  app_box_Icon: {
+    height: 160,
+    resizeMode: "contain",
+  },
+  GetStartedContainer: {
+    marginLeft: "30%",
+    height: "10%",
+    width: "40%",
+    height: 40,
+    marginTop: "5%",
+    backgroundColor: "#FF7072",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 15,
+    gap: 20,
+    shadowColor: "#00000040",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  GetStartedText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  arrowIcon: {
+    width: 25,
+    height: 25,
+    resizeMode: "contain",
+    backgroundColor: "white",
+    borderRadius: 12.5,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

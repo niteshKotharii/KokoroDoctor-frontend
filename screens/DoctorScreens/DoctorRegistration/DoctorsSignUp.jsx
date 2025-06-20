@@ -11,7 +11,7 @@ import NewSideNav from "../../../components/DoctorsPortalComponents/NewSideNav";
 import { useNavigation } from "@react-navigation/native";
 import SideImageStyle from "../../../components/DoctorsPortalComponents/SideImageStyle";
 
-const DoctorsLogin = () => {
+const DoctorsSignUp = () => {
   const navigation = useNavigation();
   const generatedOTP = "1234";
 
@@ -43,16 +43,7 @@ const DoctorsLogin = () => {
       otpInputs.current[index + 1].focus();
     }
   };
-  // const handleContinue = () => {
-  //   const enteredOTP = formData.otp.join("");
-  //   if (enteredOTP === generatedOTP) {
-  //     setOtpVerified(true);
-  //     navigation.navigate("DoctorMedicalRegistration");
-  //   } else {
-  //     setOtpVerified(false);
-  //     alert("Invalid OTP. Please try again.");
-  //   }
-  // };
+
   const handleContinue = async () => {
     const enteredOTP = formData.otp.join("");
 
@@ -213,7 +204,6 @@ const DoctorsLogin = () => {
             <TouchableOpacity
               style={styles.continueContainer}
               onPress={handleContinue}
-              // onPress={() => navigation.navigate("DoctorMedicalRegistration")}
             >
               <Text style={styles.continueText}>Continue</Text>
               <Image
@@ -367,4 +357,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DoctorsLogin;
+export default DoctorsSignUp;

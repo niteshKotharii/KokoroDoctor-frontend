@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     color: "#444444",
     fontWeight: "bold",
-    font:"Roboto",
+    fontFamily:"Roboto",
   },
   buyNowButton: {
     backgroundColor: "#FF6B6B",
