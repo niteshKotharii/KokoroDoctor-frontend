@@ -10,10 +10,10 @@ import {
 import NewSideNav from "../../../components/DoctorsPortalComponents/NewSideNav";
 import { useNavigation } from "@react-navigation/native";
 import SideImageStyle from "../../../components/DoctorsPortalComponents/SideImageStyle";
+import { registerDoctor } from "../../../services/authService";
 
 const DoctorsSignUp = () => {
   const navigation = useNavigation();
-  const generatedOTP = "1234";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -24,60 +24,51 @@ const DoctorsSignUp = () => {
     otp: ["", "", "", ""],
   });
 
-  const [showOTPInput, setShowOTPInput] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
-  const otpInputs = useRef([]);
-
   const handleChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleOTPChange = (index, value) => {
-    const updatedOTP = [...formData.otp];
-    updatedOTP[index] = value;
-    setFormData((prev) => ({ ...prev, otp: updatedOTP }));
+  const handleSignup = async () => {
+    // try {
+    //   const response = await fetch("http://YOUR_BACKEND_URL/register", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       name: formData.name,
+    //       email: formData.email,
+    //       location: formData.location,
+    //       phone: formData.phone,
+    //       password: formData.password,
+    //     }),
+    //   });
 
-    if (value === "" && index > 0) {
-      otpInputs.current[index - 1].focus();
-    } else if (/^\d$/.test(value) && index < otpInputs.current.length - 1) {
-      otpInputs.current[index + 1].focus();
-    }
-  };
+    //   const data = await response.json();
 
-  const handleContinue = async () => {
-    const enteredOTP = formData.otp.join("");
-
-    if (enteredOTP !== generatedOTP) {
-      alert("Invalid OTP. Please try again.");
-      return;
-    }
-
+    //   if (response.ok) {
+    //     alert("Registration successful!");
+    //     navigation.navigate("DoctorMedicalRegistration");
+    //   } else {
+    //     alert(data.error || "Registration failed.");
+    //   }
+    // } catch (error) {
+    //   alert("Network error. Try again.");
+    //   console.error("Registration error:", error);
+    // }
     try {
-      const response = await fetch("http://YOUR_BACKEND_URL/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          location: formData.location,
-          phone: formData.phone,
-          password: formData.password,
-        }),
+      await registerDoctor({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        location: formData.location,
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert("Registration successful!");
-        navigation.navigate("DoctorMedicalRegistration");
-      } else {
-        alert(data.error || "Registration failed.");
-      }
+      alert("Doctor registered successfully!");
+      navigation.navigate("DoctorMedicalRegistration");
     } catch (error) {
-      alert("Network error. Try again.");
-      console.error("Registration error:", error);
+      alert(error.message);
+      console.error("Doctor registration error:", error);
     }
   };
 
@@ -86,11 +77,20 @@ const DoctorsSignUp = () => {
       <NewSideNav navigation={navigation} />
       <View style={styles.content}>
         <View style={styles.detail_container}>
-          <Text style={styles.heading}>
-            Hello! Let's build your dedicated profile
-          </Text>
+          <Text style={styles.heading}>Sign Up</Text>
           <View style={styles.details}>
-            <Text style={styles.inputHeading}>Name</Text>
+            <Text style={styles.inputHeading}>First Name</Text>
+            <TextInput
+              placeholder="Enter your name..."
+              placeholderTextColor="#c0c0c0"
+              style={[
+                styles.inputContainer,
+                { color: formData.name ? "black" : "#c0c0c0" },
+              ]}
+              value={formData.name}
+              onChangeText={(val) => handleChange("name", val)}
+            />
+            <Text style={styles.inputHeading}>Last Name</Text>
             <TextInput
               placeholder="Enter your name..."
               placeholderTextColor="#c0c0c0"
@@ -148,71 +148,18 @@ const DoctorsSignUp = () => {
               onChangeText={(val) => handleChange("password", val)}
             />
 
-            <Text style={styles.note}>
-              Note: OTP will be sent to this number for verification.
-            </Text>
-
-            <TouchableOpacity
-              style={styles.otpContainer}
-              onPress={() => setShowOTPInput(true)}
-            >
-              <Text style={styles.otpText}>Send OTP</Text>
-            </TouchableOpacity>
-
-            {/* {showOTPInput && (
-              <View style={styles.otpInputContainer}>
-                {formData.otp.map((digit, index) => (
-                  <TextInput
-                    key={index}
-                    style={styles.otpInput}
-                    maxLength={1}
-                    keyboardType="number-pad"
-                    value={digit}
-                    onChangeText={(val) => handleOTPChange(index, val)}
-                  />
-                ))}
-              </View>
-            )} */}
-            {showOTPInput &&
-              (otpVerified ? (
-                <View style={styles.verificationContainer}>
-                  <Image
-                    source={require("../../../assets/DoctorsPortal/Icons/greenTick.png")}
-                  />
-                  <Text
-                    style={{ fontSize: 18, color: "black", fontWeight: "bold" }}
-                  >
-                    Verified phone no
-                  </Text>
-                </View>
-              ) : (
-                <View style={styles.otpInputContainer}>
-                  {formData.otp.map((digit, index) => (
-                    <TextInput
-                      key={index}
-                      ref={(ref) => (otpInputs.current[index] = ref)}
-                      style={styles.otpInput}
-                      maxLength={1}
-                      keyboardType="number-pad"
-                      value={digit}
-                      onChangeText={(val) => handleOTPChange(index, val)}
-                    />
-                  ))}
-                </View>
-              ))}
-
             <TouchableOpacity
               style={styles.continueContainer}
-              onPress={handleContinue}
+              onPress={handleSignup}
             >
-              <Text style={styles.continueText}>Continue</Text>
+              <Text style={styles.continueText}>SignUp</Text>
               <Image
                 style={styles.arrowIcon}
                 source={require("../../../assets/DoctorsPortal/Icons/ArrowIcon.png")}
               />
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.continueContainer}
+              style={styles.skipContainer}
               onPress={() => navigation.navigate("DoctorMedicalRegistration")}
             >
               <Text style={styles.continueText}>Skip</Text>
@@ -269,6 +216,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     //color:"#c0c0c0"
+    borderColor: "#000",
   },
   note: {
     fontSize: 13,
@@ -322,15 +270,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   continueContainer: {
-    marginLeft: "10%",
-    width: "40%",
+    marginLeft: "1%",
+    width: "70%",
     height: 40,
     marginTop: "5%",
-    backgroundColor: "#FF7072",
+    backgroundColor: "#1FBF86",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 15,
+    borderRadius: 8,
     gap: 20,
     shadowColor: "#00000040",
     shadowOffset: {
@@ -340,6 +288,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 8,
     elevation: 5,
+  },
+  skipContainer: {
+    marginLeft: "15%",
+    width: "30%",
+    height: 40,
+    marginTop: "5%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 8,
+    gap: 20,
+    backgroundColor: "#1FBF86",
   },
   continueText: {
     color: "white",

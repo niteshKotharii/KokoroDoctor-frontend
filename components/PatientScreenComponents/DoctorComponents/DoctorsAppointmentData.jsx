@@ -721,10 +721,11 @@ const doctors = [
     },
   },
 ];
-const { width, height } = Dimensions.get("window");
-const DoctorAppointmentScreen = ({ navigation, route }) => {
+//const { width, height } = Dimensions.get("window");
+const DoctorAppointmentScreen = ({ navigation }) => {
   const [selectedSlot, setSelectedSlot] = useState({});
   const { width } = useWindowDimensions();
+
   const [subscriberCounts, setSubscriberCounts] = useState(
     doctors.reduce((acc, doctor) => {
       acc[doctor.id] = 0;
