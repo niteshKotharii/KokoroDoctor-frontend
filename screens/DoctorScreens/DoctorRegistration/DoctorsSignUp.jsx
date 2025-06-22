@@ -131,10 +131,10 @@ const DoctorsSignUp = () => {
               keyboardType="phone-pad"
               style={[
                 styles.inputContainer,
-                { color: formData.phone ? "black" : "#c0c0c0" },
+                { color: formData.phoneNumber ? "black" : "#c0c0c0" },
               ]}
               value={formData.phone}
-              onChangeText={(val) => handleChange("phone", val)}
+              onChangeText={(val) => handleChange("phoneNumber", val)}
             />
             <Text style={styles.inputHeading}>Password</Text>
             <TextInput
