@@ -20,7 +20,7 @@ const DoctorsSignUp = () => {
     lastname:"",
     email: "",
     location: "",
-    phone: "",
+    phoneNumber: "",
     password: "",
     otp: ["", "", "", ""],
   });
@@ -62,7 +62,7 @@ const DoctorsSignUp = () => {
         doctorname:`${formData.firstname} ${formData.lastname}`,
         email: formData.email,
         password: formData.password,
-        phone: formData.phone,
+        phoneNumber: formData.phoneNumber,
         location: formData.location,
       });
       alert("Doctor registered successfully!");
