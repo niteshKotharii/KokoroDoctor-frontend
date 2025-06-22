@@ -10,7 +10,7 @@ import {
 import NewSideNav from "../../../components/DoctorsPortalComponents/NewSideNav";
 import { useNavigation } from "@react-navigation/native";
 import SideImageStyle from "../../../components/DoctorsPortalComponents/SideImageStyle";
-import { registerDoctor } from "../../../services/authService";
+import { registerDoctor } from "../../../utils/AuthService";
 
 const DoctorsSignUp = () => {
   const navigation = useNavigation();
