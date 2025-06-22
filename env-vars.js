@@ -1,4 +1,4 @@
-export const API_URL = "https://20ilevedhj.execute-api.ap-south-1.amazonaws.com/prod"
+export const API_URL = "https://olj5e5aejl.execute-api.ap-south-1.amazonaws.com/prod"
 
 export const androidClientId = "";
 export const iosClientId = "";
