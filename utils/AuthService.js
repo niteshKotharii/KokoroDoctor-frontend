@@ -24,7 +24,7 @@ export const useGoogleAuth = () => {
 
 export const registerDoctor = async ({
   firstname,
-  secondname,
+  lastname,
   email,
   password,
   phone,
@@ -37,7 +37,7 @@ export const registerDoctor = async ({
     },
     body: JSON.stringify({
       firstname,
-      secondname,
+      lastname,
       email,
       password,
       phone,

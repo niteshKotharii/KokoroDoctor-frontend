@@ -16,7 +16,8 @@ const DoctorsSignUp = () => {
   const navigation = useNavigation();
 
   const [formData, setFormData] = useState({
-    name: "",
+    firstname: "",
+    lastname:"",
     email: "",
     location: "",
     phone: "",
@@ -58,7 +59,8 @@ const DoctorsSignUp = () => {
     // }
     try {
       await registerDoctor({
-        name: formData.name,
+        firstname: formData.firstname,
+        lastname:formData.lastname,
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
@@ -81,25 +83,25 @@ const DoctorsSignUp = () => {
           <View style={styles.details}>
             <Text style={styles.inputHeading}>First Name</Text>
             <TextInput
-              placeholder="Enter your name..."
+              placeholder="Enter your first name..."
               placeholderTextColor="#c0c0c0"
               style={[
                 styles.inputContainer,
-                { color: formData.name ? "black" : "#c0c0c0" },
+                { color: formData.firstname ? "black" : "#c0c0c0" },
               ]}
               value={formData.name}
-              onChangeText={(val) => handleChange("name", val)}
+              onChangeText={(val) => handleChange("firstname", val)}
             />
             <Text style={styles.inputHeading}>Last Name</Text>
             <TextInput
-              placeholder="Enter your name..."
+              placeholder="Enter your last name..."
               placeholderTextColor="#c0c0c0"
               style={[
                 styles.inputContainer,
-                { color: formData.name ? "black" : "#c0c0c0" },
+                { color: formData.lastname ? "black" : "#c0c0c0" },
               ]}
               value={formData.name}
-              onChangeText={(val) => handleChange("name", val)}
+              onChangeText={(val) => handleChange("lastname", val)}
             />
             <Text style={styles.inputHeading}>Email Id</Text>
             <TextInput
