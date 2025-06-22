@@ -232,7 +232,7 @@ const Header = ({ navigation }) => {
           {Platform.OS === "web" && width > 1000 && (
             <View style={styles.authButtonsWeb}>
               <Pressable
-                onPress={() => navigation.navigate("DoctorPatientLandingPage")}
+                onPress={() => navigation.navigate("Login")}
                 //onPress={() => handleOptionPress("DoctorPatientLandingPage")}
                 style={styles.authButton}
               >

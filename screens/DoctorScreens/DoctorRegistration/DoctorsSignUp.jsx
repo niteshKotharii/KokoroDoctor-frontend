@@ -59,8 +59,7 @@ const DoctorsSignUp = () => {
     // }
     try {
       await registerDoctor({
-        firstname: formData.firstname,
-        lastname:formData.lastname,
+        doctorname:`${formData.firstname} ${formData.lastname}`,
         email: formData.email,
         password: formData.password,
         phone: formData.phone,

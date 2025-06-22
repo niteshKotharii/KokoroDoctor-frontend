@@ -23,11 +23,10 @@ export const useGoogleAuth = () => {
 };
 
 export const registerDoctor = async ({
-  firstname,
-  lastname,
+  doctorname,
   email,
   password,
-  phone,
+  phoneNumber,
   location,
 }) => {
   const response = await fetch(`${API_URL}/auth/doctor/signup`, {
@@ -36,11 +35,10 @@ export const registerDoctor = async ({
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      firstname,
-      lastname,
+      doctorname,
       email,
       password,
-      phone,
+      phoneNumber,
       location,
     }),
   });

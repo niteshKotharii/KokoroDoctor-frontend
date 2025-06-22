@@ -7,6 +7,7 @@ import { RegistrationProvider } from "../contexts/RegistrationContext";
 import { ActivityIndicator, View } from "react-native";
 import LandingPage from "../screens/PatientScreens/LandingPage";
 import DoctorPatientLandingPage from "../screens/DoctorScreens/DoctorRegistration/DoctorPatientLandingPage";
+import Login from "../screens/PatientScreens/Auth/Login";
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +52,7 @@ const RootNavigation = () => {
           component={DoctorAppNavigation}
         />
         <Stack.Screen name="PatientAppNavigation" component={AppNavigation} />
+        <Stack.Screen name="Login" component={Login}/>
       </Stack.Navigator>
     </RegistrationProvider>
   );
