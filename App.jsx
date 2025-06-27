@@ -7,6 +7,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { RoleProvider } from "./contexts/RoleContext";
 import RootNavigation, { linking } from "./navigation/RootNavigator";
 
+
 const App = () => {
   const navigationRef = useRef(null);
 
@@ -14,12 +15,12 @@ const App = () => {
     <AuthProvider>
       <ThemeProvider>
         <ChatbotProvider>
-          <RoleProvider>
+           <RoleProvider>
             <NavigationContainer linking={linking} ref={navigationRef}>
               <RootNavigation/>
               <ChatBotOverlay navigationRef={navigationRef} />
             </NavigationContainer>
-          </RoleProvider>
+          </RoleProvider> 
         </ChatbotProvider>
       </ThemeProvider>
     </AuthProvider>

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import NewSideNav from "../../../components/DoctorsPortalComponents/NewSideNav";
 import { useNavigation } from "@react-navigation/native";
 import SideImageStyle from "../../../components/DoctorsPortalComponents/SideImageStyle";
@@ -14,10 +15,10 @@ import { registerDoctor } from "../../../utils/AuthService";
 
 const DoctorsSignUp = () => {
   const navigation = useNavigation();
-
+  const [rememberMe, setRememberMe] = useState(false);
   const [formData, setFormData] = useState({
     firstname: "",
-    lastname:"",
+    lastname: "",
     email: "",
     location: "",
     phoneNumber: "",
@@ -28,38 +29,14 @@ const DoctorsSignUp = () => {
   const handleChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
+  const toggleRememberMe = () => {
+    setRememberMe(!rememberMe);
+  };
 
   const handleSignup = async () => {
-    // try {
-    //   const response = await fetch("http://YOUR_BACKEND_URL/register", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       name: formData.name,
-    //       email: formData.email,
-    //       location: formData.location,
-    //       phone: formData.phone,
-    //       password: formData.password,
-    //     }),
-    //   });
-
-    //   const data = await response.json();
-
-    //   if (response.ok) {
-    //     alert("Registration successful!");
-    //     navigation.navigate("DoctorMedicalRegistration");
-    //   } else {
-    //     alert(data.error || "Registration failed.");
-    //   }
-    // } catch (error) {
-    //   alert("Network error. Try again.");
-    //   console.error("Registration error:", error);
-    // }
     try {
       await registerDoctor({
-        doctorname:`${formData.firstname} ${formData.lastname}`,
+        doctorname: `${formData.firstname} ${formData.lastname}`,
         email: formData.email,
         password: formData.password,
         phoneNumber: formData.phoneNumber,
@@ -148,6 +125,23 @@ const DoctorsSignUp = () => {
               value={formData.password}
               onChangeText={(val) => handleChange("password", val)}
             />
+            <View style={styles.rememberForgotRow}>
+              <View style={styles.rememberMeContainer}>
+                <TouchableOpacity
+                  style={styles.checkboxContainer}
+                  onPress={toggleRememberMe}
+                >
+                  <View
+                    style={[styles.checkbox, rememberMe && styles.checkedBox]}
+                  >
+                    {rememberMe && (
+                      <Ionicons name="checkmark" size={12} color="#fff" />
+                    )}
+                  </View>
+                </TouchableOpacity>
+                <Text style={styles.rememberMeText}>Remember me</Text>
+              </View>
+            </View>
 
             <TouchableOpacity
               style={styles.continueContainer}
@@ -224,51 +218,89 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginTop: "3%",
   },
-  otpContainer: {
-    width: "70%",
-    height: 45,
-    marginTop: "2%",
-    backgroundColor: "#1FBF86",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 5,
-    shadowColor: "#00000040",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.8,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  otpText: {
-    color: "white",
-    fontWeight: "bold",
-  },
-  otpInputContainer: {
+  // otpContainer: {
+  //   width: "70%",
+  //   height: 45,
+  //   marginTop: "2%",
+  //   backgroundColor: "#1FBF86",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   borderRadius: 5,
+  //   shadowColor: "#00000040",
+  //   shadowOffset: {
+  //     width: 0,
+  //     height: 4,
+  //   },
+  //   shadowOpacity: 0.8,
+  //   shadowRadius: 8,
+  //   elevation: 5,
+  // },
+  // otpText: {
+  //   color: "white",
+  //   fontWeight: "bold",
+  // },
+  // otpInputContainer: {
+  //   flexDirection: "row",
+  //   gap: 10,
+  //   marginTop: 15,
+  // },
+  // otpInput: {
+  //   width: 40,
+  //   height: 40,
+  //   borderWidth: 1,
+  //   borderColor: "#ccc",
+  //   textAlign: "center",
+  //   fontSize: 18,
+  //   borderRadius: 8,
+  //   backgroundColor: "#fff",
+  //   shadowColor: "#000",
+  //   shadowOffset: { width: 0, height: 2 },
+  //   shadowOpacity: 0.2,
+  //   shadowRadius: 3,
+  //   elevation: 3,
+  // },
+  // verificationContainer: {
+  //   flexDirection: "row",
+  //   marginTop: "5%",
+  //   alignItems: "center",
+  // },
+  rememberForgotRow: {
     flexDirection: "row",
-    gap: 10,
-    marginTop: 15,
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    marginBottom: "2%",
+    marginTop: "1%",
   },
-  otpInput: {
-    width: 40,
-    height: 40,
+  rememberForgotContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  rememberMeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  checkboxContainer: {
+    marginRight: 10,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
     borderWidth: 1,
-    borderColor: "#ccc",
-    textAlign: "center",
-    fontSize: 18,
-    borderRadius: 8,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  verificationContainer: {
-    flexDirection: "row",
-    marginTop: "5%",
+    borderColor: "#999",
+    borderRadius: 4,
+    justifyContent: "center",
     alignItems: "center",
+  },
+  checkedBox: {
+    backgroundColor: "#10B981",
+    borderColor: "#10B981",
+  },
+  rememberMeText: {
+    fontSize: 14,
+    color: "#666",
   },
   continueContainer: {
     marginLeft: "1%",

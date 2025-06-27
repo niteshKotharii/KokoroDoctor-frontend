@@ -72,6 +72,11 @@ const SideBarNavigation = ({ navigation, closeSidebar }) => {
       navigation.navigate("PatientAppNavigation", {
         screen: "Reminder",
       });
+    }
+    else if (menu === "Pricing") {
+      navigation.navigate("PatientAppNavigation", {
+        screen: "MainPricing",
+      });
     } else {
       navigation.navigate(menu);
     }
