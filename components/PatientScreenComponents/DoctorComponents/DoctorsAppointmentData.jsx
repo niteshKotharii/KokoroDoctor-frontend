@@ -11,6 +11,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { API_URL } from "../../../env-vars";
+import { useAuth } from "../../../contexts/AuthContext";
 
 // const doctors = [
 //   {
@@ -722,11 +723,13 @@ import { API_URL } from "../../../env-vars";
 // ];
 //const { width, height } = Dimensions.get("window");
 const DoctorAppointmentScreen = ({ navigation }) => {
-  const [selectedSlot, setSelectedSlot] = useState({});
+
+  //const [selectedSlot, setSelectedSlot] = useState({});
   const { width } = useWindowDimensions();
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subscriberCounts, setSubscriberCounts] = useState({});
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -897,10 +900,18 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                       ))}
                     </View> */}
                     <Pressable
-                      style={styles.button}
+                      //style={styles.button}
+                      style={[
+                        styles.button,
+                        (!user || !user.email) && { backgroundColor: "gray" },
+                      ]}
                       onPress={() => {
-                        if (!selectedSlot[item.email]) {
+                        console.log(user);
+                        console.log(user.email);
+
+                        if (!user || !user.email) {
                           alert("You must be logged in to Subscribe.");
+                          
                         } else {
                           // navigation.push("DoctorsInfoWithRating");
                           //navigation.navigate("DoctorsInfoWithRating");

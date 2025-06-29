@@ -1,6 +1,6 @@
-import React, { createContext, useEffect, useState} from 'react';
+import React, { createContext, useEffect, useState, useContext} from 'react';
 import {login, signup, logOut, handleGoogleLogin, restoreUserState} from "../utils/AuthService"
-import { View } from 'react-native';
+//import { View } from 'react-native';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -84,3 +84,4 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+export const useAuth = () => useContext(AuthContext);
