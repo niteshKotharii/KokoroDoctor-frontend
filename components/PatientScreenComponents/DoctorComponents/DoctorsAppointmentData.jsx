@@ -723,7 +723,6 @@ import { useAuth } from "../../../contexts/AuthContext";
 // ];
 //const { width, height } = Dimensions.get("window");
 const DoctorAppointmentScreen = ({ navigation }) => {
-
   //const [selectedSlot, setSelectedSlot] = useState({});
   const { width } = useWindowDimensions();
   const [doctors, setDoctors] = useState([]);
@@ -906,12 +905,8 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                         (!user || !user.email) && { backgroundColor: "gray" },
                       ]}
                       onPress={() => {
-                        console.log(user);
-                        console.log(user.email);
-
                         if (!user || !user.email) {
                           alert("You must be logged in to Subscribe.");
-                          
                         } else {
                           // navigation.push("DoctorsInfoWithRating");
                           //navigation.navigate("DoctorsInfoWithRating");
