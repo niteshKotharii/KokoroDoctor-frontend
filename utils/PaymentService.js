@@ -2,7 +2,7 @@ import { API_URL } from "../env-vars";
 
 export const payment_api = async (amount) => {
   try {
-    const response = await fetch(`${API_URL}/process_payment`, {
+    const response = await fetch(`${API_URL}/process-payment`, {
       method: "POST",
       mode: "cors",
       headers: {
