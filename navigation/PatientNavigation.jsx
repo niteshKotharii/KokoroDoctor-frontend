@@ -61,7 +61,7 @@ const DoctorNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="ConsultWithDoctors"
+      initialRouteName="DoctorResultShow"
       screenOptions={{
         headerStyle: {
           backgroundColor: theme.container.backgroundColor,
@@ -322,7 +322,7 @@ const AppNavigation = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Pricing"
+          name="MainPricing"
           component={PricingNavigator}
           options={{ headerShown: false }}
         />
