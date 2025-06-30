@@ -1,9 +1,19 @@
 import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet, Image, Pressable, useWindowDimensions, Linking, Alert } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Image,
+  Pressable,
+  useWindowDimensions,
+  Linking,
+  Alert,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import {BlurView} from 'expo-blur';
+import { BlurView } from "expo-blur";
 // import MyLinearGradient1 from "../components/MyLinearGradient1";
-import {payment_api} from "../../utils/PaymentService";
+import { payment_api } from "../../utils/PaymentService";
 
 const plans = [
   {
@@ -47,29 +57,32 @@ const plans = [
 ];
 
 const PricingPlans = () => {
-
   const handleBuyNow = async (plan) => {
     try {
-      const pricePart = plan.newPrice.split('/')[0];
-      const amount = parseInt(pricePart.replace(/[^\d.]/g, ''), 10);
-  
+      const pricePart = plan.newPrice.split("/")[0];
+      const amount = parseInt(pricePart.replace(/[^\d.]/g, ""), 10);
+
       const paymentLink = await payment_api(amount);
+      console.log("Received payment link:", paymentLink);
       if (paymentLink) {
         Linking.openURL(paymentLink).catch((err) => {
           console.error("Failed to open payment link", err);
-          Alert.alert("Error", "Unable to open payment link. Please try again.");
+          Alert.alert(
+            "Error",
+            "Unable to open payment link. Please try again."
+          );
         });
       }
     } catch (error) {
+      console.error("Buy Now Error:", error);
       Alert.alert("Payment Failed", error.message);
     }
-     
   };
 
   const { width, height } = useWindowDimensions();
 
   const renderItem = ({ item }) => (
-    <View style={[styles.card, {width: width * 0.23}]}>
+    <View style={[styles.card, { width: width * 0.23 }]}>
       <View style={styles.cardContent}>
         <Text style={styles.planTitle}>{item.name}</Text>
         <Text style={styles.oldPrice}>{item.oldPrice}</Text>
@@ -88,10 +101,7 @@ const PricingPlans = () => {
           ))}
         </View>
       </View>
-      <Pressable
-        style={styles.button}
-        onPress={() => handleBuyNow(item)}
-      >
+      <Pressable style={styles.button} onPress={() => handleBuyNow(item)}>
         <Text style={styles.buttonText}>Buy Now</Text>
       </Pressable>
     </View>
@@ -143,20 +153,20 @@ const styles = StyleSheet.create({
     marginBottom: 90,
   },
   card: {
-    backgroundColor: 'white',          
-    borderRadius: 10,                                              
-    shadowColor: '#000',       
+    backgroundColor: "white",
+    borderRadius: 10,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    elevation: 3,  
+    elevation: 3,
     margin: 10,
     marginTop: 40,
-    height: "90%",      
+    height: "90%",
   },
   cardContent: {
-    // flexGrow: 1,  
-    padding: "5%",  
+    // flexGrow: 1,
+    padding: "5%",
   },
   blurContainer: {
     overflow: "hidden",
@@ -227,18 +237,18 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "50%",
-    backgroundColor: '#FF7072',        
-    padding: 10,                       
-    borderRadius: 5,                   
-    alignItems: 'center',              
-    // marginTop: 10, 
+    backgroundColor: "#FF7072",
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    // marginTop: 10,
     justifyContent: "center",
     alignSelf: "center",
-    // marginBottom: "5%",                    
+    // marginBottom: "5%",
   },
   buttonText: {
-    color: 'white',                    
-    fontWeight: 'bold',    
-    fontSize: 16,                      
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
