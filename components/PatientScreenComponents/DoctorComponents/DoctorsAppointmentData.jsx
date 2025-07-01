@@ -766,29 +766,59 @@ const DoctorAppointmentScreen = ({ navigation }) => {
     }));
   };
 
-  // const handleSlotSelect = (email, slot) => {
-  //   setSelectedSlot((prev) => ({
-  //     ...prev,
-  //     [email]: prev[email] === slot ? null : slot,
-  //   }));
+  // const subscribeToDoctor = async (doctorEmail) => {
+  //   try {
+  //     const response = await fetch(
+  //
+  //       `${API_URL}/doctorsService/subscribe`,
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           doctor_email: doctorEmail,
+  //           user_email: user.email,
+  //         }),
+  //       }
+  //     );
+  //     const data = await response.json();
+  //     alert(data.message);
+  //   } catch (error) {
+  //     console.error("Subscription failed:", error);
+  //   }
   // };
-
   const subscribeToDoctor = async (doctorEmail) => {
     try {
-      const response = await fetch(
-        //"https://olj5e5aejl.execute-api.ap-south-1.amazonaws.com/prod/doctorsService/subscribe",
-        `${API_URL}/doctorsService/subscribe`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            doctor_email: doctorEmail,
-            user_email: user.email,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/doctorsService/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          doctor_email: doctorEmail,
+          user_email: user.email,
+        }),
+      });
+
       const data = await response.json();
       alert(data.message);
+
+      // Update the subscriber count locally
+      setSubscriberCounts((prev) => ({
+        ...prev,
+        [doctorEmail]: (prev[doctorEmail] || 0) ,
+      }));
+
+      // Find the doctor from the list
+      const subscribedDoctor = doctors.find((doc) => doc.email === doctorEmail);
+
+      // Add updated subscriber count to the doctor object
+      const updatedDoctor = {
+        ...subscribedDoctor,
+        subscriberCount: (subscriberCounts[doctorEmail] || 0) + 1,
+      };
+
+      // Navigate to detail page with updated doctor info
+      navigation.navigate("DoctorsInfoWithRating", {
+        doctors: updatedDoctor,
+      });
     } catch (error) {
       console.error("Subscription failed:", error);
     }

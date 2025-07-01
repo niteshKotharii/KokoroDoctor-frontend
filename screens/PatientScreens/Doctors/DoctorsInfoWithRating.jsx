@@ -377,7 +377,7 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
               <Text style={styles.offlineText}>Offline Appointment</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.OnlineMode}>
-            <Image
+              <Image
                 source={require("../../../assets/Icons/videocall.png")}
                 style={styles.onlineIcon}
               />
@@ -662,39 +662,39 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderColor: "#FF7072",
     backgroundColor: "rgb(237, 111, 128)",
-    flexDirection:"row",
-    justifyContent:"space-around",
-    borderTopLeftRadius:5,
-    borderBottomLeftRadius:5
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
   },
-  offlineIcon:{
-    alignSelf:"center",
-    height:20,
-    width:20
+  offlineIcon: {
+    alignSelf: "center",
+    height: 20,
+    width: 20,
   },
-  offlineText:{
-    color:"#fff",
-    alignSelf:"center",
-    fontSize:14,
-    fontWeight:500
+  offlineText: {
+    color: "#fff",
+    alignSelf: "center",
+    fontSize: 14,
+    fontWeight: 500,
   },
   OnlineMode: {
     //borderWidth: 1,
     height: "90%",
     width: "49%",
     alignSelf: "center",
-    flexDirection:"row",
-    justifyContent:"space-around"
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
-  onlineIcon:{
-    alignSelf:"center",
-    width:20,
-    height:14
+  onlineIcon: {
+    alignSelf: "center",
+    width: 20,
+    height: 14,
   },
-  onlineText:{
-    alignSelf:"center",
-    fontSize:14,
-    fontWeight:500
+  onlineText: {
+    alignSelf: "center",
+    fontSize: 14,
+    fontWeight: 500,
   },
   consultationFess: {
     height: "7%",
@@ -1197,4 +1197,3 @@ const styles = StyleSheet.create({
 });
 
 export default DoctorsInfoWithRating;
-
