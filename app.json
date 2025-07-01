@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "Kokoro.doctor",
+    "slug": "Kokoro-doctor",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "newArchEnabled": true,
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/OpenSans-Regular.ttf",
+            "./assets/fonts/OpenSans-Bold.ttf"
+          ]
+        }
+      ],
+      "expo-router"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.kokoro.doctor"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "entryPoint": "./index.js",
+    "android": {
+      "package": "com.kokoro.doctor"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "ea916d92-2026-4c6f-b98c-aa645e7d5685"
+      }
+    }
+  },
+  "name": "Kokoro.doctor"
+}
