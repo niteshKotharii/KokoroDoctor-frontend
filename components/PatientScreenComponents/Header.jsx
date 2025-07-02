@@ -325,7 +325,7 @@ const Header = ({ navigation }) => {
                       >
                         <Pressable
                           //onPress={() => handleOptionPress("Login")}
-                          onPress={handleOptionPress}
+                          onPress={() => navigation.navigate("Login")}
                           style={styles.dropdownItem}
                         >
                           <Text style={styles.dropdownText}>Login</Text>

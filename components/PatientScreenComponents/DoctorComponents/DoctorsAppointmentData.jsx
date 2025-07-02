@@ -803,7 +803,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
       // Update the subscriber count locally
       setSubscriberCounts((prev) => ({
         ...prev,
-        [doctorEmail]: (prev[doctorEmail] || 0) ,
+        [doctorEmail]: prev[doctorEmail] || 0,
       }));
 
       // Find the doctor from the list
@@ -836,15 +836,15 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                 <View style={styles.cardRow}>
                   {/* Left Section - Doctor Details */}
                   <View style={styles.row}>
-                    {/* <Image source={item.image} style={styles.image} /> */}
-                    <Image
+                    <Image source={item.profilePhoto} style={styles.image} />
+                    {/* <Image
                       source={
                         item.image
                           ? { uri: item.image }
                           : require("../../../assets/Images/userdemo.jpeg")
                       }
                       style={styles.image}
-                    />
+                    /> */}
 
                     <View style={styles.infoContainer}>
                       <View style={styles.infoBox}>
@@ -1033,7 +1033,9 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                           <Text style={styles.aboutDocText}>About Doc</Text>
                           <View style={styles.descriptionContainer}>
                             <Text style={styles.description}>
-                              {item.description.slice(0, 60)}...
+                              {/* {item.description.slice(0, 60)}... */}
+                              Specialized in {item.specialization}, with a
+                              experience of {item.experience}.
                             </Text>
                             <TouchableOpacity>
                               <Text style={styles.knowMore}>Know more</Text>
@@ -1051,12 +1053,25 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                         </View>
                       </View>
                       <TouchableOpacity
-                        style={styles.button}
-                        onPress={() =>
-                          navigation.navigate("DoctorsInfoWithRating", {
-                            doctors: item,
-                          })
-                        }
+                        // style={styles.button}
+                        // onPress={() =>
+                        //   navigation.navigate("DoctorsInfoWithRating", {
+                        //     doctors: item,
+                        //   })
+                        // }
+                        style={[
+                          styles.button,
+                          (!user || !user.email) && { backgroundColor: "gray" },
+                        ]}
+                        onPress={() => {
+                          if (!user || !user.email) {
+                            alert("You must be logged in to Subscribe.");
+                          } else {
+                            // navigation.push("DoctorsInfoWithRating");
+                            //navigation.navigate("DoctorsInfoWithRating");
+                            subscribeToDoctor(item.email);
+                          }
+                        }}
                       >
                         <Text style={styles.buttonText}>Subscribe</Text>
                         <Image
@@ -1126,8 +1141,8 @@ const styles = StyleSheet.create({
     }),
   },
   doctorImage: {
-    height: 67,
-    width: 67,
+    height: 47,
+    width: 57,
     borderRadius: 40,
     marginVertical: "1%",
   },
@@ -1170,7 +1185,7 @@ const styles = StyleSheet.create({
   secondSection: {
     height: "60%",
     width: "90%",
-    //borderWidth: 1,
+    borderWidth: 1,
     alignSelf: "center",
     backgroundColor: " rgb(244, 243, 243)",
     borderRadius: 10,
@@ -1298,7 +1313,7 @@ const styles = StyleSheet.create({
     width: "65%",
   },
   name: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 600,
     ...Platform.select({
       web: {
@@ -1319,8 +1334,8 @@ const styles = StyleSheet.create({
     borderColor: "#adff2f",
   },
   specialization: {
-    fontSize: 15,
-    fontWeight: 500,
+    fontSize: 12,
+    fontWeight: 600,
     color: "#000",
     ...Platform.select({
       web: {
@@ -1470,9 +1485,9 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   descriptionContainer: {
-    height: "77%",
+    height: "65%",
     width: "100%",
-    //borderWidth: 1,
+    borderWidth: 1,
     flexDirection: "column",
     ...Platform.select({
       web: {
@@ -1564,7 +1579,7 @@ const styles = StyleSheet.create({
     height: "27%",
     width: "55%",
     borderRadius: 8,
-    marginVertical: "25%",
+    marginVertical: "1.5%",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
@@ -1576,7 +1591,7 @@ const styles = StyleSheet.create({
         height: "27%",
         width: "95%",
         borderRadius: 8,
-        marginBottom: "5%",
+        marginVertical: "25%",
         justifyContent: "center",
         alignItems: "center",
       },
