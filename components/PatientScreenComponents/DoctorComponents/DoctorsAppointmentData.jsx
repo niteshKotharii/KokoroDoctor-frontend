@@ -838,7 +838,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                   <View style={styles.cardRow}>
                     {/* Left Section - Doctor Details */}
                     <View style={styles.row}>
-                      <Image source={item.profilePhoto} style={styles.image} />
+                      <Image source={{uri: item.profilePhoto}} style={styles.image} />
                       {/* <Image
                       source={
                         item.image
