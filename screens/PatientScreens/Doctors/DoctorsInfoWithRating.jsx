@@ -98,19 +98,19 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
       setVisibleChunks(visibleChunks + 1);
     }
   };
-  const doctorData = {
-    name: "Dr Kislay Shrivasatva",
-    credentials: "MD,MS",
-    experience: "22 Years Experience",
-    rating: 4.5,
-    profileImage: require("../../../assets/Images/dr_kislay.jpg"),
-    bio: "Dr Kislay Shrivasatva, MD (Cardiology), is a seasoned cardiologist with over 22 years of experience in treating heart conditions. Based in Bhopal, he specializes in coronary artery diseases, hypertension, heart failure, arrhythmias, and preventive cardiology. Dr Shrivasatva is skilled in interventional procedures such as angioplasty, CABG, valve repairs, and angiographies. After completing his MBBS and MD in Cardiology from top medical institutions, he developed expertise in both surgical and non-surgical heart care. Known for his comprehensive approach, he emphasizes heart disease detection, prevention, and lifestyle modifications. He is an active member of leading cardiology associations.",
-    reviews: [
-      { id: 1, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
-      { id: 2, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
-      { id: 3, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
-    ],
-  };
+  // const doctorData = {
+  //   name: "Dr Kislay Shrivasatva",
+  //   credentials: "MD,MS",
+  //   experience: "22 Years Experience",
+  //   rating: 4.5,
+  //   profileImage: require("../../../assets/Images/dr_kislay.jpg"),
+  //   bio: "Dr Kislay Shrivasatva, MD (Cardiology), is a seasoned cardiologist with over 22 years of experience in treating heart conditions. Based in Bhopal, he specializes in coronary artery diseases, hypertension, heart failure, arrhythmias, and preventive cardiology. Dr Shrivasatva is skilled in interventional procedures such as angioplasty, CABG, valve repairs, and angiographies. After completing his MBBS and MD in Cardiology from top medical institutions, he developed expertise in both surgical and non-surgical heart care. Known for his comprehensive approach, he emphasizes heart disease detection, prevention, and lifestyle modifications. He is an active member of leading cardiology associations.",
+  //   reviews: [
+  //     { id: 1, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
+  //     { id: 2, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
+  //     { id: 3, rating: 5, text: "Very good Doctor", reviewer: "Mr Donald" },
+  //   ],
+  // };
 
   const clinicData = {
     name: "Wisdom Clinics",
@@ -166,7 +166,7 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                     <View style={styles.doctorProfileCard}>
                       <View style={styles.doctorLeftSection}>
                         <Image
-                          source={doctorData.profileImage}
+                          source={doctors.profilePhoto}
                           style={styles.doctorImage}
                         />
                         <View style={styles.ratingContainer}>
@@ -176,25 +176,31 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                             color="#FFD700"
                           />
                           <Text style={styles.ratingText}>
-                            {doctorData.rating}
+                            {doctors.rating}
                           </Text>
                         </View>
                       </View>
 
                       <View style={styles.doctorInfoSection}>
-                        <Text style={styles.doctorName}>{doctorData.name}</Text>
+                        <Text style={styles.doctorName}>
+                          {doctors.doctorname}
+                        </Text>
                         <Text style={styles.doctorCredentials}>
-                          {doctorData.credentials}
+                          {doctors.specialization}
                         </Text>
                         <Text style={styles.doctorExperience}>
-                          {doctorData.experience}
+                          {doctors.experience}
                         </Text>
-                        <Text style={styles.doctorBio}>{doctorData.bio}</Text>
+                        <Text style={styles.doctorBio}>
+                          {doctors.doctorname} specialized in{" "}
+                          {doctors.specialization}, with an experience of{" "}
+                          {doctors.experience}.
+                        </Text>
 
                         <View style={styles.reviewsSection}>
                           <Text style={styles.reviewsTitle}>User Reviews</Text>
-                          <View style={styles.reviewsList}>
-                            {doctorData.reviews.map((review) => (
+                          {/* <View style={styles.reviewsList}>
+                            {doctors.reviews.map((review) => (
                               <View key={review.id} style={styles.reviewCard}>
                                 <Text style={styles.reviewText}>
                                   {review.text}
@@ -227,6 +233,28 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                                   />
                                   <Text style={styles.reviewerName}>
                                     {review.reviewer}
+                                  </Text>
+                                </View>
+                              </View>
+                            ))}
+                          </View> */}
+                          <View style={styles.reviewsList}>
+                            {[1, 2, 3].map((id) => (
+                              <View key={id} style={styles.reviewCard}>
+                                <Text style={styles.reviewText}>
+                                  Very good Doctor
+                                </Text>
+                                <View style={styles.reviewerContainer}>
+                                  {[...Array(5)].map((_, i) => (
+                                    <MaterialIcons
+                                      key={i}
+                                      name="star"
+                                      size={16}
+                                      color="#FFD700"
+                                    />
+                                  ))}
+                                  <Text style={styles.reviewerName}>
+                                    Mr Donald
                                   </Text>
                                 </View>
                               </View>
@@ -1036,6 +1064,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: "bold",
         color: "#333",
+        alignSelf: "flex-start",
       },
     }),
   },
@@ -1048,6 +1077,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: "#666",
         marginTop: 2,
+        alignSelf: "flex-start",
       },
     }),
   },

@@ -832,12 +832,14 @@ const DoctorAppointmentScreen = ({ navigation }) => {
             data={doctors}
             keyExtractor={(item, index) => item.email || index.toString()}
             renderItem={({ item }) => (
-              <View style={styles.card}>
-                <View style={styles.cardRow}>
-                  {/* Left Section - Doctor Details */}
-                  <View style={styles.row}>
-                    <Image source={item.profilePhoto} style={styles.image} />
-                    {/* <Image
+              console.log("Doctor profile photo URL:", item.profilePhoto),
+              (
+                <View style={styles.card}>
+                  <View style={styles.cardRow}>
+                    {/* Left Section - Doctor Details */}
+                    <View style={styles.row}>
+                      <Image source={item.profilePhoto} style={styles.image} />
+                      {/* <Image
                       source={
                         item.image
                           ? { uri: item.image }
@@ -845,65 +847,66 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                       }
                       style={styles.image}
                     /> */}
-
-                    <View style={styles.infoContainer}>
-                      <View style={styles.infoBox}>
-                        <View style={styles.info}>
-                          <Text style={styles.name}>{item.doctorname}</Text>
-                          <Text style={styles.specialization}>
-                            {item.specialization}
-                          </Text>
-                          <Text style={styles.experience}>
-                            {item.experience}
-                          </Text>
-                        </View>
-                        <View style={styles.verifiedContainer}>
-                          <Image
-                            source={require("../../../assets/Images/Medical_Council_of_India_Logo.png")}
-                            style={styles.imageBox}
-                          />
-                          <Text style={styles.verifiedBox}>
-                            <Text style={styles.verified}>Verified</Text>
-                            <Text style={styles.by}>by</Text>
-                            <Text style={styles.mci}> MCI</Text>
-                          </Text>
-                        </View>
-                        <View style={styles.subscriberCount}>
-                          <View style={styles.countBox}>
-                            <TouchableOpacity
-                              style={styles.heartButtonBox}
-                              onPress={() => handleHeartButtonPress(item.email)}
-                            >
-                              <Image
-                                source={require("../../../assets/Icons/heart1.png")}
-                                style={styles.heartImage}
-                              />
-                            </TouchableOpacity>
-                            <Text style={styles.numberText}>
-                              {subscriberCounts[item.email]}
+                      <View style={styles.infoContainer}>
+                        <View style={styles.infoBox}>
+                          <View style={styles.info}>
+                            <Text style={styles.name}>{item.doctorname}</Text>
+                            <Text style={styles.specialization}>
+                              {item.specialization}
+                            </Text>
+                            <Text style={styles.experience}>
+                              {item.experience}
                             </Text>
                           </View>
-                          <Text style={styles.subscriberCountText}>
-                            Subscribers
+                          <View style={styles.verifiedContainer}>
+                            <Image
+                              source={require("../../../assets/Images/Medical_Council_of_India_Logo.png")}
+                              style={styles.imageBox}
+                            />
+                            <Text style={styles.verifiedBox}>
+                              <Text style={styles.verified}>Verified</Text>
+                              <Text style={styles.by}>by</Text>
+                              <Text style={styles.mci}> MCI</Text>
+                            </Text>
+                          </View>
+                          <View style={styles.subscriberCount}>
+                            <View style={styles.countBox}>
+                              <TouchableOpacity
+                                style={styles.heartButtonBox}
+                                onPress={() =>
+                                  handleHeartButtonPress(item.email)
+                                }
+                              >
+                                <Image
+                                  source={require("../../../assets/Icons/heart1.png")}
+                                  style={styles.heartImage}
+                                />
+                              </TouchableOpacity>
+                              <Text style={styles.numberText}>
+                                {subscriberCounts[item.email]}
+                              </Text>
+                            </View>
+                            <Text style={styles.subscriberCountText}>
+                              Subscribers
+                            </Text>
+                          </View>
+                        </View>
+                        <View></View>
+                        <View style={styles.descriptionContainer}>
+                          <Text style={styles.description}>
+                            {item.description}
                           </Text>
                         </View>
                       </View>
-                      <View></View>
-                      <View style={styles.descriptionContainer}>
-                        <Text style={styles.description}>
-                          {item.description}
-                        </Text>
-                      </View>
                     </View>
-                  </View>
 
-                  {/* Right Section - Slot Booking */}
-                  <View style={styles.slotSection}>
-                    {/* <View style={styles.slotTitle}>
+                    {/* Right Section - Slot Booking */}
+                    <View style={styles.slotSection}>
+                      {/* <View style={styles.slotTitle}>
                       <Text style={styles.title}>Available Slots</Text>
                     </View> */}
 
-                    {/* <View style={styles.slotRow}>
+                      {/* <View style={styles.slotRow}>
                       {(item?.slots || []).map((slot) => (
                         <TouchableOpacity
                           //key={slot}
@@ -928,29 +931,30 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                         </TouchableOpacity>
                       ))}
                     </View> */}
-                    <Pressable
-                      //style={styles.button}
-                      style={[
-                        styles.button,
-                        (!user || !user.email) && { backgroundColor: "gray" },
-                      ]}
-                      onPress={() => {
-                        if (!user || !user.email) {
-                          alert("You must be logged in to Subscribe.");
-                        } else {
-                          // navigation.push("DoctorsInfoWithRating");
-                          //navigation.navigate("DoctorsInfoWithRating");
-                          subscribeToDoctor(item.email);
-                        }
-                      }}
-                    >
-                      <Text style={{ fontWeight: "600", color: "#FFFFFF" }}>
-                        Subscribe
-                      </Text>
-                    </Pressable>
+                      <Pressable
+                        //style={styles.button}
+                        style={[
+                          styles.button,
+                          (!user || !user.email) && { backgroundColor: "gray" },
+                        ]}
+                        onPress={() => {
+                          if (!user || !user.email) {
+                            alert("You must be logged in to Subscribe.");
+                          } else {
+                            // navigation.push("DoctorsInfoWithRating");
+                            //navigation.navigate("DoctorsInfoWithRating");
+                            subscribeToDoctor(item.email);
+                          }
+                        }}
+                      >
+                        <Text style={{ fontWeight: "600", color: "#FFFFFF" }}>
+                          Subscribe
+                        </Text>
+                      </Pressable>
+                    </View>
                   </View>
                 </View>
-              </View>
+              )
             )}
           />
         </View>
@@ -1196,7 +1200,7 @@ const styles = StyleSheet.create({
         width: "90%",
         height: "56%",
         marginTop: "1%",
-        //borderWidth:1
+        borderWidth: 1,
       },
     }),
   },
@@ -1487,7 +1491,7 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     height: "65%",
     width: "100%",
-    borderWidth: 1,
+    //borderWidth: 1,
     flexDirection: "column",
     ...Platform.select({
       web: {
