@@ -7,23 +7,38 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { RoleProvider } from "./contexts/RoleContext";
 import RootNavigation, { linking } from "./navigation/RootNavigator";
 
-const App = () => {
-  const navigationRef = useRef(null);
+import DoctorsSignUp from "./screens/DoctorScreens/DoctorRegistration/DoctorsSignUp";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+const Stack = createNativeStackNavigator();
 
-  return (
-    <AuthProvider>
-      <ThemeProvider>
-        <ChatbotProvider>
-          <RoleProvider>
-            <NavigationContainer linking={linking} ref={navigationRef}>
-              <RootNavigation />
-              <ChatBotOverlay navigationRef={navigationRef} />
-            </NavigationContainer>
-          </RoleProvider>
-        </ChatbotProvider>
-      </ThemeProvider>
-    </AuthProvider>
-  );
+const App = () => {
+	const navigationRef = useRef(null);
+
+	return (
+		<AuthProvider>
+			<ThemeProvider>
+				<ChatbotProvider>
+					<RoleProvider>
+						<NavigationContainer ref={navigationRef}>
+							<Stack.Navigator>
+								<Stack.Screen
+									name="DoctorSignUp"
+									component={DoctorsSignUp}
+									options={{ headerShown: false }}
+								/>
+							</Stack.Navigator>
+						</NavigationContainer>
+						{/* <NavigationContainer
+							linking={linking}
+							ref={navigationRef}>
+							<RootNavigation />
+							<ChatBotOverlay navigationRef={navigationRef} />
+						</NavigationContainer> */}
+					</RoleProvider>
+				</ChatbotProvider>
+			</ThemeProvider>
+		</AuthProvider>
+	);
 };
 
 export default App;
