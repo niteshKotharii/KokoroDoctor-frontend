@@ -14,11 +14,13 @@ import {
 import { AuthContext } from "../../contexts/AuthContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import SideBarNavigation from "./SideBarNavigation";
+import NewSideNav from "../DoctorsPortalComponents/NewSideNav";
+import NewestSidebar from "../DoctorsPortalComponents/NewestSidebar";
 //import DoctorPatientLandingPage from "../../screens/DoctorScreens/DoctorRegistration/DoctorPatientLandingPage1";
 
 const { width, height } = Dimensions.get("window");
 
-const Header = ({ navigation }) => {
+const Header = ({ navigation, isDoctorPortal = false }) => {
   const { user, logout, setRole } = useContext(AuthContext);
   const { width } = useWindowDimensions();
   const [isSideBarVisible, setIsSideBarVisible] = useState(false);
@@ -48,326 +50,335 @@ const Header = ({ navigation }) => {
   // };
 
   return (
-    <View style={styles.header}>
-      {user ? (
-        // Show user info when logged in
-        <>
-          {Platform.OS === "web" && width > 1000 && (
-            <View style={[styles.userInfo, styles.userInfoWeb]}>
-              <View style={styles.welcomeContainer}>
-                <Text style={styles.welcomeText}>
-                  Welcome {user?.name ? user?.name : "User"}!
-                </Text>
-                <Text style={styles.subText}>
-                  Here is your sales Medical dashboard
-                </Text>
-              </View>
-
-              {/* Search Bar */}
-              <View style={styles.searchContainer}>
-                <Image
-                  source={require("../../assets/Icons/search.png")}
-                  style={styles.searchIcon}
-                  resizeMode="contain"
-                />
-                <TextInput
-                  style={styles.searchInput}
-                  placeholder="Search your query"
-                  placeholderTextColor="rgba(255, 255, 255, 1)"
-                />
-              </View>
-
-              {/* Notification and Profile Section */}
-              <View style={{ flexDirection: "row", gap: 10 }}>
-                <Pressable style={styles.iconsContainer}>
-                  <Image
-                    source={require("../../assets/Icons/notification1.png")}
-                    style={styles.notificationIcon}
-                    resizeMode="contain"
-                  />
-                </Pressable>
-
-                {/* Profile Dropdown */}
-                <View style={styles.profileWrapper}>
-                  <Pressable
-                    onPress={() => setDropdownVisible(!dropdownVisible)}
-                  >
-                    <Image
-                      source={
-                        user?.picture
-                          ? { uri: user.picture }
-                          : require("../../assets/Images/user-icon.jpg")
-                      }
-                      style={styles.userIcon}
-                    />
-                  </Pressable>
-                  {dropdownVisible && (
-                    <View style={[styles.dropdownMain, styles.dropdownWeb]}>
-                      <Pressable onPress={() => {}} style={styles.dropdownItem}>
-                        <Text style={styles.dropdownText}>Profile</Text>
-                      </Pressable>
-                      <Pressable onPress={logout} style={styles.dropdownItem}>
-                        <Text style={styles.dropdownText}>Logout</Text>
-                      </Pressable>
+      <View style={styles.header}>
+        {user ? (
+            // Show user info when logged in
+            <>
+              {Platform.OS === "web" && width > 1000 && (
+                  <View style={[styles.userInfo, styles.userInfoWeb]}>
+                    <View style={styles.welcomeContainer}>
+                      <Text style={styles.welcomeText}>
+                        Welcome {user?.name ? user?.name : "User"}!
+                      </Text>
+                      <Text style={styles.subText}>
+                        Here is your sales Medical dashboard
+                      </Text>
                     </View>
-                  )}
-                </View>
-              </View>
-            </View>
-          )}
 
-          {(Platform.OS !== "web" || width < 1000) && (
-            <>
-              <Modal
-                visible={isSideBarVisible}
-                transparent={true}
-                onRequestClose={() => setIsSideBarVisible(false)}
-              >
-                <View style={styles.modalContainer}>
-                  <View style={styles.mobileSidebar}>
-                    <SideBarNavigation
-                      navigation={navigation}
-                      closeSidebar={() => setIsSideBarVisible(false)}
-                    />
-                  </View>
-                  <Pressable
-                    style={styles.overlay}
-                    onPress={() => setIsSideBarVisible(false)}
-                  />
-                </View>
-              </Modal>
-
-              <View style={styles.appHeaderContainer}>
-                <View style={styles.appHeader}>
-                  <View style={styles.logo}>
-                    <Pressable
-                      style={styles.hamburger}
-                      onPress={() => setIsSideBarVisible(true)}
-                    >
-                      <MaterialIcons name="menu" size={30} color="black" />
-                    </Pressable>
-                    <Image
-                      source={require("../../assets/Images/KokoroLogo.png")}
-                      style={{ height: 30, width: 30 }}
-                    />
-                    <Text
-                      style={{
-                        fontWeight: "800",
-                        color: "#000000",
-                        fontSize: 16,
-                      }}
-                    >
-                      Kokoro.Doctor
-                    </Text>
-                  </View>
-
-                  <View style={[styles.userInfo, styles.userInfoApp]}>
-                    <Pressable
-                      onPress={() => {
-                        setDropdownVisible(!dropdownVisible);
-                      }}
-                    >
+                    {/* Search Bar */}
+                    <View style={styles.searchContainer}>
                       <Image
-                        source={
-                          user?.picture
-                            ? { uri: user.picture }
-                            : require("../../assets/Images/user-icon.jpg")
-                        }
-                        style={styles.userIcon}
+                          source={require("../../assets/Icons/search.png")}
+                          style={styles.searchIcon}
+                          resizeMode="contain"
                       />
-                    </Pressable>
-                    <Pressable>
-                      <MaterialIcons
-                        name="notifications-none"
-                        size={24}
-                        color="black"
+                      <TextInput
+                          style={styles.searchInput}
+                          placeholder="Search your query"
+                          placeholderTextColor="rgba(255, 255, 255, 1)"
                       />
-                    </Pressable>
-                    {dropdownVisible && (
-                      <View
-                        style={[styles.dropdownMain, styles.dropdownLoggedIn]}
-                      >
+                    </View>
+
+                    {/* Notification and Profile Section */}
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                      <Pressable style={styles.iconsContainer}>
+                        <Image
+                            source={require("../../assets/Icons/notification1.png")}
+                            style={styles.notificationIcon}
+                            resizeMode="contain"
+                        />
+                      </Pressable>
+
+                      {/* Profile Dropdown */}
+                      <View style={styles.profileWrapper}>
                         <Pressable
-                          onPress={() => {}}
-                          style={styles.dropdownItem}
+                            onPress={() => setDropdownVisible(!dropdownVisible)}
                         >
-                          <Text style={styles.dropdownText}>Profile</Text>
+                          <Image
+                              source={
+                                user?.picture
+                                    ? { uri: user.picture }
+                                    : require("../../assets/Images/user-icon.jpg")
+                              }
+                              style={styles.userIcon}
+                          />
                         </Pressable>
-                        <Pressable onPress={logout} style={styles.dropdownItem}>
-                          <Text style={styles.dropdownText}>Logout</Text>
-                        </Pressable>
+                        {dropdownVisible && (
+                            <View style={[styles.dropdownMain, styles.dropdownWeb]}>
+                              <Pressable onPress={() => {}} style={styles.dropdownItem}>
+                                <Text style={styles.dropdownText}>Profile</Text>
+                              </Pressable>
+                              <Pressable onPress={logout} style={styles.dropdownItem}>
+                                <Text style={styles.dropdownText}>Logout</Text>
+                              </Pressable>
+                            </View>
+                        )}
                       </View>
-                    )}
+                    </View>
                   </View>
-                </View>
+              )}
 
-                <View style={styles.usernameApp}>
-                  <Text
-                    style={{
-                      fontWeight: "600",
-                      color: "#000000",
-                      fontSize: 20,
-                    }}
-                  >
-                    Hello,
-                  </Text>
-                  <Text
-                    style={{
-                      fontWeight: "800",
-                      color: "#000000",
-                      fontSize: 20,
-                    }}
-                  >
-                    {" "}
-                    {user?.name ? user?.name : "User"}!
-                  </Text>
-                </View>
-              </View>
+              {(Platform.OS !== "web" || width < 1000) && (
+                  <>
+                    <Modal
+                        visible={isSideBarVisible}
+                        transparent={true}
+                        onRequestClose={() => setIsSideBarVisible(false)}
+                    >
+                      <View style={styles.modalContainer}>
+                        <View style={styles.mobileSidebar}>
+                          <SideBarNavigation
+                              navigation={navigation}
+                              closeSidebar={() => setIsSideBarVisible(false)}
+                          />
+                        </View>
+                        <Pressable
+                            style={styles.overlay}
+                            onPress={() => setIsSideBarVisible(false)}
+                        />
+                      </View>
+                    </Modal>
+
+                    <View style={styles.appHeaderContainer}>
+                      <View style={styles.appHeader}>
+                        <View style={styles.logo}>
+                          <Pressable
+                              style={styles.hamburger}
+                              onPress={() => setIsSideBarVisible(true)}
+                          >
+                            <MaterialIcons name="menu" size={30} color="black" />
+                          </Pressable>
+                          <Image
+                              source={require("../../assets/Images/KokoroLogo.png")}
+                              style={{ height: 30, width: 30 }}
+                          />
+                          <Text
+                              style={{
+                                fontWeight: "800",
+                                color: "#000000",
+                                fontSize: 16,
+                              }}
+                          >
+                            Kokoro.Doctor
+                          </Text>
+                        </View>
+
+                        <View style={[styles.userInfo, styles.userInfoApp]}>
+                          <Pressable
+                              onPress={() => {
+                                setDropdownVisible(!dropdownVisible);
+                              }}
+                          >
+                            <Image
+                                source={
+                                  user?.picture
+                                      ? { uri: user.picture }
+                                      : require("../../assets/Images/user-icon.jpg")
+                                }
+                                style={styles.userIcon}
+                            />
+                          </Pressable>
+                          <Pressable>
+                            <MaterialIcons
+                                name="notifications-none"
+                                size={24}
+                                color="black"
+                            />
+                          </Pressable>
+                          {dropdownVisible && (
+                              <View
+                                  style={[styles.dropdownMain, styles.dropdownLoggedIn]}
+                              >
+                                <Pressable
+                                    onPress={() => {}}
+                                    style={styles.dropdownItem}
+                                >
+                                  <Text style={styles.dropdownText}>Profile</Text>
+                                </Pressable>
+                                <Pressable onPress={logout} style={styles.dropdownItem}>
+                                  <Text style={styles.dropdownText}>Logout</Text>
+                                </Pressable>
+                              </View>
+                          )}
+                        </View>
+                      </View>
+
+                      <View style={styles.usernameApp}>
+                        <Text
+                            style={{
+                              fontWeight: "600",
+                              color: "#000000",
+                              fontSize: 20,
+                            }}
+                        >
+                          Hello,
+                        </Text>
+                        <Text
+                            style={{
+                              fontWeight: "800",
+                              color: "#000000",
+                              fontSize: 20,
+                            }}
+                        >
+                          {" "}
+                          {user?.name ? user?.name : "User"}!
+                        </Text>
+                      </View>
+                    </View>
+                  </>
+              )}
             </>
-          )}
-        </>
-      ) : (
-        // Show login/signup buttons when not logged in
-        <>
-          {Platform.OS === "web" && width > 1000 && (
-            <View style={styles.authButtonsWeb}>
-              <Pressable
-                onPress={() => navigation.navigate("Login")}
-                //onPress={() => handleOptionPress("DoctorPatientLandingPage")}
-                style={styles.authButton}
-              >
-                <Text
-                  style={[
-                    styles.authText,
-                    { color: width < 1000 ? "#000" : "#fff" },
-                  ]}
-                >
-                  Login
-                </Text>
-              </Pressable>
-              <Pressable
-                onPress={() => navigation.navigate("DoctorPatientLandingPage")}
-                //onPress={() => handleOptionPress("DoctorPatientLandingPage")}
-                style={styles.authButton}
-              >
-                <Text
-                  style={[
-                    styles.authText,
-                    { color: width < 1000 ? "#000" : "#fff" },
-                  ]}
-                >
-                  Signup
-                </Text>
-              </Pressable>
-            </View>
-          )}
-
-          {(Platform.OS !== "web" || width < 1000) && (
+        ) : (
+            // Show login/signup buttons when not logged in
             <>
-              <Modal
-                visible={isSideBarVisible}
-                transparent={true}
-                onRequestClose={() => setIsSideBarVisible(false)}
-              >
-                <View style={styles.modalContainer}>
-                  <View style={styles.mobileSidebar}>
-                    <SideBarNavigation
-                      navigation={navigation}
-                      closeSidebar={() => setIsSideBarVisible(false)}
-                    />
-                  </View>
-                  <Pressable
-                    style={styles.overlay}
-                    onPress={() => setIsSideBarVisible(false)}
-                  />
-                </View>
-              </Modal>
-              <View style={styles.appHeaderContainer}>
-                <View style={styles.appHeader}>
-                  <View style={styles.logo}>
+              {Platform.OS === "web" && width > 1000 && (
+                  <View style={styles.authButtonsWeb}>
                     <Pressable
-                      style={styles.hamburger}
-                      onPress={() => setIsSideBarVisible(true)}
+                        onPress={() => navigation.navigate("Login")}
+                        //onPress={() => handleOptionPress("DoctorPatientLandingPage")}
+                        style={styles.authButton}
                     >
-                      <MaterialIcons name="menu" size={30} color="black" />
-                    </Pressable>
-                    <Image
-                      source={require("../../assets/Images/KokoroLogo.png")}
-                      style={{ height: 30, width: 30 }}
-                    />
-                    <Text
-                      style={{
-                        fontWeight: "800",
-                        color: "#000000",
-                        fontSize: 16,
-                      }}
-                    >
-                      Kokoro.Doctor
-                    </Text>
-                  </View>
-
-                  <View style={styles.authButtonsApp}>
-                    <Pressable
-                      onPress={() => setDropdownVisible(!dropdownVisible)}
-                    >
-                      <MaterialIcons name="person" size={30} color="black" />
-                    </Pressable>
-                    <Pressable>
-                      <MaterialIcons
-                        name="notifications"
-                        size={30}
-                        color="black"
-                      />
-                    </Pressable>
-                    {dropdownVisible && (
-                      <View
-                        style={[styles.dropdownMain, styles.dropdownLoggedOut]}
+                      <Text
+                          style={[
+                            styles.authText,
+                            { color: width < 1000 ? "#000" : "#fff" },
+                          ]}
                       >
-                        <Pressable
-                          //onPress={() => handleOptionPress("Login")}
-                          onPress={handleOptionPress}
-                          style={styles.dropdownItem}
-                        >
-                          <Text style={styles.dropdownText}>Login</Text>
-                        </Pressable>
-                        <Pressable
-                          ///onPress={() => handleOptionPress("Signup")}
-                          onPress={handleOptionPress}
-                          style={styles.dropdownItem}
-                        >
-                          <Text style={styles.dropdownText}>Signup</Text>
-                        </Pressable>
-                      </View>
-                    )}
+                        Login
+                      </Text>
+                    </Pressable>
+                    <Pressable
+                        onPress={() => navigation.navigate("DoctorPatientLandingPage")}
+                        //onPress={() => handleOptionPress("DoctorPatientLandingPage")}
+                        style={styles.authButton}
+                    >
+                      <Text
+                          style={[
+                            styles.authText,
+                            { color: width < 1000 ? "#000" : "#fff" },
+                          ]}
+                      >
+                        Signup
+                      </Text>
+                    </Pressable>
                   </View>
-                </View>
-                <View style={styles.usernameApp}>
-                  <Text
-                    style={{
-                      fontWeight: "600",
-                      color: "#000000",
-                      fontSize: 20,
-                    }}
-                  >
-                    Hello,
-                  </Text>
-                  <Text
-                    style={{
-                      fontWeight: "800",
-                      color: "#000000",
-                      fontSize: 20,
-                    }}
-                  >
-                    {" "}
-                    {user?.name ? user?.name : "User"}!
-                  </Text>
-                </View>
-              </View>
+              )}
+
+              {(Platform.OS !== "web" || width < 1000) && (
+                  <>
+                    <Modal
+                        visible={isSideBarVisible}
+                        transparent={true}
+                        onRequestClose={() => setIsSideBarVisible(false)}
+                    >
+                      <View style={styles.modalContainer}>
+                        <View style={styles.mobileSidebar}>
+                          {isDoctorPortal ? (
+                              <NewestSidebar
+                                  navigation={navigation}
+                                  closeSidebar={() => setIsSideBarVisible(false)}
+                              />
+                          ) : (
+                              <SideBarNavigation
+                                  navigation={navigation}
+                                  closeSidebar={() => setIsSideBarVisible(false)}
+                              />
+                          )}
+                        </View>
+                        <Pressable
+                            style={styles.overlay}
+                            onPress={() => setIsSideBarVisible(false)}
+                        />
+                      </View>
+                    </Modal>
+                    <View style={styles.appHeaderContainer}>
+                      <View style={styles.appHeader}>
+                        <View style={styles.logo}>
+                          <Pressable
+                              style={styles.hamburger}
+                              onPress={() => setIsSideBarVisible(true)}
+                          >
+                            <MaterialIcons name="menu" size={30} color="black" />
+                          </Pressable>
+                          <Image
+                              source={require("../../assets/Images/KokoroLogo.png")}
+                              style={{ height: 30, width: 30 }}
+                          />
+                          <Text
+                              style={{
+                                fontWeight: "800",
+                                color: "#000000",
+                                fontSize: 16,
+                              }}
+                          >
+                            Kokoro.Doctor
+                          </Text>
+                        </View>
+
+                        <View style={styles.authButtonsApp}>
+                          <Pressable
+                              onPress={() => setDropdownVisible(!dropdownVisible)}
+                          >
+                            <MaterialIcons name="person" size={30} color="black" />
+                          </Pressable>
+                          <Pressable>
+                            <MaterialIcons
+                                name="notifications"
+                                size={30}
+                                color="black"
+                            />
+                          </Pressable>
+                          {dropdownVisible && (
+                              <View
+                                  style={[styles.dropdownMain, styles.dropdownLoggedOut]}
+                              >
+                                <Pressable
+                                    //onPress={() => handleOptionPress("Login")}
+                                    onPress={() => navigation.navigate("Login")}
+                                    style={styles.dropdownItem}
+                                >
+                                  <Text style={styles.dropdownText}>Login</Text>
+                                </Pressable>
+                                <Pressable
+                                    ///onPress={() => handleOptionPress("Signup")}
+                                    onPress={handleOptionPress}
+                                    style={styles.dropdownItem}
+                                >
+                                  <Text style={styles.dropdownText}>Signup</Text>
+                                </Pressable>
+                              </View>
+                          )}
+                        </View>
+                      </View>
+                      {!isDoctorPortal && (
+                          <View style={styles.usernameApp}>
+                            <Text
+                                style={{
+                                  fontWeight: "600",
+                                  color: "#000000",
+                                  fontSize: 20,
+                                }}
+                            >
+                              Hello,
+                            </Text>
+                            <Text
+                                style={{
+                                  fontWeight: "800",
+                                  color: "#000000",
+                                  fontSize: 20,
+                                }}
+                            >
+                              {" "}
+                              {user?.name ? user?.name : "User"}!
+                            </Text>
+                          </View>
+                      )}
+                    </View>
+                  </>
+              )}
             </>
-          )}
-        </>
-      )}
-    </View>
+        )}
+      </View>
   );
 };
 
@@ -375,7 +386,7 @@ const styles = StyleSheet.create({
   header: {
     height: "100%",
     justifyContent: "center",
-    alignItems: "center",
+    //alignItems: "center",
     ...Platform.select({
       web: {
         marginTop: 5,
@@ -398,7 +409,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     ...Platform.select({
       web: {
-        gap: 100,
+        //gap: 100,
       },
     }),
   },

@@ -17,14 +17,11 @@ import * as DocumentPicker from "expo-document-picker";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import NewSideNav from "../../../components/DoctorsPortalComponents/NewSideNav";
 import SideImageStyle from "../../../components/DoctorsPortalComponents/SideImageStyle";
+import Header from "../../../components/PatientScreenComponents/Header";
 
 const { width, height } = Dimensions.get("window");
 
 const NewDoctorMedicalReg = ({ navigation }) => {
-  const [licenseNo, setLicenseNo] = useState("");
-  const [specialization, setSpecialization] = useState("");
-  const [experience, setExperience] = useState("");
-  const [hospital, setHospital] = useState("");
 
   const [documents, setDocuments] = useState({
     medicalCouncil: null,
@@ -55,7 +52,7 @@ const NewDoctorMedicalReg = ({ navigation }) => {
       );
       return;
     }
-    navigation.navigate("NextScreen");
+    navigation.navigate("EstablishmentTiming");
   };
     const removeDocument = (type) => {
         setDocuments((prev) => ({
@@ -195,31 +192,17 @@ const NewDoctorMedicalReg = ({ navigation }) => {
       )}
 
         {(Platform.OS !== "web" || width < 1000) && (
-                <View style={styles.wrapper}>
 
+                <View style={styles.wrapper}>
+                    <View style={[styles.header, { height: "3%" }]}>
+                        <Header navigation={navigation} isDoctorPortal={true} />
+                    </View>
 
                   <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
                     <ScrollView contentContainerStyle={styles.formSection}>
                         {/* Navbar */}
                         {/*<NewSideNav />*/}
-                        <View style={styles.navbar}>
-                          <TouchableOpacity>
-                            <Ionicons name="menu" size={32} color="black" />
-                          </TouchableOpacity>
-                            <Image
-                                source={require("../../../assets/Images/KokoroLogo.png")}
-                                style={styles.kokoroLogo}
-                                resizeMode="contain"
-                            />
-                            <Text style={styles.title}>Kokoro.Doctor</Text>
-                            <TouchableOpacity style={styles.navIconProfile}>
-                            <Ionicons name="person" size={32} color="black" />
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                            <Ionicons name="notifications-outline" size={32} color="black" />
-                            </TouchableOpacity>
-                        </View>
                       <View style={styles.headingBox}>
                         <Text style={styles.heading}>
                         Hang On!
@@ -369,6 +352,7 @@ const styles = StyleSheet.create({
     padding:'3%',
     height:"100%",
     width:"100%",
+      backgroundColor: "#FCF5F7",
 
     ...Platform.select({
       web: {
@@ -379,6 +363,9 @@ const styles = StyleSheet.create({
       },
     }),
   },
+    header: {
+      width:"100%",
+    },
   rightPanel: {
     ...Platform.select({
       web: {

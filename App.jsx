@@ -16,8 +16,9 @@ const App = () => {
         <ChatbotProvider>
           <RoleProvider>
             <NavigationContainer linking={linking} ref={navigationRef}>
-              <RootNavigation />
-              <ChatBotOverlay navigationRef={navigationRef} />
+              {/*<RootNavigation />*/}
+              {/*<ChatBotOverlay navigationRef={navigationRef} />*/}
+              <NewDoctorMedicalReg />
             </NavigationContainer>
           </RoleProvider>
         </ChatbotProvider>
