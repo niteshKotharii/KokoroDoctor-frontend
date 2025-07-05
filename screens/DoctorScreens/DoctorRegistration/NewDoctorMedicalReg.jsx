@@ -398,31 +398,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: 0.2,
   },
-  kokoroLogo: {
-    width: 30,
-    height: 30,
-    marginRight: 12,
-    marginLeft:"4%",
-  },
-  navbar: {
-    flexDirection: "row",
-
-      width:'100%',
-
-  },
-    navIconProfile:{
-
-      marginRight:18,
-        flexDirection: "row",
-    },
-    title: {
-      fontSize: 18,
-        fontFamily: "Montserrat",
-        fontWeight: 900,
-       paddingTop:"1%",
-        lineHeight:20,
-        marginRight:"20%",
-    },
   formSection: {
     ...Platform.select({
       web: {
