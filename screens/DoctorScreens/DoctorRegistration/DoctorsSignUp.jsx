@@ -185,62 +185,77 @@ const DoctorsSignUp = () => {
 							<Text style={styles.heading}>Sign Up</Text>
 							<View style={styles.details}>
 								<Text style={styles.inputHeading}>First Name</Text>
-								<TextInput
-									placeholder="Enter your first name..."
-									placeholderTextColor="#c0c0c0"
-									style={[
-										styles.inputContainer,
-										{ color: formData.firstname ? "black" : "#c0c0c0" },
-									]}
-									value={formData.name}
-									onChangeText={(val) => handleChange("firstname", val)}
-								/>
+								<View style={styles.inputWrapper}>
+									<TextInput
+										placeholder="Enter your first name..."
+										placeholderTextColor="#c0c0c0"
+										style={[
+											styles.inputContainer,
+											{ color: formData.firstname ? "black" : "#c0c0c0" },
+										]}
+										value={formData.firstname}
+										onChangeText={(val) => handleChange("firstname", val)}
+									/>
+								</View>
+
 								<Text style={styles.inputHeading}>Last Name</Text>
-								<TextInput
-									placeholder="Enter your last name..."
-									placeholderTextColor="#c0c0c0"
-									style={[
-										styles.inputContainer,
-										{ color: formData.lastname ? "black" : "#c0c0c0" },
-									]}
-									value={formData.name}
-									onChangeText={(val) => handleChange("lastname", val)}
-								/>
+								<View style={styles.inputWrapper}>
+									<TextInput
+										placeholder="Enter your last name..."
+										placeholderTextColor="#c0c0c0"
+										style={[
+											styles.inputContainer,
+											{ color: formData.lastname ? "black" : "#c0c0c0" },
+										]}
+										value={formData.lastname}
+										onChangeText={(val) => handleChange("lastname", val)}
+									/>
+								</View>
+
 								<Text style={styles.inputHeading}>Email Id</Text>
-								<TextInput
-									placeholder="Enter your email..."
-									placeholderTextColor="#c0c0c0"
-									style={[
-										styles.inputContainer,
-										{ color: formData.email ? "black" : "#c0c0c0" },
-									]}
-									value={formData.email}
-									onChangeText={(val) => handleChange("email", val)}
-								/>
+								<View style={styles.inputWrapper}>
+									<TextInput
+										placeholder="Enter your email..."
+										placeholderTextColor="#c0c0c0"
+										style={[
+											styles.inputContainer,
+											{ color: formData.email ? "black" : "#c0c0c0" },
+										]}
+										value={formData.email}
+										onChangeText={(val) => handleChange("email", val)}
+									/>
+								</View>
+
 								<Text style={styles.inputHeading}>Phone No</Text>
-								<TextInput
-									placeholder="Enter your phone number..."
-									placeholderTextColor="#c0c0c0"
-									keyboardType="phone-pad"
-									style={[
-										styles.inputContainer,
-										{ color: formData.phoneNumber ? "black" : "#c0c0c0" },
-									]}
-									value={formData.phone}
-									onChangeText={(val) => handleChange("phoneNumber", val)}
-								/>
+								<View style={styles.inputWrapper}>
+									<TextInput
+										placeholder="Enter your phone number..."
+										placeholderTextColor="#c0c0c0"
+										keyboardType="phone-pad"
+										style={[
+											styles.inputContainer,
+											{ color: formData.phoneNumber ? "black" : "#c0c0c0" },
+										]}
+										value={formData.phoneNumber}
+										onChangeText={(val) => handleChange("phoneNumber", val)}
+									/>
+								</View>
+
 								<Text style={styles.inputHeading}>Password</Text>
-								<TextInput
-									placeholder="Enter your password..."
-									placeholderTextColor="#c0c0c0"
-									secureTextEntry
-									style={[
-										styles.inputContainer,
-										{ color: formData.password ? "black" : "#c0c0c0" },
-									]}
-									value={formData.password}
-									onChangeText={(val) => handleChange("password", val)}
-								/>
+								<View style={styles.inputWrapper}>
+									<TextInput
+										placeholder="Enter your password..."
+										placeholderTextColor="#c0c0c0"
+										secureTextEntry
+										style={[
+											styles.inputContainer,
+											{ color: formData.password ? "black" : "#c0c0c0" },
+										]}
+										value={formData.password}
+										onChangeText={(val) => handleChange("password", val)}
+									/>
+								</View>
+
 								<View style={styles.rememberForgotRow}>
 									<TouchableOpacity
 										style={styles.checkboxContainer}
@@ -269,13 +284,14 @@ const DoctorsSignUp = () => {
 										<Text style={styles.continueText}>Sign in</Text>
 										<Text>{"\n"}</Text>
 									</TouchableOpacity>
-									{/* <Text style={styles.orOption}>Or</Text> */}
+									<Text style={styles.orOption}>Or</Text>
+
 									<TouchableOpacity
 										style={styles.continueWithGoogle}
 										onPress={handleSignup}>
 										<Image
 											style={styles.googleIcon}
-											source={require("../../../assets/Icons/googleIcon.png")}
+											source={require("../../../assets/Images/google-icon.png")}
 										/>
 										<Text style={styles.continueText}>Sign in with Google</Text>
 									</TouchableOpacity>
@@ -283,7 +299,6 @@ const DoctorsSignUp = () => {
 							</View>
 						</View>
 					</View>
-					{/* </View> */}
 				</ScrollView>
 			)}
 		</>
@@ -306,7 +321,6 @@ const styles = StyleSheet.create({
 
 	Content: {
 		width: "100%",
-		// margin: "auto",
 		paddingVertical: 20,
 		backgroundColor: "#FCF5F7",
 		...Platform.select({
@@ -334,6 +348,12 @@ const styles = StyleSheet.create({
 		}),
 	},
 
+	inputWrapper: {
+		width: "100%",
+		maxWidth: 400,
+		marginBottom: 10,
+	},
+
 	heading: {
 		fontSize: 28,
 		fontWeight: "600",
@@ -352,6 +372,7 @@ const styles = StyleSheet.create({
 	details: {
 		width: "100%",
 		margin: "auto",
+		paddingHorizontal: 10,
 		...Platform.select({
 			web: {
 				width: "100%",
@@ -383,17 +404,11 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 5,
 		width: "100%",
 		backgroundColor: "#fff",
-		...Platform.select({
-			web: {
-				width: "65%",
-				marginBottom: 6,
-				shadowColor: "#000",
-				shadowOpacity: 0.05,
-				shadowRadius: 4,
-				elevation: 1,
-				borderColor: "#000",
-			},
-		}),
+		marginBottom: 10,
+		shadowColor: "#000",
+		shadowOpacity: 0.05,
+		shadowRadius: 4,
+		elevation: 1,
 	},
 
 	note: {
@@ -454,29 +469,9 @@ const styles = StyleSheet.create({
 	orOption: {
 		fontSize: 14,
 		textAlign: "center",
+		fontWeight: "600",
 		marginVertical: 10,
 		fontFamily: Platform.OS === "web" ? "Poppins_500Medium" : undefined,
-	},
-
-	continueWithGoogle: {
-		width: "100%",
-		backgroundColor: "#fff",
-		borderColor: "#ccc",
-		borderWidth: 1,
-		borderRadius: 8,
-		height: 45,
-		marginTop: 10,
-		flexDirection: "row",
-		color: "black",
-		alignItems: "center",
-		justifyContent: "center",
-		// paddingHorizontal: 12,
-		gap: 6,
-		...Platform.select({
-			web: {
-				width: "60%",
-			},
-		}),
 	},
 
 	googleIcon: {
@@ -485,9 +480,9 @@ const styles = StyleSheet.create({
 		resizeMode: "contain",
 		marginRight: 10,
 	},
-
 	continueContainer: {
 		width: "100%",
+		maxWidth: 400,
 		height: 42,
 		backgroundColor: "#1FBF86",
 		borderRadius: 8,
@@ -495,17 +490,30 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		marginTop: 10,
-		...Platform.select({
-			web: {
-				width: "60%",
-				marginLeft: "1%",
-			},
-		}),
+	},
+	continueWithGoogle: {
+		width: "100%",
+		maxWidth: 400,
+		backgroundColor: "#fff",
+		borderColor: "#ccc",
+		borderWidth: 1,
+		borderRadius: 8,
+		height: 45,
+		marginTop: 10,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		paddingHorizontal: 10,
+		gap: 6,
+	},
+	btns: {
+		width: "100%",
+		marginTop: 10,
 	},
 
 	skipContainer: {
 		marginTop: 16,
-		width: "50%",
+		width: "100%",
 		height: 38,
 		alignItems: "center",
 		justifyContent: "center",
