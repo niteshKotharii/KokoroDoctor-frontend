@@ -19,7 +19,7 @@ const App = () => {
 			<ThemeProvider>
 				<ChatbotProvider>
 					<RoleProvider>
-						<NavigationContainer ref={navigationRef}>
+						{/* <NavigationContainer ref={navigationRef}>
 							<Stack.Navigator>
 								<Stack.Screen
 									name="DoctorSignUp"
@@ -27,13 +27,13 @@ const App = () => {
 									options={{ headerShown: false }}
 								/>
 							</Stack.Navigator>
-						</NavigationContainer>
-						{/* <NavigationContainer
+						</NavigationContainer> */}
+						<NavigationContainer
 							linking={linking}
 							ref={navigationRef}>
 							<RootNavigation />
 							<ChatBotOverlay navigationRef={navigationRef} />
-						</NavigationContainer> */}
+						</NavigationContainer>
 					</RoleProvider>
 				</ChatbotProvider>
 			</ThemeProvider>
