@@ -8,6 +8,7 @@ import ForgotPassword from "../screens/PatientScreens/Auth/ForgotPassword";
 import ResetPassword from "../screens/PatientScreens/Auth/ResetPassword";
 import PasswordSuccess from "../screens/PatientScreens/Auth/PasswordSuccess";
 import Signup from "../screens/PatientScreens/Auth/Signup";
+import PrivacyPolicy from "../screens/PatientScreens/Auth/PrivacyPolicy";
 import LandingPage from "../screens/PatientScreens/LandingPage";
 import DoctorPatientLandingPage from "../screens/DoctorScreens/DoctorRegistration/DoctorPatientLandingPage";
 
@@ -272,6 +273,11 @@ const AppNavigation = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="PrivacyPolicy"
+          component={PrivacyPolicy}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="ForgotPassword"
           component={ForgotPassword}
           options={{ headerShown: false }}
@@ -353,6 +359,7 @@ const AppNavigation = () => {
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
+      
     </HeaderButtonsProvider>
   );
 };

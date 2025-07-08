@@ -67,6 +67,7 @@ export const signup = async (
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ username, email, password, phoneNumber, location }),
+    credentials: 'include',
   });
 
   if (!response.ok) {
@@ -86,6 +87,7 @@ export const login = async (email, password) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
+    credentials: 'include',
   });
 
   if (!response.ok) {
