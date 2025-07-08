@@ -18,7 +18,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import { useGoogleAuth } from "../../../utils/AuthService";
 import { useRole } from "../../../contexts/RoleContext";
 
-const Signup = ({ navigation }) => {
+const Signup = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   const { signup, googleLogin } = useContext(AuthContext);
   const [request, response, promptAsync] = useGoogleAuth();
@@ -46,6 +46,12 @@ const Signup = ({ navigation }) => {
         });
     }
   }, [response, googleLogin, navigation]);
+
+  useEffect(() => {
+    if (route?.params?.agreedToPolicy === true) {
+      setRememberMe(true);
+    }
+  }, [route?.params]);
 
   const handleGoogleLogin = () => {
     if (request) {
@@ -218,42 +224,46 @@ const Signup = ({ navigation }) => {
                   </View>
                 </View>
 
-                <View style={styles.rememberForgotRow}>
-                  <View style={styles.rememberMeContainer}>
-                    <TouchableOpacity
-                      style={styles.checkboxContainer}
-                      onPress={toggleRememberMe}
+                <View style={styles.privacyPolicyRow}>
+                  <TouchableOpacity
+                    style={styles.checkboxContainer}
+                    onPress={toggleRememberMe}
+                  >
+                    <View
+                      style={[styles.checkbox, rememberMe && styles.checkedBox]}
                     >
-                      <View
-                        style={[
-                          styles.checkbox,
-                          rememberMe && styles.checkedBox,
-                        ]}
-                      >
-                        {rememberMe && (
-                          <Ionicons name="checkmark" size={12} color="#FFF" />
-                        )}
-                      </View>
-                    </TouchableOpacity>
-                    <Text style={styles.rememberMeText}>Remember me</Text>
+                      {rememberMe && (
+                        <Ionicons name="checkmark" size={11} color="#FFF" />
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                  <View style={styles.privacyAcceptContainer}>
+                    <Text style={styles.acceptingText}>
+                      By Accepting you agree to the Kokoro.Doctor
+                    </Text>
+                    <Text
+                      style={styles.privacyText}
+                      onPress={() => navigation.navigate("PrivacyPolicy")}
+                    >
+                      Privacy Policy
+                    </Text>
                   </View>
                 </View>
-
-                <View style={styles.referralContainer}>
-                  <Text style={styles.referralText}>
-                    Have Referral Code?{" "}
-                    <Text
-                      style={styles.referralLink}
-                      onPress={handleReferralCode}
-                    >
-                      Sign up through code
-                    </Text>
+                <View style={styles.detectionContent}>
+                  <Text style={styles.detectionContentText}>
+                    While Kokoro.Doctor’s AI offers powerful health insights and
+                    early detection support, it is designed to assist — not
+                    replace — professional medical judgment or emergency care.
                   </Text>
                 </View>
 
                 <TouchableOpacity
-                  style={styles.signInButton}
+                  style={[
+                    styles.signInButton,
+                    !rememberMe && styles.disabledSignInButton,
+                  ]}
                   onPress={handleSignUp}
+                  disabled={!rememberMe}
                 >
                   <Text style={styles.signInButtonText}>Sign Up</Text>
                 </TouchableOpacity>
@@ -273,49 +283,12 @@ const Signup = ({ navigation }) => {
                     style={styles.googleIcon}
                   />
                   <Text style={styles.googleButtonText}>
-                    Continue with Google
+                    Sign in with Google
                   </Text>
                 </TouchableOpacity>
               </ScrollView>
             </View>
           </View>
-
-          {/* Referral Code Modal */}
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={referralModalVisible}
-            onRequestClose={() => setReferralModalVisible(false)}
-          >
-            <View style={styles.modalOverlay}>
-              <View style={styles.modalContainer}>
-                <Text style={styles.modalTitle}>Enter the code Manually</Text>
-
-                <View style={styles.codeInputContainer}>
-                  <TextInput
-                    style={styles.codeInput}
-                    placeholder="Code"
-                    placeholderTextColor="#999"
-                    value={referralCode}
-                    onChangeText={setReferralCode}
-                  />
-                  <TouchableOpacity
-                    style={styles.copyButton}
-                    onPress={handleCopyCode}
-                  >
-                    <Ionicons name="copy-outline" size={20} color="#999" />
-                  </TouchableOpacity>
-                </View>
-
-                <TouchableOpacity
-                  style={styles.continueButton}
-                  onPress={handleReferralSubmit}
-                >
-                  <Text style={styles.continueButtonText}>Continue</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
         </View>
       )}
       {/* Mobile Version (for smaller screens) */}
@@ -522,6 +495,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "column",
+    flex: 1,
+    overflow: "hidden",
   },
   mainright: {
     width: "100%", // Increased from 55% to 70%
@@ -583,7 +559,7 @@ const styles = StyleSheet.create({
     borderColor: "#DDD",
     borderRadius: 4,
     height: 50,
-    marginBottom: 15,
+    marginBottom: "2%",
     width: "100%",
   },
   passwordInput: {
@@ -599,57 +575,70 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
   },
-  rememberForgotRow: {
+  privacyPolicyRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
     width: "100%",
     marginBottom: "2%",
-    marginTop: "1%",
+    //borderWidth:1,
+    height: "5%",
   },
-  rememberForgotContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
+
   rememberMeContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
   checkboxContainer: {
-    marginRight: 10,
+    marginRight: "1%",
+    alignSelf: "center",
   },
   checkbox: {
-    width: 20,
-    height: 20,
+    width: 15,
+    height: 15,
     borderWidth: 1,
     borderColor: "#999",
     borderRadius: 4,
     justifyContent: "center",
-    alignItems: "center",
+    alignSelf: "center",
   },
   checkedBox: {
     backgroundColor: "#10B981",
     borderColor: "#10B981",
   },
-  rememberMeText: {
-    fontSize: 14,
+  privacyAcceptContainer: {
+    //borderWidth:1,
+    height: "auto",
+    width: "92%",
+    borderColor: "#000",
+  },
+  acceptingText: {
+    fontSize: 11,
     color: "#666",
   },
-  referralContainer: {
-    alignItems: "center",
-    marginVertical: "1.5%",
-  },
-  referralText: {
-    fontSize: 14,
-    color: "#666",
-  },
-  referralLink: {
-    fontWeight: "bold",
-    color: "#666",
+  privacyText: {
+    fontSize: 11,
+    color: "blue",
     textDecorationLine: "underline",
   },
+
+  detectionContent: {
+    width: "100%", // Ensure it stays within rightContainer
+    borderRadius: 6,
+    alignItems: "center", // Important for web
+    flexShrink: 1, // Prevents overflow
+    //borderWidth: 1,
+    height: "22%",
+    marginBottom: "2%",
+  },
+
+  detectionContentText: {
+    fontSize: 12,
+    color: "#333",
+    textAlign: "center",
+    maxWidth: 300,
+    fontWeight: 400,
+  },
+
   signInButton: {
     backgroundColor: "#10B981",
     width: "100%",
@@ -668,7 +657,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    marginVertical: "2%",
+    marginVertical: "0%",
   },
   orLine: {
     flex: 1,
@@ -689,6 +678,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#DDD",
     borderRadius: 4,
+    marginBottom: "3%",
   },
   googleIcon: {
     width: 20,
@@ -698,72 +688,6 @@ const styles = StyleSheet.create({
   googleButtonText: {
     fontSize: 14,
     color: "#666",
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContainer: {
-    width: Platform.select({
-      web: "30%",
-      default: "60%",
-    }),
-    backgroundColor: "#FFFFFF",
-    borderRadius: 8,
-    padding: "2%",
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
-  modalTitle: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#333",
-    marginBottom: "4%",
-    textAlign: "center",
-  },
-  codeInputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#DDD",
-    borderRadius: 4,
-    height: 40,
-    width: "100%",
-    backgroundColor: "#FFFFFF",
-    marginBottom: "4%",
-  },
-  codeInput: {
-    flex: 1,
-    paddingHorizontal: "3%",
-    fontSize: 14,
-    height: "100%",
-  },
-  copyButton: {
-    padding: "2%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderLeftWidth: 1,
-    borderLeftColor: "#DDD",
-    paddingHorizontal: "3%",
-  },
-  continueButton: {
-    backgroundColor: "#10B981",
-    width: "100%",
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
-  },
-  continueButtonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "600",
   },
 
   // Mobile Styles
@@ -832,6 +756,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: "100%",
   },
+  disabledSignInButton: {
+    backgroundColor: "#A5D6A7", // light green shade
+    opacity: 0.5,
+  },
+
   signInButtonText: {
     color: "#FFFFFF",
     fontSize: 16,

@@ -3,6 +3,7 @@ import { useChatbot } from '../../../contexts/ChatbotContext';
 import ChatBot from "./ChatBot";
 import { Platform, Pressable, Text, useWindowDimensions, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import PrivacyPolicy from '../../../screens/PatientScreens/Auth/PrivacyPolicy';
 
 const ChatBotOverlay = ({ navigationRef }) => {
   const {chatbotConfig, openChatbot, closeChatbot} = useChatbot();
@@ -32,7 +33,7 @@ const ChatBotOverlay = ({ navigationRef }) => {
     'MobileChatbot', "DoctorPatientLandingPage", "DoctorCongrats","DoctorMedicalRegistration",
     "DoctorsSignUp","NewDoctorMedicalReg","EstablishmentTiming","AccountSettings","EstablishmentTimings",
     "LanguagePreference","MedicalProof","NotificationSettings","ProfileSetting","SubscriberFees","ThemeSettings",
-    "History", "ReminderNewest","ReminderView","AppointmentsView","CalendarView"
+    "History", "ReminderNewest","ReminderView","AppointmentsView","CalendarView", "PrivacyPolicy"
   ];
   const shownScreensMobile = ['LandingPage'];
 
