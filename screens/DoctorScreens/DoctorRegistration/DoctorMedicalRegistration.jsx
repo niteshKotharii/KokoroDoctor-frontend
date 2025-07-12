@@ -16,6 +16,8 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import NewSideNav from "../../../components/DoctorsPortalComponents/NewSideNav";
 import SideImageStyle from "../../../components/DoctorsPortalComponents/SideImageStyle";
 import Header from "../../../components/PatientScreenComponents/Header"
+import { registerMedicalDetails } from "../../../utils/DoctorService";
+import { useRoute } from "@react-navigation/native";
 
 const DoctorMedicalRegistration = ({ navigation }) => {
   const { width } = useWindowDimensions();
@@ -24,24 +26,36 @@ const DoctorMedicalRegistration = ({ navigation }) => {
   const [experience, setExperience] = useState("");
   const [hospital, setHospital] = useState("");
   const [fileName, setFileName] = useState("");
+  const [file , setFile] = useState(null);
+  
+  // Get email from route params
+  const route = useRoute();
+  const {email} = route.params
 
   const [formData, setFormData] = useState({
     licenseNo: "",
     experience: "",
     hospital: "",
+    specialization: "Cardiologist",
   });
   const handleChange = (key, value) => {
+    if (key === "licenseNo") setLicenseNo(value);
+    if (key === "specialization") setSpecialization(value);
+    if (key === "experience") setExperience(value);
+    if (key === "hospital") setHospital(value);
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
   const pickDocument = async () => {
     const result = await DocumentPicker.getDocumentAsync({});
     if (!result.canceled) {
-      setFileName(result.assets[0].name);
+      const doc = result.assets[0];
+      setFile(doc);
+      setFileName(doc.name);
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (!licenseNo || !hospital || !fileName) {
       Alert.alert(
         "Missing Information",
@@ -49,7 +63,28 @@ const DoctorMedicalRegistration = ({ navigation }) => {
       );
       return;
     }
-    navigation.navigate("NewDoctorMedicalReg"); // Replace this
+  
+    try {
+      await registerMedicalDetails(
+        email,
+        formData.licenseNo,
+        formData.specialization,
+        formData.experience,
+        formData.hospital,
+        file,
+      )
+
+      alert("Medical registration details submitted successfully!");
+      console.log("Medical registration details submitted successfully!");
+      navigation.navigate("NewDoctorMedicalReg" , {
+        email: email,
+      });
+
+    } catch (error) {
+      alert(error.message);
+      console.error("Doctor registration error:", error)
+    }
+    
   };
 
   return (
