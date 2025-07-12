@@ -7,10 +7,6 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { RoleProvider } from "./contexts/RoleContext";
 import RootNavigation, { linking } from "./navigation/RootNavigator";
 
-import DoctorsSignUp from "./screens/DoctorScreens/DoctorRegistration/DoctorsSignUp";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-const Stack = createNativeStackNavigator();
-
 const App = () => {
 	const navigationRef = useRef(null);
 

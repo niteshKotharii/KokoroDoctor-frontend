@@ -16,20 +16,41 @@ import { MaterialIcons } from "@expo/vector-icons";
 import SideBarNavigation from "./SideBarNavigation";
 import NewestSidebar from "../DoctorsPortalComponents/NewestSidebar";
 
-const Header = ({ navigation, isDoctorPortal = false }) => {
+const { width, height } = Dimensions.get("window");
+
+const Header = ({ navigation }) => {
 	const { user, logout, setRole } = useContext(AuthContext);
 	const { width } = useWindowDimensions();
 	const [isSideBarVisible, setIsSideBarVisible] = useState(false);
 	const [dropdownVisible, setDropdownVisible] = useState(false);
 
+	// const handleOptionPress = (screen) => {
+	//   setDropdownVisible(false);
+	//   navigation.navigate(screen);
+	// };
 	const handleOptionPress = () => {
 		setDropdownVisible(false);
 		navigation.navigate("DoctorPatientLandingPage");
 	};
 
+	// const handleOptionPress = async (type) => {
+	//   setDropdownVisible(false);
+
+	//   if (type === "Login") {
+	//     await AsyncStorage.setItem("userRole", "doctor"); // or "patient"
+	//     setRole("doctor");
+	//   }
+
+	//   if (type === "Signup") {
+	//     await AsyncStorage.setItem("userRole", "doctor");
+	//     setRole("doctor");
+	//   }
+	// };
+
 	return (
 		<View style={styles.header}>
 			{user ? (
+				// Show user info when logged in
 				<>
 					{Platform.OS === "web" && width > 1000 && (
 						<View style={[styles.userInfo, styles.userInfoWeb]}>
@@ -42,6 +63,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 								</Text>
 							</View>
 
+							{/* Search Bar */}
 							<View style={styles.searchContainer}>
 								<Image
 									source={require("../../assets/Icons/search.png")}
@@ -55,6 +77,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 								/>
 							</View>
 
+							{/* Notification and Profile Section */}
 							<View style={{ flexDirection: "row", gap: 10 }}>
 								<Pressable style={styles.iconsContainer}>
 									<Image
@@ -64,6 +87,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 									/>
 								</Pressable>
 
+								{/* Profile Dropdown */}
 								<View style={styles.profileWrapper}>
 									<Pressable
 										onPress={() => setDropdownVisible(!dropdownVisible)}>
@@ -179,44 +203,58 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 										)}
 									</View>
 								</View>
-								{width >= 1000 && (
-									<View style={styles.usernameApp}>
-										<Text
-											style={{
-												fontWeight: "600",
-												color: "#000000",
-												fontSize: 20,
-											}}>
-											Hello,
-										</Text>
-										<Text
-											style={{
-												fontWeight: "800",
-												color: "#000000",
-												fontSize: 20,
-											}}>
-											{" "}
-											{user?.name ? user?.name : "User"}!
-										</Text>
-									</View>
-								)}
+
+								<View style={styles.usernameApp}>
+									<Text
+										style={{
+											fontWeight: "600",
+											color: "#000000",
+											fontSize: 20,
+										}}>
+										Hello,
+									</Text>
+									<Text
+										style={{
+											fontWeight: "800",
+											color: "#000000",
+											fontSize: 20,
+										}}>
+										{" "}
+										{user?.name ? user?.name : "User"}!
+									</Text>
+								</View>
 							</View>
 						</>
 					)}
 				</>
 			) : (
+				// Show login/signup buttons when not logged in
 				<>
 					{Platform.OS === "web" && width > 1000 && (
 						<View style={styles.authButtonsWeb}>
 							<Pressable
 								onPress={() => navigation.navigate("Login")}
+								//onPress={() => handleOptionPress("DoctorPatientLandingPage")}
 								style={styles.authButton}>
-								<Text style={[styles.authText, { color: "#fff" }]}>Login</Text>
+								<Text
+									style={[
+										styles.authText,
+										{ color: width < 1000 ? "#000" : "#fff" },
+									]}>
+									Login
+								</Text>
 							</Pressable>
 							<Pressable
 								onPress={() => navigation.navigate("DoctorPatientLandingPage")}
+								//onPress={() => handleOptionPress("DoctorPatientLandingPage")}
 								style={styles.authButton}>
-								<Text style={[styles.authText, { color: "#fff" }]}>Signup</Text>
+								<Text
+									style={[
+										styles.authText,
+										{ color: width < 1000 ? "#000" : "#fff" },
+									]}>
+									Signup
+								</Text>
 							</Pressable>
 						</View>
 					)}
@@ -229,17 +267,10 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 								onRequestClose={() => setIsSideBarVisible(false)}>
 								<View style={styles.modalContainer}>
 									<View style={styles.mobileSidebar}>
-										{isDoctorPortal ? (
-											<NewestSidebar
-												navigation={navigation}
-												closeSidebar={() => setIsSideBarVisible(false)}
-											/>
-										) : (
-											<SideBarNavigation
-												navigation={navigation}
-												closeSidebar={() => setIsSideBarVisible(false)}
-											/>
-										)}
+										<SideBarNavigation
+											navigation={navigation}
+											closeSidebar={() => setIsSideBarVisible(false)}
+										/>
 									</View>
 									<Pressable
 										style={styles.overlay}
@@ -293,11 +324,13 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 											<View
 												style={[styles.dropdownMain, styles.dropdownLoggedOut]}>
 												<Pressable
+													//onPress={() => handleOptionPress("Login")}
 													onPress={() => navigation.navigate("Login")}
 													style={styles.dropdownItem}>
 													<Text style={styles.dropdownText}>Login</Text>
 												</Pressable>
 												<Pressable
+													///onPress={() => handleOptionPress("Signup")}
 													onPress={handleOptionPress}
 													style={styles.dropdownItem}>
 													<Text style={styles.dropdownText}>Signup</Text>
@@ -306,27 +339,25 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 										)}
 									</View>
 								</View>
-								{!isDoctorPortal && width >= 1000 && (
-									<View style={styles.usernameApp}>
-										<Text
-											style={{
-												fontWeight: "600",
-												color: "#000000",
-												fontSize: 20,
-											}}>
-											Hello,
-										</Text>
-										<Text
-											style={{
-												fontWeight: "800",
-												color: "#000000",
-												fontSize: 20,
-											}}>
-											{" "}
-											{user?.name ? user?.name : "User"}!
-										</Text>
-									</View>
-								)}
+								<View style={styles.usernameApp}>
+									<Text
+										style={{
+											fontWeight: "600",
+											color: "#000000",
+											fontSize: 20,
+										}}>
+										Hello,
+									</Text>
+									<Text
+										style={{
+											fontWeight: "800",
+											color: "#000000",
+											fontSize: 20,
+										}}>
+										{" "}
+										{user?.name ? user?.name : "User"}!
+									</Text>
+								</View>
 							</View>
 						</>
 					)}
@@ -338,18 +369,15 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 
 const styles = StyleSheet.create({
 	header: {
-		width: "100%",
-		paddingTop: 10,
-		paddingBottom: 10,
-		justifyContent: "flex-start",
-		alignItems: "flex-start",
+		height: "100%",
+		justifyContent: "center",
+		alignItems: "center",
 		...Platform.select({
 			web: {
 				marginTop: 5,
 			},
 		}),
 	},
-
 	appHeaderContainer: {
 		...Platform.select({
 			web: {
@@ -364,6 +392,11 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "space-between",
 		paddingHorizontal: 15,
+		...Platform.select({
+			web: {
+				gap: 100,
+			},
+		}),
 	},
 	hamburger: {
 		marginHorizontal: 5,
