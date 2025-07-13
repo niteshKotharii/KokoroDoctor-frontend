@@ -710,11 +710,8 @@ const styles = StyleSheet.create({
 	},
 	footerBody: {
 		height: "90%",
-		//flex:1,
 		width: "90%",
 		flexDirection: "row",
-		// justifyContent: "space-evenly",
-		// alignItems: "center",
 	},
 
 	display1: {

@@ -20,7 +20,7 @@ const width = Dimensions.get("window").width;
 
 const isSmallDevice = width <= 360;
 const isMediumDevice = width > 360 && width < 768;
-const isLargeDevice = width >= 768;
+
 const HospitalCard = ({ navigation }) => {
 	const { width } = useWindowDimensions();
 	const handleCardpress = () => {

@@ -570,12 +570,12 @@ const styles = StyleSheet.create({
 		height: "100%",
 		width: "100%",
 	},
-	appContainer: {
-		flex: 1,
-		height: "100%",
-		width: "100%",
-		flexDirection: "row",
-	},
+	// appContainer: {
+	// 	// flex: 1,
+	// 	height: "100%",
+	// 	width: "100%",
+	// 	flexDirection: "row",
+	// },
 	imageContainer: {
 		height: "17%",
 		width: "75%",
@@ -994,6 +994,7 @@ const styles = StyleSheet.create({
 
 	appContainer: {
 		width: "100vw",
+		marginBottom: "5%",
 	},
 	app_parent: {
 		flex: 1,

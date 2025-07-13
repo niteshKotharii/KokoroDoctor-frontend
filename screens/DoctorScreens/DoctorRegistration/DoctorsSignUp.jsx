@@ -70,6 +70,8 @@ const DoctorsSignUp = () => {
 									placeholderTextColor="#c0c0c0"
 									style={[
 										styles.inputContainer,
+										Platform.OS === "web" &&
+											width > 1000 && { width: "60%", height: 36 },
 										{ color: formData.firstname ? "black" : "#c0c0c0" },
 									]}
 									value={formData.name}
@@ -81,6 +83,8 @@ const DoctorsSignUp = () => {
 									placeholderTextColor="#c0c0c0"
 									style={[
 										styles.inputContainer,
+										Platform.OS === "web" &&
+											width > 1000 && { width: "60%", height: 36 },
 										{ color: formData.lastname ? "black" : "#c0c0c0" },
 									]}
 									value={formData.name}
@@ -92,6 +96,8 @@ const DoctorsSignUp = () => {
 									placeholderTextColor="#c0c0c0"
 									style={[
 										styles.inputContainer,
+										Platform.OS === "web" &&
+											width > 1000 && { width: "60%", height: 36 },
 										{ color: formData.email ? "black" : "#c0c0c0" },
 									]}
 									value={formData.email}
@@ -103,6 +109,8 @@ const DoctorsSignUp = () => {
 									placeholderTextColor="#c0c0c0"
 									style={[
 										styles.inputContainer,
+										Platform.OS === "web" &&
+											width > 1000 && { width: "60%", height: 36 },
 										{ color: formData.location ? "black" : "#c0c0c0" },
 									]}
 									value={formData.location}
@@ -115,6 +123,8 @@ const DoctorsSignUp = () => {
 									keyboardType="phone-pad"
 									style={[
 										styles.inputContainer,
+										Platform.OS === "web" &&
+											width > 1000 && { width: "60%", height: 36 },
 										{ color: formData.phoneNumber ? "black" : "#c0c0c0" },
 									]}
 									value={formData.phone}
@@ -127,6 +137,8 @@ const DoctorsSignUp = () => {
 									secureTextEntry
 									style={[
 										styles.inputContainer,
+										Platform.OS === "web" &&
+											width > 1000 && { width: "60%", height: 36 },
 										{ color: formData.password ? "black" : "#c0c0c0" },
 									]}
 									value={formData.password}
@@ -309,25 +321,26 @@ const styles = StyleSheet.create({
 	webContainer: {
 		width: "100%",
 		flexDirection: "row",
+		justifyContent: "space-between",
 		backgroundColor: "#FCF5F7",
-		flex: 1,
 	},
-
+	appHeader: {
+		marginTop: 0,
+	},
 	appContainer: {
 		flex: 1,
+
 		width: "100%",
 		backgroundColor: "#FCF5F7",
 	},
 
 	Content: {
 		width: "100%",
-		paddingVertical: 20,
 		backgroundColor: "#FCF5F7",
 		...Platform.select({
 			web: {
 				width: "60%",
-
-				height: "100%",
+				height: "auto",
 			},
 		}),
 	},
@@ -335,15 +348,17 @@ const styles = StyleSheet.create({
 	DetailContainer: {
 		flex: 1,
 		flexDirection: "column",
+		width: "95%",
 		backgroundColor: "#FCF5F7",
 		borderRadius: 10,
 		marginHorizontal: 10,
-		padding: 10,
+		marginLeft: 10,
 		minHeight: 400,
 		Width: "100%",
 		...Platform.select({
 			web: {
 				alignItems: "left",
+				width: "100%",
 			},
 		}),
 	},
@@ -351,27 +366,25 @@ const styles = StyleSheet.create({
 	inputWrapper: {
 		width: "100%",
 		maxWidth: 400,
-		marginBottom: 10,
 	},
 
 	heading: {
 		fontSize: 28,
 		fontWeight: "600",
-		marginBottom: 10,
-		textAlign: "left",
+		marginBottom: 15,
+		marginLeft: 10,
 		color: "#000",
 		...Platform.select({
 			web: {
 				fontSize: 30,
 				fontWeight: "500",
-				marginBottom: 0,
+				marginBottom: 10,
 			},
 		}),
 	},
 
 	details: {
 		width: "100%",
-		margin: "auto",
 		paddingHorizontal: 10,
 		...Platform.select({
 			web: {
@@ -385,12 +398,10 @@ const styles = StyleSheet.create({
 
 	inputHeading: {
 		fontSize: 16,
-		marginTop: 10,
 		color: "#333",
 		...Platform.select({
 			web: {
-				fontSize: 16,
-				marginTop: 0,
+				fontSize: 14,
 			},
 		}),
 	},
@@ -400,9 +411,9 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: "#ccc",
 		borderRadius: 8,
-		fontSize: 16,
+		fontSize: 14,
 		paddingHorizontal: 5,
-		width: "100%",
+		width: "150%",
 		backgroundColor: "#fff",
 		marginBottom: 10,
 		shadowColor: "#000",
@@ -423,10 +434,10 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 		alignItems: "center",
 		width: "100%",
-		marginTop: 10,
+		marginTop: 5,
 		...Platform.select({
 			web: {
-				marginBottom: 10,
+				marginBottom: 6,
 			},
 		}),
 	},
@@ -459,27 +470,14 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		color: "#666",
 	},
-
 	btns: {
 		width: "100%",
-		flexDirection: "column",
-		alignItems: "flex-start",
+		maxWidth: 400,
+		alignSelf: "center",
+		alignItems: "center",
 		marginTop: 10,
 	},
-	orOption: {
-		fontSize: 14,
-		textAlign: "center",
-		fontWeight: "600",
-		marginVertical: 10,
-		fontFamily: Platform.OS === "web" ? "Poppins_500Medium" : undefined,
-	},
 
-	googleIcon: {
-		width: 20,
-		height: 20,
-		resizeMode: "contain",
-		marginRight: 10,
-	},
 	continueContainer: {
 		width: "100%",
 		maxWidth: 400,
@@ -491,6 +489,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		marginTop: 10,
 	},
+
 	continueWithGoogle: {
 		width: "100%",
 		maxWidth: 400,
@@ -503,12 +502,17 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
-		paddingHorizontal: 10,
 		gap: 6,
 	},
-	btns: {
-		width: "100%",
-		marginTop: 10,
+
+	orOption: {
+		width: 400,
+		maxWidth: "95%",
+		textAlign: "center",
+		alignSelf: "center",
+		fontSize: 14,
+		fontWeight: "600",
+		marginVertical: 10,
 	},
 
 	skipContainer: {
