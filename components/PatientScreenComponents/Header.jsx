@@ -380,8 +380,11 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 
 const styles = StyleSheet.create({
 	header: {
-		// height: "100%",
-		justifyContent: "center",
+		height: "100%",
+		width: "100%",
+		justifyContent: "space-evenly",
+		margin: 10,
+		gap: 10,
 		//alignItems: "center",
 		...Platform.select({
 			web: {
@@ -390,6 +393,11 @@ const styles = StyleSheet.create({
 		}),
 	},
 	appHeaderContainer: {
+		height: "100%",
+		width: "100%",
+		justifyContent: "space-evenly",
+		// margin: 10,
+		gap: 10,
 		...Platform.select({
 			web: {
 				flex: 1,

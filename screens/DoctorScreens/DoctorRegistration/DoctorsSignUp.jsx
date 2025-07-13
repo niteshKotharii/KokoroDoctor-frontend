@@ -191,7 +191,12 @@ const DoctorsSignUp = () => {
 			)}
 			{(Platform.OS !== "web" || width < 1000) && (
 				<ScrollView style={styles.appContainer}>
-					<Header style={styles.appHeader} />
+					<View style={styles.headContainer}>
+						<Header
+							style={styles.header}
+							navigation={navigation}
+						/>
+					</View>
 					<View style={styles.Content}>
 						<View style={styles.DetailContainer}>
 							<Text style={styles.heading}>Sign Up</Text>
@@ -324,11 +329,30 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		backgroundColor: "#FCF5F7",
 	},
-	appHeader: {
+
+	header: {
 		marginTop: 0,
+		height: 40,
+		zIndex: 2,
+		...Platform.select({
+			web: {
+				width: "100%",
+				marginBottom: 20,
+			},
+		}),
+	},
+
+	headContainer: {
+		height: 70,
+		marginBottom: "10%",
+
+		width: "100%",
+		justifyContent: "center",
+		alignItems: "center",
+		zIndex: 2,
 	},
 	appContainer: {
-		flex: 1,
+		// flex: 1,
 
 		width: "100%",
 		backgroundColor: "#FCF5F7",
@@ -336,6 +360,7 @@ const styles = StyleSheet.create({
 
 	Content: {
 		width: "100%",
+		margintTop: "10%",
 		backgroundColor: "#FCF5F7",
 		...Platform.select({
 			web: {
