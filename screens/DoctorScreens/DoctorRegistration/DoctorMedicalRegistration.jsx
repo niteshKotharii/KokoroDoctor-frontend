@@ -13,7 +13,8 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import NewSideNav from "../../../components/DoctorsPortalComponents/NewSideNav";
 import SideImageStyle from "../../../components/DoctorsPortalComponents/SideImageStyle";
 
-const DoctorMedicalRegistration = ({ navigation }) => {
+const DoctorMedicalRegistration = ({ navigation, route }) => {
+    const { email } = route.params || {};
   const [licenseNo, setLicenseNo] = useState("");
   const [specialization, setSpecialization] = useState("");
   const [experience, setExperience] = useState("");
@@ -44,7 +45,7 @@ const DoctorMedicalRegistration = ({ navigation }) => {
       );
       return;
     }
-    navigation.navigate("NewDoctorMedicalReg"); // Replace this
+    navigation.navigate("NewDoctorMedicalReg", {email}); // Replace this
   };
 
   return (
@@ -147,7 +148,7 @@ const DoctorMedicalRegistration = ({ navigation }) => {
 
           <TouchableOpacity
             style={styles.skipBtn}
-            onPress={() => navigation.navigate("NewDoctorMedicalReg")}
+            onPress={() => navigation.navigate("NewDoctorMedicalReg",{email})}
           >
             <Text style={styles.skipText}>Skip</Text>
           </TouchableOpacity>

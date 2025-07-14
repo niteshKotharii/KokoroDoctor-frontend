@@ -43,7 +43,7 @@ const DoctorsSignUp = () => {
         location: formData.location,
       });
       alert("Doctor registered successfully!");
-      navigation.navigate("DoctorMedicalRegistration");
+      navigation.navigate("DoctorMedicalRegistration", { email: formData.email });
     } catch (error) {
       alert(error.message);
       console.error("Doctor registration error:", error);
@@ -155,7 +155,7 @@ const DoctorsSignUp = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.skipContainer}
-              onPress={() => navigation.navigate("DoctorMedicalRegistration")}
+              onPress={() => navigation.navigate("DoctorMedicalRegistration", { email: formData.email })}
             >
               <Text style={styles.continueText}>Skip</Text>
             </TouchableOpacity>
