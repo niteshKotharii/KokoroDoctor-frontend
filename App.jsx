@@ -8,22 +8,24 @@ import { RoleProvider } from "./contexts/RoleContext";
 import RootNavigation, { linking } from "./navigation/RootNavigator";
 
 const App = () => {
-  const navigationRef = useRef(null);
+	const navigationRef = useRef(null);
 
-  return (
-    <AuthProvider>
-      <ThemeProvider>
-        <ChatbotProvider>
-          <RoleProvider>
-            <NavigationContainer linking={linking} ref={navigationRef}>
-              <RootNavigation />
-              <ChatBotOverlay navigationRef={navigationRef} />
-            </NavigationContainer>
-          </RoleProvider>
-        </ChatbotProvider>
-      </ThemeProvider>
-    </AuthProvider>
-  );
+	return (
+		<AuthProvider>
+			<ThemeProvider>
+				<ChatbotProvider>
+					<RoleProvider>
+						<NavigationContainer
+							linking={linking}
+							ref={navigationRef}>
+							<RootNavigation />
+							<ChatBotOverlay navigationRef={navigationRef} />
+						</NavigationContainer>
+					</RoleProvider>
+				</ChatbotProvider>
+			</ThemeProvider>
+		</AuthProvider>
+	);
 };
 
 export default App;

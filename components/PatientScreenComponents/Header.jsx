@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
 import {
-  Pressable,
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Platform,
-  useWindowDimensions,
-  Modal,
-  TextInput,
-  Dimensions,
+	Pressable,
+	View,
+	Text,
+	StyleSheet,
+	Image,
+	Platform,
+	useWindowDimensions,
+	Modal,
+	TextInput,
+	Dimensions,
 } from "react-native";
 import { AuthContext } from "../../contexts/AuthContext";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -26,28 +26,29 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
   const [isSideBarVisible, setIsSideBarVisible] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
-  // const handleOptionPress = (screen) => {
-  //   setDropdownVisible(false);
-  //   navigation.navigate(screen);
-  // };
-  const handleOptionPress = () => {
-    setDropdownVisible(false);
-    navigation.navigate("DoctorPatientLandingPage");
-  };
+	// const handleOptionPress = (screen) => {
+	//   setDropdownVisible(false);
+	//   navigation.navigate(screen);
+	// };
+	const handleOptionPress = () => {
+		setDropdownVisible(false);
+		navigation.navigate("DoctorPatientLandingPage");
+	};
 
-  // const handleOptionPress = async (type) => {
-  //   setDropdownVisible(false);
+	// const handleOptionPress = async (type) => {
+	//   setDropdownVisible(false);
 
-  //   if (type === "Login") {
-  //     await AsyncStorage.setItem("userRole", "doctor"); // or "patient"
-  //     setRole("doctor");
-  //   }
+	//   if (type === "Login") {
+	//     await AsyncStorage.setItem("userRole", "doctor"); // or "patient"
+	//     setRole("doctor");
+	//   }
 
-  //   if (type === "Signup") {
-  //     await AsyncStorage.setItem("userRole", "doctor");
-  //     setRole("doctor");
-  //   }
-  // };
+	//   if (type === "Signup") {
+	//     await AsyncStorage.setItem("userRole", "doctor");
+	//     setRole("doctor");
+	//   }
+	// };
+
 
   return (
       <View style={styles.header}>
@@ -271,6 +272,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                         transparent={true}
                         onRequestClose={() => setIsSideBarVisible(false)}
                     >
+
                       <View style={styles.modalContainer}>
                         <View style={styles.mobileSidebar}>
                           {isDoctorPortal ? (
@@ -290,6 +292,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                             onPress={() => setIsSideBarVisible(false)}
                         />
                       </View>
+
                     </Modal>
                     <View style={styles.appHeaderContainer}>
                       <View style={styles.appHeader}>
@@ -606,6 +609,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
   },
+
 });
 
 export default Header;
