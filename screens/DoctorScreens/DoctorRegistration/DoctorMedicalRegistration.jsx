@@ -10,6 +10,7 @@ import {
   Platform,
   Image,
   useWindowDimensions,
+  Dimensions,
 } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
@@ -330,7 +331,7 @@ const DoctorMedicalRegistration = ({ navigation }) => {
               <View style={styles.skipBtnContainer}>
                 <TouchableOpacity
                   style={styles.skipBtnAndroid}
-                  onPress={() => navigation.navigate("")}
+                  onPress={() => navigation.navigate("NewDoctorMedicalReg")}
                 >
                   <Text style={styles.skipText}>Skip</Text>
                 </TouchableOpacity>
@@ -346,6 +347,7 @@ const DoctorMedicalRegistration = ({ navigation }) => {
 
 export default DoctorMedicalRegistration;
 
+const windowWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
@@ -389,7 +391,8 @@ const styles = StyleSheet.create({
     width: "100%",
     minHeight: "100%",
     paddingBottom: 70,
-    paddingLeft: "5%",
+    paddingLeft: "2%",
+    paddingRight : "2%",
     flexGrow: 1,
   },
 
@@ -403,6 +406,7 @@ const styles = StyleSheet.create({
   headingContainer: {
     display: "flex",
     flexDirection: "column",
+    gap : 15
   },
 
   heading: {
@@ -413,15 +417,15 @@ const styles = StyleSheet.create({
   },
   headingAndroid: {
     marginTop: "6%",
-    fontWeight: "bold",
+    fontWeight: "semibold",
     fontSize: 26,
     marginTop: 0,
-    width: 200,
+    width: 220,
 
     ...Platform.select({
       web: {
-        width: "43vw",
-        fontSize: 23,
+        width: "50vw",
+        fontSize: windowWidth < 600 ? 20 : 30,
       },
     }),
   },
@@ -433,8 +437,8 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   labelAndroid: {
-    fontSize: 18,
-    fontWeight: "500",
+    fontSize: windowWidth < 600  ? 18 : 25,
+    fontWeight: "400",
     marginBottom: 4,
     color: "#000",
   },
@@ -475,7 +479,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 12,
+    fontSize: windowWidth < 600 ? 14 : 22,
     fontWeight: "500",
     color: "#333",
   },
@@ -545,13 +549,13 @@ const styles = StyleSheet.create({
   },
   continueBtnAndroid: {
     backgroundColor: "#ff5d73",
-    width: 250,
+    width: 300,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 30,
-    justifyContent: "space-between",
-    height: 50,
+    justifyContent: "center",
+    
     marginBottom: 20,
     marginTop: 10,
     paddingVertical: 10,
@@ -562,15 +566,17 @@ const styles = StyleSheet.create({
   continueText: {
     color: "white",
     fontWeight: "bold",
+    marginLeft: 15,
   },
   continueTextAndroid: {
     color: "white",
     fontWeight: "bold",
     fontSize: 25,
+    marginLeft: 69,
   },
 
   iconCon: {
-    marginLeft: "35%",
+    marginLeft: "30%",
     width: 34,
     height: 34,
     backgroundColor: "white",
