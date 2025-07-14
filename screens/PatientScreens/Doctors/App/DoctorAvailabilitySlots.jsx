@@ -20,10 +20,10 @@ const DoctorAvailabilitySlots = ({ navigation, route }) => {
           <StatusBar barStyle="light-content" backgroundColor="#fff" />
           <View style={{ flex: 1 }}>
             <View style={styles.imageContainer}>
-              <Image source={doctors.image} style={styles.doctorImage} />
-              <Text style={styles.doctorName}>{doctors.name}</Text>
+              <Image source={{uri:doctors.profilePhoto}} style={styles.doctorImage} />
+              <Text style={styles.doctorName}>{doctors.doctorname}</Text>
               <Text style={styles.doctorCredentials}>
-                ({doctors.credential})
+                ({doctors.specialization})
               </Text>
             </View>
             <View style={styles.availabilityContainer}>

@@ -18,6 +18,7 @@ import { registerDoctor } from "../../../utils/AuthService";
 import Header from "../../../components/PatientScreenComponents/Header";
 
 const DoctorsSignUp = () => {
+
 	const { width } = useWindowDimensions();
 	const navigation = useNavigation();
 	const [rememberMe, setRememberMe] = useState(false);
