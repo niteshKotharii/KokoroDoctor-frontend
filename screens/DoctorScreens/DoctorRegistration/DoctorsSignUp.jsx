@@ -314,6 +314,13 @@ const DoctorsSignUp = () => {
 										<Text style={styles.continueText}>Sign in with Google</Text>
 									</TouchableOpacity>
 								</View>
+                <TouchableOpacity
+									style={styles.skipContainer}
+									onPress={() =>
+										navigation.navigate("DoctorMedicalRegistration")
+									}>
+									<Text style={styles.continueText}>Skip</Text>
+								</TouchableOpacity>
 							</View>
 						</View>
 					</View>
@@ -385,6 +392,7 @@ const styles = StyleSheet.create({
 			web: {
 				alignItems: "left",
 				width: "100%",
+        //borderWidth:1
 			},
 		}),
 	},
@@ -404,7 +412,8 @@ const styles = StyleSheet.create({
 			web: {
 				fontSize: 30,
 				fontWeight: "500",
-				marginBottom: 10,
+				marginBottom: "2%",
+        marginTop:"10%"
 			},
 		}),
 	},
@@ -414,9 +423,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		...Platform.select({
 			web: {
-				width: "100%",
-				marginLeft: "auto",
-				marginRight: "auto",
+				width: "65%",
+				//marginLeft: "auto",
+				//marginRight: "auto",
 				fontSize: 14,
 			},
 		}),
@@ -433,19 +442,37 @@ const styles = StyleSheet.create({
 	},
 
 	inputContainer: {
-		height: 40,
+    height: 40,
 		borderWidth: 1,
 		borderColor: "#ccc",
 		borderRadius: 8,
 		fontSize: 14,
 		paddingHorizontal: 5,
-		width: "150%",
+		width: "100%",
 		backgroundColor: "#fff",
 		marginBottom: 10,
 		shadowColor: "#000",
 		shadowOpacity: 0.05,
 		shadowRadius: 4,
 		elevation: 1,
+    ...Platform.select({
+      web:{
+        //height: "20%",
+        borderWidth: 1,
+        borderColor: "#ccc",
+        borderRadius: 8,
+        fontSize: 14,
+        paddingHorizontal: 5,
+        //width: "30%",
+        backgroundColor: "#fff",
+        marginBottom: 10,
+        shadowColor: "#000",
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+        elevation: 1,
+      }
+    }),
+		
 	},
 
 	note: {
@@ -505,7 +532,7 @@ const styles = StyleSheet.create({
 	},
 
 	continueContainer: {
-		width: "100%",
+    width: "100%",
 		maxWidth: 400,
 		height: 42,
 		backgroundColor: "#1FBF86",
@@ -514,6 +541,19 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		marginTop: 10,
+    ...Platform.select({
+      web:{
+        width: "60%",
+        height: 42,
+        backgroundColor: "#1FBF86",
+        borderRadius: 5,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "2%",
+      }
+    }),
+		
 	},
 
 	continueWithGoogle: {
