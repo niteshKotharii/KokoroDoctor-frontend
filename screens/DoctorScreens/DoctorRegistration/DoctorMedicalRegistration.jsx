@@ -19,6 +19,7 @@ import Header from "../../../components/PatientScreenComponents/Header";
 import { registerMedicalDetails } from "../../../utils/DoctorService";
 import { useRoute } from "@react-navigation/native";
 
+
 const DoctorMedicalRegistration = ({ navigation }) => {
   const { width } = useWindowDimensions();
   const [licenseNo, setLicenseNo] = useState("");
@@ -84,6 +85,7 @@ const DoctorMedicalRegistration = ({ navigation }) => {
       alert(error.message);
       console.error("Doctor registration error:", error);
     }
+
   };
 
   return (
@@ -338,6 +340,7 @@ const DoctorMedicalRegistration = ({ navigation }) => {
         </View>
       )}
     </>
+
   );
 };
 

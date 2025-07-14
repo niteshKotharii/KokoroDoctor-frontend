@@ -18,7 +18,6 @@ import { registerDoctor } from "../../../utils/AuthService";
 import Header from "../../../components/PatientScreenComponents/Header";
 
 const DoctorsSignUp = () => {
-
 	const { width } = useWindowDimensions();
 	const navigation = useNavigation();
 	const [rememberMe, setRememberMe] = useState(false);
@@ -49,7 +48,7 @@ const DoctorsSignUp = () => {
 				location: formData.location,
 			});
 			alert("Doctor registered successfully!");
-			navigation.navigate("DoctorMedicalRegistration");
+			navigation.navigate("DoctorMedicalRegistration", { email: formData.email });
 		} catch (error) {
 			alert(error.message);
 			console.error("Doctor registration error:", error);
@@ -328,6 +327,7 @@ const DoctorsSignUp = () => {
 			)}
 		</>
 	);
+
 };
 
 const styles = StyleSheet.create({
