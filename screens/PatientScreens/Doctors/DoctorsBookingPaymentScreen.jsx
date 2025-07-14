@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect, useContext } from "react"
+import { useCallback, useState, useEffect, useContext } from "react";
 import {
   Alert,
   Image,
@@ -20,49 +20,45 @@ import { useChatbot } from "../../../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
 import SideBarNavigation from "../../../components/PatientScreenComponents/SideBarNavigation";
 import { AuthContext } from "../../../contexts/AuthContext";
-import {payment_api} from "../../../utils/PaymentService";
+import { payment_api } from "../../../utils/PaymentService";
 import Header from "../../../components/PatientScreenComponents/Header";
 
-const DoctorsPaymentScreen = ({ navigation, route }) => {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [patientName, setPatientName] = useState("")
-  const { setChatbotConfig } = useChatbot()
-  const {width} = useWindowDimensions()
-  const {user} = useContext(AuthContext)
+const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  //const [patientName, setPatientName] = useState("");
+  const { setChatbotConfig } = useChatbot();
+  const { width } = useWindowDimensions();
+  const { user } = useContext(AuthContext);
+  const doctors = route.params?.doctors || {};
 
   useFocusEffect(
     useCallback(() => {
       // Reset chatbot height when this screen is focused
-      setChatbotConfig({ height: "32%" })
-    }, []),
-  )
+      setChatbotConfig({ height: "32%" });
+    }, [])
+  );
 
   const handleSearch = () => {
-    Alert.alert(`Search Results for: ${searchQuery}`)
-  }
+    Alert.alert(`Search Results for: ${searchQuery}`);
+  };
 
   const handleContinuePayment = async (amount) => {
     Alert.alert("Processing Payment", "Redirecting to payment gateway...");
-    try {  
+    try {
       const paymentLink = await payment_api(amount);
       if (paymentLink) {
         Linking.openURL(paymentLink).catch((err) => {
           console.error("Failed to open payment link", err);
-          Alert.alert("Error", "Unable to open payment link. Please try again.");
+          Alert.alert(
+            "Error",
+            "Unable to open payment link. Please try again."
+          );
         });
       }
     } catch (error) {
       Alert.alert("Payment Failed", error.message);
     }
   };
-
-  // Doctor data for the verified cardiologists
-  const doctors = [
-    { id: 1, image: require("../../../assets/Images/dr_kislay.jpg") },
-    { id: 2, image: require("../../../assets/Images/Dr_Ritesh_Singh.jpg") },
-    { id: 3, image: require("../../../assets/Images/Dr_Sandip_Rungta.jpg") },
-    { id: 4, image: require("../../../assets/Images/Dr_Vinesh_Jain.jpg") },
-  ]
 
   return (
     <>
@@ -73,7 +69,12 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
               source={require("../../../assets/Images/MedicineBackground.png")}
               style={styles.imageBackground}
             >
-              <View style={[styles.overlay, { backgroundColor: "rgba(16, 16, 16, 0.3)" }]} />
+              <View
+                style={[
+                  styles.overlay,
+                  { backgroundColor: "rgba(16, 16, 16, 0.3)" },
+                ]}
+              />
 
               <View style={styles.parent}>
                 {/* Sidebar navigation */}
@@ -92,25 +93,34 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
                     {/* Payment confirmation card */}
                     <View style={styles.paymentCard}>
                       <View style={styles.paymentHeader}>
-                        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                          <MaterialIcons name="arrow-back" size={24} color="#000" />
+                        <TouchableOpacity
+                          style={styles.backButton}
+                          onPress={() => navigation.goBack()}
+                        >
+                          <MaterialIcons
+                            name="arrow-back"
+                            size={24}
+                            color="#000"
+                          />
                         </TouchableOpacity>
                         <Text style={styles.paymentTitle}>Confirm and Pay</Text>
                       </View>
 
                       <View style={styles.doctorSection}>
-                        <Text style={styles.sectionLabel}>Verified cardiologist online now</Text>
-                        <View style={styles.doctorAvatars}>
-                          {doctors.map((doctor) => (
-                            <View key={doctor.id} style={styles.doctorAvatar}>
-                              <Image source={doctor.image} style={styles.doctorAvatarImage} />
-                            </View>
-                          ))}
-                        </View>
+                        <Text style={styles.sectionLabel}>
+                          Subscription Summary
+                        </Text>
+                        {/* <View style={styles.doctorAvatars}>
+                          <Image
+                            source={{ uri: doctors.profilePhoto }}
+                            style={styles.doctorAvatarImage}
+                            resizeMode="cover"
+                          />
+                        </View> */}
                       </View>
 
                       <View style={styles.formSection}>
-                        <View style={styles.formGroup}>
+                        {/* <View style={styles.formGroup}>
                           <Text style={styles.formLabel}>Patients name</Text>
                           <TextInput
                             style={styles.formInput}
@@ -119,16 +129,28 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
                             value={patientName}
                             onChangeText={setPatientName}
                           />
-                        </View>
+                        </View> */}
 
                         <View style={styles.formGroup}>
-                          <Text style={styles.formLabel}>Final Fee</Text>
-                          <Text style={styles.feeAmount}>₹850</Text>
+                          <Text style={styles.formLabel}>
+                            Subscription Fees
+                          </Text>
+                          <Text style={styles.applicableText}>
+                            Applicable for 1 month
+                          </Text>
+                          <Text style={styles.feeAmount}>₹1</Text>
                         </View>
                       </View>
 
-                      <TouchableOpacity style={styles.paymentButton} onPress={() => {handleContinuePayment(850)}}>
-                        <Text style={styles.paymentButtonText}>Continue to payment</Text>
+                      <TouchableOpacity
+                        style={styles.paymentButton}
+                        onPress={() => {
+                          handleContinuePayment(1);
+                        }}
+                      >
+                        <Text style={styles.paymentButtonText}>
+                          Continue to payment
+                        </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -151,8 +173,15 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
               {/* Header with back button and title */}
               <View style={styles.doctorInfoContainer}>
                 <TouchableOpacity style={styles.profileButton}>
-                  <Image source={require("../../../assets/Images/dr_kislay.jpg")} style={styles.profileImagei} />
-                  <MaterialIcons name="arrow-drop-down" size={24} color="#fff" />
+                  <Image
+                    source={require("../../../assets/Images/dr_kislay.jpg")}
+                    style={styles.profileImagei}
+                  />
+                  <MaterialIcons
+                    name="arrow-drop-down"
+                    size={24}
+                    color="#fff"
+                  />
                 </TouchableOpacity>
                 <Text style={styles.doctorName}>Dr Kislay Shrivasatva</Text>
                 <Text style={styles.doctorSpecialty}>(Cardiologist)</Text>
@@ -168,20 +197,32 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
                 <Text style={styles.sectionTitle}>Patient Info</Text>
                 <View style={styles.patientInfo}>
                   <View style={styles.patientInfoRow}>
-                    <Image source={user?.picture ? { uri: user.picture } : require("../../../assets/Images/user-icon.jpg")}
-                    style={styles.patientImage} />
+                    <Image
+                      source={
+                        user?.picture
+                          ? { uri: user.picture }
+                          : require("../../../assets/Images/user-icon.jpg")
+                      }
+                      style={styles.patientImage}
+                    />
                     <View style={styles.patientDetails}>
-                      <Text style={styles.patientName}>{user?.name ? user?.name : "User"}</Text>
-                      <Text style={styles.noteText}>Note: Please Upload Patient Details In the Drop Link</Text>
+                      <Text style={styles.patientName}>
+                        {user?.name ? user?.name : "User"}
+                      </Text>
+                      <Text style={styles.noteText}>
+                        Note: Please Upload Patient Details In the Drop Link
+                      </Text>
                     </View>
                   </View>
                   <TouchableOpacity style={styles.uploadButton}>
-                  <Image
+                    <Image
                       source={require("../../../assets/Images/Medilockerfile.jpg")}
                       style={{ width: 18, height: 18 }}
                     />
-                    
-                    <Text style={styles.uploadButtonText}>Upload from Medilocker</Text>
+
+                    <Text style={styles.uploadButtonText}>
+                      Upload from Medilocker
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -222,13 +263,22 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
                   <Text style={styles.billValue}>₹0</Text>
                 </View>
                 <View style={[styles.billRow, styles.totalRow]}>
-                  <Text style={[styles.billLabel, styles.totalLabel]}>Total Pay</Text>
-                  <Text style={[styles.billValue, styles.totalValue]}>₹850</Text>
+                  <Text style={[styles.billLabel, styles.totalLabel]}>
+                    Total Pay
+                  </Text>
+                  <Text style={[styles.billValue, styles.totalValue]}>
+                    ₹850
+                  </Text>
                 </View>
               </View>
 
               {/* Continue Button */}
-              <TouchableOpacity style={styles.continueButton} onPress={() => {handleContinuePayment(850)}}>
+              <TouchableOpacity
+                style={styles.continueButton}
+                onPress={() => {
+                  handleContinuePayment(850);
+                }}
+              >
                 <Text style={styles.continueButtonText}>Continue</Text>
               </TouchableOpacity>
             </View>
@@ -236,8 +286,8 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
         </View>
       )}
     </>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -281,11 +331,11 @@ const styles = StyleSheet.create({
     // borderColor: "black",
     zIndex: 2,
     ...Platform.select({
-      web:{
-        width:"100%",
+      web: {
+        width: "100%",
         marginBottom: 20,
-      }
-    })
+      },
+    }),
   },
   profileButton: {
     flexDirection: "row",
@@ -339,12 +389,14 @@ const styles = StyleSheet.create({
     marginBottom: "2%",
   },
   sectionLabel: {
-    fontSize: 14,
-    color: "#000",
+    fontSize: 15,
+    color: "#FF7072",
     marginBottom: 10,
   },
   doctorAvatars: {
-    flexDirection: "row",
+    height: "80%",
+    width: "10%",
+    borderWidth: 1,
   },
   doctorAvatar: {
     marginRight: 10,
@@ -367,6 +419,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#000",
     marginBottom: 8,
+  },
+  applicableText: {
+    marginBottom: "4%",
+    color: "#888888",
+    fontSize: 10,
+    fontWeight: 400,
   },
   formInput: {
     borderWidth: 1,
@@ -658,17 +716,16 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
     ...Platform.select({
-      web:{
+      web: {
         marginVertical: 0,
-      }
-    })
+      },
+    }),
   },
   continueButtonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
-})
+});
 
-export default DoctorsPaymentScreen;
-
+export default DoctorsBookingPaymentScreen;

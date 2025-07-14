@@ -87,7 +87,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
       };
 
       // Navigate to detail page with updated doctor info
-      navigation.navigate("DoctorsInfoWithRating", {
+      navigation.navigate("DoctorsInfoWithBooking", {
         doctors: updatedDoctor,
       });
     } catch (error) {
@@ -113,7 +113,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                     /> */}
                     <TouchableOpacity
                       onPress={() =>
-                        navigation.navigate("DoctorsInfoWithRating", {
+                        navigation.navigate("DoctorsInfoWithBooking", {
                           doctors: item,
                         })
                       }
@@ -125,89 +125,66 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                     </TouchableOpacity>
 
                     <View style={styles.infoContainer}>
-                      <View style={styles.infoBox}>
-                        <View style={styles.info}>
-                          <Text style={styles.name}>{item.doctorname}</Text>
+                      {/* <View style={styles.infoBox}> */}
+                      <View style={styles.info}>
+                        <Text style={styles.name}>{item.doctorname}</Text>
+                        <View style={styles.specializedExpBox}>
                           <Text style={styles.specialization}>
                             {item.specialization}
                           </Text>
                           <Text style={styles.experience}>
-                            {item.experience}
+                            {`${item.experience} exp`}
                           </Text>
                         </View>
-                        <View style={styles.verifiedContainer}>
-                          <Image
-                            source={require("../../../assets/Images/Medical_Council_of_India_Logo.png")}
-                            style={styles.imageBox}
-                          />
-                          <Text style={styles.verifiedBox}>
-                            <Text style={styles.verified}>Verified</Text>
-                            <Text style={styles.by}>by</Text>
-                            <Text style={styles.mci}> MCI</Text>
-                          </Text>
-                        </View>
-                        <View style={styles.subscriberCount}>
-                          <View style={styles.countBox}>
-                            <TouchableOpacity
-                              style={styles.heartButtonBox}
-                              onPress={() => handleHeartButtonPress(item.email)}
-                            >
-                              <Image
-                                source={require("../../../assets/Icons/heart1.png")}
-                                style={styles.heartImage}
-                              />
-                            </TouchableOpacity>
-                            <Text style={styles.numberText}>
-                              {subscriberCounts[item.email]}
-                            </Text>
-                          </View>
-                          <Text style={styles.subscriberCountText}>
-                            Subscribers
-                          </Text>
-                        </View>
+                        <View style={styles.addressSection}></View>
+                        <View style={styles.reviewSection}></View>
                       </View>
-                      <View></View>
-                      <View style={styles.descriptionContainer}>
+                      <View style={styles.verifiedContainer}>
+                        <Image
+                          source={require("../../../assets/Images/Medical_Council_of_India_Logo.png")}
+                          style={styles.imageBox}
+                        />
+                        <Text style={styles.verifiedBox}>
+                          <Text style={styles.verified}>Verified</Text>
+                          <Text style={styles.by}>by</Text>
+                          <Text style={styles.mci}> MCI</Text>
+                        </Text>
+                      </View>
+                      <View style={styles.subscriberCount}>
+                        <View style={styles.countBox}>
+                          <TouchableOpacity
+                            style={styles.heartButtonBox}
+                            onPress={() => handleHeartButtonPress(item.email)}
+                          >
+                            <Image
+                              source={require("../../../assets/Icons/heart1.png")}
+                              style={styles.heartImage}
+                            />
+                          </TouchableOpacity>
+                          <Text style={styles.numberText}>
+                            {subscriberCounts[item.email]}
+                          </Text>
+                        </View>
+                        <Text style={styles.subscriberCountText}>
+                          Subscribers
+                        </Text>
+                      </View>
+                      {/* </View> */}
+                      {/* <View style={styles.descriptionContainer}>
                         <Text style={styles.description}>
                           {item.description}
                         </Text>
-                      </View>
+                      </View> */}
                     </View>
                   </View>
 
                   {/* Right Section - Slot Booking */}
-                  <View style={styles.slotSection}>
-                    {/* <View style={styles.slotTitle}>
-                      <Text style={styles.title}>Available Slots</Text>
-                    </View> */}
-
-                    {/* <View style={styles.slotRow}>
-                      {(item?.slots || []).map((slot) => (
-                        <TouchableOpacity
-                          //key={slot}
-                          key={`${item.email}-slot-${index}`}
-                          mode="outlined"
-                          style={[
-                            styles.slot,
-                            selectedSlot[item.email] === slot &&
-                              styles.selectedSlot,
-                          ]}
-                          onPress={() => handleSlotSelect(item.email, slot)}
-                        >
-                          <Text
-                            style={[
-                              styles.slotText,
-                              selectedSlot[item.email] === slot &&
-                                styles.selectedSlotText,
-                            ]}
-                          >
-                            {slot}
-                          </Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View> */}
+                  <View style={styles.subscriptionSection}>
+                    <View style={styles.subscriptionTextBox}>
+                      <Text style={styles.priceText}>₹1999</Text>
+                      <Text style={styles.feeText}>| Subscription Fee</Text>
+                    </View>
                     <Pressable
-                      //style={styles.button}
                       style={[
                         styles.button,
                         (!user || !user.email) && { backgroundColor: "gray" },
@@ -246,12 +223,19 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                 <View style={styles.cardContainer}>
                   <View style={styles.cardBox}>
                     <View style={styles.cardHeaderInfo}>
-                      <View style={styles.imageContainer}>
+                      <TouchableOpacity
+                        style={styles.imageContainer}
+                        onPress={() =>
+                          navigation.navigate("DoctorsInfoWithBooking", {
+                            doctors: item,
+                          })
+                        }
+                      >
                         <Image
                           source={{ uri: item.profilePhoto }}
                           style={styles.image}
                         />
-                      </View>
+                      </TouchableOpacity>
 
                       <View style={styles.doctorDetails}>
                         <Text style={styles.name}>{item.doctorname}</Text>
@@ -560,16 +544,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    //borderWidth:1
+    //borderWidth: 1,
+    height: "100%",
+    borderColor: "red",
+    padding: "0.3%",
   },
   row: {
     flexDirection: "row",
-    alignItems: "center",
+    //alignItems: "center",
     //borderWidth: 1,
     borderColor: "#000000",
-    width: "70%",
-    height: "120%",
-    marginHorizontal: "1%",
+    width: "80%",
+    height: "100%",
+    //marginHorizontal: "1%",
+    padding: "0.4%",
+    justifyContent: "space-between",
   },
   imageContainer: {
     width: "17%",
@@ -580,7 +569,7 @@ const styles = StyleSheet.create({
       web: {
         width: "21%",
         height: "65%",
-        borderWidth: 1,
+        //borderWidth: 1,
         marginHorizontal: "1%",
       },
     }),
@@ -592,31 +581,30 @@ const styles = StyleSheet.create({
     marginHorizontal: "1%",
     ...Platform.select({
       web: {
-        width: 60,
-        height: 60,
+        width: 70,
+        height: 70,
         borderRadius: 50,
-        // marginRight: 10,
-        marginHorizontal: "1%",
       },
     }),
   },
   infoContainer: {
     //flex: 1,
-    //borderWidth: 1,
-    borderColor: "#000000",
-    width: "85%",
-  },
-  infoBox: {
     //borderWidth: 2,
-    borderColor: "#7cfc00",
-    width: "75%",
+    borderColor: "#000000",
+    width: "91%",
+    borderColor: "blue",
+    padding: "0.5%",
     flexDirection: "row",
+    justifyContent: "space-around",
   },
+
   info: {
     //borderWidth: 1,
     borderColor: "#000000",
-    width: "65%",
+    width: "56%",
+    height: "100%",
   },
+
   name: {
     fontSize: 15,
     fontWeight: 600,
@@ -627,6 +615,15 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  specializedExpBox: {
+    height: "25%",
+    width: "100%",
+    //borderWidth: 1,
+    borderColor: "red",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
   specializationBox: {
     //borderWidth: 1,
     height: "68%",
@@ -644,16 +641,27 @@ const styles = StyleSheet.create({
     color: "#000",
     ...Platform.select({
       web: {
-        fontSize: 12,
-        fontWeight: 300,
-        color: "#666",
+        fontSize: 13,
+        fontWeight: 500,
+        color: "#444444",
       },
     }),
   },
   experience: {
     fontSize: 13,
-    fontWeight: 400,
-    color: "#000",
+    fontWeight: 500,
+    color: "#444444",
+    marginRight: "15%",
+  },
+  addressSection: {
+    height: "28%",
+    width: "100%",
+    //borderWidth: 1,
+  },
+  reviewSection: {
+    height: "20%",
+    width: "30%",
+    //borderWidth: 1,
   },
   verifiedByMCI: {
     //borderWidth: 1,
@@ -670,11 +678,16 @@ const styles = StyleSheet.create({
   },
 
   verifiedContainer: {
-    width: "35%",
+    width: "20%",
     flexDirection: "row",
     //borderWidth: 1,
-    borderColor: "#000000",
+    borderColor: "purple",
     paddingVertical: "0.5%",
+    justifyContent: "space-around",
+  },
+  imageBox: {
+    height: 21,
+    width: 21,
   },
   verifiedBox: {
     //borderWidth: 1,
@@ -689,6 +702,8 @@ const styles = StyleSheet.create({
         //borderWidth: 1,
         borderColor: "#000000",
         width: "70%",
+        height: "25%",
+        marginBottom: "39%",
       },
     }),
   },
@@ -710,19 +725,19 @@ const styles = StyleSheet.create({
     //alignSelf:"center"
   },
   verified: {
-    fontSize: 14,
+    fontSize: 12,
     color: "green",
     paddingVertical: "5%",
     paddingHorizontal: "3%",
     fontWeight: 300,
   },
   by: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 300,
   },
   mci: {
     color: "#FF7373",
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 300,
   },
   rightContainer: {
@@ -740,9 +755,10 @@ const styles = StyleSheet.create({
   //   marginRight:"8%"
   // },
   subscriberCount: {
-    width: "30%",
+    width: "15%",
     //borderWidth: 1,
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   countBox: {
     //borderWidth: 1,
@@ -757,12 +773,13 @@ const styles = StyleSheet.create({
         //borderWidth: 1,
         borderColor: "blue",
         alignSelf: "center",
+        flexDirection: "column",
       },
     }),
   },
   heartButtonBox: {
-    height: "60%",
-    width: "75%",
+    height: "33%",
+    width: "79%",
     //borderWidth: 1,
     alignSelf: "center",
   },
@@ -772,9 +789,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     ...Platform.select({
       web: {
-        height: 20,
-        width: 23,
-        alignSelf: "center",
+        height: 17,
+        width: 19,
+        marginTop: "3%",
       },
     }),
   },
@@ -785,9 +802,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   subscriberCountText: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 500,
     color: "#000000",
+    marginVertical: "3.5%",
   },
   descriptionContainer: {
     height: "auto",
@@ -823,60 +841,37 @@ const styles = StyleSheet.create({
     paddingRight: "2%",
     //marginBottom:"10%"
   },
-  slotSection: {
-    borderWidth: 1,
-    borderColor: "#FFFFFF",
+  subscriptionSection: {
+    //borderWidth: 1,
+    borderColor: "#000",
     flexDirection: "column",
     marginRight: "2%",
     width: "17%",
-    height: "110%",
-    justifyContent: "space-between",
-    // shadowColor: "#000",
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.2,
-    // shadowRadius: 2,
+    height: "100%",
+    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
     alignItems: "center",
   },
-
-  slotTitle: {
-    backgroundColor: "#FFF0F0",
-    width: "100%",
-    height: "22%",
-    // borderWidth: 1,
-    // borderColor: "#000000",
-  },
-  selectedSlotText: {},
-  title: {
-    fontSize: 14,
-    //fontWeight: "bold",
-    alignSelf: "center",
-  },
-  slotRow: {
+  subscriptionTextBox: {
+    height: "20%",
+    width: "95%",
+    //borderWidth:1,
+    marginTop: "17%",
     flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-evenly",
-    paddingHorizontal: "2%",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
-  slot: {
-    //backgroundColor: "#e8f4ff",
-    borderRadius: 1,
-    borderColor: "#1680EC",
-    flex: 1,
-    justifyContent: "center",
-    minWidth: "35%", // Prevents slots from being too small
-    maxWidth: "43%", // Prevents slots from being too wide
+  priceText: {
+    //fontFamily:"Annapurna SIL",
+    fontSize: 16,
+    fontWeight: 500,
+    color: "#000000",
+    marginLeft: "5%",
   },
-  selectedSlot: {
-    // backgroundColor: "#87ceeb",
-    // color: "#000000",
-    borderWidth: 1,
-    borderColor: "#1680EC",
-    borderRadius: 5,
-    padding: 5,
-  },
-  slotText: {
-    fontSize: 10,
-    color: "#1680EC",
+  feeText: {
+    fontSize: 11,
+    fontWeight: 400,
+    color: "#888888",
+    marginRight: "8%",
   },
   button: {
     marginHorizontal: "3%",
@@ -895,8 +890,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#FF7373",
         height: "27%",
         width: "95%",
-        borderRadius: 8,
-        marginVertical: "25%",
+        borderRadius: 6,
+        marginTop: "3%",
         justifyContent: "center",
         alignItems: "center",
       },

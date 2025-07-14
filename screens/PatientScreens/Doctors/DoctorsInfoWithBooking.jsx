@@ -12,7 +12,7 @@ import {
   useWindowDimensions,
   Dimensions,
   StatusBar,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SideBarNavigation from "../../../components/PatientScreenComponents/SideBarNavigation";
@@ -21,10 +21,10 @@ import { API_URL } from "../../../env-vars";
 
 const { width, height } = Dimensions.get("window");
 
-const DoctorsInfoWithRating = ({ navigation, route }) => {
+const DoctorsInfoWithBooking = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  //const [searchQuery, setSearchQuery] = useState("");
+  //const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState("Today");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const doctors = route.params?.doctors || {}; // Get doctor data from navigation
@@ -33,139 +33,29 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
   const [availableDates, setAvailableDates] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
 
-  const handleSearch = () => {
-    Alert.alert(`Search Results for: ${searchQuery}`);
-  };
+  // const handleSearch = () => {
+  //   Alert.alert(`Search Results for: ${searchQuery}`);
+  // };
 
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
-  };
+  // const toggleDropdown = () => {
+  //   setDropdownVisible(!dropdownVisible);
+  // };
 
   // const handleDateSelect = (date) => {
   //   setSelectedDate(date);
   // };
 
-  const handleTimeSelect = (time) => {
-    setSelectedTimeSlot(time);
-  };
+  // const handleTimeSelect = (time) => {
+  //   setSelectedTimeSlot(time);
+  // };
 
   // Function to handle redirection for booking
   const handleBooking = (timeSlot, doctorData, clinicData) => {
     setSelectedTimeSlot(timeSlot);
     // Navigate to a payment page passing the data through the route params
-    navigation.navigate("DoctorsPaymentScreen");
+    //navigation.navigate("DoctorsPaymentScreen");
   };
 
-  const handleSlotSelection = (slot) => {
-    setSelectedSlot((prevSlot) => (prevSlot === slot ? null : slot));
-  };
-  const selectedSlots =
-    selectedDay && doctors.availability[selectedDay]?.slots
-      ? doctors.availability[selectedDay].slots
-      : { morning: [], afternoon: [] };
-
-  const chunkSize = 3;
-
-  const availabilityArray = doctors?.availability
-    ? Object.keys(doctors.availability).map((day) => ({
-        day,
-        slotsAvailable: doctors.availability[day]?.slotsAvailable || 0,
-        slots: doctors.availability[day]?.slots || [0],
-      }))
-    : [];
-
-  const chunkedAvailability = [];
-  for (let i = 0; i < availabilityArray.length; i += chunkSize) {
-    chunkedAvailability.push(availabilityArray.slice(i, i + chunkSize));
-  }
-
-  const [visibleChunks, setVisibleChunks] = useState(1); // Show first 3 days initially
-  const loadMoreDays = () => {
-    if (visibleChunks < chunkedAvailability.length) {
-      setVisibleChunks(visibleChunks + 1);
-    }
-  };
-
-  const clinicData = {
-    name: "Wisdom Clinics",
-    fee: "₹800 fee",
-    waitTime: "Max 15 min wait",
-    layout: "Hsr Layout",
-  };
-
-  // const availableDates = [
-  //   { id: "today", label: "Today", slotsAvailable: 0 },
-  //   { id: "tomorrow", label: "Tomorrow", slotsAvailable: 2 },
-  //   { id: "dayAfter", label: "Mon, 2 feb", slotsAvailable: 2 },
-  // ];
-
-  // const timeSlots = {
-  //   morning: { label: "Morning (1 slot)", slots: ["10:30 AM"] },
-  //   afternoon: { label: "Afternoon (1 slot)", slots: ["12:30 PM"] },
-  // };
-  // useEffect(() => {
-  //   const getDatesAndSlots = async () => {
-  //     const today = new Date();
-  //     const days = [0, 1, 2]; // Today, Tomorrow, Day After
-  //     const promises = days.map(async (offset) => {
-  //       const date = new Date(today);
-  //       date.setDate(today.getDate() + offset);
-  //       const dateString = date.toISOString().slice(0, 10); // 'YYYY-MM-DD'
-
-  //       try {
-  //         const res = await fetch(`${API_URL}/doctorBookings/available`, {
-  //           method: "POST",
-  //           headers: { "Content-Type": "application/json" },
-  //           body: JSON.stringify({
-  //             doctor_id: doctors.id || doctors.email,
-  //             date: dateString,
-  //           }),
-  //         });
-  //         console.log(`Response status for ${dateString}:`,res.status);
-
-  //         const data = await res.json();
-  //         console.log("Slots fetched for", dateString, data.slots);
-  //         return {
-  //           id: offset === 0 ? "today" : offset === 1 ? "tomorrow" : "dayAfter",
-  //           label:
-  //             offset === 0
-  //               ? "Today"
-  //               : offset === 1
-  //               ? "Tomorrow"
-  //               : date.toLocaleDateString("en-US", {
-  //                   weekday: "short",
-  //                   day: "numeric",
-  //                   month: "short",
-  //                 }),
-  //           date: dateString,
-  //           slots: data.slots || [],
-  //         };
-  //       } catch (e) {
-  //         console.error(`Error fetching slots for ${dateString}:`, e);
-  //         return {
-  //           // id: offset,
-  //           id: `err-${offset}`,
-  //           label: date.toDateString(),
-  //           date: dateString,
-  //           slots: [],
-  //         };
-  //       }
-  //     });
-
-  //     const results = await Promise.all(promises);
-  //     setAvailableDates(results);
-  //     if (results.length>0) {
-  //       setSelectedDate(results[0].date); // Default to today
-  //       setAvailableSlots(results[0].slots);
-  //       console.log(results);
-  //     }
-  //   };
-
-  //   if (doctors?.id || doctors?.email) {
-  //     console.log("doctors object:", doctors);
-  //     getDatesAndSlots();
-  //   }
-  // }, [doctors]);
   useEffect(() => {
     const getDatesAndSlots = async () => {
       const today = new Date();
@@ -273,109 +163,75 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                   <View style={styles.contentContainer}>
                     {/* Doctor profile card */}
                     <View style={styles.doctorProfileCard}>
-                      <View style={styles.doctorLeftSection}>
-                        <Image
-                          source={doctors.profilePhoto}
-                          style={styles.doctorImage}
-                        />
-                        <View style={styles.ratingContainer}>
-                          <MaterialIcons
-                            name="star"
-                            size={20}
-                            color="#FFD700"
+                      <View style={styles.doctorProfileDetail}>
+                        <View style={styles.doctorLeftSection}>
+                          <Image
+                            source={doctors.profilePhoto}
+                            style={styles.doctorImage}
                           />
-                          <Text style={styles.ratingText}>
-                            {"4.5"}
+                          <View style={styles.ratingContainer}>
+                            <MaterialIcons
+                              name="star"
+                              size={20}
+                              color="#FFD700"
+                            />
+                            <Text style={styles.ratingText}>{"4.5"}</Text>
+                          </View>
+                        </View>
+                        <View style={styles.doctorInfoSection}>
+                          <Text style={styles.doctorName}>
+                            {doctors.doctorname}
+                          </Text>
+                          <Text style={styles.doctorCredentials}>
+                            {doctors.specialization}
+                          </Text>
+                          <Text style={styles.doctorExperience}>
+                            {`${doctors.experience} experience`}
+                          </Text>
+                          <Text style={styles.doctorBio}>
+                            {doctors.doctorname} specialized in{" "}
+                            {doctors.specialization}, with an experience of{" "}
+                            {doctors.experience}.
                           </Text>
                         </View>
                       </View>
+                      <View style={styles.reviewsSection}>
+                        <Text style={styles.reviewsTitle}>User Reviews</Text>
 
-                      <View style={styles.doctorInfoSection}>
-                        <Text style={styles.doctorName}>
-                          {doctors.doctorname}
-                        </Text>
-                        <Text style={styles.doctorCredentials}>
-                          {doctors.specialization}
-                        </Text>
-                        <Text style={styles.doctorExperience}>
-                          {doctors.experience}
-                        </Text>
-                        <Text style={styles.doctorBio}>
-                          {doctors.doctorname} specialized in{" "}
-                          {doctors.specialization}, with an experience of{" "}
-                          {doctors.experience}.
-                        </Text>
-
-                        <View style={styles.reviewsSection}>
-                          <Text style={styles.reviewsTitle}>User Reviews</Text>
-
-                          <View style={styles.reviewsList}>
-                            {[1, 2, 3].map((id) => (
-                              <View key={id} style={styles.reviewCard}>
-                                <Text style={styles.reviewText}>
-                                  Very good Doctor
+                        <View style={styles.reviewsList}>
+                          {[1, 2, 3].map((id) => (
+                            <View key={id} style={styles.reviewCard}>
+                              <Text style={styles.reviewText}>
+                                Great Doctor !
+                              </Text>
+                              <View style={styles.reviewerContainer}>
+                                {[...Array(5)].map((_, i) => (
+                                  <MaterialIcons
+                                    key={i}
+                                    name="star"
+                                    size={16}
+                                    color="#FFD700"
+                                  />
+                                ))}
+                                <Text style={styles.reviewerName}>
+                                  Ram Kapoor
                                 </Text>
-                                <View style={styles.reviewerContainer}>
-                                  {[...Array(5)].map((_, i) => (
-                                    <MaterialIcons
-                                      key={i}
-                                      name="star"
-                                      size={16}
-                                      color="#FFD700"
-                                    />
-                                  ))}
-                                  <Text style={styles.reviewerName}>
-                                    Mr Donald
-                                  </Text>
-                                </View>
                               </View>
-                            ))}
-                          </View>
+                            </View>
+                          ))}
                         </View>
                       </View>
                     </View>
 
                     {/* Appointment booking section */}
                     <View style={styles.appointmentSection}>
-                      <View style={styles.appointmentHeader}>
-                        <Text style={styles.appointmentTitle}>
-                          Clinic Appointment
-                        </Text>
-                        <Text style={styles.appointmentFee}>
-                          {clinicData.fee}
+                      <View style={styles.subscribedTextBox}>
+                        <Text style={styles.subscribedText}>
+                          You have already Subscribed to this doctor ! Book
+                          Slots
                         </Text>
                       </View>
 
-                      <View style={styles.clinicDetails}>
-                        <Text style={styles.clinicName}>{clinicData.name}</Text>
-                        <Text style={styles.clinicWaitTime}>
-                          {clinicData.waitTime}
-                        </Text>
-                        <Text style={styles.clinicLocation}>
-                          {clinicData.layout}
-                        </Text>
-                      </View>
-
-                      {/* <View style={styles.dateSelector}>
-                        {availableDates.map((date) => (
-                          <TouchableOpacity
-                            key={date.id}
-                            style={[
-                              styles.dateOption,
-                              selectedDate === date.label &&
-                                styles.selectedDate,
-                            ]}
-                            onPress={() => handleDateSelect(date.label)}
-                          >
-                            <Text style={styles.dateLabel}>{date.label}</Text>
-                            <Text style={styles.slotsAvailable}>
-                              {date.slotsAvailable > 0
-                                ? `${date.slotsAvailable} slots Available`
-                                : "No slot today"}
-                            </Text>
-                          </TouchableOpacity>
-                        ))}
-                      </View> */}
                       <View style={styles.dateSelector}>
                         {availableDates.map((date) => (
                           <TouchableOpacity
@@ -396,60 +252,12 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                         ))}
                       </View>
 
-                      {/* <View style={styles.timeSlotSection}>
-                        <View style={styles.timeSlotsGroup}>
-                          <Text style={styles.timeGroupLabel}>
-                            {timeSlots.morning.label}
-                          </Text>
-                          <View style={styles.timeSlotsContainer}>
-                            {timeSlots.morning.slots.map((time) => (
-                              <TouchableOpacity
-                                key={time}
-                                style={[
-                                  styles.timeSlot,
-                                  selectedTimeSlot === time &&
-                                    styles.selectedTimeSlot,
-                                ]}
-                                onPress={() =>
-                                  handleBooking(time, doctors, clinicData)
-                                }
-                              >
-                                <Text style={styles.timeSlotText}>{time}</Text>
-                                <Text style={styles.bookNowText}>Book Now</Text>
-                              </TouchableOpacity>
-                            ))}
-                          </View>
-                        </View>
-
-                        <View style={styles.timeSlotsGroup}>
-                          <Text style={styles.timeGroupLabel}>
-                            {timeSlots.afternoon.label}
-                          </Text>
-                          <View style={styles.timeSlotsContainer}>
-                            {timeSlots.afternoon.slots.map((time) => (
-                              <TouchableOpacity
-                                key={time}
-                                style={[
-                                  styles.timeSlot,
-                                  selectedTimeSlot === time &&
-                                    styles.selectedTimeSlot,
-                                ]}
-                                onPress={() =>
-                                  handleBooking(time, doctors, clinicData)
-                                }
-                              >
-                                <Text style={styles.timeSlotText}>{time}</Text>
-                                <Text style={styles.bookNowText}>Book Now</Text>
-                              </TouchableOpacity>
-                            ))}
-                          </View>
-                        </View>
-                      </View> */}
                       <View style={styles.timeSlotSection}>
                         {availableSlots.length > 0 ? (
                           <ScrollView
                             style={styles.timeSlotScroll}
                             contentContainerStyle={styles.timeSlotsContainer}
+                            showsVerticalScrollIndicator={false}
                           >
                             {availableSlots.map((slot, idx) => {
                               const isFull = slot.available === 0;
@@ -465,18 +273,26 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                                   ]}
                                   onPress={() => {
                                     setSelectedTimeSlot(slot.start);
-                                    handleBooking(
-                                      slot.start,
-                                      doctors,
-                                      clinicData
-                                    );
                                   }}
                                 >
-                                  <Text style={styles.timeSlotText}>
+                                  <Text
+                                    style={[
+                                      styles.timeSlotText,
+                                      selectedTimeSlot === slot.start &&
+                                        styles.selectedTimeSlotText,
+                                    ]}
+                                  >
                                     {slot.start} - {slot.end}
                                   </Text>
-                                  <Text style={styles.bookNowText}>
+                                  {/* <Text style={styles.bookNowText}>
                                     {isFull ? "Full" : `${slot.available}`}
+                                  </Text> */}
+                                  <Text style={styles.bookNowText}>
+                                    {isFull
+                                      ? "Full"
+                                      : typeof slot.available === "number"
+                                      ? `${slot.available}`
+                                      : ""}
                                   </Text>
                                 </TouchableOpacity>
                               );
@@ -488,6 +304,24 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                           </Text>
                         )}
                       </View>
+                      <TouchableOpacity
+                        style={[
+                          styles.bookSlotButton,
+                          !selectedTimeSlot && {
+                            backgroundColor: "rgba(255, 112, 114, 0.6)",
+                          }, // greyed out if not selected
+                        ]}
+                        disabled={!selectedTimeSlot}
+                        onPress={() => {
+                          if (selectedTimeSlot) {
+                            navigation.navigate("DoctorsPaymentScreen"); // navigate or process booking
+                          }
+                        }}
+                      >
+                        <Text style={styles.bookSlotText}>
+                          {selectedTimeSlot ? "Book Slot" : "Book Slot"}
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>
@@ -501,9 +335,14 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
           <StatusBar barStyle="light-content" backgroundColor="#fff" />
           {/* <View style={{ flex: 1 }}> */}
           <View style={styles.appImageContainer}>
-            <Image source={doctors.image} style={styles.doctorImage} />
-            <Text style={styles.doctorName}>{doctors.name}</Text>
-            <Text style={styles.doctorCredentials}>({doctors.credential})</Text>
+            <Image
+              source={{ uri: doctors.profilePhoto }}
+              style={styles.doctorImage}
+            />
+            <Text style={styles.doctorName}>{doctors.doctorname}</Text>
+            <Text style={styles.doctorCredentials}>
+              ({doctors.specialization})
+            </Text>
           </View>
 
           <View style={styles.experienceRatingContainer}>
@@ -525,7 +364,7 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
               />
               <TouchableOpacity style={styles.ratingDetail}>
                 <Text style={styles.ratingText}>Rating & Reviews</Text>
-                <Text style={styles.rating}>{doctors.ratingreview}</Text>
+                <Text style={styles.rating}>{4.5}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -554,7 +393,9 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
               />
             </View>
             <View style={styles.feesBox}>
-              <Text style={styles.fees}>{doctors.consultationFees}</Text>
+              <Text style={styles.fees}>
+                {doctors.consultationFees || `₹${doctors.fees || 0}`}
+              </Text>
               <Text style={styles.feesText}>Consultation fees</Text>
             </View>
           </View>
@@ -562,118 +403,7 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
           <View style={styles.availabilityContainer}>
             <Text style={styles.availabilityTimeText}>Available Time</Text>
             <View style={styles.availabilityShowBox}>
-              <View style={styles.availabilityBox}>
-                <FlatList
-                  //   data={availabilityList}
-                  data={chunkedAvailability.slice(0, visibleChunks).flat()}
-                  horizontal
-                  keyExtractor={(item) => item.day}
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={{ gap: 8 }}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      style={[
-                        styles.dayColumn,
-                        selectedDay === item.day && styles.selectedDay,
-                      ]}
-                      onPress={() => setSelectedDay(item.day)}
-                    >
-                      <Text style={styles.dayTitle}>
-                        {item.day.charAt(0).toUpperCase() + item.day.slice(1)}
-                      </Text>
-                      <Text style={styles.slotsAvailable}>
-                        {item.slotsAvailable > 0
-                          ? `${item.slotsAvailable} slots Available`
-                          : "No slot today"}
-                      </Text>
-                    </TouchableOpacity>
-                  )}
-                  onEndReached={loadMoreDays}
-                  onEndReachedThreshold={0.5}
-                />
-              </View>
-
-              {selectedDay && (
-                <View style={styles.timeSlotContainer}>
-                  {/* Check if all slots are empty */}
-                  {selectedSlots.morning.length === 0 &&
-                  selectedSlots.afternoon.length === 0 ? (
-                    <View style={styles.noSlotsContainer}>
-                      <Text style={styles.noSlots}>No slots available</Text>
-                    </View>
-                  ) : (
-                    <>
-                      {/* Morning Slots */}
-                      <Text style={styles.slotCategory}>Morning</Text>
-                      <View style={styles.slotGrid}>
-                        {selectedSlots.morning.length > 0 ? (
-                          selectedSlots.morning
-                            .slice(0, 2)
-                            .map((slot, index) => (
-                              <TouchableOpacity
-                                key={index}
-                                style={[
-                                  styles.slotButton,
-                                  selectedSlot === slot && styles.selectedSlot, // Apply selected style
-                                ]}
-                                onPress={() => handleSlotSelection(slot)}
-                              >
-                                <Text
-                                  style={[
-                                    styles.slotText,
-                                    selectedSlot === slot &&
-                                      styles.selectedSlotText, // Change text color
-                                  ]}
-                                >
-                                  {slot}
-                                </Text>
-                              </TouchableOpacity>
-                            ))
-                        ) : (
-                          <Text style={styles.noSlots}>
-                            No morning slots available
-                          </Text>
-                        )}
-                      </View>
-
-                      {/* Afternoon Slots */}
-                      <Text style={styles.slotCategory}>Afternoon</Text>
-                      <View style={styles.slotGrid}>
-                        {selectedSlots.afternoon.length > 0 ? (
-                          selectedSlots.afternoon
-                            .slice(0, 2)
-                            .map((slot, index) => (
-                              <TouchableOpacity
-                                key={index}
-                                style={[
-                                  styles.slotButton,
-                                  selectedSlot === slot && styles.selectedSlot, // Apply selected style
-                                ]}
-                                onPress={() => handleSlotSelection(slot)}
-                              >
-                                <Text
-                                  style={[
-                                    styles.slotText,
-                                    selectedSlot === slot &&
-                                      styles.selectedSlotText, // Change text color
-                                  ]}
-                                >
-                                  {slot}
-                                </Text>
-                              </TouchableOpacity>
-                            ))
-                        ) : (
-                          <Text style={styles.noSlots}>
-                            No afternoon slots available
-                          </Text>
-                        )}
-                      </View>
-                    </>
-                  )}
-                </View>
-              )}
-
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={styles.viewAllButton}
                 onPress={() =>
                   navigation.navigate("DoctorAvailabilitySlots", {
@@ -682,7 +412,75 @@ const DoctorsInfoWithRating = ({ navigation, route }) => {
                 }
               >
                 <Text style={styles.viewAllText}>View All Availability →</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
+
+              <View style={styles.dateSelector}>
+                {availableDates.map((date) => (
+                  <TouchableOpacity
+                    key={date.id}
+                    style={[
+                      styles.dateOption,
+                      selectedDate === date.date && styles.selectedDate,
+                    ]}
+                    onPress={() => handleDateSelect(date.date)}
+                  >
+                    <Text style={styles.dateLabel}>{date.label}</Text>
+                    <Text style={styles.slotsAvailable}>
+                      {date.slots.length > 0
+                        ? `${date.slots.length} slots Available`
+                        : "No slot"}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <View style={styles.timeSlotSection}>
+                {availableSlots.length > 0 ? (
+                  <ScrollView
+                    style={styles.timeSlotScroll}
+                    contentContainerStyle={styles.timeSlotsContainer}
+                  >
+                    {availableSlots.map((slot, idx) => {
+                      const isFull = slot.available === 0;
+                      return (
+                        <TouchableOpacity
+                          key={idx}
+                          disabled={isFull}
+                          style={[
+                            styles.timeSlot,
+                            selectedTimeSlot === slot.start &&
+                              styles.selectedTimeSlot,
+                            isFull && { backgroundColor: "#ccc" },
+                          ]}
+                          onPress={() => {
+                            setSelectedTimeSlot(slot.start);
+                          }}
+                        >
+                          <Text
+                            style={[
+                              styles.timeSlotText,
+                              selectedTimeSlot === slot.start &&
+                                styles.selectedTimeSlotText,
+                            ]}
+                          >
+                            {slot.start} - {slot.end}
+                          </Text>
+                          <Text style={styles.bookNowText}>
+                            {isFull
+                              ? "Full"
+                              : typeof slot.available === "number"
+                              ? `${slot.available}`
+                              : ""}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </ScrollView>
+                ) : (
+                  <Text style={styles.noSlotText}>
+                    No slots available for this date
+                  </Text>
+                )}
+              </View>
             </View>
           </View>
           <TouchableOpacity
@@ -941,8 +739,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     boxShadow: " 0px 0px 4px 1px rgba(0, 0, 0, 0.25)",
     marginVertical: "2%",
-    paddingTop: "3%",
-    paddingHorizontal: "2%",
     flexDirection: "column",
   },
   availabilityBox: {
@@ -974,9 +770,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 
-  slotsAvailable: {
-    color: "green",
-    fontSize: 12,
+  slotsAvailableBox: {
+    color: "#000",
+    fontSize: 10,
   },
   noSlot: {
     color: "gray",
@@ -1128,19 +924,29 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     width: "90%",
     marginHorizontal: "5%",
+    padding: "1%",
   },
   doctorProfileCard: {
     width: "60%",
-    height: "80%",
-    flexDirection: "row",
+    height: "90%",
+    flexDirection: "column",
     backgroundColor: "#fff",
     borderRadius: 20,
     padding: "2%",
-    margin: 10,
+    margin: "2%",
+    justifyContent: "space-between",
+  },
+  doctorProfileDetail: {
+    height: "72%",
+    width: "100%",
+    //borderWidth: 1,
+    flexDirection: "row",
   },
   doctorLeftSection: {
     width: "20%",
+    height: "48%",
     alignItems: "center",
+    // borderWidth: 1,
   },
   doctorImage: {
     height: 90,
@@ -1185,7 +991,9 @@ const styles = StyleSheet.create({
   },
   doctorInfoSection: {
     width: "80%",
-    paddingLeft: 20,
+    height: "100%",
+    paddingLeft: "1%",
+    //borderWidth: 1,
   },
   doctorName: {
     fontSize: 22,
@@ -1227,11 +1035,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   reviewsSection: {
-    marginTop: 10,
+    marginTop: "3%",
+    //borderWidth: 1,
   },
   reviewsTitle: {
-    fontSize: 14,
-    fontWeight: "bold",
+    fontSize: 15,
+    fontWeight: 500,
     marginBottom: 10,
   },
   reviewsList: {
@@ -1245,14 +1054,18 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   reviewText: {
-    fontSize: 12,
-    color: "#333",
+    fontSize: 14,
+    color: "#000",
     marginBottom: 5,
+    fontFamily: "Alex Brush",
+    fontWeight: 400,
+    fontStyle: "italic",
   },
   reviewerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 5,
+    marginTop: "2%",
+    //borderWidth:1
   },
   reviewerName: {
     fontSize: 10,
@@ -1260,116 +1073,257 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   appointmentSection: {
-    width: "35%",
+    width: "30%",
+    height: "90%",
     backgroundColor: "#fff",
     borderRadius: 20,
-    margin: 10,
-    padding: 20,
+    marginTop: "2%",
+    marginLeft: "5%",
+    //padding: "2%",
   },
-  appointmentHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 15,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+  subscribedTextBox: {
+    height: "15%",
+    width: "100%",
+    //borderWidth:1,
+    alignSelf: "center",
+    backgroundColor: "rgb(159, 254, 199)",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    alignItems: "center",
   },
-  appointmentTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#ff7072",
-  },
-  appointmentFee: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#ff7072",
-  },
-  clinicDetails: {
-    marginBottom: 20,
-  },
-  clinicName: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  clinicWaitTime: {
+  subscribedText: {
     fontSize: 14,
-    color: "#666",
-    marginTop: 3,
+    fontWeight: 500,
+    color: "rgb(7, 79, 32)",
+    alignSelf: "center",
+    marginTop: "7%",
+    //padding:"1%",
+    marginLeft: "3%",
   },
-  clinicLocation: {
-    fontSize: 14,
-    color: "#666",
-    marginTop: 3,
-  },
+
   dateSelector: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 20,
-    //borderWidth: 2,
+    borderWidth: 2,
     borderColor: "#d3d3d3",
-    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+    //boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+    height: "18%",
+    width: "100%",
+    alignSelf: "center",
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    paddingHorizontal: "2.2%",
+    ...Platform.select({
+      web: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        borderWidth: 2,
+        borderColor: "rgb(238, 238, 240)",
+        //boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+        height: "12%",
+        marginTop: "3%",
+        width: "100%",
+        //alignSelf: "center",
+        borderTopLeftRadius:0,
+        borderTopRightRadius:0,
+        paddingLeft:"0.5%",
+        paddingRight:"0.5%"
+      },
+    }),
   },
   dateOption: {
-    width: "30%",
-    padding: 10,
+    width: "34%",
+    padding: "1%",
     alignItems: "center",
     borderBottomWidth: 2,
     borderBottomColor: "transparent",
+
+    ...Platform.select({
+      web: {
+        width: "33%",
+        alignItems: "center",
+        borderBottomWidth: 2,
+        borderBottomColor: "transparent",
+        //borderWidth:1,
+        gap:0
+      },
+    }),
   },
   selectedDate: {
     borderBottomColor: "#ff7072",
+
+    ...Platform.select({
+      web: {
+        borderBottomColor: "#ff7072",
+      },
+    }),
   },
   dateLabel: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: "bold",
     color: "#333",
+    ...Platform.select({
+      web: {
+        fontSize: 12,
+        fontWeight: "bold",
+        color: "#333",
+      },
+    }),
   },
   slotsAvailable: {
-    fontSize: 12,
+    fontSize: 11,
     color: "#388e3c",
-    marginTop: 5,
+    ...Platform.select({
+      web: {
+        fontSize: 11,
+        color: "#388e3c",
+        //marginTop: "1%",
+      },
+    }),
   },
   timeSlotSection: {
-    marginTop: 10,
+    marginTop: "2%",
+    height: "65%",
+    width: "95%",
+    alignSelf: "center",
+    //borderWidth: 1,
+    ...Platform.select({
+      web: {
+        marginTop: "2%",
+        height: "50%",
+        width: "95%",
+        alignSelf: "center",
+        //borderWidth: 1,
+      },
+    }),
   },
   timeSlotsGroup: {
-    marginBottom: 20,
+    marginBottom: "3%",
+    ...Platform.select({
+      web: {
+        marginBottom: "4%",
+      },
+    }),
   },
   timeGroupLabel: {
-    fontSize: 16,
+    fontSize: 13,
     color: "#333",
-    marginBottom: 10,
+    marginBottom: "2%",
+    ...Platform.select({
+      web: {
+        fontSize: 14,
+        color: "#333",
+        marginBottom: "2%",
+      },
+    }),
   },
   timeSlotScroll: {
     maxHeight: 200,
     width: "100%",
+    ...Platform.select({
+      web: {
+        maxHeight: 200,
+        width: "100%",
+      },
+    }),
   },
   timeSlotsContainer: {
-    flexDirection: "row", 
-    flexWrap: "wrap", 
-    justifyContent: "flex-start", 
-    gap: 10, 
-    rowGap: 10, 
-    columnGap: 5,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    gap: 6,
+    rowGap: 7,
+    columnGap: 3,
     width: "100%",
+    ...Platform.select({
+      web: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "flex-start",
+        gap: 10,
+        rowGap: 10,
+        columnGap: 5,
+        width: "100%",
+      },
+    }),
   },
   timeSlot: {
-    backgroundColor: "#f5f5f5",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 20,
-    marginRight: 10,
+    backgroundColor: "#fff",
+    paddingVertical: "2%",
+    paddingHorizontal: "3%",
+    borderRadius: 3,
+    borderWidth: 1,
+    borderColor: "rgba(22, 128, 236, 0.75)",
+    height: "22%",
+    marginTop: "4%",
+    marginLeft: "3%",
+    ...Platform.select({
+      web: {
+        backgroundColor: "#fff",
+        paddingVertical: "2%",
+        paddingHorizontal: "3%",
+        borderRadius: 3,
+        borderWidth: 1,
+        borderColor: "rgba(22, 128, 236, 0.75)",
+        height: "22%",
+        marginTop: "4%",
+        marginLeft: "3%",
+      },
+    }),
   },
   selectedTimeSlot: {
-    backgroundColor: "#e0f2f1",
     borderWidth: 1,
     borderColor: "#80cbc4",
+    backgroundColor: "rgba(22, 128, 236, 0.75)",
+    ...Platform.select({
+      web: {
+        borderWidth: 1,
+        borderColor: "#80cbc4",
+        backgroundColor: "rgba(22, 128, 236, 0.75)",
+      },
+    }),
   },
   timeSlotText: {
-    fontSize: 14,
-    color: "#333",
+    fontSize: 12,
+    color: "rgba(22, 128, 236, 0.75)",
+    fontWeight: 500,
+    ...Platform.select({
+      web: {
+        fontSize: 12,
+        color: "rgba(22, 128, 236, 0.75)",
+        fontWeight: 500,
+        //color:"#fff"
+      },
+    }),
+  },
+  selectedTimeSlotText: {
+    color: "#ffffff",
+    ...Platform.select({
+      web: {
+        color: "#ffffff",
+      },
+    }),
+  },
+  noSlotText: {
+    alignSelf: "center",
+    marginTop: "20%",
+  },
+  bookSlotButton: {
+    height: "7%",
+    width: "75%",
+    //borderWidth: 1,
+    alignSelf: "center",
+    marginTop: "3%",
+    borderRadius: 5,
+    backgroundColor: "rgba(254, 81, 83, 0.6)",
+  },
+  bookSlotText: {
+    fontSize: 16,
+    fontWeight: 500,
+    color: "#ffffff",
+    padding: "1%",
+    alignSelf: "center",
   },
 });
 
-export default DoctorsInfoWithRating;
+export default DoctorsInfoWithBooking;
