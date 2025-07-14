@@ -24,7 +24,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
   const { user, logout, setRole } = useContext(AuthContext);
   const { width } = useWindowDimensions();
   const [isSideBarVisible, setIsSideBarVisible] = useState(false);
-  const [dropdownVisible, setDropdownVisible] = useState(false
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
 	// const handleOptionPress = (screen) => {
 	//   setDropdownVisible(false);
