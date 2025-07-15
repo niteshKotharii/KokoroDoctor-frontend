@@ -330,7 +330,7 @@ const DoctorMedicalRegistration = ({ navigation }) => {
               <View style={styles.skipBtnContainer}>
                 <TouchableOpacity
                   style={styles.skipBtnAndroid}
-                  onPress={() => navigation.navigate("")}
+                  onPress={() => navigation.navigate("NewDoctorMedicalReg")}
                 >
                   <Text style={styles.skipText}>Skip</Text>
                 </TouchableOpacity>
