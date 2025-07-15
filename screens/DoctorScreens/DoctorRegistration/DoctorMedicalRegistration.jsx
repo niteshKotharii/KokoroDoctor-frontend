@@ -32,10 +32,10 @@ const DoctorMedicalRegistration = ({ navigation }) => {
 
   // Get email from route params
   const route = useRoute();
-  const { email } = route?.params?.email || ""; 
+  const { email } = route?.params?.email || "";
 
   const [formData, setFormData] = useState({
-    email:"",
+    email: "",
     licenseNo: "",
     experience: "",
     hospital: "",
