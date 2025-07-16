@@ -62,6 +62,10 @@ const Signup = ({ navigation, route }) => {
   };
 
   const handleSignUp = () => {
+    if (!rememberMe) {
+      alert("Please go through our privacy policy and check the box.");
+      return;
+    }
     const fullName = firstName + " " + lastName;
     signup(fullName, email, password, phoneNumber, location, navigation)
       .then(() => {
@@ -291,6 +295,7 @@ const Signup = ({ navigation, route }) => {
           </View>
         </View>
       )}
+
       {/* Mobile Version (for smaller screens) */}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.mobileContainer}>
@@ -354,34 +359,46 @@ const Signup = ({ navigation, route }) => {
                 onPress={() => setShowPassword(!showPassword)}
               >
                 <Ionicons
-                  name={showPassword ? "eye-off" : "eye"}
+                  name={showPassword ? "eye" : "eye-off"}
                   size={20}
                   color="#999"
                 />
               </TouchableOpacity>
             </View>
 
-            <View style={styles.rememberForgotContainer}>
-              {/* Remember Me Section */}
-              <View style={styles.rememberMeContainer}>
+            <View style={styles.privacyMainContainer}>
+              <View style={styles.privacyInnerContainer}>
                 <TouchableOpacity
-                  style={styles.checkboxContainer}
+                  style={styles.privacyTickContainer}
                   onPress={toggleRememberMe}
                 >
                   <View
-                    style={[styles.checkbox, rememberMe && styles.checkedBox]}
+                    style={[styles.tickBox, rememberMe && styles.tickedBox]}
                   >
                     {rememberMe && (
                       <Ionicons name="checkmark" size={12} color="#FFF" />
                     )}
                   </View>
                 </TouchableOpacity>
-                <Text style={styles.rememberMeText}>Remember me</Text>
+                <View style={styles.textContainer}>
+                  <Text style={styles.privacyTextContainer}>
+                    By accepting you agree to Kokoro.Doctor{" "}
+                  </Text>
+                  <Text
+                    style={styles.privacyText}
+                    onPress={() => navigation.navigate("PrivacyPolicy")}
+                  >
+                    Privacy Policy
+                  </Text>
+                </View>
               </View>
+            </View>
 
-              {/* Have Referral Code Section */}
-              <Text style={styles.referralText} onPress={handleReferralCode}>
-                Have Referral Code?
+            <View style={styles.content}>
+              <Text style={styles.contentText}>
+                While Kokoro.Doctor’s AI offers powerful health insights and
+                early detection support, it is designed to assist — not replace
+                — professional medical judgment or emergency care.
               </Text>
             </View>
 
@@ -409,43 +426,6 @@ const Signup = ({ navigation, route }) => {
               <Text style={styles.googleButtonText}>Continue with Google</Text>
             </TouchableOpacity>
           </View>
-
-          {/* Referral Code Modal */}
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={referralModalVisible}
-            onRequestClose={() => setReferralModalVisible(false)}
-          >
-            <View style={styles.modalOverlay}>
-              <View style={styles.modalContainer}>
-                <Text style={styles.modalTitle}>Enter the code Manually</Text>
-
-                <View style={styles.codeInputContainer}>
-                  <TextInput
-                    style={styles.codeInput}
-                    placeholder="Code"
-                    placeholderTextColor="#999"
-                    value={referralCode}
-                    onChangeText={setReferralCode}
-                  />
-                  <TouchableOpacity
-                    style={styles.copyButton}
-                    onPress={handleCopyCode}
-                  >
-                    <Ionicons name="copy-outline" size={20} color="#999" />
-                  </TouchableOpacity>
-                </View>
-
-                <TouchableOpacity
-                  style={styles.continueButton}
-                  onPress={handleReferralSubmit}
-                >
-                  <Text style={styles.continueButtonText}>Continue</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
         </View>
       )}
     </>
@@ -588,6 +568,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+
   checkboxContainer: {
     marginRight: "1%",
     alignSelf: "center",
@@ -601,10 +582,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
   },
+
   checkedBox: {
     backgroundColor: "#10B981",
     borderColor: "#10B981",
   },
+
   privacyAcceptContainer: {
     //borderWidth:1,
     height: "auto",
@@ -742,10 +725,60 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
+  privacyMainContainer: {
+    alignItems: "center",
+    marginBottom: "12%",
+  },
+  privacyInnerContainer: {
+    flexDirection: "row",
+  },
+  tickedBox: {
+    backgroundColor: "#10B981",
+    borderColor: "#10B981",
+  },
+  privacyText: {
+    fontSize: 14,
+    color: "blue",
+    textDecorationLine: "underline",
+  },
+  textContainer: {
+    flex: 1,
+    flexDirection: "column",
+  },
+  tickBox: {
+    width: 15,
+    height: 15,
+    borderWidth: 1,
+    borderColor: "#999",
+    borderRadius: 4,
+    justifyContent: "center",
+    // alignSelf: "center",
+    alignItems: "center",
+    marginRight: "2%",
+    marginTop: "3%",
+  },
   referralText: {
     fontSize: 14,
     color: "#10B981",
     fontWeight: "600",
+  },
+
+  content: {
+    width: "100%", // Ensure it stays within rightContainer
+    borderRadius: 6,
+    alignItems: "center", // Important for web
+    flexShrink: 1, // Prevents overflow
+    //borderWidth: 1,
+    height: "10%",
+    marginBottom: "1%",
+  },
+
+  contentText: {
+    fontSize: 12,
+    color: "#333",
+    textAlign: "center",
+    maxWidth: 300,
+    fontWeight: 400,
   },
   signInButton: {
     backgroundColor: "#10B981",
