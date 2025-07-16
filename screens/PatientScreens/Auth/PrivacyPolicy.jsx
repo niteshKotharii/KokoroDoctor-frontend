@@ -307,6 +307,9 @@ const PrivacyPolicy = ({ navigation, route }) => {
                     styles.buttonText,
                     selectedButton === "decline" && { color: "white" },
                   ]}
+                  onPress={() => {
+                    navigation.navigate("Signup");
+                  }}
                 >
                   I Decline
                 </Text>
@@ -625,7 +628,10 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   selectedButton === "decline" &&
                     styles.appPrivacyButtonDecline,
                 ]}
-                onPress={() => setSelectedButton("decline")}
+                // onPress={() => setSelectedButton("decline")}
+                onPress={() => {
+                  navigation.navigate("Signup");
+                }}
               >
                 <Text
                   style={[
