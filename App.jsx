@@ -6,6 +6,7 @@ import ChatBotOverlay from "./components/PatientScreenComponents/ChatbotComponen
 import { AuthProvider } from "./contexts/AuthContext";
 import { RoleProvider } from "./contexts/RoleContext";
 import RootNavigation, { linking } from "./navigation/RootNavigator";
+import EstablishmentTiming from "./screens/DoctorScreens/DoctorRegistration/EstablishmentTiming";
 
 const App = () => {
   const navigationRef = useRef(null);
@@ -16,8 +17,7 @@ const App = () => {
         <ChatbotProvider>
           <RoleProvider>
             <NavigationContainer linking={linking} ref={navigationRef}>
-              <RootNavigation />
-              <ChatBotOverlay navigationRef={navigationRef} />
+              <EstablishmentTiming/>
             </NavigationContainer>
           </RoleProvider>
         </ChatbotProvider>
