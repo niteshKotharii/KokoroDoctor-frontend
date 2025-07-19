@@ -432,6 +432,8 @@ const Signup = ({ navigation, route }) => {
   );
 };
 
+// const windowWidth=Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   // Web Styles
   container: {
@@ -571,7 +573,7 @@ const styles = StyleSheet.create({
 
   checkboxContainer: {
     marginRight: "1%",
-    alignSelf: "center",
+    // alignSelf: "center",
   },
   checkbox: {
     width: 15,
@@ -581,6 +583,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     alignSelf: "center",
+    // marginRight: windowWidth>1000? "0%": "2%"
   },
 
   checkedBox: {

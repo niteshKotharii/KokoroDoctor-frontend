@@ -62,20 +62,20 @@ const PrivacyPolicy = ({ navigation, route }) => {
               <View style={styles.mainText}>
                 {/* Main introductory paragraph - Using template literal for multi-line */}
                 <Text style={styles.policyText}>
-                  {`At Kokoro.Doctor, your trust is our greatest asset.
+                  At Kokoro.Doctor, your trust is our greatest asset.
             As a digital healthcare platform committed to advancing cardiac
             wellness and holistic well-being, we understand the importance
             of securing personal and sensitive medical information. This
             Privacy Policy aims to clearly explain how your data is
             collected, used, stored, and protected, and outlines the choices
             and rights available to you. We strive to maintain full
-            transparency and compliance with global data protection laws`}
+            transparency and compliance with global data protection laws
                 </Text>
                 <Text style={styles.policyText}>{"\n"}1. Who We Are</Text>
                 {/* Section 1 list - Using BulletItem component */}
                 <Text style={styles.policyText}>
-                  {`Kokoro.Doctor is a comprehensive healthcare platform
-            that allows users to:`}
+                  Kokoro.Doctor is a comprehensive healthcare platform
+            that allows users to:
                 </Text>
                 <BulletItem>
                   Connect with verified and licensed medical professionals
@@ -92,16 +92,16 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   history
                 </BulletItem>
                 <Text style={styles.policyText}>
-                  {`The platform is available via mobile and web
+                  The platform is available via mobile and web
             applications and is supported by HIPAA-compliant cloud
-            infrastructure.`}
+            infrastructure.
                 </Text>
                 <Text style={styles.policyText}>
                   {"\n"}2. What Data We Collect
                 </Text>
                 <Text style={styles.policyText}>
-                  {`We collect various categories of data to deliver our
-            services efficiently and safely:`}
+                  We collect various categories of data to deliver our
+            services efficiently and safely:
                 </Text>
                 <Text style={styles.policyText}>a. Personal Information</Text>
                 <BulletItem>Full name, gender, date of birth</BulletItem>
@@ -158,8 +158,8 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   {"\n"}3. Medilocker: Data Ownership and Usage
                 </Text>
                 <Text style={styles.policyText}>
-                  {`Medilocker is our health record vault, where users
-            can upload their personal medical documents.`}
+                  Medilocker is our health record vault, where users
+            can upload their personal medical documents.
                 </Text>
                 <Text style={styles.policyText}>By using Medilocker, you:</Text>
                 <BulletItem>
@@ -193,8 +193,8 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   {"\n"}4. How We Protect Your Data
                 </Text>
                 <Text style={styles.policyText}>
-                  {`We use modern, industry-standard security controls to
-            protect your data:`}
+                  We use modern, industry-standard security controls to
+            protect your data:
                 </Text>
                 <BulletItem>
                   Encryption: AES-256 for storage; TLS 1.3 for data transmission
@@ -223,8 +223,8 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   {"\n"}5. How Your Data May Be Shared
                 </Text>
                 <Text style={styles.policyText}>
-                  {`Your data is not sold or used for advertising
-            purposes. It may be shared under the following circumstances:`}
+                  Your data is not sold or used for advertising
+            purposes. It may be shared under the following circumstances:
                 </Text>
                 <BulletItem>
                   With doctors you explicitly consult via the platform
