@@ -63,19 +63,19 @@ const PrivacyPolicy = ({ navigation, route }) => {
                 {/* Main introductory paragraph - Using template literal for multi-line */}
                 <Text style={styles.policyText}>
                   At Kokoro.Doctor, your trust is our greatest asset.
-            As a digital healthcare platform committed to advancing cardiac
-            wellness and holistic well-being, we understand the importance
-            of securing personal and sensitive medical information. This
-            Privacy Policy aims to clearly explain how your data is
-            collected, used, stored, and protected, and outlines the choices
-            and rights available to you. We strive to maintain full
-            transparency and compliance with global data protection laws
+                  As a digital healthcare platform committed to advancing cardiac
+                  wellness and holistic well-being, we understand the importance
+                  of securing personal and sensitive medical information. This
+                  Privacy Policy aims to clearly explain how your data is
+                  collected, used, stored, and protected, and outlines the choices
+                  and rights available to you. We strive to maintain full
+                  transparency and compliance with global data protection laws
                 </Text>
                 <Text style={styles.policyText}>{"\n"}1. Who We Are</Text>
                 {/* Section 1 list - Using BulletItem component */}
                 <Text style={styles.policyText}>
                   Kokoro.Doctor is a comprehensive healthcare platform
-            that allows users to:
+                  that allows users to:
                 </Text>
                 <BulletItem>
                   Connect with verified and licensed medical professionals
@@ -93,15 +93,15 @@ const PrivacyPolicy = ({ navigation, route }) => {
                 </BulletItem>
                 <Text style={styles.policyText}>
                   The platform is available via mobile and web
-            applications and is supported by HIPAA-compliant cloud
-            infrastructure.
+                  applications and is supported by HIPAA-compliant cloud
+                  infrastructure.
                 </Text>
                 <Text style={styles.policyText}>
                   {"\n"}2. What Data We Collect
                 </Text>
                 <Text style={styles.policyText}>
                   We collect various categories of data to deliver our
-            services efficiently and safely:
+                  services efficiently and safely:
                 </Text>
                 <Text style={styles.policyText}>a. Personal Information</Text>
                 <BulletItem>Full name, gender, date of birth</BulletItem>
@@ -159,7 +159,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                 </Text>
                 <Text style={styles.policyText}>
                   Medilocker is our health record vault, where users
-            can upload their personal medical documents.
+                  can upload their personal medical documents.
                 </Text>
                 <Text style={styles.policyText}>By using Medilocker, you:</Text>
                 <BulletItem>
@@ -194,7 +194,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                 </Text>
                 <Text style={styles.policyText}>
                   We use modern, industry-standard security controls to
-            protect your data:
+                  protect your data:
                 </Text>
                 <BulletItem>
                   Encryption: AES-256 for storage; TLS 1.3 for data transmission
@@ -224,7 +224,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                 </Text>
                 <Text style={styles.policyText}>
                   Your data is not sold or used for advertising
-            purposes. It may be shared under the following circumstances:
+                  purposes. It may be shared under the following circumstances:
                 </Text>
                 <BulletItem>
                   With doctors you explicitly consult via the platform
@@ -626,7 +626,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                 style={[
                   styles.appPrivacyButton,
                   selectedButton === "decline" &&
-                    styles.appPrivacyButtonDecline,
+                  styles.appPrivacyButtonDecline,
                 ]}
                 // onPress={() => setSelectedButton("decline")}
                 onPress={() => {
@@ -637,7 +637,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   style={[
                     styles.appPrivacyButtonText,
                     selectedButton === "decline" &&
-                      styles.appPrivacyButtonTextDecline,
+                    styles.appPrivacyButtonTextDecline,
                   ]}
                 >
                   I Decline
@@ -667,7 +667,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   style={[
                     styles.appPrivacyButtonText,
                     selectedButton === "agree" &&
-                      styles.appPrivacyButtonTextAgree,
+                    styles.appPrivacyButtonTextAgree,
                   ]}
                 >
                   I Agree
