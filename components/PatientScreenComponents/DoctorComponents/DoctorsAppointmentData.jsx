@@ -87,7 +87,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
       };
 
       // Navigate to detail page with updated doctor info
-      navigation.navigate("DoctorsInfoWithBooking", {
+      navigation.navigate("DoctorsInfoWithSubscription", {
         doctors: updatedDoctor,
       });
     } catch (error) {
@@ -113,7 +113,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                     /> */}
                     <TouchableOpacity
                       onPress={() =>
-                        navigation.navigate("DoctorsInfoWithBooking", {
+                        navigation.navigate("DoctorsInfoWithSubscription", {
                           doctors: item,
                         })
                       }
@@ -136,7 +136,11 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                             {`${item.experience} exp`}
                           </Text>
                         </View>
-                        <View style={styles.addressSection}></View>
+                        <View style={styles.addressSection}>
+                          <Text style={styles.addressText}>
+                            {item.location}
+                          </Text>
+                        </View>
                         <View style={styles.reviewSection}></View>
                       </View>
                       <View style={styles.verifiedContainer}>
@@ -226,7 +230,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                       <TouchableOpacity
                         style={styles.imageContainer}
                         onPress={() =>
-                          navigation.navigate("DoctorsInfoWithBooking", {
+                          navigation.navigate("DoctorsInfoWithSubscription", {
                             doctors: item,
                           })
                         }
@@ -657,6 +661,11 @@ const styles = StyleSheet.create({
     height: "28%",
     width: "100%",
     //borderWidth: 1,
+  },
+  addressText:{
+    fontSize: 13,
+    fontWeight: 400,
+    color: "#rgba(136, 136, 136, 1)",
   },
   reviewSection: {
     height: "20%",
