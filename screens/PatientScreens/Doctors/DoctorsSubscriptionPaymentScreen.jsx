@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect, useContext } from "react"
+import { useCallback, useState, useEffect, useContext } from "react";
 import {
   Alert,
   Image,
@@ -20,49 +20,45 @@ import { useChatbot } from "../../../contexts/ChatbotContext";
 import { useFocusEffect } from "@react-navigation/native";
 import SideBarNavigation from "../../../components/PatientScreenComponents/SideBarNavigation";
 import { AuthContext } from "../../../contexts/AuthContext";
-import {payment_api} from "../../../utils/PaymentService";
+import { payment_api } from "../../../utils/PaymentService";
 import Header from "../../../components/PatientScreenComponents/Header";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
-const DoctorsPaymentScreen = ({ navigation, route }) => {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [patientName, setPatientName] = useState("")
-  const { setChatbotConfig } = useChatbot()
-  const {width} = useWindowDimensions()
-  const {user} = useContext(AuthContext)
+const DoctorsSubscriptionPaymentScreen = ({ navigation, route }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  //const [patientName, setPatientName] = useState("");
+  const { setChatbotConfig } = useChatbot();
+  const { width } = useWindowDimensions();
+  const { user } = useContext(AuthContext);
+  const doctors = route?.params?.doctors || {};
 
   useFocusEffect(
     useCallback(() => {
-      // Reset chatbot height when this screen is focused
-      setChatbotConfig({ height: "32%" })
-    }, []),
-  )
+      setChatbotConfig({ height: "32%" });
+    }, [])
+  );
 
   const handleSearch = () => {
-    Alert.alert(`Search Results for: ${searchQuery}`)
-  }
+    Alert.alert(`Search Results for: ${searchQuery}`);
+  };
 
   const handleContinuePayment = async (amount) => {
     Alert.alert("Processing Payment", "Redirecting to payment gateway...");
-    try {  
+    try {
       const paymentLink = await payment_api(amount);
       if (paymentLink) {
         Linking.openURL(paymentLink).catch((err) => {
           console.error("Failed to open payment link", err);
-          Alert.alert("Error", "Unable to open payment link. Please try again.");
+          Alert.alert(
+            "Error",
+            "Unable to open payment link. Please try again."
+          );
         });
       }
     } catch (error) {
       Alert.alert("Payment Failed", error.message);
     }
   };
-
-  // Doctor data for the verified cardiologists
-  const doctors = [
-    { id: 1, image: require("../../../assets/Images/dr_kislay.jpg") },
-    { id: 2, image: require("../../../assets/Images/Dr_Ritesh_Singh.jpg") },
-    { id: 3, image: require("../../../assets/Images/Dr_Sandip_Rungta.jpg") },
-    { id: 4, image: require("../../../assets/Images/Dr_Vinesh_Jain.jpg") },
-  ]
 
   return (
     <>
@@ -73,7 +69,12 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
               source={require("../../../assets/Images/MedicineBackground.png")}
               style={styles.imageBackground}
             >
-              <View style={[styles.overlay, { backgroundColor: "rgba(16, 16, 16, 0.3)" }]} />
+              <View
+                style={[
+                  styles.overlay,
+                  { backgroundColor: "rgba(16, 16, 16, 0.3)" },
+                ]}
+              />
 
               <View style={styles.parent}>
                 {/* Sidebar navigation */}
@@ -92,44 +93,122 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
                     {/* Payment confirmation card */}
                     <View style={styles.paymentCard}>
                       <View style={styles.paymentHeader}>
-                        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                          <MaterialIcons name="arrow-back" size={24} color="#000" />
+                        <TouchableOpacity
+                          style={styles.backButton}
+                          onPress={() => navigation.goBack()}
+                        >
+                          <MaterialIcons
+                            name="arrow-back"
+                            size={24}
+                            color="#000"
+                          />
                         </TouchableOpacity>
                         <Text style={styles.paymentTitle}>Confirm and Pay</Text>
                       </View>
 
                       <View style={styles.doctorSection}>
-                        <Text style={styles.sectionLabel}>Verified cardiologist online now</Text>
-                        <View style={styles.doctorAvatars}>
-                          {doctors.map((doctor) => (
-                            <View key={doctor.id} style={styles.doctorAvatar}>
-                              <Image source={doctor.image} style={styles.doctorAvatarImage} />
+                        <View style={styles.doctorsInfoSubscription}>
+                          <Text style={styles.sectionLabel}>
+                            Verified cardiologist online now
+                          </Text>
+                          <View style={styles.doctorInfo}>
+                            <Image
+                              source={doctors.profilePhoto}
+                              style={styles.doctorAvatarImage}
+                            />
+                            <View style={styles.doctorDetails}>
+                              <Text style={styles.doctorName}>
+                                {doctors.doctorname}
+                              </Text>
+                              <Text style={styles.doctorSpecialization}>
+                                {doctors.specialization}
+                              </Text>
+                              <Text style={styles.doctorExperience}>
+                                {`${doctors.experience} Experience`}
+                              </Text>
+                              <View style={styles.locationSection}>
+                                <Icon
+                                  name="location-on"
+                                  size={15}
+                                  color="rgba(22, 128, 236, 0.75)"
+                                  style={styles.icon}
+                                />
+                                <Text style={styles.locationText}>
+                                  {doctors.location}
+                                </Text>
+                              </View>
                             </View>
-                          ))}
+                          </View>
+                          <View style={styles.subscriptionSection}>
+                            <Text style={styles.metricsHead}>
+                              Metrics Of Subscription
+                            </Text>
+                            <View style={styles.metricsBox}>
+                              <View style={styles.metricsContent}>
+                                <Icon
+                                  name="star"
+                                  size={13}
+                                  color="rgba(22, 128, 236, 0.75)"
+                                  style={styles.icon}
+                                />
+                                <Text style={styles.metricsTitle}>
+                                  {" "}
+                                  1 Free Regular check up
+                                </Text>
+                              </View>
+                              <View style={styles.metricsContent}>
+                                <Icon
+                                  name="star"
+                                  size={13}
+                                  color="rgba(22, 128, 236, 0.75)"
+                                  style={styles.icon}
+                                />
+                                <Text style={styles.metricsTitle}>
+                                  {" "}
+                                  1 free emergency checkup
+                                </Text>
+                              </View>
+                              <View style={styles.metricsContent}>
+                                <Icon
+                                  name="star"
+                                  size={13}
+                                  color="rgba(22, 128, 236, 0.75)"
+                                  style={styles.icon}
+                                />
+                                <Text style={styles.metricsTitle}>
+                                  {" "}
+                                  Medilocker
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                        </View>
+                        <View style={styles.verticalLine}></View>
+                        <View style={styles.doctorSubscriptionDetails}>
+                          <Text style={styles.subscriptionSummary}>
+                            Subscription Summary
+                          </Text>
+                          <View style={styles.subscriptionFeesBox}>
+                            <Text>Subscription Fees</Text>
+                            <Text style={styles.feeAmount}>₹1999</Text>
+                          </View>
+                          <View style={styles.horizontalLine}></View>
+                          <View style={styles.subscriptionFeesContainer}>
+                            <Text>Total</Text>
+                            <Text style={styles.feesAmount}>₹1999</Text>
+                          </View>
+                          <TouchableOpacity
+                            style={styles.paymentButton}
+                            onPress={() => {
+                              handleContinuePayment(1999);
+                            }}
+                          >
+                            <Text style={styles.paymentButtonText}>
+                              Continue to payment
+                            </Text>
+                          </TouchableOpacity>
                         </View>
                       </View>
-
-                      <View style={styles.formSection}>
-                        <View style={styles.formGroup}>
-                          <Text style={styles.formLabel}>Patients name</Text>
-                          <TextInput
-                            style={styles.formInput}
-                            placeholder="Enter your patients name"
-                            placeholderTextColor="#aaa"
-                            value={patientName}
-                            onChangeText={setPatientName}
-                          />
-                        </View>
-
-                        <View style={styles.formGroup}>
-                          <Text style={styles.formLabel}>Final Fee</Text>
-                          <Text style={styles.feeAmount}>₹850</Text>
-                        </View>
-                      </View>
-
-                      <TouchableOpacity style={styles.paymentButton} onPress={() => {handleContinuePayment(850)}}>
-                        <Text style={styles.paymentButtonText}>Continue to payment</Text>
-                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>
@@ -151,8 +230,15 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
               {/* Header with back button and title */}
               <View style={styles.doctorInfoContainer}>
                 <TouchableOpacity style={styles.profileButton}>
-                  <Image source={require("../../../assets/Images/dr_kislay.jpg")} style={styles.profileImagei} />
-                  <MaterialIcons name="arrow-drop-down" size={24} color="#fff" />
+                  <Image
+                    source={require("../../../assets/Images/dr_kislay.jpg")}
+                    style={styles.profileImagei}
+                  />
+                  <MaterialIcons
+                    name="arrow-drop-down"
+                    size={24}
+                    color="#fff"
+                  />
                 </TouchableOpacity>
                 <Text style={styles.doctorName}>Dr Kislay Shrivasatva</Text>
                 <Text style={styles.doctorSpecialty}>(Cardiologist)</Text>
@@ -168,20 +254,32 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
                 <Text style={styles.sectionTitle}>Patient Info</Text>
                 <View style={styles.patientInfo}>
                   <View style={styles.patientInfoRow}>
-                    <Image source={user?.picture ? { uri: user.picture } : require("../../../assets/Images/user-icon.jpg")}
-                    style={styles.patientImage} />
+                    <Image
+                      source={
+                        user?.picture
+                          ? { uri: user.picture }
+                          : require("../../../assets/Images/user-icon.jpg")
+                      }
+                      style={styles.patientImage}
+                    />
                     <View style={styles.patientDetails}>
-                      <Text style={styles.patientName}>{user?.name ? user?.name : "User"}</Text>
-                      <Text style={styles.noteText}>Note: Please Upload Patient Details In the Drop Link</Text>
+                      <Text style={styles.patientName}>
+                        {user?.name ? user?.name : "User"}
+                      </Text>
+                      <Text style={styles.noteText}>
+                        Note: Please Upload Patient Details In the Drop Link
+                      </Text>
                     </View>
                   </View>
                   <TouchableOpacity style={styles.uploadButton}>
-                  <Image
+                    <Image
                       source={require("../../../assets/Images/Medilockerfile.jpg")}
                       style={{ width: 18, height: 18 }}
                     />
-                    
-                    <Text style={styles.uploadButtonText}>Upload from Medilocker</Text>
+
+                    <Text style={styles.uploadButtonText}>
+                      Upload from Medilocker
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -222,13 +320,22 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
                   <Text style={styles.billValue}>₹0</Text>
                 </View>
                 <View style={[styles.billRow, styles.totalRow]}>
-                  <Text style={[styles.billLabel, styles.totalLabel]}>Total Pay</Text>
-                  <Text style={[styles.billValue, styles.totalValue]}>₹850</Text>
+                  <Text style={[styles.billLabel, styles.totalLabel]}>
+                    Total Pay
+                  </Text>
+                  <Text style={[styles.billValue, styles.totalValue]}>
+                    ₹850
+                  </Text>
                 </View>
               </View>
 
               {/* Continue Button */}
-              <TouchableOpacity style={styles.continueButton} onPress={() => {handleContinuePayment(850)}}>
+              <TouchableOpacity
+                style={styles.continueButton}
+                onPress={() => {
+                  handleContinuePayment(850);
+                }}
+              >
                 <Text style={styles.continueButtonText}>Continue</Text>
               </TouchableOpacity>
             </View>
@@ -236,8 +343,8 @@ const DoctorsPaymentScreen = ({ navigation, route }) => {
         </View>
       )}
     </>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -281,11 +388,11 @@ const styles = StyleSheet.create({
     // borderColor: "black",
     zIndex: 2,
     ...Platform.select({
-      web:{
-        width:"100%",
+      web: {
+        width: "100%",
         marginBottom: 20,
-      }
-    })
+      },
+    }),
   },
   profileButton: {
     flexDirection: "row",
@@ -313,9 +420,10 @@ const styles = StyleSheet.create({
   },
   paymentCard: {
     width: "60%",
+    height: "90%",
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 20,
+    padding: "2%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.3,
@@ -323,69 +431,192 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   paymentHeader: {
+    alignItems: "flex-start",
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
   },
   backButton: {
     marginRight: 15,
   },
   paymentTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#000",
-  },
-  doctorSection: {
-    marginBottom: "2%",
-  },
-  sectionLabel: {
-    fontSize: 14,
-    color: "#000",
-    marginBottom: 10,
-  },
-  doctorAvatars: {
-    flexDirection: "row",
-  },
-  doctorAvatar: {
-    marginRight: 10,
-    borderRadius: 25,
-    borderWidth: 2,
-    borderColor: "#ff7072",
-    overflow: "hidden",
-  },
-  doctorAvatarImage: {
-    width: 50,
-    height: 50,
-  },
-  formSection: {
-    marginBottom: 30,
-  },
-  formGroup: {
-    marginBottom: 20,
-  },
-  formLabel: {
-    fontSize: 14,
-    color: "#000",
-    marginBottom: 8,
-  },
-  formInput: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 12,
-    fontSize: 14,
-  },
-  feeAmount: {
     fontSize: 20,
     fontWeight: "bold",
     color: "#000",
   },
+  doctorSection: {
+    //marginBottom: "2%",
+    marginTop: "3%",
+    //borderWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: "1%",
+  },
+  doctorsInfoSubscription: {
+    minHeight: 300,
+    width: "49%",
+    //borderWidth: 1,
+  },
+  sectionLabel: {
+    fontSize: 14,
+    color: "#000000",
+    marginLeft: "10%",
+    fontWeight: 500,
+  },
+  doctorInfo: {
+    height: "40%",
+    width: "100%",
+    //borderWidth: 1,
+    borderColor: "red",
+    marginVertical: "5%",
+    flexDirection: "row",
+  },
+
+  doctorAvatarImage: {
+    width: 45,
+    height: 45,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: "red",
+    marginTop: "1%",
+  },
+  doctorDetails: {
+    height: "100%",
+    width: "85%",
+    //borderWidth: 1,
+  },
+  doctorName: {
+    fontSize: 18,
+    fontWeight: 500,
+    //textAlign: "center",
+    //marginTop: 10,
+    marginLeft: "4%",
+  },
+  doctorSpecialization: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: "rgba(136, 136, 136, 1)",
+    marginLeft: "4%",
+  },
+  doctorExperience: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: "rgba(136, 136, 136, 1)",
+    marginLeft: "4%",
+  },
+  locationSection: {
+    //borderWidth: 1,
+    height: "30%",
+    width: "90%",
+    marginTop: "4%",
+    marginLeft: "4%",
+    flexDirection: "row",
+  },
+  icon: {
+    marginTop: "1%",
+  },
+  locationText: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: "rgba(136, 136, 136, 1)",
+    marginLeft: "2%",
+  },
+  subscriptionSection: {
+    height: "37%",
+    width: "75%",
+    //borderWidth: 1,
+    alignSelf: "center",
+    backgroundColor: "rgba(246, 246, 246, 1)",
+    borderRadius: 5,
+  },
+  metricsHead: {
+    fontSize: 13,
+    fontWeight: 500,
+    color: "#000000",
+    marginLeft: "3%",
+    marginTop: "1%",
+  },
+  metricsBox: {
+    height: "65%",
+    width: "80%",
+    //borderWidth: 1,
+    marginLeft: "4%",
+    marginTop: "2%",
+    flexDirection: "column",
+    justifyContent: "space-around",
+  },
+  metricsContent: {
+    height: "23%",
+    width: "100%",
+    //borderWidth: 1,
+    flexDirection: "row",
+  },
+  verticalLine: {
+    height: "100%",
+    backgroundColor: "rgb(224, 224, 225)",
+    width: "0.3%",
+  },
+  horizontalLine:{
+    height: "0.3%",
+    backgroundColor: "rgb(224, 224, 225)",
+    width: "71%",
+    marginTop:"3%",
+    marginLeft:"9%"
+  },
+  doctorSubscriptionDetails: {
+    minHeight: 300,
+    width: "49%",
+    //borderWidth: 1,
+    marginLeft: "1%",
+  },
+  subscriptionSummary: {
+    color: "rgba(255, 112, 114, 1)",
+    fontSize: 16,
+    fontWeight: 400,
+    marginLeft: "10%",
+    marginTop: "4%",
+  },
+  subscriptionFeesBox: {
+    height: "12%",
+    width: "70%",
+    //borderWidth: 1,
+    marginTop: "12%",
+    marginLeft: "10%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  subscriptionFeesContainer:{
+    height: "12%",
+    width: "70%",
+    //borderWidth: 1,
+    marginTop: "6%",
+    marginLeft: "10%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  applicableText: {
+    marginBottom: "4%",
+    color: "#888888",
+    fontSize: 10,
+    fontWeight: 400,
+  },
+
+  feeAmount: {
+    fontSize: 16,
+    fontWeight: 400,
+    color: "#000",
+  },
+  feesAmount: {
+    fontSize: 16,
+    fontWeight: 500,
+    color: "#000",
+  },
   paymentButton: {
     backgroundColor: "#ff7072",
-    borderRadius: 25,
-    paddingVertical: 15,
+    borderRadius: 5,
+    paddingVertical: "3%",
     alignItems: "center",
+    width: "75%",
+    marginTop: "20%",
+    marginLeft: "10%",
   },
   paymentButtonText: {
     color: "#fff",
@@ -440,12 +671,7 @@ const styles = StyleSheet.create({
     paddingVertical: "5%",
     width: "100%",
   },
-  doctorName: {
-    fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 10,
-  },
+
   doctorSpecialty: {
     fontSize: 16,
     color: "#555",
@@ -658,17 +884,16 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
     ...Platform.select({
-      web:{
+      web: {
         marginVertical: 0,
-      }
-    })
+      },
+    }),
   },
   continueButtonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
-})
+});
 
-export default DoctorsPaymentScreen;
-
+export default DoctorsSubscriptionPaymentScreen;

@@ -13,722 +13,13 @@ import {
 import { API_URL } from "../../../env-vars";
 import { useAuth } from "../../../contexts/AuthContext";
 
-// const doctors = [
-//   {
-//     id: "1",
-//     name: "Dr Kislay Shrivastava",
-//     credential: "Cardiologist",
-//     specialization: "MD(Cardiology)-22 Yrs Exp",
-//     description:
-//       "MD(Cardiology) Specialization in Treating Heart Conditions, seasoned cardiologist with over 22 years of experience in treating heart conditions.",
-//     experience: "22 + Years",
-//     image: require("../../../assets/Images/dr_kislay.jpg"),
-//     slots: ["12:00 PM", "12:30 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: "2",
-//     name: "Dr. Sandip Rungta",
-//     credential: "Cardiologist",
-//     specialization: "MD(Cardiology)-22 Yrs Exp",
-//     description:
-//       "With 22 years Of practice, Dr. Rungta is known for his proficiency in cardiac electrophysiology.",
-//     experience: "22 + Years",
-//     image: require("../../../assets/Images/Dr_Sandip_Rungta.jpg"),
-//     slots: ["10:00 AM", "12:00 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: "3",
-//     name: "Dr. Abhinit Gupta",
-//     credential: "Interventional Cardiologist",
-//     specialization: "MBBS,MD-General Medicine-14 Yrs Exp",
-//     description:
-//       "DM - CardiologyCardiologist,Interventional Cardiologist, 14 Years Experience Overall (8 years as specialist)",
-//     experience: "14 + Years",
-//     image: require("../../../assets/Images/Dr_Abhinit_Gupta.jpg"),
-//     slots: ["15:00 PM", "16:00 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: "4",
-//     name: "Dr. Ritesh Singh Gangwar",
-//     credential: "Interventional Cardiologist",
-//     specialization: "DM Cardiology,MD-General Medicine-17 Yrs Exp",
-//     description:
-//       "MBBS, Interventional Cardiologist, 17 Years Experience Overall (7 years as specialist)",
-//     experience: "17 + Years",
-//     image: require("../../../assets/Images/Dr_Ritesh_Singh.jpg"),
-//     slots: ["12:00 PM", "12:30 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: "5",
-//     name: "Dr. Bikash Majumder",
-//     credential: "Clinical Cardiology",
-//     specialization: "Clinical Cardiology-28 yrs Exp",
-//     description:
-//       "With 28 years in the field. Dr. Majumder is esteemed for his work in clinical cardiology",
-//     experience: "28 + Years",
-//     image: require("../../../assets/Images/Dr_Bikash_Majumder.jpg"),
-//     slots: ["13:00 PM", "14:30 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: "6",
-//     name: "Dr. Soumya Patra",
-//     credential: "Pediatric Cardiologist",
-//     specialization: "Pediatric Cardiology-20 Years Exp",
-//     description:
-//       "Dr. Patra has 20 years of experience and specializes in pediatric cardiology.",
-//     experience: "20 + Years",
-//     image: require("../../../assets/Images/Dr. Soumya Patra.jpg"),
-//     slots: ["12:00 PM", "12:30 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: "7",
-//     name: "Dr. Vinesh Jain",
-//     credential: "Cardiologist",
-//     specialization: "Cardiologist-14 Years Exp",
-//     description:
-//       "Cardiologist,Interventional Cardiologist, 14 Years Experience Overall  (12 years as specialist)",
-//     experience: "14 + Years",
-//     image: require("../../../assets/Images/Dr_Vinesh_Jain.jpg"),
-//     slots: ["12:30 PM", "14:30 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: "8",
-//     name: "Dr. Supratip Kundu",
-//     credential: "Interventional Cardiologist",
-//     specialization: "MBBS,MD-General Medicine-16 Years Exp",
-//     description:
-//       "DM - Cardiology, Cardiologist,Interventional Cardiologist, 16 Years Experience Overall (7 years as specialist)",
-//     experience: "16 + Years",
-//     image: require("../../../assets/Images/Dr. Supratip Kundu.jpeg"),
-//     slots: ["11:00 AM", "12:30 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: "9",
-//     name: "Dr. Himanshu Yadav",
-//     credential: "Interventional Cardiologist",
-//     specialization: "DM-Cardiology,MD-General Medicine-17 Years Exp",
-//     description:
-//       "MBBS, Interventional Cardiologist, 17 Years Experience Overall (7 years as specialist)",
-//     experience: "17 + Years",
-//     image: require("../../../assets/Images/Dr. Himanshu Yadav.jpeg"),
-//     slots: ["10:00 AM", "11:30 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: "10",
-//     name: "Dr. Dhiraj Kumar Giri",
-//     credential: "Interventional Cardiologist",
-//     specialization: "DM-Cardiology,MD-General Medicine-17 Years Exp",
-//     description:
-//       "MBBS, Interventional Cardiologist, 17 Years Experience Overall (7 years as specialist)",
-//     experience: "17 + Years",
-//     image: require("../../../assets/Images/Dr. Dhiraj Kumar Giri.jpg"),
-//     slots: ["10:00 AM", "11:30 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: "11",
-//     name: "Dr. Kastubh Mahimane",
-//     credential: "Interventional Cardiologist",
-//     specialization: "Interventional Cardiologist",
-//     description: "Interventional Cardiologist, 15 Years Experience",
-//     experience: "15 + Years",
-//     image: require("../../../assets/Images/Dr. Kastubh Mahimane.jpg"),
-//     slots: ["10:00 AM", "11:30 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-//   {
-//     id: "12",
-//     name: "Dr. Manidipa Majumdar",
-//     credential: "Consultation Interventional Cardiologist",
-//     specialization: "Consultation Interventional Cardiologist",
-//     description: "Interventional Cardiologist, 9 Years Exp",
-//     experience: "9 + Years",
-//     image: require("../../../assets/Images/Dr. Manidipa Majumdar.jpg"),
-//     slots: ["10:00 AM", "11:30 PM"],
-//     consultationFees: "₹800 fees",
-//     ratingreview: "4.9 (5000)",
-//     rating: "4.9",
-//     availability: {
-//       today: {
-//         slotsAvailable: 0,
-//       },
-//       tomorrow: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       monday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       tuesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       wednesday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//       thursday: {
-//         slotsAvailable: 10,
-//         slots: {
-//           morning: ["11:00 AM", "11:30 AM"],
-//           afternoon: ["12.00 PM", "12:30 PM", "1:00 PM"],
-//           evening: ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM"],
-//         },
-//       },
-//     },
-//   },
-// ];
-//const { width, height } = Dimensions.get("window");
 const DoctorAppointmentScreen = ({ navigation }) => {
-  //const [selectedSlot, setSelectedSlot] = useState({});
   const { width } = useWindowDimensions();
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subscriberCounts, setSubscriberCounts] = useState({});
   const { user } = useAuth();
+  const [showFull, setShowFull] = useState(false);
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -766,26 +57,6 @@ const DoctorAppointmentScreen = ({ navigation }) => {
     }));
   };
 
-  // const subscribeToDoctor = async (doctorEmail) => {
-  //   try {
-  //     const response = await fetch(
-  //
-  //       `${API_URL}/doctorsService/subscribe`,
-  //       {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({
-  //           doctor_email: doctorEmail,
-  //           user_email: user.email,
-  //         }),
-  //       }
-  //     );
-  //     const data = await response.json();
-  //     alert(data.message);
-  //   } catch (error) {
-  //     console.error("Subscription failed:", error);
-  //   }
-  // };
   const subscribeToDoctor = async (doctorEmail) => {
     try {
       const response = await fetch(`${API_URL}/doctorsService/subscribe`, {
@@ -803,7 +74,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
       // Update the subscriber count locally
       setSubscriberCounts((prev) => ({
         ...prev,
-        [doctorEmail]: (prev[doctorEmail] || 0) ,
+        [doctorEmail]: prev[doctorEmail] || 0,
       }));
 
       // Find the doctor from the list
@@ -816,7 +87,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
       };
 
       // Navigate to detail page with updated doctor info
-      navigation.navigate("DoctorsInfoWithRating", {
+      navigation.navigate("DoctorsInfoWithSubscription", {
         doctors: updatedDoctor,
       });
     } catch (error) {
@@ -836,100 +107,88 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                 <View style={styles.cardRow}>
                   {/* Left Section - Doctor Details */}
                   <View style={styles.row}>
-                    {/* <Image source={item.image} style={styles.image} /> */}
-                    <Image
-                      source={
-                        item.image
-                          ? { uri: item.image }
-                          : require("../../../assets/Images/userdemo.jpeg")
-                      }
+                    {/* <Image
+                      source={{ uri: item.profilePhoto }}
                       style={styles.image}
-                    />
+                    /> */}
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate("DoctorsInfoWithSubscription", {
+                          doctors: item,
+                        })
+                      }
+                    >
+                      <Image
+                        source={{ uri: item.profilePhoto }}
+                        style={styles.image}
+                      />
+                    </TouchableOpacity>
 
                     <View style={styles.infoContainer}>
-                      <View style={styles.infoBox}>
-                        <View style={styles.info}>
-                          <Text style={styles.name}>{item.doctorname}</Text>
+                      {/* <View style={styles.infoBox}> */}
+                      <View style={styles.info}>
+                        <Text style={styles.name}>{item.doctorname}</Text>
+                        <View style={styles.specializedExpBox}>
                           <Text style={styles.specialization}>
                             {item.specialization}
                           </Text>
                           <Text style={styles.experience}>
-                            {item.experience}
+                            {`${item.experience} exp`}
                           </Text>
                         </View>
-                        <View style={styles.verifiedContainer}>
-                          <Image
-                            source={require("../../../assets/Images/Medical_Council_of_India_Logo.png")}
-                            style={styles.imageBox}
-                          />
-                          <Text style={styles.verifiedBox}>
-                            <Text style={styles.verified}>Verified</Text>
-                            <Text style={styles.by}>by</Text>
-                            <Text style={styles.mci}> MCI</Text>
+                        <View style={styles.addressSection}>
+                          <Text style={styles.addressText}>
+                            {item.location}
                           </Text>
                         </View>
-                        <View style={styles.subscriberCount}>
-                          <View style={styles.countBox}>
-                            <TouchableOpacity
-                              style={styles.heartButtonBox}
-                              onPress={() => handleHeartButtonPress(item.email)}
-                            >
-                              <Image
-                                source={require("../../../assets/Icons/heart1.png")}
-                                style={styles.heartImage}
-                              />
-                            </TouchableOpacity>
-                            <Text style={styles.numberText}>
-                              {subscriberCounts[item.email]}
-                            </Text>
-                          </View>
-                          <Text style={styles.subscriberCountText}>
-                            Subscribers
-                          </Text>
-                        </View>
+                        <View style={styles.reviewSection}></View>
                       </View>
-                      <View></View>
-                      <View style={styles.descriptionContainer}>
+                      <View style={styles.verifiedContainer}>
+                        <Image
+                          source={require("../../../assets/Images/Medical_Council_of_India_Logo.png")}
+                          style={styles.imageBox}
+                        />
+                        <Text style={styles.verifiedBox}>
+                          <Text style={styles.verified}>Verified</Text>
+                          <Text style={styles.by}>by</Text>
+                          <Text style={styles.mci}> MCI</Text>
+                        </Text>
+                      </View>
+                      <View style={styles.subscriberCount}>
+                        <View style={styles.countBox}>
+                          <TouchableOpacity
+                            style={styles.heartButtonBox}
+                            onPress={() => handleHeartButtonPress(item.email)}
+                          >
+                            <Image
+                              source={require("../../../assets/Icons/heart1.png")}
+                              style={styles.heartImage}
+                            />
+                          </TouchableOpacity>
+                          <Text style={styles.numberText}>
+                            {subscriberCounts[item.email]}
+                          </Text>
+                        </View>
+                        <Text style={styles.subscriberCountText}>
+                          Subscribers
+                        </Text>
+                      </View>
+                      {/* </View> */}
+                      {/* <View style={styles.descriptionContainer}>
                         <Text style={styles.description}>
                           {item.description}
                         </Text>
-                      </View>
+                      </View> */}
                     </View>
                   </View>
 
                   {/* Right Section - Slot Booking */}
-                  <View style={styles.slotSection}>
-                    {/* <View style={styles.slotTitle}>
-                      <Text style={styles.title}>Available Slots</Text>
-                    </View> */}
-
-                    {/* <View style={styles.slotRow}>
-                      {(item?.slots || []).map((slot) => (
-                        <TouchableOpacity
-                          //key={slot}
-                          key={`${item.email}-slot-${index}`}
-                          mode="outlined"
-                          style={[
-                            styles.slot,
-                            selectedSlot[item.email] === slot &&
-                              styles.selectedSlot,
-                          ]}
-                          onPress={() => handleSlotSelect(item.email, slot)}
-                        >
-                          <Text
-                            style={[
-                              styles.slotText,
-                              selectedSlot[item.email] === slot &&
-                                styles.selectedSlotText,
-                            ]}
-                          >
-                            {slot}
-                          </Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View> */}
+                  <View style={styles.subscriptionSection}>
+                    <View style={styles.subscriptionTextBox}>
+                      <Text style={styles.priceText}>₹1999</Text>
+                      <Text style={styles.feeText}>| Subscription Fee</Text>
+                    </View>
                     <Pressable
-                      //style={styles.button}
                       style={[
                         styles.button,
                         (!user || !user.email) && { backgroundColor: "gray" },
@@ -938,8 +197,6 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                         if (!user || !user.email) {
                           alert("You must be logged in to Subscribe.");
                         } else {
-                          // navigation.push("DoctorsInfoWithRating");
-                          //navigation.navigate("DoctorsInfoWithRating");
                           subscribeToDoctor(item.email);
                         }
                       }}
@@ -960,7 +217,6 @@ const DoctorAppointmentScreen = ({ navigation }) => {
           <View style={{ flex: 1 }}>
             <FlatList
               data={doctors}
-              //keyExtractor={(item) => item.id}
               keyExtractor={(item, index) => item.email || index.toString()}
               contentContainerStyle={{
                 flexGrow: 1,
@@ -971,15 +227,20 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                 <View style={styles.cardContainer}>
                   <View style={styles.cardBox}>
                     <View style={styles.cardHeaderInfo}>
-                      {/* <Image source={item.image} style={styles.doctorImage} /> */}
-                      <Image
-                        source={
-                          item.image
-                            ? { uri: item.image }
-                            : require("../../../assets/Images/userdemo.jpeg")
+                      <TouchableOpacity
+                        style={styles.imageContainer}
+                        onPress={() =>
+                          navigation.navigate("DoctorsInfoWithSubscription", {
+                            doctors: item,
+                          })
                         }
-                        style={styles.doctorImage}
-                      />
+                      >
+                        <Image
+                          source={{ uri: item.profilePhoto }}
+                          style={styles.image}
+                        />
+                      </TouchableOpacity>
+
                       <View style={styles.doctorDetails}>
                         <Text style={styles.name}>{item.doctorname}</Text>
                         <View style={styles.specializationBox}>
@@ -1032,11 +293,21 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                         <View style={styles.aboutDoc}>
                           <Text style={styles.aboutDocText}>About Doc</Text>
                           <View style={styles.descriptionContainer}>
-                            <Text style={styles.description}>
-                              {item.description.slice(0, 60)}...
+                            <Text
+                              style={styles.description}
+                              numberOfLines={showFull ? null : 2}
+                              ellipsizeMode="tail"
+                            >
+                              Specialized in {item.specialization}, with a
+                              experience of {item.experience}.
                             </Text>
-                            <TouchableOpacity>
-                              <Text style={styles.knowMore}>Know more</Text>
+
+                            <TouchableOpacity
+                              onPress={() => setShowFull(!showFull)}
+                            >
+                              <Text style={styles.knowMore}>
+                                {showFull ? "Show less" : "Know more"}
+                              </Text>
                             </TouchableOpacity>
                           </View>
                         </View>
@@ -1051,12 +322,25 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                         </View>
                       </View>
                       <TouchableOpacity
-                        style={styles.button}
-                        onPress={() =>
-                          navigation.navigate("DoctorsInfoWithRating", {
-                            doctors: item,
-                          })
-                        }
+                        // style={styles.button}
+                        // onPress={() =>
+                        //   navigation.navigate("DoctorsInfoWithRating", {
+                        //     doctors: item,
+                        //   })
+                        // }
+                        style={[
+                          styles.button,
+                          (!user || !user.email) && { backgroundColor: "gray" },
+                        ]}
+                        onPress={() => {
+                          if (!user || !user.email) {
+                            alert("You must be logged in to Subscribe.");
+                          } else {
+                            // navigation.push("DoctorsInfoWithRating");
+                            //navigation.navigate("DoctorsInfoWithRating");
+                            subscribeToDoctor(item.email);
+                          }
+                        }}
                       >
                         <Text style={styles.buttonText}>Subscribe</Text>
                         <Image
@@ -1093,7 +377,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardContainer: {
-    height: 204,
+    height: 195,
     width: "99%",
     borderWidth: 1,
     borderRadius: 15,
@@ -1126,8 +410,8 @@ const styles = StyleSheet.create({
     }),
   },
   doctorImage: {
-    height: 67,
-    width: 67,
+    height: 47,
+    width: 57,
     borderRadius: 40,
     marginVertical: "1%",
   },
@@ -1168,7 +452,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   secondSection: {
-    height: "60%",
+    height: "61%",
     width: "90%",
     //borderWidth: 1,
     alignSelf: "center",
@@ -1176,12 +460,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: "2%",
     marginVertical: "0.5%",
+    boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;",
     ...Platform.select({
       web: {
         width: "90%",
-        height: "56%",
-        marginTop: "1%",
-        //borderWidth:1
+        height: "40%",
+        bottom: "10%",
+        // marginTop: "0%",
+        borderWidth: 1,
       },
     }),
   },
@@ -1262,43 +548,69 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    //borderWidth:1
+    //borderWidth: 1,
+    height: "100%",
+    borderColor: "red",
+    padding: "0.3%",
   },
   row: {
     flexDirection: "row",
-    alignItems: "center",
+    //alignItems: "center",
     //borderWidth: 1,
     borderColor: "#000000",
-    width: "70%",
-    height: "120%",
+    width: "80%",
+    height: "100%",
+    //marginHorizontal: "1%",
+    padding: "0.4%",
+    justifyContent: "space-between",
+  },
+  imageContainer: {
+    width: "17%",
+    height: "89%",
+    //borderWidth: 1,
     marginHorizontal: "1%",
+    ...Platform.select({
+      web: {
+        width: "21%",
+        height: "65%",
+        //borderWidth: 1,
+        marginHorizontal: "1%",
+      },
+    }),
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 60,
+    height: 60,
     borderRadius: 50,
-    // marginRight: 10,
     marginHorizontal: "1%",
+    ...Platform.select({
+      web: {
+        width: 70,
+        height: 70,
+        borderRadius: 50,
+      },
+    }),
   },
   infoContainer: {
     //flex: 1,
-    //borderWidth: 1,
-    borderColor: "#000000",
-    width: "85%",
-  },
-  infoBox: {
     //borderWidth: 2,
-    borderColor: "#7cfc00",
-    width: "75%",
+    borderColor: "#000000",
+    width: "91%",
+    borderColor: "blue",
+    padding: "0.5%",
     flexDirection: "row",
+    justifyContent: "space-around",
   },
+
   info: {
     //borderWidth: 1,
     borderColor: "#000000",
-    width: "65%",
+    width: "56%",
+    height: "100%",
   },
+
   name: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 600,
     ...Platform.select({
       web: {
@@ -1307,6 +619,15 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  specializedExpBox: {
+    height: "25%",
+    width: "100%",
+    //borderWidth: 1,
+    borderColor: "red",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
   specializationBox: {
     //borderWidth: 1,
     height: "68%",
@@ -1319,21 +640,37 @@ const styles = StyleSheet.create({
     borderColor: "#adff2f",
   },
   specialization: {
-    fontSize: 15,
-    fontWeight: 500,
+    fontSize: 12,
+    fontWeight: 600,
     color: "#000",
     ...Platform.select({
       web: {
-        fontSize: 12,
-        fontWeight: 300,
-        color: "#666",
+        fontSize: 13,
+        fontWeight: 500,
+        color: "#444444",
       },
     }),
   },
   experience: {
     fontSize: 13,
+    fontWeight: 500,
+    color: "#444444",
+    marginRight: "15%",
+  },
+  addressSection: {
+    height: "28%",
+    width: "100%",
+    //borderWidth: 1,
+  },
+  addressText:{
+    fontSize: 13,
     fontWeight: 400,
-    color: "#000",
+    color: "#rgba(136, 136, 136, 1)",
+  },
+  reviewSection: {
+    height: "20%",
+    width: "30%",
+    //borderWidth: 1,
   },
   verifiedByMCI: {
     //borderWidth: 1,
@@ -1350,11 +687,16 @@ const styles = StyleSheet.create({
   },
 
   verifiedContainer: {
-    width: "35%",
+    width: "20%",
     flexDirection: "row",
     //borderWidth: 1,
-    borderColor: "#000000",
+    borderColor: "purple",
     paddingVertical: "0.5%",
+    justifyContent: "space-around",
+  },
+  imageBox: {
+    height: 21,
+    width: 21,
   },
   verifiedBox: {
     //borderWidth: 1,
@@ -1369,6 +711,8 @@ const styles = StyleSheet.create({
         //borderWidth: 1,
         borderColor: "#000000",
         width: "70%",
+        height: "25%",
+        marginBottom: "39%",
       },
     }),
   },
@@ -1390,19 +734,19 @@ const styles = StyleSheet.create({
     //alignSelf:"center"
   },
   verified: {
-    fontSize: 14,
+    fontSize: 12,
     color: "green",
     paddingVertical: "5%",
     paddingHorizontal: "3%",
     fontWeight: 300,
   },
   by: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 300,
   },
   mci: {
     color: "#FF7373",
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 300,
   },
   rightContainer: {
@@ -1420,9 +764,10 @@ const styles = StyleSheet.create({
   //   marginRight:"8%"
   // },
   subscriberCount: {
-    width: "30%",
+    width: "15%",
     //borderWidth: 1,
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   countBox: {
     //borderWidth: 1,
@@ -1437,12 +782,13 @@ const styles = StyleSheet.create({
         //borderWidth: 1,
         borderColor: "blue",
         alignSelf: "center",
+        flexDirection: "column",
       },
     }),
   },
   heartButtonBox: {
-    height: "60%",
-    width: "75%",
+    height: "33%",
+    width: "79%",
     //borderWidth: 1,
     alignSelf: "center",
   },
@@ -1452,9 +798,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     ...Platform.select({
       web: {
-        height: 20,
-        width: 23,
-        alignSelf: "center",
+        height: 17,
+        width: 19,
+        marginTop: "3%",
       },
     }),
   },
@@ -1465,12 +811,13 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   subscriberCountText: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 500,
     color: "#000000",
+    marginVertical: "3.5%",
   },
   descriptionContainer: {
-    height: "77%",
+    height: "auto",
     width: "100%",
     //borderWidth: 1,
     flexDirection: "column",
@@ -1503,60 +850,37 @@ const styles = StyleSheet.create({
     paddingRight: "2%",
     //marginBottom:"10%"
   },
-  slotSection: {
-    borderWidth: 1,
-    borderColor: "#FFFFFF",
+  subscriptionSection: {
+    //borderWidth: 1,
+    borderColor: "#000",
     flexDirection: "column",
     marginRight: "2%",
     width: "17%",
-    height: "110%",
-    justifyContent: "space-between",
-    // shadowColor: "#000",
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.2,
-    // shadowRadius: 2,
+    height: "100%",
+    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
     alignItems: "center",
   },
-
-  slotTitle: {
-    backgroundColor: "#FFF0F0",
-    width: "100%",
-    height: "22%",
-    // borderWidth: 1,
-    // borderColor: "#000000",
-  },
-  selectedSlotText: {},
-  title: {
-    fontSize: 14,
-    //fontWeight: "bold",
-    alignSelf: "center",
-  },
-  slotRow: {
+  subscriptionTextBox: {
+    height: "20%",
+    width: "95%",
+    //borderWidth:1,
+    marginTop: "17%",
     flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-evenly",
-    paddingHorizontal: "2%",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
-  slot: {
-    //backgroundColor: "#e8f4ff",
-    borderRadius: 1,
-    borderColor: "#1680EC",
-    flex: 1,
-    justifyContent: "center",
-    minWidth: "35%", // Prevents slots from being too small
-    maxWidth: "43%", // Prevents slots from being too wide
+  priceText: {
+    //fontFamily:"Annapurna SIL",
+    fontSize: 16,
+    fontWeight: 500,
+    color: "#000000",
+    marginLeft: "5%",
   },
-  selectedSlot: {
-    // backgroundColor: "#87ceeb",
-    // color: "#000000",
-    borderWidth: 1,
-    borderColor: "#1680EC",
-    borderRadius: 5,
-    padding: 5,
-  },
-  slotText: {
-    fontSize: 10,
-    color: "#1680EC",
+  feeText: {
+    fontSize: 11,
+    fontWeight: 400,
+    color: "#888888",
+    marginRight: "8%",
   },
   button: {
     marginHorizontal: "3%",
@@ -1564,7 +888,7 @@ const styles = StyleSheet.create({
     height: "27%",
     width: "55%",
     borderRadius: 8,
-    marginVertical: "25%",
+    marginVertical: "2.2%",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
@@ -1575,8 +899,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#FF7373",
         height: "27%",
         width: "95%",
-        borderRadius: 8,
-        marginBottom: "5%",
+        borderRadius: 6,
+        marginTop: "3%",
         justifyContent: "center",
         alignItems: "center",
       },

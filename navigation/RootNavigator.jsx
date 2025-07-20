@@ -9,6 +9,7 @@ import LandingPage from "../screens/PatientScreens/LandingPage";
 import DoctorPatientLandingPage from "../screens/DoctorScreens/DoctorRegistration/DoctorPatientLandingPage";
 import Login from "../screens/PatientScreens/Auth/Login";
 
+
 const Stack = createNativeStackNavigator();
 
 export const linking = {
@@ -53,6 +54,8 @@ const RootNavigation = () => {
         />
         <Stack.Screen name="PatientAppNavigation" component={AppNavigation} />
         <Stack.Screen name="Login" component={Login}/>
+        
+
       </Stack.Navigator>
     </RegistrationProvider>
   );

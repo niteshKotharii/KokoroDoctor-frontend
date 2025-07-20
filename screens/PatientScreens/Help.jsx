@@ -1,14 +1,24 @@
 import React, { useState } from "react";
-import { ImageBackground, Text, View, StyleSheet, Pressable, Platform, useWindowDimensions, Dimensions, StatusBar } from "react-native";
+import {
+  ImageBackground,
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  Platform,
+  useWindowDimensions,
+  Dimensions,
+  StatusBar,
+} from "react-native";
 import SideBarNavigation from "../../components/PatientScreenComponents/SideBarNavigation";
 import Header from "../../components/PatientScreenComponents/Header";
 import Title from "../../components/PatientScreenComponents/Title";
 import SearchBar from "../../components/PatientScreenComponents/SearchBar";
 
-const {width, height} = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 const Help = ({ navigation, route }) => {
-  const {width} = useWindowDimensions();
+  const { width } = useWindowDimensions();
   return (
     <>
       {Platform.OS === "web" && width > 1000 && (
@@ -172,7 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     flexDirection: "row",
   },
-  appContainer:{
+  appContainer: {
     flex: 1,
     height: "100%",
     width: "100%",
@@ -217,10 +227,10 @@ const styles = StyleSheet.create({
     // borderColor: "black",
     zIndex: 2,
     ...Platform.select({
-      web:{
-        width:"100%",
-      }
-    })
+      web: {
+        width: "100%",
+      },
+    }),
   },
   title: {
     marginVertical: "auto",
@@ -236,11 +246,11 @@ const styles = StyleSheet.create({
     marginVertical: "auto",
     alignItems: "flex-start",
     ...Platform.select({
-      web:{
+      web: {
         width: width > 1000 ? "60%" : "95%",
-        height: width>1000 ? "65%" : "65%",
-      }
-    })
+        height: width > 1000 ? "65%" : "65%",
+      },
+    }),
   },
   contain: {
     flexDirection: "column",

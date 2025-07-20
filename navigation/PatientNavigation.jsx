@@ -8,6 +8,8 @@ import ForgotPassword from "../screens/PatientScreens/Auth/ForgotPassword";
 import ResetPassword from "../screens/PatientScreens/Auth/ResetPassword";
 import PasswordSuccess from "../screens/PatientScreens/Auth/PasswordSuccess";
 import Signup from "../screens/PatientScreens/Auth/Signup";
+import PrivacyPolicy from "../screens/PatientScreens/Auth/PrivacyPolicy";
+import VerifyEmail from "../screens/PatientScreens/Auth/VerifyEmail";
 import LandingPage from "../screens/PatientScreens/LandingPage";
 import DoctorPatientLandingPage from "../screens/DoctorScreens/DoctorRegistration/DoctorPatientLandingPage";
 
@@ -15,10 +17,11 @@ import DoctorPatientLandingPage from "../screens/DoctorScreens/DoctorRegistratio
 import ConsultWithDoctors from "../screens/PatientScreens/Doctors/ConsultWithDoctors";
 import DoctorNearYou from "../screens/PatientScreens/Doctors/DoctorNearYou";
 import DoctorResultShow from "../screens/PatientScreens/Doctors/DoctorResultShow";
-import DoctorsInfoWithRating from "../screens/PatientScreens/Doctors/DoctorsInfoWithRating";
+import DoctorsInfoWithSubscription from "../screens/PatientScreens/Doctors/DoctorsInfoWithSubscription";
+import DoctorsInfoWithBooking from "../screens/PatientScreens/Doctors/DoctorsInfoWithBooking";
 import DoctorAvailabilitySlots from "../screens/PatientScreens/Doctors/App/DoctorAvailabilitySlots";
 import AppDoctorsRating from "../screens/PatientScreens/Doctors/App/AppDoctorsRating";
-import DoctorsPaymentScreen from "../screens/PatientScreens/Doctors/DoctorsPaymentScreen";
+import DoctorsSubscriptionPaymentScreen from "../screens/PatientScreens/Doctors/DoctorsSubscriptionPaymentScreen";
 import BookingConfirmation from "../screens/PatientScreens/Doctors/App/BookingConfirmation";
 
 //Hospitals
@@ -80,8 +83,13 @@ const DoctorNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="DoctorsInfoWithRating"
-        component={DoctorsInfoWithRating}
+        name="DoctorsInfoWithSubscription"
+        component={DoctorsInfoWithSubscription}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DoctorsInfoWithBooking"
+        component={DoctorsInfoWithBooking}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -90,8 +98,8 @@ const DoctorNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="DoctorsPaymentScreen"
-        component={DoctorsPaymentScreen}
+        name="DoctorsSubscriptionPaymentScreen"
+        component={DoctorsSubscriptionPaymentScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -272,6 +280,16 @@ const AppNavigation = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="PrivacyPolicy"
+          component={PrivacyPolicy}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="VerifyEmail"
+          component={VerifyEmail}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="ForgotPassword"
           component={ForgotPassword}
           options={{ headerShown: false }}
@@ -353,6 +371,7 @@ const AppNavigation = () => {
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
+      
     </HeaderButtonsProvider>
   );
 };

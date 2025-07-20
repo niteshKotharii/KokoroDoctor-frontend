@@ -185,11 +185,11 @@ const DoctorPatientLandingPage = () => {
             </View>
             <View style={styles.app_box}>
               <Pressable
-                // onPress={() =>
-                //   navigation.navigate("DoctorAppNavigation", {
-                //     screen: "DoctorsSignUp",
-                //   })
-                // }
+                onPress={() =>
+                  navigation.navigate("DoctorAppNavigation", {
+                    screen: "DoctorsSignUp",
+                  })
+                }
                 style={({ hovered, pressed }) => [
                   styles.touchableBox,
                   hovered || pressed ? styles.selectedBox : null,
