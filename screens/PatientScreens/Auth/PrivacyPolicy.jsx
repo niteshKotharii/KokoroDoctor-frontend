@@ -17,12 +17,13 @@ const PrivacyPolicy = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   const [selectedButton, setSelectedButton] = useState(null);
 
-  const BulletItem = ({ children }) => (
+  const BulletItem = ({ children, level = 0 }) => ( // Added level prop for nested bullets
     <View
       style={{
         flexDirection: "row",
         alignItems: "flex-start",
         marginBottom: 0,
+        marginLeft: level * 20, // Indent based on level
       }}
     >
       <Text
@@ -41,7 +42,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
 
   return (
     <>
-      {Platform.OS === "web" && width > 1000 && (
+      {Platform.OS === "web" && width > 1000 ? ( // Using ternary for cleaner structure
         <View style={styles.container}>
           <View style={styles.textContainer}>
             <ScrollView
@@ -60,22 +61,23 @@ const PrivacyPolicy = ({ navigation, route }) => {
                 </Text>
               </View>
               <View style={styles.mainText}>
-                {/* Main introductory paragraph - Using template literal for multi-line */}
+                {/* Main introductory paragraph*/}
                 <Text style={styles.policyText}>
-                  At Kokoro.Doctor, your trust is our greatest asset.
-                  As a digital healthcare platform committed to advancing cardiac
+                  At Kokoro.Doctor, your trust is our greatest asset. As a
+                  digital healthcare platform committed to advancing cardiac
                   wellness and holistic well-being, we understand the importance
                   of securing personal and sensitive medical information. This
                   Privacy Policy aims to clearly explain how your data is
-                  collected, used, stored, and protected, and outlines the choices
-                  and rights available to you. We strive to maintain full
-                  transparency and compliance with global data protection laws
+                  collected, used, stored, and protected, and outlines the
+                  choices and rights available to you. We strive to maintain
+                  full transparency and compliance with global data protection
+                  laws
                 </Text>
                 <Text style={styles.policyText}>{"\n"}1. Who We Are</Text>
                 {/* Section 1 list - Using BulletItem component */}
                 <Text style={styles.policyText}>
-                  Kokoro.Doctor is a comprehensive healthcare platform
-                  that allows users to:
+                  Kokoro.Doctor is a comprehensive healthcare platform that
+                  allows users to:
                 </Text>
                 <BulletItem>
                   Connect with verified and licensed medical professionals
@@ -92,16 +94,15 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   history
                 </BulletItem>
                 <Text style={styles.policyText}>
-                  The platform is available via mobile and web
-                  applications and is supported by HIPAA-compliant cloud
-                  infrastructure.
+                  The platform is available via mobile and web applications and
+                  is supported by HIPAA-compliant cloud infrastructure.
                 </Text>
                 <Text style={styles.policyText}>
                   {"\n"}2. What Data We Collect
                 </Text>
                 <Text style={styles.policyText}>
-                  We collect various categories of data to deliver our
-                  services efficiently and safely:
+                  We collect various categories of data to deliver our services
+                  efficiently and safely:
                 </Text>
                 <Text style={styles.policyText}>a. Personal Information</Text>
                 <BulletItem>Full name, gender, date of birth</BulletItem>
@@ -127,7 +128,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   transcripts
                 </BulletItem>
                 <BulletItem>
-                  Vitals such as heart rate, blood pressure, glucose levels (if
+                  Vitals suchs as heart rate, blood pressure, glucose levels (if
                   entered manually or synced via devices)
                 </BulletItem>
                 <Text style={styles.policyText}>
@@ -158,10 +159,12 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   {"\n"}3. Medilocker: Data Ownership and Usage
                 </Text>
                 <Text style={styles.policyText}>
-                  Medilocker is our health record vault, where users
-                  can upload their personal medical documents.
+                  Medilocker is our health record vault, where users can upload
+                  their personal medical documents.
                 </Text>
-                <Text style={styles.policyText}>By using Medilocker, you:</Text>
+                <Text style={styles.policyText}>
+                  By using Medilocker, you:
+                </Text>
                 <BulletItem>
                   Retain full ownership of your personal health data
                 </BulletItem>
@@ -193,8 +196,8 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   {"\n"}4. How We Protect Your Data
                 </Text>
                 <Text style={styles.policyText}>
-                  We use modern, industry-standard security controls to
-                  protect your data:
+                  We use modern, industry-standard security controls to protect
+                  your data:
                 </Text>
                 <BulletItem>
                   Encryption: AES-256 for storage; TLS 1.3 for data transmission
@@ -223,8 +226,8 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   {"\n"}5. How Your Data May Be Shared
                 </Text>
                 <Text style={styles.policyText}>
-                  Your data is not sold or used for advertising
-                  purposes. It may be shared under the following circumstances:
+                  Your data is not sold or used for advertising purposes. It may
+                  be shared under the following circumstances:
                 </Text>
                 <BulletItem>
                   With doctors you explicitly consult via the platform
@@ -290,7 +293,6 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   visits) are billed separately by the healthcare provider
                 </BulletItem>
                 <View style={{ marginVertical: 10 }} />{" "}
-                {/* Added for consistency */}
               </View>
             </ScrollView>
 
@@ -298,18 +300,18 @@ const PrivacyPolicy = ({ navigation, route }) => {
               <TouchableOpacity
                 style={[
                   styles.button,
-                  selectedButton === "decline" && { backgroundColor: "black" },
+                  selectedButton === "decline" && styles.buttonSelected,
                 ]}
-                onPress={() => setSelectedButton("decline")}
+                onPress={() => {
+                  setSelectedButton("decline");
+                  navigation.navigate("Signup");
+                }}
               >
                 <Text
                   style={[
                     styles.buttonText,
-                    selectedButton === "decline" && { color: "white" },
+                    selectedButton === "decline" && styles.buttonTextSelected,
                   ]}
-                  onPress={() => {
-                    navigation.navigate("Signup");
-                  }}
                 >
                   I Decline
                 </Text>
@@ -318,17 +320,17 @@ const PrivacyPolicy = ({ navigation, route }) => {
               <TouchableOpacity
                 style={[
                   styles.button,
-                  selectedButton === "agree" && { backgroundColor: "black" },
+                  selectedButton === "agree" && styles.buttonSelected,
                 ]}
                 onPress={() => {
                   setSelectedButton("agree");
-                  navigation.navigate("Signup", { agreedToPolicy: true }); // <-- pass the checkbox value here
+                  navigation.navigate("Signup", { agreedToPolicy: true });
                 }}
               >
                 <Text
                   style={[
                     styles.buttonText,
-                    selectedButton === "agree" && { color: "white" },
+                    selectedButton === "agree" && styles.buttonTextSelected,
                   ]}
                 >
                   I Agree
@@ -343,9 +345,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
             />
           </View>
         </View>
-      )}
-
-      {(Platform.OS !== "web" || width < 1000) && (
+      ) : (
         <View style={styles.appPrivacyContainer}>
           <View style={styles.appPrivacyTextSection}>
             <ScrollView
@@ -443,7 +443,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   transcripts
                 </BulletItem>
                 <BulletItem>
-                  Vitals such as heart rate, blood pressure, glucose levels (if
+                  Vitals suchs as heart rate, blood pressure, glucose levels (if
                   entered manually or synced via devices)
                 </BulletItem>
 
@@ -495,13 +495,13 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   We may use your uploaded health data (after de-identification)
                   for:
                 </BulletItem>
-                <BulletItem>
+                <BulletItem level={1}>
                   Clinical research and algorithm development
                 </BulletItem>
-                <BulletItem>
+                <BulletItem level={1}>
                   Health insights and diagnostics improvements
                 </BulletItem>
-                <BulletItem>
+                <BulletItem level={1}>
                   Academic and public health partnerships (in anonymized format
                   only)
                 </BulletItem>
@@ -615,6 +615,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   We do not collect or store your credit/debit card or UPI
                   credentials on our servers
                 </BulletItem>
+
                 <BulletItem>
                   Offline services (e.g., hospital admission, diagnostic lab
                   visits) are billed separately by the healthcare provider
@@ -626,10 +627,10 @@ const PrivacyPolicy = ({ navigation, route }) => {
                 style={[
                   styles.appPrivacyButton,
                   selectedButton === "decline" &&
-                  styles.appPrivacyButtonDecline,
+                  styles.appPrivacyButtonSelected,
                 ]}
-                // onPress={() => setSelectedButton("decline")}
                 onPress={() => {
+                  setSelectedButton("decline");
                   navigation.navigate("Signup");
                 }}
               >
@@ -637,7 +638,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   style={[
                     styles.appPrivacyButtonText,
                     selectedButton === "decline" &&
-                    styles.appPrivacyButtonTextDecline,
+                    styles.appPrivacyButtonTextSelected,
                   ]}
                 >
                   I Decline
@@ -656,7 +657,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
               <TouchableOpacity
                 style={[
                   styles.appPrivacyButton,
-                  selectedButton === "agree" && styles.appPrivacyButtonAgree,
+                  selectedButton === "agree" && styles.appPrivacyButtonSelected,
                 ]}
                 onPress={() => {
                   setSelectedButton("agree");
@@ -667,7 +668,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   style={[
                     styles.appPrivacyButtonText,
                     selectedButton === "agree" &&
-                    styles.appPrivacyButtonTextAgree,
+                    styles.appPrivacyButtonTextSelected,
                   ]}
                 >
                   I Agree
@@ -681,92 +682,119 @@ const PrivacyPolicy = ({ navigation, route }) => {
   );
 };
 
+const windowWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //borderWidth: 3,
-    height: "100%",
+    height: "100vh", // Use 100vh to ensure it takes full viewport height on web
     width: "100%",
     backgroundColor: "#fff",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
+    paddingVertical: 20,
   },
   textContainer: {
-    height: "85%",
-    width: "50%",
-    //borderWidth: 1,
-    //marginBottom:"2%"
+    flex: 1,
+    maxWidth: "50%",
+    height: "100%", // Explicitly set height to 100% of its parent (container)
     flexDirection: "column",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
-    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+    borderRadius: 8,
+    overflow: "hidden", // Important for containing scroll content
   },
   textBox: {
-    height: "85%",
+    flex: 1, // This allows the ScrollView to take up the available space
     width: "95%",
-    borderColor: "blue",
-    //borderWidth: 1,
+    paddingRight: 10,
+  },
+  scrollContent: {
+    flexGrow: 1, // Ensures content can grow and enables scrolling
+    paddingBottom: 20,
   },
   textHeader: {
-    height: "5%",
-    width: "40%",
-    //borderWidth: 1,
+    width: "100%",
+    paddingBottom: 20,
+    alignItems: "center",
   },
   header: {
-    fontSize: 16,
-    fontWeight: 500,
-    color: "#444444",
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333333",
+    marginBottom: 10,
   },
   welcomeTitle: {
-    fontSize: 24,
-    fontWeight: 500,
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#555555",
+    marginBottom: 5,
   },
   policyText: {
-    fontSize: 16,
-    fontWeight: 400,
+    fontSize: 15,
+    fontWeight: "400",
+    color: "#444444",
+    lineHeight: 22,
+    marginBottom: 10,
   },
   insertDateText: {
     fontSize: 12,
-    fontWeight: 400,
-    color: "#444444",
-    //marginVertical:"4%"
+    fontWeight: "400",
+    color: "#777777",
   },
   mainText: {
-    height: "100%",
     width: "100%",
-    //borderWidth: 2,
-    borderColor: "red",
   },
-  scrollContainer: {},
   buttonBox: {
-    height: "10%",
     width: "95%",
-    borderColor: "green",
-    //borderWidth: 1,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
+    paddingVertical: 15,
+    borderTopWidth: 1,
+    borderTopColor: "#eee",
+    backgroundColor: "#fff",
   },
   button: {
-    height: "43%",
-    width: "20%",
-    //borderWidth:1,
+    height: 45,
+    width: "40%",
     alignItems: "center",
-    borderRadius: 5,
-    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+    justifyContent: "center",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    backgroundColor: "#f5f5f5",
+  },
+  buttonSelected: {
+    backgroundColor: "black",
+    borderColor: "black",
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#444444",
+  },
+  buttonTextSelected: {
+    color: "white",
   },
   imageContainer: {
     height: "50%",
-    width: "20%",
-    //borderWidth: 1,
-    borderColor: "red",
-    marginBottom: "10%",
-    marginRight: "10%",
+    width: "30%",
+    marginRight: "5%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     height: "100%",
     width: "100%",
+    resizeMode: "contain",
   },
 
   //APP styles for mobile view
@@ -779,10 +807,18 @@ const styles = StyleSheet.create({
     paddingTop: "4%",
     paddingHorizontal: "4%",
   },
+  appPrivacyTextSection: {
+    flex: 1,
+    width: "100%",
+  },
   appPrivacyScrollBox: {
     flex: 1,
     flexDirection: "column",
     alignSelf: "center",
+  },
+  appPrivacyScrollContent: {
+    flexGrow: 1,
+    paddingBottom: 20,
   },
   appPrivacyImageSection: {
     height: 200,
@@ -798,49 +834,55 @@ const styles = StyleSheet.create({
     height: "100%",
     resizeMode: "cover",
   },
+  appPrivacyHeaderSection: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
   appPrivacyHeader: {
-    font: "Poppins",
-    weight: "500",
-    height: 19,
-    fontSize: 16,
+    fontFamily: "Poppins",
+    fontWeight: "500",
+    fontSize: 18,
     alignSelf: "center",
+    marginBottom: 5,
   },
   appPrivacyWelcome: {
-    font: "Poppins",
-    weight: "500",
-    height: 19,
-    fontSize: 16,
+    fontFamily: "Poppins",
+    fontWeight: "500",
+    fontSize: 22,
     alignSelf: "center",
     marginTop: 6,
     marginBottom: 4,
+    color: "#333",
   },
   appPrivacyDate: {
-    font: "Poppins",
-    weight: "400",
-    height: 16,
+    fontFamily: "Poppins",
+    fontWeight: "400",
     fontSize: 12,
     alignSelf: "center",
-    color: "#444444",
+    color: "#777777",
     marginTop: 4,
   },
   appPrivacyMainText: {
-    marginLeft: "5%",
-    marginRight: "5%",
+    paddingHorizontal: "5%",
     marginTop: "7%",
-    font: "Poppins",
+    fontFamily: "Poppins",
   },
   appPrivacyPolicyText: {
     fontSize: 14,
     color: "#444444",
     textAlign: "justify",
-    weight: 400,
-    font: "Poppins",
+    fontWeight: "400",
+    fontFamily: "Poppins",
+    lineHeight: 22,
+    marginBottom: 10,
   },
   appPolicyText: {
     fontSize: 14,
     color: "#444444",
-    weight: 400,
-    font: "Poppins",
+    fontWeight: "400",
+    fontFamily: "Poppins",
+    lineHeight: 22,
+    marginBottom: 8,
   },
   bulletText: {
     fontSize: 14,
@@ -848,18 +890,21 @@ const styles = StyleSheet.create({
     textAlign: "justify",
     fontWeight: "400",
     fontFamily: "Poppins",
-    marginLeft: 12,
+    flexShrink: 1,
     lineHeight: 22,
   },
   appPrivacyButtonSection: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    height: 60,
-    borderColor: "green",
+    height: 70,
+    borderTopWidth: 1,
+    borderTopColor: "#eee",
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
   },
   appPrivacyButton: {
-    width: 120,
+    flex: 1,
     height: 44,
     backgroundColor: "#f5f5f5",
     alignItems: "center",
@@ -872,7 +917,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 2, // for Android shadow
+    elevation: 2,
+  },
+  appPrivacyButtonSelected: {
+    backgroundColor: "black",
+    borderColor: "black",
+  },
+  appPrivacyButtonText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#444444",
+  },
+  appPrivacyButtonTextSelected: {
+    color: "white",
   },
 });
 
