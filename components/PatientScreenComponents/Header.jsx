@@ -388,7 +388,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 const styles = StyleSheet.create({
   header: {
     //height: "100%",
-    marginTop: 45,
+    marginTop: "2%",
     justifyContent: "center",
     //alignItems: "center",
     ...Platform.select({
