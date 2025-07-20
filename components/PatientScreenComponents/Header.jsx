@@ -266,6 +266,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 
           {(Platform.OS !== "web" || width < 1000) && (
             <>
+
               <Modal
                 visible={isSideBarVisible}
                 transparent={true}
@@ -319,6 +320,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                     <Pressable
                       onPress={() => setDropdownVisible(!dropdownVisible)}
                     >
+
                       <MaterialIcons name="person" size={30} color="black" />
                     </Pressable>
                     <Pressable>
@@ -347,6 +349,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                           <Text style={styles.dropdownText}>Signup</Text>
                         </Pressable>
                       </View>
+
                     )}
                   </View>
                 </View>
@@ -384,7 +387,8 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 
 const styles = StyleSheet.create({
   header: {
-    height: "100%",
+    //height: "100%",
+    marginTop: 45,
     justifyContent: "center",
     //alignItems: "center",
     ...Platform.select({
