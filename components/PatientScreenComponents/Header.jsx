@@ -234,6 +234,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
             <>
               {Platform.OS === "web" && width > 1000 && (
                   <View style={styles.authButtonsWeb}>
+
                     <Pressable
                         onPress={() => navigation.navigate("Login")}
                         //onPress={() => handleOptionPress("DoctorPatientLandingPage")}
@@ -287,6 +288,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                               />
                           )}
                         </View>
+
                         <Pressable
                             style={styles.overlay}
                             onPress={() => setIsSideBarVisible(false)}
@@ -379,6 +381,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                     </View>
                   </>
               )}
+
             </>
         )}
       </View>
@@ -387,7 +390,8 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 
 const styles = StyleSheet.create({
   header: {
-    height: "100%",
+    //height: "100%",
+    marginTop: 45,
     justifyContent: "center",
     //alignItems: "center",
     ...Platform.select({
