@@ -2,7 +2,7 @@
   "expo": {
     "name": "Kokoro.doctor",
     "slug": "Kokoro-doctor",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "platforms": [
       "ios",
       "android",
@@ -36,7 +36,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "ea916d92-2026-4c6f-b98c-aa645e7d5685"
+        "projectId": "34f5f564-16d6-49a6-8b83-8c7f1f43efa7"
       }
     }
   },
