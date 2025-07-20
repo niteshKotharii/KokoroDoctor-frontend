@@ -230,7 +230,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                       <TouchableOpacity
                         style={styles.imageContainer}
                         onPress={() =>
-                          navigation.navigate("DoctorsInfoWithSubscription", {
+                          navigation.navigate("DoctorsInfoWithBooking", {
                             doctors: item,
                           })
                         }
