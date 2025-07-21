@@ -14,6 +14,7 @@ import {
   ScrollView,
   useWindowDimensions,
   StatusBar,
+  Dimensions,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../../../contexts/ChatbotContext";
@@ -268,6 +269,8 @@ const DoctorResultShow = ({ navigation, route }) => {
   );
 };
 
+const windowWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   webContainer: {
     flex: 1,
@@ -407,6 +410,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         width: "90%",
+        // height: windowWidth>1000 ? "90%"  : "10%",
         flex: 1,
         marginHorizontal: "5%",
         borderWidth: 0,
