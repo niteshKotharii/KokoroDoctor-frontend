@@ -30,8 +30,6 @@ const Signup = ({ navigation, route }) => {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [referralModalVisible, setReferralModalVisible] = useState(false);
-  const [referralCode, setReferralCode] = useState("");
   const { setRole } = useRole();
 
   useEffect(() => {
@@ -68,24 +66,14 @@ const Signup = ({ navigation, route }) => {
         setRole("doctor");
       })
       .catch((error) => {
-        console.log("Signup error:", error);
+        // console.log("Signup error:", error);
+        console.log("Signup error:", JSON.stringify(error));
+        Alert.alert("Signup Failed", error?.message || "Something went wrong");
       });
-  };
-
-  const handleReferralCode = () => {
-    setReferralModalVisible(true);
-  };
-
-  const handleReferralSubmit = () => {
-    setReferralModalVisible(false);
   };
 
   const handleDetectLocation = () => {
     // Implement location detection logic
-  };
-
-  const handleCopyCode = () => {
-    // Implement copy code logic
   };
 
   const toggleRememberMe = () => {
