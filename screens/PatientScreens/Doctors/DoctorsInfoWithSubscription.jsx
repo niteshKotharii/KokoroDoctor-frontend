@@ -84,9 +84,7 @@ const DoctorsInfoWithSubscription = ({ navigation, route }) => {
                             {`${doctors.experience} experience`}
                           </Text>
                           <Text style={styles.doctorBio}>
-                            {doctors.doctorname} specialized in{" "}
-                            {doctors.specialization}, with an experience of{" "}
-                            {doctors.experience}.
+                            {doctors.description}
                           </Text>
                         </View>
                       </View>
@@ -94,22 +92,36 @@ const DoctorsInfoWithSubscription = ({ navigation, route }) => {
                         <Text style={styles.reviewsTitle}>User Reviews</Text>
 
                         <View style={styles.reviewsList}>
-                          {[1, 2, 3].map((id) => (
-                            <View key={id} style={styles.reviewCard}>
-                              <Text style={styles.reviewText}>
-                                Great Doctor !
-                              </Text>
+                          {doctors.reviews?.map((review, index) => (
+                            <View key={index} style={styles.reviewCard}>
+                              <View style={styles.reviewTextBox}>
+                                <ScrollView
+                                  nestedScrollEnabled={true}
+                                  showsVerticalScrollIndicator={false}
+                                >
+                                  <Text style={styles.reviewText}>
+                                    {review.comment}
+                                  </Text>
+                                </ScrollView>
+                              </View>
+
                               <View style={styles.reviewerContainer}>
                                 {[...Array(5)].map((_, i) => (
                                   <MaterialIcons
                                     key={i}
-                                    name="star"
+                                    name={
+                                      i + 1 <= review.rating
+                                        ? "star"
+                                        : i + 0.5 <= review.rating
+                                        ? "star-half"
+                                        : "star-border"
+                                    }
                                     size={16}
                                     color="#FFD700"
                                   />
                                 ))}
                                 <Text style={styles.reviewerName}>
-                                  Ram Kapoor
+                                  {review.reviewer}
                                 </Text>
                               </View>
                             </View>
@@ -149,7 +161,8 @@ const DoctorsInfoWithSubscription = ({ navigation, route }) => {
                           style={styles.subscribeButton}
                           onPress={() =>
                             navigation.navigate(
-                              "DoctorsSubscriptionPaymentScreen"
+                              "DoctorsSubscriptionPaymentScreen",
+                              { doctors }
                             )
                           }
                         >
@@ -704,7 +717,7 @@ const styles = StyleSheet.create({
   },
   doctorInfoSection: {
     width: "80%",
-    height: "100%",
+    height: "85%",
     paddingLeft: "1%",
     //borderWidth: 1,
   },
@@ -748,8 +761,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   reviewsSection: {
-    marginTop: "3%",
     //borderWidth: 1,
+    height: "40%",
+    bottom: "10%",
   },
   reviewsTitle: {
     fontSize: 15,
@@ -758,19 +772,28 @@ const styles = StyleSheet.create({
   },
   reviewsList: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
+    //borderWidth: 1,
+    borderColor: "red",
+    height: "80%",
   },
   reviewCard: {
+    height: "100%",
     width: "30%",
     backgroundColor: "#ffebee",
     borderRadius: 10,
-    padding: 10,
+    padding: "1%",
+  },
+  reviewTextBox: {
+    height: "80%",
+    width: "100%",
+   // borderWidth: 1,
   },
   reviewText: {
-    fontSize: 14,
+    fontSize: 13,
     color: "#000",
-    marginBottom: 5,
-    fontFamily: "Alex Brush",
+    marginBottom: "3%",
+    //fontFamily: "Alex Brush",
     fontWeight: 400,
     fontStyle: "italic",
   },
@@ -778,12 +801,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: "2%",
-    //borderWidth:1
+   // borderWidth: 1,
   },
   reviewerName: {
-    fontSize: 10,
+    fontSize: 12,
     color: "#666",
-    marginLeft: 5,
+    marginLeft: "2%",
   },
   subscriptionSection: {
     width: "30%",

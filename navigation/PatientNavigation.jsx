@@ -9,6 +9,7 @@ import ResetPassword from "../screens/PatientScreens/Auth/ResetPassword";
 import PasswordSuccess from "../screens/PatientScreens/Auth/PasswordSuccess";
 import Signup from "../screens/PatientScreens/Auth/Signup";
 import PrivacyPolicy from "../screens/PatientScreens/Auth/PrivacyPolicy";
+import VerifyEmail from "../screens/PatientScreens/Auth/VerifyEmail";
 import LandingPage from "../screens/PatientScreens/LandingPage";
 import DoctorPatientLandingPage from "../screens/DoctorScreens/DoctorRegistration/DoctorPatientLandingPage";
 
@@ -281,6 +282,11 @@ const AppNavigation = () => {
         <Stack.Screen
           name="PrivacyPolicy"
           component={PrivacyPolicy}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="VerifyEmail"
+          component={VerifyEmail}
           options={{ headerShown: false }}
         />
         <Stack.Screen
