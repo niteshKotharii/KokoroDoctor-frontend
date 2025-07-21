@@ -115,7 +115,8 @@ const DoctorCongrats = ({ navigation }) => {
 
             </View> */}
             <View>
-              <Header></Header>
+              {/* <Header></Header> */}
+              <Header navigation={navigation} isDoctorPortal={true} />
             </View>
 
             <View styles={styles.middleContainer}>

@@ -183,87 +183,87 @@ const DoctorsInfoWithSubscription = ({ navigation, route }) => {
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
           <ScrollView>
-          <StatusBar barStyle="light-content" backgroundColor="#fff" />
-          
-          <View style={styles.appImageContainer}>
-            <Image
-              source={{ uri: doctors.profilePhoto }}
-              style={styles.doctorImage}
-            />
-            <View style={styles.doctornamebox}>
-              <Text style={styles.doctorName}>{doctors.doctorname}</Text>
-            </View>
-            <View style={styles.doctornamebox}>
-              <Text style={styles.doctorCredentials}>
-                ({doctors.specialization})
-              </Text>
-            </View>
-          </View>
+            <StatusBar barStyle="light-content" backgroundColor="#fff" />
 
-          <View style={styles.experienceRatingContainer}>
-            <View style={styles.experienceSection}>
+            <View style={styles.appImageContainer}>
               <Image
-                source={require("../../../assets/Icons/doctorTool.png")}
-                style={styles.doctorIcon}
+                source={{ uri: doctors.profilePhoto }}
+                style={styles.doctorImage}
               />
-              <View style={styles.experienceDetail}>
-                <Text style={styles.experienceText}>Total Experience</Text>
-                <Text style={styles.experience}>{doctors.experience}</Text>
+              <View style={styles.doctornamebox}>
+                <Text style={styles.doctorName}>{doctors.doctorname}</Text>
+              </View>
+              <View style={styles.doctornamebox}>
+                <Text style={styles.doctorCredentials}>
+                  ({doctors.specialization})
+                </Text>
               </View>
             </View>
-            <View style={styles.verticalLine} />
-            <View style={styles.ratingSection}>
-              <Image
-                source={require("../../../assets/Icons/Star.png")}
-                style={styles.doctorIcon}
-              />
-              <TouchableOpacity style={styles.ratingDetail}>
-                <Text style={styles.ratingText}>Rating & Reviews</Text>
-                <Text style={styles.rating}>4.9 (5000) </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
 
-          <View style={styles.firsttext}>
-            <Text style={styles.firstTextstyle}>
-              To Book Slot Of the Doctor you have to
-            </Text>
-            <Text style={styles.firstTextstyle}>first subscribe them.</Text>
-          </View>
-
-          <View style={styles.container}>
-            <View style={styles.card}>
-              <Text style={styles.title}>Metrics Of subscription</Text>
-              {features.map((item, index) => (
-                <View key={index} style={styles.featureItem}>
-                  <Image
-                    source={require("../../../assets/Icons/icostarr.png")}
-                  ></Image>
-                  <Text style={styles.featureText}>{item}</Text>
-                </View>
-              ))}
-            </View>
-
-            <View style={styles.feeSection}>
-              <View style={styles.rupees}>
+            <View style={styles.experienceRatingContainer}>
+              <View style={styles.experienceSection}>
                 <Image
-                  source={require("../../../assets/Icons/rs.png")}
-                  style={styles.rupeeImg}
+                  source={require("../../../assets/Icons/doctorTool.png")}
+                  style={styles.doctorIcon}
                 />
+                <View style={styles.experienceDetail}>
+                  <Text style={styles.experienceText}>Total Experience</Text>
+                  <Text style={styles.experience}>{doctors.experience}</Text>
+                </View>
+              </View>
+              <View style={styles.verticalLine} />
+              <View style={styles.ratingSection}>
+                <Image
+                  source={require("../../../assets/Icons/Star.png")}
+                  style={styles.doctorIcon}
+                />
+                <TouchableOpacity style={styles.ratingDetail}>
+                  <Text style={styles.ratingText}>Rating & Reviews</Text>
+                  <Text style={styles.rating}>4.9 (5000) </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.firsttext}>
+              <Text style={styles.firstTextstyle}>
+                To Book Slot Of the Doctor you have to
+              </Text>
+              <Text style={styles.firstTextstyle}>first subscribe them.</Text>
+            </View>
+
+            <View style={styles.container}>
+              <View style={styles.card}>
+                <Text style={styles.title}>Metrics Of subscription</Text>
+                {features.map((item, index) => (
+                  <View key={index} style={styles.featureItem}>
+                    <Image
+                      source={require("../../../assets/Icons/icostarr.png")}
+                    ></Image>
+                    <Text style={styles.featureText}>{item}</Text>
+                  </View>
+                ))}
               </View>
 
-              <Text style={styles.price}>1999</Text>
+              <View style={styles.feeSection}>
+                <View style={styles.rupees}>
+                  <Image
+                    source={require("../../../assets/Icons/rs.png")}
+                    style={styles.rupeeImg}
+                  />
+                </View>
 
-              <View style={styles.line}></View>
+                <Text style={styles.price}>1999</Text>
 
-              <Text style={styles.feeLabel}>Subscription fees</Text>
+                <View style={styles.line}></View>
+
+                <Text style={styles.feeLabel}>Subscription fees</Text>
+              </View>
             </View>
-          </View>
 
-          <TouchableOpacity style={styles.bookAppointmentButton}>
-            <Text style={styles.bookAppointmentText}>Subscribe</Text>
-          </TouchableOpacity>
-          {/* </View> */}
+            <TouchableOpacity style={styles.bookAppointmentButton}>
+              <Text style={styles.bookAppointmentText}>Subscribe</Text>
+            </TouchableOpacity>
+            {/* </View> */}
           </ScrollView>
         </View>
       )}
@@ -350,12 +350,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   appImageContainer: {
-    
     width: "75%",
     //borderWidth: 1,
     marginVertical: "8%",
     alignSelf: "center",
-    
   },
   doctorImage: {
     height: 90,
@@ -373,8 +371,6 @@ const styles = StyleSheet.create({
   },
   doctornamebox: {
     alignSelf: "center",
-    
-
   },
   doctorName: {
     fontSize: 22,
@@ -388,7 +384,6 @@ const styles = StyleSheet.create({
         color: "#333",
 
         alignSelf: windowWidth > 1000 ? "flex-start" : "center",
-        
       },
     }),
   },
@@ -401,7 +396,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         // color: "#666",
         marginTop: 2,
-        fontWeight: windowWidth <  1000 ? "bold" : "normal",
+        fontWeight: windowWidth < 1000 ? "bold" : "normal",
         alignSelf: "flex-start",
         alignSelf: windowWidth > 1000 ? "flex-start" : "center",
       },
@@ -787,7 +782,7 @@ const styles = StyleSheet.create({
   reviewTextBox: {
     height: "80%",
     width: "100%",
-   // borderWidth: 1,
+    // borderWidth: 1,
   },
   reviewText: {
     fontSize: 13,
@@ -801,7 +796,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: "2%",
-   // borderWidth: 1,
+    // borderWidth: 1,
   },
   reviewerName: {
     fontSize: 12,

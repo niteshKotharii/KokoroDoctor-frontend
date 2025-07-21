@@ -194,7 +194,8 @@ const DoctorsSignUp = () => {
       {(Platform.OS !== "web" || width < 1000) && (
         <ScrollView style={styles.appContainer}>
           <View style={styles.headContainer}>
-            <Header style={styles.header} navigation={navigation} />
+            {/* <Header style={styles.header} navigation={navigation} /> */}
+            <Header navigation={navigation} isDoctorPortal={true} />
           </View>
           <View style={styles.Content}>
             <View style={styles.DetailContainer}>
