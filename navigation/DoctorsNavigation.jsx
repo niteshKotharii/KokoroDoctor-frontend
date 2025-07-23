@@ -13,7 +13,6 @@ import HistoryScreen from "../screens/DoctorScreens/History";
 import CalendarView from "../screens/DoctorScreens/CalendarView";
 import AppointmentsView from "../screens/DoctorScreens/AppointmentsView";
 import AccountSettings from "../screens/DoctorScreens/Settings/AccountSettings";
-import EstablishmentTimings from "../screens/DoctorScreens/Settings/EstablishmentTimings";
 import LanguagePreference from "../screens/DoctorScreens/Settings/LanguagePreference";
 import MedicalProof from "../screens/DoctorScreens/Settings/MedicalProof";
 import NotificationSettings from "../screens/DoctorScreens/Settings/NotificationSettings";
@@ -100,11 +99,7 @@ const DoctorAppNavigation = () => {
           component={AccountSettings}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="EstablishmentTimings"
-          component={EstablishmentTimings}
-          options={{ headerShown: false }}
-        />
+        
         <Stack.Screen
           name="MedicalProof"
           component={MedicalProof}

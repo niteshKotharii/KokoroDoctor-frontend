@@ -70,7 +70,7 @@ const SideBarNavigation = ({ navigation, closeSidebar }) => {
       });
     } else if (menu === "Settings") {
       navigation.navigate("PatientAppNavigation", {
-        screen: "Reminder",
+        screen: "Settings",
       });
     } else if (menu === "Pricing") {
       navigation.navigate("PatientAppNavigation", {

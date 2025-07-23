@@ -18,7 +18,7 @@ import { payment_api } from "../../utils/PaymentService";
 const plans = [
   {
     name: "Elite Monthly Plan",
-    oldPrice: "₹7,999",
+    oldPrice: "₹2,499",
     newPrice: "₹1,999/month",
     discount: "Save 62% – Limited Time Offer",
     features: [
@@ -31,8 +31,8 @@ const plans = [
   },
   {
     name: "Executive Quarterly Plan",
-    oldPrice: "₹22,999",
-    newPrice: "₹4,999/3 months",
+    oldPrice: "₹5,999",
+    newPrice: "₹4,499/3 months",
     discount: "Save 67% – Limited Time Offer",
     features: [
       "Unlimited general cardiologist appointments",
@@ -43,9 +43,9 @@ const plans = [
   },
   {
     name: "Platinum Annual Plan",
-    oldPrice: "₹79,999",
+    oldPrice: "₹19,999",
     newPrice: "₹9,999/year",
-    discount: "Save 78% – Limited Time Offer",
+    discount: "Save 50% – Limited Time Offer",
     features: [
       "Unlimited general cardiologist appointments",
       "VIP Senior Cardiologist Consultations: 12 per year (Book Anytime, No Monthly Restriction)",

@@ -189,9 +189,7 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                             {`${doctors.experience} experience`}
                           </Text>
                           <Text style={styles.doctorBio}>
-                            {doctors.doctorname} specialized in{" "}
-                            {doctors.specialization}, with an experience of{" "}
-                            {doctors.experience}.
+                            {doctors.description}
                           </Text>
                         </View>
                       </View>
@@ -199,22 +197,36 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                         <Text style={styles.reviewsTitle}>User Reviews</Text>
 
                         <View style={styles.reviewsList}>
-                          {[1, 2, 3].map((id) => (
-                            <View key={id} style={styles.reviewCard}>
-                              <Text style={styles.reviewText}>
-                                Great Doctor !
-                              </Text>
+                          {doctors.reviews?.map((review, index) => (
+                            <View key={index} style={styles.reviewCard}>
+                              <View style={styles.reviewTextBox}>
+                                <ScrollView
+                                  nestedScrollEnabled={true}
+                                  showsVerticalScrollIndicator={false}
+                                >
+                                  <Text style={styles.reviewText}>
+                                    {review.comment}
+                                  </Text>
+                                </ScrollView>
+                              </View>
+
                               <View style={styles.reviewerContainer}>
                                 {[...Array(5)].map((_, i) => (
                                   <MaterialIcons
                                     key={i}
-                                    name="star"
+                                    name={
+                                      i + 1 <= review.rating
+                                        ? "star"
+                                        : i + 0.5 <= review.rating
+                                        ? "star-half"
+                                        : "star-border"
+                                    }
                                     size={16}
                                     color="#FFD700"
                                   />
                                 ))}
                                 <Text style={styles.reviewerName}>
-                                  Ram Kapoor
+                                  {review.reviewer}
                                 </Text>
                               </View>
                             </View>
@@ -332,78 +344,84 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
       )}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.appContainer}>
-          <StatusBar barStyle="light-content" backgroundColor="#fff" />
-          {/* <View style={{ flex: 1 }}> */}
-          <View style={styles.appImageContainer}>
-            <Image
-              source={{ uri: doctors.profilePhoto }}
-              style={styles.doctorImage}
-            />
-            <Text style={styles.doctorName}>{doctors.doctorname}</Text>
-            <Text style={styles.doctorCredentials}>
-              ({doctors.specialization})
-            </Text>
-          </View>
-
-          <View style={styles.experienceRatingContainer}>
-            <View style={styles.experienceSection}>
+          <ScrollView>
+            <StatusBar barStyle="light-content" backgroundColor="#fff" />
+            {/* <View style={{ flex: 1 }}> */}
+            <View style={styles.appImageContainer}>
               <Image
-                source={require("../../../assets/Icons/doctorTool.png")}
-                style={styles.doctorIcon}
+                source={{ uri: doctors.profilePhoto }}
+                style={styles.doctorImage}
               />
-              <View style={styles.experienceDetail}>
-                <Text style={styles.experienceText}>Total Experience</Text>
-                <Text style={styles.experience}>{doctors.experience}</Text>
+              <View style={styles.firstText}>
+                <Text style={styles.doctorName}>{doctors.doctorname}</Text>
+              </View>
+              <View style={styles.secondText}>
+                <Text style={styles.doctorCredentials}>
+                  ({doctors.specialization})
+                </Text>
               </View>
             </View>
-            <View style={styles.verticalLine} />
-            <View style={styles.ratingSection}>
-              <Image
-                source={require("../../../assets/Icons/Star.png")}
-                style={styles.doctorIcon}
-              />
-              <TouchableOpacity style={styles.ratingDetail}>
-                <Text style={styles.ratingText}>Rating & Reviews</Text>
-                <Text style={styles.rating}>{4.5}</Text>
+
+            <View style={styles.experienceRatingContainer}>
+              <View style={styles.experienceSection}>
+                <Image
+                  source={require("../../../assets/Icons/doctorTool.png")}
+                  style={styles.doctorIcon}
+                />
+                <View style={styles.experienceDetail}>
+                  <Text style={styles.experienceText}>Total Experience</Text>
+                  <Text style={styles.experience}>{doctors.experience}</Text>
+                </View>
+              </View>
+              <View style={styles.verticalLine} />
+              <View style={styles.ratingSection}>
+                <Image
+                  source={require("../../../assets/Icons/Star.png")}
+                  style={styles.doctorIcon}
+                />
+                <TouchableOpacity style={styles.ratingDetail}>
+                  <Text style={styles.ratingText}>Rating & Reviews</Text>
+                  <Text style={styles.rating}>{4.5}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.OfflineOnlineMode}>
+              <TouchableOpacity style={styles.OfflineMode}>
+                <Image
+                  source={require("../../../assets/Icons/offline.png")}
+                  style={styles.offlineIcon}
+                />
+                <Text style={styles.offlineText}>Offline Appointment</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.OnlineMode}>
+                <Image
+                  source={require("../../../assets/Icons/videocall.png")}
+                  style={styles.onlineIcon}
+                />
+                <Text style={styles.onlineText}>Online Appointment</Text>
               </TouchableOpacity>
             </View>
-          </View>
-          <View style={styles.OfflineOnlineMode}>
-            <TouchableOpacity style={styles.OfflineMode}>
-              <Image
-                source={require("../../../assets/Icons/offline.png")}
-                style={styles.offlineIcon}
-              />
-              <Text style={styles.offlineText}>Offline Appointment</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.OnlineMode}>
-              <Image
-                source={require("../../../assets/Icons/videocall.png")}
-                style={styles.onlineIcon}
-              />
-              <Text style={styles.onlineText}>Online Appointment</Text>
-            </TouchableOpacity>
-          </View>
 
-          <View style={styles.consultationFess}>
-            <View style={styles.iconBox}>
-              <Image
-                source={require("../../../assets/Icons/dollarIcon.png")}
-                style={styles.dollarIcon}
-              />
+            <View style={styles.consultationFess}>
+              <View style={styles.iconBox}>
+                <Image
+                  source={require("../../../assets/Icons/dollarIcon.png")}
+                  style={styles.dollarIcon}
+                />
+              </View>
+              <View style={styles.feesBox}>
+                <Text style={styles.fees}>
+                  {/* {doctors.consultationFees || `₹${doctors.fees || 0}`} */}
+                  ₹1999 / Per month
+                </Text>
+                <Text style={styles.feesText}>Consultation fees</Text>
+              </View>
             </View>
-            <View style={styles.feesBox}>
-              <Text style={styles.fees}>
-                {doctors.consultationFees || `₹${doctors.fees || 0}`}
-              </Text>
-              <Text style={styles.feesText}>Consultation fees</Text>
-            </View>
-          </View>
 
-          <View style={styles.availabilityContainer}>
-            <Text style={styles.availabilityTimeText}>Available Time</Text>
-            <View style={styles.availabilityShowBox}>
-              {/* <TouchableOpacity
+            <View style={styles.availabilityContainer}>
+              <Text style={styles.availabilityTimeText}>Available Time</Text>
+              <View style={styles.availabilityShowBox}>
+                {/* <TouchableOpacity
                 style={styles.viewAllButton}
                 onPress={() =>
                   navigation.navigate("DoctorAvailabilitySlots", {
@@ -414,88 +432,89 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                 <Text style={styles.viewAllText}>View All Availability →</Text>
               </TouchableOpacity> */}
 
-              <View style={styles.dateSelector}>
-                {availableDates.map((date) => (
-                  <TouchableOpacity
-                    key={date.id}
-                    style={[
-                      styles.dateOption,
-                      selectedDate === date.date && styles.selectedDate,
-                    ]}
-                    onPress={() => handleDateSelect(date.date)}
-                  >
-                    <Text style={styles.dateLabel}>{date.label}</Text>
-                    <Text style={styles.slotsAvailable}>
-                      {date.slots.length > 0
-                        ? `${date.slots.length} slots Available`
-                        : "No slot"}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-              <View style={styles.timeSlotSection}>
-                {availableSlots.length > 0 ? (
-                  <ScrollView
-                    style={styles.timeSlotScroll}
-                    contentContainerStyle={styles.timeSlotsContainer}
-                  >
-                    {availableSlots.map((slot, idx) => {
-                      const isFull = slot.available === 0;
-                      return (
-                        <TouchableOpacity
-                          key={idx}
-                          disabled={isFull}
-                          style={[
-                            styles.timeSlot,
-                            selectedTimeSlot === slot.start &&
-                              styles.selectedTimeSlot,
-                            isFull && { backgroundColor: "#ccc" },
-                          ]}
-                          onPress={() => {
-                            setSelectedTimeSlot(slot.start);
-                          }}
-                        >
-                          <Text
+                <View style={styles.dateSelector}>
+                  {availableDates.map((date) => (
+                    <TouchableOpacity
+                      key={date.id}
+                      style={[
+                        styles.dateOption,
+                        selectedDate === date.date && styles.selectedDate,
+                      ]}
+                      onPress={() => handleDateSelect(date.date)}
+                    >
+                      <Text style={styles.dateLabel}>{date.label}</Text>
+                      <Text style={styles.slotsAvailable}>
+                        {date.slots.length > 0
+                          ? `${date.slots.length} slots Available`
+                          : "No slot"}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                <View style={styles.timeSlotSection}>
+                  {availableSlots.length > 0 ? (
+                    <ScrollView
+                      style={styles.timeSlotScroll}
+                      contentContainerStyle={styles.timeSlotsContainer}
+                    >
+                      {availableSlots.map((slot, idx) => {
+                        const isFull = slot.available === 0;
+                        return (
+                          <TouchableOpacity
+                            key={idx}
+                            disabled={isFull}
                             style={[
-                              styles.timeSlotText,
+                              styles.timeSlot,
                               selectedTimeSlot === slot.start &&
-                                styles.selectedTimeSlotText,
+                                styles.selectedTimeSlot,
+                              isFull && { backgroundColor: "#ccc" },
                             ]}
+                            onPress={() => {
+                              setSelectedTimeSlot(slot.start);
+                            }}
                           >
-                            {slot.start} - {slot.end}
-                          </Text>
-                          <Text style={styles.bookNowText}>
-                            {isFull
-                              ? "Full"
-                              : typeof slot.available === "number"
-                              ? `${slot.available}`
-                              : ""}
-                          </Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </ScrollView>
-                ) : (
-                  <Text style={styles.noSlotText}>
-                    No slots available for this date
-                  </Text>
-                )}
+                            <Text
+                              style={[
+                                styles.timeSlotText,
+                                selectedTimeSlot === slot.start &&
+                                  styles.selectedTimeSlotText,
+                              ]}
+                            >
+                              {slot.start} - {slot.end}
+                            </Text>
+                            <Text style={styles.bookNowText}>
+                              {isFull
+                                ? "Full"
+                                : typeof slot.available === "number"
+                                ? `${slot.available}`
+                                : ""}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </ScrollView>
+                  ) : (
+                    <Text style={styles.noSlotText}>
+                      No slots available for this date
+                    </Text>
+                  )}
+                </View>
               </View>
             </View>
-          </View>
-          <TouchableOpacity
-            style={styles.bookAppointmentButton}
-            onPress={handleBookAppointment}
-          >
-            <Text style={styles.bookAppointmentText}>Subscribe</Text>
-          </TouchableOpacity>
-          {/* </View> */}
+            <TouchableOpacity
+              style={styles.bookAppointmentButton}
+              onPress={handleBookAppointment}
+            >
+              <Text style={styles.bookAppointmentText}>Subscribe</Text>
+            </TouchableOpacity>
+            {/* </View> */}
+          </ScrollView>
         </View>
       )}
     </>
   );
 };
-
+const windowWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   webContainer: {
     flex: 1,
@@ -523,6 +542,11 @@ const styles = StyleSheet.create({
     //borderWidth: 1,
     marginVertical: "8%",
     alignSelf: "center",
+    ...Platform.select({
+      web: {
+        height: windowWidth > 1000 ? "17%" : "20%",
+      },
+    }),
   },
   experienceRatingContainer: {
     height: "7%",
@@ -865,6 +889,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 8,
     backgroundColor: "rgb(237, 109, 111)",
+    marginTop: "5%",
     ...Platform.select({
       web: {
         marginBottom: "15%",
@@ -962,6 +987,20 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  firstText: {
+    ...Platform.select({
+      web: {
+        alignSelf: windowWidth > 1000 ? " " : "center",
+      },
+    }),
+  },
+  secondText: {
+    ...Platform.select({
+      web: {
+        alignSelf: windowWidth > 1000 ? " " : "center",
+      },
+    }),
+  },
   ratingContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -1035,8 +1074,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   reviewsSection: {
-    marginTop: "3%",
     //borderWidth: 1,
+    height: "40%",
+    bottom: "10%",
   },
   reviewsTitle: {
     fontSize: 15,
@@ -1045,19 +1085,28 @@ const styles = StyleSheet.create({
   },
   reviewsList: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
+    //borderWidth: 1,
+    borderColor: "red",
+    height: "80%",
   },
   reviewCard: {
+    height: "100%",
     width: "30%",
     backgroundColor: "#ffebee",
     borderRadius: 10,
-    padding: 10,
+    padding: "1%",
+  },
+  reviewTextBox: {
+    height: "80%",
+    width: "100%",
+   // borderWidth: 1,
   },
   reviewText: {
-    fontSize: 14,
+    fontSize: 13,
     color: "#000",
-    marginBottom: 5,
-    fontFamily: "Alex Brush",
+    marginBottom: "3%",
+    //fontFamily: "Alex Brush",
     fontWeight: 400,
     fontStyle: "italic",
   },
@@ -1065,12 +1114,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: "2%",
-    //borderWidth:1
+   // borderWidth: 1,
   },
   reviewerName: {
-    fontSize: 10,
+    fontSize: 12,
     color: "#666",
-    marginLeft: 5,
+    marginLeft: "2%",
   },
   appointmentSection: {
     width: "30%",
@@ -1120,14 +1169,14 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "rgb(238, 238, 240)",
         //boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
-        height: "12%",
+        height: windowWidth > 1000 ? "12%" : "18%",
         marginTop: "3%",
         width: "100%",
         //alignSelf: "center",
-        borderTopLeftRadius:0,
-        borderTopRightRadius:0,
-        paddingLeft:"0.5%",
-        paddingRight:"0.5%"
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        paddingLeft: "0.5%",
+        paddingRight: "0.5%",
       },
     }),
   },
@@ -1145,7 +1194,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         borderBottomColor: "transparent",
         //borderWidth:1,
-        gap:0
+        gap: 0,
       },
     }),
   },

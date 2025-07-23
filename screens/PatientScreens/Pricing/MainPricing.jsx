@@ -21,22 +21,22 @@ const plans = [
     id: "1",
     title: "Elite Monthly Plan",
     price: "₹1,999/month",
-    oldPrice: "₹2,999",
+    oldPrice: "₹2,499",
     discount: "Save 62%",
   },
   {
     id: "2",
     title: "Executive Quarterly Plan",
     price: "₹4,499/month",
-    oldPrice: "₹9,999",
+    oldPrice: "₹5,999",
     discount: "Save 67%",
   },
   {
     id: "3",
     title: "Platinum Annual Plan",
     price: "₹9,999/month",
-    oldPrice: "₹24,999",
-    discount: "Save 62%",
+    oldPrice: "₹19,999",
+    discount: "Save 50%",
   },
 ];
 

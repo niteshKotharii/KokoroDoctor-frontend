@@ -8,7 +8,7 @@ import { ActivityIndicator, View } from "react-native";
 import LandingPage from "../screens/PatientScreens/LandingPage";
 import DoctorPatientLandingPage from "../screens/DoctorScreens/DoctorRegistration/DoctorPatientLandingPage";
 import Login from "../screens/PatientScreens/Auth/Login";
-
+import MobileChatbot from "../components/PatientScreenComponents/ChatbotComponents/MobileChatbot";
 
 const Stack = createNativeStackNavigator();
 
@@ -53,9 +53,8 @@ const RootNavigation = () => {
           component={DoctorAppNavigation}
         />
         <Stack.Screen name="PatientAppNavigation" component={AppNavigation} />
-        <Stack.Screen name="Login" component={Login}/>
-        
-
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="MobileChatbot" component={MobileChatbot} />
       </Stack.Navigator>
     </RegistrationProvider>
   );

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Image,
   ImageBackground,
@@ -22,6 +22,7 @@ const LandingPage = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   const { setChatbotConfig, isChatExpanded, setIsChatExpanded } = useChatbot();
   //const [selectedButton, setSelectedButton] = useState(null);
+
 
   useFocusEffect(
     useCallback(() => {
@@ -184,6 +185,7 @@ const LandingPage = ({ navigation, route }) => {
                     screen: "MobileChatbot",
                   });
                 }}
+                // onPress={() => setShowChatbot(true)}
               >
                 <Image
                   source={require("../../assets/Images/twenty-four_Support.png")}

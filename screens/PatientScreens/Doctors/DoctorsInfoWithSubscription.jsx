@@ -10,6 +10,7 @@ import {
   useWindowDimensions,
   Dimensions,
   StatusBar,
+  ScrollView,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SideBarNavigation from "../../../components/PatientScreenComponents/SideBarNavigation";
@@ -17,9 +18,15 @@ import Header from "../../../components/PatientScreenComponents/Header";
 
 const { width, height } = Dimensions.get("window");
 
+const features = [
+  "1 Free Regular check up",
+  "1 free emergency checkup",
+  "Medilocker",
+];
+
 const DoctorsInfoWithSubscription = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
-  const doctors = route.params?.doctors || {}; // Get doctor data from navigation
+  const doctors = route?.params?.doctors || {}; // Get doctor data from navigation
 
   return (
     <>
@@ -77,9 +84,7 @@ const DoctorsInfoWithSubscription = ({ navigation, route }) => {
                             {`${doctors.experience} experience`}
                           </Text>
                           <Text style={styles.doctorBio}>
-                            {doctors.doctorname} specialized in{" "}
-                            {doctors.specialization}, with an experience of{" "}
-                            {doctors.experience}.
+                            {doctors.description}
                           </Text>
                         </View>
                       </View>
@@ -87,22 +92,36 @@ const DoctorsInfoWithSubscription = ({ navigation, route }) => {
                         <Text style={styles.reviewsTitle}>User Reviews</Text>
 
                         <View style={styles.reviewsList}>
-                          {[1, 2, 3].map((id) => (
-                            <View key={id} style={styles.reviewCard}>
-                              <Text style={styles.reviewText}>
-                                Great Doctor !
-                              </Text>
+                          {doctors.reviews?.map((review, index) => (
+                            <View key={index} style={styles.reviewCard}>
+                              <View style={styles.reviewTextBox}>
+                                <ScrollView
+                                  nestedScrollEnabled={true}
+                                  showsVerticalScrollIndicator={false}
+                                >
+                                  <Text style={styles.reviewText}>
+                                    {review.comment}
+                                  </Text>
+                                </ScrollView>
+                              </View>
+
                               <View style={styles.reviewerContainer}>
                                 {[...Array(5)].map((_, i) => (
                                   <MaterialIcons
                                     key={i}
-                                    name="star"
+                                    name={
+                                      i + 1 <= review.rating
+                                        ? "star"
+                                        : i + 0.5 <= review.rating
+                                        ? "star-half"
+                                        : "star-border"
+                                    }
                                     size={16}
                                     color="#FFD700"
                                   />
                                 ))}
                                 <Text style={styles.reviewerName}>
-                                  Ram Kapoor
+                                  {review.reviewer}
                                 </Text>
                               </View>
                             </View>
@@ -142,7 +161,8 @@ const DoctorsInfoWithSubscription = ({ navigation, route }) => {
                           style={styles.subscribeButton}
                           onPress={() =>
                             navigation.navigate(
-                              "DoctorsSubscriptionPaymentScreen"
+                              "DoctorsSubscriptionPaymentScreen",
+                              { doctors }
                             )
                           }
                         >
@@ -159,11 +179,351 @@ const DoctorsInfoWithSubscription = ({ navigation, route }) => {
           </View>
         </View>
       )}
+
+      {(Platform.OS !== "web" || width < 1000) && (
+        <View style={styles.appContainer}>
+          <ScrollView>
+            <StatusBar barStyle="light-content" backgroundColor="#fff" />
+
+            <View style={styles.appImageContainer}>
+              <Image
+                source={{ uri: doctors.profilePhoto }}
+                style={styles.doctorImage}
+              />
+              <View style={styles.doctornamebox}>
+                <Text style={styles.doctorName}>{doctors.doctorname}</Text>
+              </View>
+              <View style={styles.doctornamebox}>
+                <Text style={styles.doctorCredentials}>
+                  ({doctors.specialization})
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.experienceRatingContainer}>
+              <View style={styles.experienceSection}>
+                <Image
+                  source={require("../../../assets/Icons/doctorTool.png")}
+                  style={styles.doctorIcon}
+                />
+                <View style={styles.experienceDetail}>
+                  <Text style={styles.experienceText}>Total Experience</Text>
+                  <Text style={styles.experience}>{doctors.experience}</Text>
+                </View>
+              </View>
+              <View style={styles.verticalLine} />
+              <View style={styles.ratingSection}>
+                <Image
+                  source={require("../../../assets/Icons/Star.png")}
+                  style={styles.doctorIcon}
+                />
+                <TouchableOpacity style={styles.ratingDetail}>
+                  <Text style={styles.ratingText}>Rating & Reviews</Text>
+                  <Text style={styles.rating}>4.9 (5000) </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.firsttext}>
+              <Text style={styles.firstTextstyle}>
+                To Book Slot Of the Doctor you have to
+              </Text>
+              <Text style={styles.firstTextstyle}>first subscribe them.</Text>
+            </View>
+
+            <View style={styles.container}>
+              <View style={styles.card}>
+                <Text style={styles.title}>Metrics Of subscription</Text>
+                {features.map((item, index) => (
+                  <View key={index} style={styles.featureItem}>
+                    <Image
+                      source={require("../../../assets/Icons/icostarr.png")}
+                    ></Image>
+                    <Text style={styles.featureText}>{item}</Text>
+                  </View>
+                ))}
+              </View>
+
+              <View style={styles.feeSection}>
+                <View style={styles.rupees}>
+                  <Image
+                    source={require("../../../assets/Icons/rs.png")}
+                    style={styles.rupeeImg}
+                  />
+                </View>
+
+                <Text style={styles.price}>1999</Text>
+
+                <View style={styles.line}></View>
+
+                <Text style={styles.feeLabel}>Subscription fees</Text>
+              </View>
+            </View>
+
+            <TouchableOpacity style={styles.bookAppointmentButton}>
+              <Text style={styles.bookAppointmentText}>Subscribe</Text>
+            </TouchableOpacity>
+            {/* </View> */}
+          </ScrollView>
+        </View>
+      )}
     </>
   );
 };
 
+const windowWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    alignItems: "center",
+  },
+  card: {
+    backgroundColor: "#F6F6F6",
+    borderRadius: 10,
+    padding: 16,
+    width: "100%",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  title: {
+    fontSize: 14,
+    color: "#333",
+
+    marginBottom: 12,
+  },
+  featureItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 4,
+  },
+  featureText: {
+    marginLeft: 8,
+    fontSize: 14,
+    color: "#333",
+  },
+  feeSection: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 16,
+    borderRadius: 6,
+    backgroundColor: "#F6F6F6",
+    paddingVertical: 12,
+    gap: 20,
+  },
+  rupees: {
+    backgroundColor: "#F0F0F0",
+    borderRadius: 20,
+  },
+  rupeeImg: {
+    width: 15,
+    height: 15,
+    resizeMode: "contain",
+  },
+  currency: {
+    fontSize: 18,
+    color: "#007BFF",
+    marginRight: 4,
+  },
+  price: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginRight: 8,
+  },
+  line: {
+    height: "100%",
+    borderWidth: 1,
+    borderColor: "#9B9A9A",
+  },
+  feeLabel: {
+    fontSize: 14,
+    color: "#666",
+  },
+  appContainer: {
+    flex: 1,
+    height: "100%",
+    width: "100%",
+    flexDirection: "column",
+    backgroundColor: "#fff",
+  },
+  appImageContainer: {
+    width: "75%",
+    //borderWidth: 1,
+    marginVertical: "8%",
+    alignSelf: "center",
+  },
+  doctorImage: {
+    height: 90,
+    width: 90,
+    alignSelf: "center",
+    borderRadius: 40,
+    ...Platform.select({
+      web: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        marginBottom: 10,
+      },
+    }),
+  },
+  doctornamebox: {
+    alignSelf: "center",
+  },
+  doctorName: {
+    fontSize: 22,
+    fontWeight: 600,
+    color: "#000000",
+    alignSelf: "center",
+    ...Platform.select({
+      web: {
+        fontSize: 22,
+        fontWeight: "bold",
+        color: "#333",
+
+        alignSelf: windowWidth > 1000 ? "flex-start" : "center",
+      },
+    }),
+  },
+  doctorCredentials: {
+    fontSize: 14,
+    alignSelf: "center",
+    fontWeight: 600,
+    ...Platform.select({
+      web: {
+        fontSize: 14,
+        // color: "#666",
+        marginTop: 2,
+        fontWeight: windowWidth < 1000 ? "bold" : "normal",
+        alignSelf: "flex-start",
+        alignSelf: windowWidth > 1000 ? "flex-start" : "center",
+      },
+    }),
+  },
+  experienceRatingContainer: {
+    height: "7%",
+    width: "88%",
+    //borderWidth: 1,
+    alignSelf: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderRadius: 5,
+    boxShadow: " 0px 0px 4px 3px rgba(0, 0, 0, 0.25)",
+    backgroundColor: "rgba(255, 252, 252, 1)",
+    padding: "2%",
+    ...Platform.select({
+      web: {
+        minHeight: 60, // Ensures visibility in web view
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+        borderWidth: 1,
+        borderColor: "#ddd",
+        boxShadow: " 0px 0px 4px 3px rgba(0, 0, 0, 0.25)",
+        // marginTop: "-165%",
+      },
+    }),
+  },
+  experienceSection: {
+    height: "100%",
+    width: "49%",
+    //borderWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  doctorIcon: {
+    alignSelf: "center",
+    height: 28,
+    width: 28,
+    marginHorizontal: "3%",
+    borderRadius: 50,
+  },
+  experienceDetail: {
+    height: "94%",
+    width: "78%",
+    //borderWidth: 1,
+    alignSelf: "center",
+    flexDirection: "column",
+  },
+  experienceText: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: " rgb(94, 93, 93)",
+    paddingHorizontal: "4%",
+  },
+  experience: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: "#000000",
+    paddingHorizontal: "4%",
+  },
+  verticalLine: {
+    height: "75%",
+    width: "0.4%",
+    //borderWidth:1,
+    alignSelf: "center",
+    backgroundColor: "#000000",
+  },
+  ratingSection: {
+    height: "100%",
+    width: "48.8%",
+    //borderWidth: 1,
+    flexDirection: "row",
+  },
+  ratingDetail: {
+    ...Platform.select({
+      web: {
+        flexDirection: "column",
+        width: "80%",
+        //borderWidth:1
+      },
+    }),
+  },
+  ratingText: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: " rgb(94, 93, 93)",
+    paddingHorizontal: "4%",
+    ...Platform.select({
+      web: {
+        marginLeft: "1%",
+        fontSize: 14,
+        fontWeight: 600,
+      },
+    }),
+  },
+  rating: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: "#000000",
+    alignSelf: "center",
+  },
+  bookAppointmentText: {
+    alignSelf: "center",
+    paddingVertical: "3.5%",
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: 600,
+  },
+  bookAppointmentButton: {
+    height: "5%",
+    width: "70%",
+    //borderWidth: 1,
+    alignSelf: "center",
+    borderRadius: 8,
+    backgroundColor: "rgb(237, 109, 111)",
+    marginTop: "5%",
+  },
+  firsttext: {
+    padding: "5%",
+  },
+  firstTextstyle: {
+    fontSize: 18,
+  },
+
   webContainer: {
     flex: 1,
     flexDirection: "row",
@@ -352,7 +712,7 @@ const styles = StyleSheet.create({
   },
   doctorInfoSection: {
     width: "80%",
-    height: "100%",
+    height: "85%",
     paddingLeft: "1%",
     //borderWidth: 1,
   },
@@ -396,8 +756,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   reviewsSection: {
-    marginTop: "3%",
     //borderWidth: 1,
+    height: "40%",
+    bottom: "10%",
   },
   reviewsTitle: {
     fontSize: 15,
@@ -406,19 +767,28 @@ const styles = StyleSheet.create({
   },
   reviewsList: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
+    //borderWidth: 1,
+    borderColor: "red",
+    height: "80%",
   },
   reviewCard: {
+    height: "100%",
     width: "30%",
     backgroundColor: "#ffebee",
     borderRadius: 10,
-    padding: 10,
+    padding: "1%",
+  },
+  reviewTextBox: {
+    height: "80%",
+    width: "100%",
+    // borderWidth: 1,
   },
   reviewText: {
-    fontSize: 14,
+    fontSize: 13,
     color: "#000",
-    marginBottom: 5,
-    fontFamily: "Alex Brush",
+    marginBottom: "3%",
+    //fontFamily: "Alex Brush",
     fontWeight: 400,
     fontStyle: "italic",
   },
@@ -426,12 +796,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: "2%",
-    //borderWidth:1
+    // borderWidth: 1,
   },
   reviewerName: {
-    fontSize: 10,
+    fontSize: 12,
     color: "#666",
-    marginLeft: 5,
+    marginLeft: "2%",
   },
   subscriptionSection: {
     width: "30%",
