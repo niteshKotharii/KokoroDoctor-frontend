@@ -22,6 +22,7 @@ import SideBarNavigation from "../../../components/PatientScreenComponents/SideB
 import { AuthContext } from "../../../contexts/AuthContext";
 import { payment_api } from "../../../utils/PaymentService";
 import Header from "../../../components/PatientScreenComponents/Header";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const DoctorsSubscriptionPaymentScreen = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -29,11 +30,10 @@ const DoctorsSubscriptionPaymentScreen = ({ navigation, route }) => {
   const { setChatbotConfig } = useChatbot();
   const { width } = useWindowDimensions();
   const { user } = useContext(AuthContext);
-  const doctors = route.params?.doctors || {};
+  const doctors = route?.params?.doctors || {};
 
   useFocusEffect(
     useCallback(() => {
-      // Reset chatbot height when this screen is focused
       setChatbotConfig({ height: "32%" });
     }, [])
   );
@@ -59,8 +59,6 @@ const DoctorsSubscriptionPaymentScreen = ({ navigation, route }) => {
       Alert.alert("Payment Failed", error.message);
     }
   };
-
-  
 
   return (
     <>
@@ -109,49 +107,108 @@ const DoctorsSubscriptionPaymentScreen = ({ navigation, route }) => {
                       </View>
 
                       <View style={styles.doctorSection}>
-                        <Text style={styles.sectionLabel}>
-                          Subscription Summary
-                        </Text>
-                        {/* <View style={styles.doctorAvatars}>
-                          <Image
-                            source={{ uri: doctors.profilePhoto }}
-                            style={styles.doctorAvatarImage}
-                            resizeMode="cover"
-                          />
-                        </View> */}
-                      </View>
-
-                      <View style={styles.formSection}>
-                        {/* <View style={styles.formGroup}>
-                          <Text style={styles.formLabel}>Patients name</Text>
-                          <TextInput
-                            style={styles.formInput}
-                            placeholder="Enter your patients name"
-                            placeholderTextColor="#aaa"
-                            value={patientName}
-                            onChangeText={setPatientName}
-                          />
-                        </View> */}
-
-                        <View style={styles.formGroup}>
-                          <Text style={styles.formLabel}>
-                            Subscription Fees
+                        <View style={styles.doctorsInfoSubscription}>
+                          <Text style={styles.sectionLabel}>
+                            Verified cardiologist online now
                           </Text>
-                          <Text style={styles.applicableText}>Applicable for 1 month</Text>
-                          <Text style={styles.feeAmount}>₹1999</Text>
+                          <View style={styles.doctorInfo}>
+                            <Image
+                              source={doctors.profilePhoto}
+                              style={styles.doctorAvatarImage}
+                            />
+                            <View style={styles.doctorDetails}>
+                              <Text style={styles.doctorName}>
+                                {doctors.doctorname}
+                              </Text>
+                              <Text style={styles.doctorSpecialization}>
+                                {doctors.specialization}
+                              </Text>
+                              <Text style={styles.doctorExperience}>
+                                {`${doctors.experience} Experience`}
+                              </Text>
+                              <View style={styles.locationSection}>
+                                <Icon
+                                  name="location-on"
+                                  size={15}
+                                  color="rgba(22, 128, 236, 0.75)"
+                                  style={styles.icon}
+                                />
+                                <Text style={styles.locationText}>
+                                  {doctors.location}
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                          <View style={styles.subscriptionSection}>
+                            <Text style={styles.metricsHead}>
+                              Metrics Of Subscription
+                            </Text>
+                            <View style={styles.metricsBox}>
+                              <View style={styles.metricsContent}>
+                                <Icon
+                                  name="star"
+                                  size={13}
+                                  color="rgba(22, 128, 236, 0.75)"
+                                  style={styles.icon}
+                                />
+                                <Text style={styles.metricsTitle}>
+                                  {" "}
+                                  1 Free Regular check up
+                                </Text>
+                              </View>
+                              <View style={styles.metricsContent}>
+                                <Icon
+                                  name="star"
+                                  size={13}
+                                  color="rgba(22, 128, 236, 0.75)"
+                                  style={styles.icon}
+                                />
+                                <Text style={styles.metricsTitle}>
+                                  {" "}
+                                  1 free emergency checkup
+                                </Text>
+                              </View>
+                              <View style={styles.metricsContent}>
+                                <Icon
+                                  name="star"
+                                  size={13}
+                                  color="rgba(22, 128, 236, 0.75)"
+                                  style={styles.icon}
+                                />
+                                <Text style={styles.metricsTitle}>
+                                  {" "}
+                                  Medilocker
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                        </View>
+                        <View style={styles.verticalLine}></View>
+                        <View style={styles.doctorSubscriptionDetails}>
+                          <Text style={styles.subscriptionSummary}>
+                            Subscription Summary
+                          </Text>
+                          <View style={styles.subscriptionFeesBox}>
+                            <Text>Subscription Fees</Text>
+                            <Text style={styles.feeAmount}>₹1999</Text>
+                          </View>
+                          <View style={styles.horizontalLine}></View>
+                          <View style={styles.subscriptionFeesContainer}>
+                            <Text>Total</Text>
+                            <Text style={styles.feesAmount}>₹1999</Text>
+                          </View>
+                          <TouchableOpacity
+                            style={styles.paymentButton}
+                            onPress={() => {
+                              handleContinuePayment(1999);
+                            }}
+                          >
+                            <Text style={styles.paymentButtonText}>
+                              Continue to payment
+                            </Text>
+                          </TouchableOpacity>
                         </View>
                       </View>
-
-                      <TouchableOpacity
-                        style={styles.paymentButton}
-                        onPress={() => {
-                          handleContinuePayment(1);
-                        }}
-                      >
-                        <Text style={styles.paymentButtonText}>
-                          Continue to payment
-                        </Text>
-                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>
@@ -363,9 +420,10 @@ const styles = StyleSheet.create({
   },
   paymentCard: {
     width: "60%",
+    height: "90%",
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 20,
+    padding: "2%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.3,
@@ -373,77 +431,192 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   paymentHeader: {
+    alignItems: "flex-start",
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
   },
   backButton: {
     marginRight: 15,
   },
   paymentTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#000",
-  },
-  doctorSection: {
-    marginBottom: "2%",
-  },
-  sectionLabel: {
-    fontSize: 15,
-    color: "#FF7072",
-    marginBottom: 10,
-  },
-  doctorAvatars: {
-    height: "80%",
-    width: "10%",
-    borderWidth: 1,
-  },
-  doctorAvatar: {
-    marginRight: 10,
-    borderRadius: 25,
-    borderWidth: 2,
-    borderColor: "#ff7072",
-    overflow: "hidden",
-  },
-  doctorAvatarImage: {
-    width: 50,
-    height: 50,
-  },
-  formSection: {
-    marginBottom: 30,
-  },
-  formGroup: {
-    marginBottom: 20,
-  },
-  formLabel: {
-    fontSize: 14,
-    color: "#000",
-    marginBottom: 8,
-  },
-  applicableText:{
-    marginBottom:"4%",
-    color:"#888888",
-    fontSize:10,
-    fontWeight:400
-  },
-  formInput: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 12,
-    fontSize: 14,
-  },
-  feeAmount: {
     fontSize: 20,
     fontWeight: "bold",
     color: "#000",
   },
+  doctorSection: {
+    //marginBottom: "2%",
+    marginTop: "3%",
+    //borderWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: "1%",
+  },
+  doctorsInfoSubscription: {
+    minHeight: 300,
+    width: "49%",
+    //borderWidth: 1,
+  },
+  sectionLabel: {
+    fontSize: 14,
+    color: "#000000",
+    marginLeft: "10%",
+    fontWeight: 500,
+  },
+  doctorInfo: {
+    height: "40%",
+    width: "100%",
+    //borderWidth: 1,
+    borderColor: "red",
+    marginVertical: "5%",
+    flexDirection: "row",
+  },
+
+  doctorAvatarImage: {
+    width: 45,
+    height: 45,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: "red",
+    marginTop: "1%",
+  },
+  doctorDetails: {
+    height: "100%",
+    width: "85%",
+    //borderWidth: 1,
+  },
+  doctorName: {
+    fontSize: 18,
+    fontWeight: 500,
+    //textAlign: "center",
+    //marginTop: 10,
+    marginLeft: "4%",
+  },
+  doctorSpecialization: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: "rgba(136, 136, 136, 1)",
+    marginLeft: "4%",
+  },
+  doctorExperience: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: "rgba(136, 136, 136, 1)",
+    marginLeft: "4%",
+  },
+  locationSection: {
+    //borderWidth: 1,
+    height: "30%",
+    width: "90%",
+    marginTop: "4%",
+    marginLeft: "4%",
+    flexDirection: "row",
+  },
+  icon: {
+    marginTop: "1%",
+  },
+  locationText: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: "rgba(136, 136, 136, 1)",
+    marginLeft: "2%",
+  },
+  subscriptionSection: {
+    height: "37%",
+    width: "75%",
+    //borderWidth: 1,
+    alignSelf: "center",
+    backgroundColor: "rgba(246, 246, 246, 1)",
+    borderRadius: 5,
+  },
+  metricsHead: {
+    fontSize: 13,
+    fontWeight: 500,
+    color: "#000000",
+    marginLeft: "3%",
+    marginTop: "1%",
+  },
+  metricsBox: {
+    height: "65%",
+    width: "80%",
+    //borderWidth: 1,
+    marginLeft: "4%",
+    marginTop: "2%",
+    flexDirection: "column",
+    justifyContent: "space-around",
+  },
+  metricsContent: {
+    height: "23%",
+    width: "100%",
+    //borderWidth: 1,
+    flexDirection: "row",
+  },
+  verticalLine: {
+    height: "100%",
+    backgroundColor: "rgb(224, 224, 225)",
+    width: "0.3%",
+  },
+  horizontalLine:{
+    height: "0.3%",
+    backgroundColor: "rgb(224, 224, 225)",
+    width: "71%",
+    marginTop:"3%",
+    marginLeft:"9%"
+  },
+  doctorSubscriptionDetails: {
+    minHeight: 300,
+    width: "49%",
+    //borderWidth: 1,
+    marginLeft: "1%",
+  },
+  subscriptionSummary: {
+    color: "rgba(255, 112, 114, 1)",
+    fontSize: 16,
+    fontWeight: 400,
+    marginLeft: "10%",
+    marginTop: "4%",
+  },
+  subscriptionFeesBox: {
+    height: "12%",
+    width: "70%",
+    //borderWidth: 1,
+    marginTop: "12%",
+    marginLeft: "10%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  subscriptionFeesContainer:{
+    height: "12%",
+    width: "70%",
+    //borderWidth: 1,
+    marginTop: "6%",
+    marginLeft: "10%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  applicableText: {
+    marginBottom: "4%",
+    color: "#888888",
+    fontSize: 10,
+    fontWeight: 400,
+  },
+
+  feeAmount: {
+    fontSize: 16,
+    fontWeight: 400,
+    color: "#000",
+  },
+  feesAmount: {
+    fontSize: 16,
+    fontWeight: 500,
+    color: "#000",
+  },
   paymentButton: {
     backgroundColor: "#ff7072",
-    borderRadius: 25,
-    paddingVertical: 15,
+    borderRadius: 5,
+    paddingVertical: "3%",
     alignItems: "center",
+    width: "75%",
+    marginTop: "20%",
+    marginLeft: "10%",
   },
   paymentButtonText: {
     color: "#fff",
@@ -498,12 +671,7 @@ const styles = StyleSheet.create({
     paddingVertical: "5%",
     width: "100%",
   },
-  doctorName: {
-    fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 10,
-  },
+
   doctorSpecialty: {
     fontSize: 16,
     color: "#555",
