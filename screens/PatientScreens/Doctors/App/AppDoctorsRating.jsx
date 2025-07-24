@@ -92,7 +92,7 @@ const AppDoctorsRating = ({navigation}) => {
         </View>
 
         {/* Add Review Button - This stays on the right */}
-        <TouchableOpacity style={styles.addReviewButton}>
+        <TouchableOpacity style={styles.addReviewButton} onPress={() => navigation.navigate("DoctorReviewScreen" , {doctor : doctorData})}>
           <Text style={styles.addReviewButtonText}>+ Add Review</Text>
         </TouchableOpacity>
       </View>
