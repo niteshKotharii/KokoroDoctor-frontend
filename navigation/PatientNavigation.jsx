@@ -55,6 +55,7 @@ import Settings from "../screens/PatientScreens/Settings";
 import Help from "../screens/PatientScreens/Help";
 import ContactUs from "../screens/PatientScreens/ContactUs";
 import MobileChatbot from "../components/PatientScreenComponents/ChatbotComponents/MobileChatbot";
+import DoctorReviewScreen from "../screens/PatientScreens/Doctors/App/DoctorReviewScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -116,6 +117,11 @@ const DoctorNavigator = () => {
         name="BookingConfirmation"
         component={BookingConfirmation}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DoctorReviewScreen"
+        component={DoctorReviewScreen}
+        options={{headerShown : false}}
       />
     </Stack.Navigator>
   );
