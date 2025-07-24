@@ -60,6 +60,10 @@ const Signup = ({ navigation, route }) => {
   };
 
   const handleSignUp = () => {
+    if (!rememberMe) {
+      alert("Please go through our privacy policy and check the box.");
+      return;
+    }
     const fullName = firstName + " " + lastName;
     signup(fullName, email, password, phoneNumber, location, navigation)
       .then(() => {
@@ -279,6 +283,7 @@ const Signup = ({ navigation, route }) => {
           </View>
         </View>
       )}
+
       {/* Mobile Version (for smaller screens) */}
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.mobileContainer}>
@@ -414,6 +419,8 @@ const Signup = ({ navigation, route }) => {
     </>
   );
 };
+
+// const windowWidth=Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   // Web Styles
@@ -551,9 +558,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+
   checkboxContainer: {
     marginRight: "1%",
-    alignSelf: "center",
+    // alignSelf: "center",
   },
   checkbox: {
     width: 15,
@@ -563,11 +571,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     alignSelf: "center",
+    // marginRight: windowWidth>1000? "0%": "2%"
   },
+
   checkedBox: {
     backgroundColor: "#10B981",
     borderColor: "#10B981",
   },
+
   privacyAcceptContainer: {
     //borderWidth:1,
     height: "auto",
