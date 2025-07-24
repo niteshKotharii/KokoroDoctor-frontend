@@ -63,6 +63,7 @@ export const signup = async (
 ) => {
   const response = await fetch(`${API_URL}/auth/user/signup`, {
     method: "POST",
+    mode:"cors",
     headers: {
       "Content-Type": "application/json",
     },
@@ -83,6 +84,7 @@ export const signup = async (
 export const login = async (email, password) => {
   const response = await fetch(`${API_URL}/auth/user/login`, {
     method: "POST",
+    mode:"cors",
     headers: {
       "Content-Type": "application/json",
     },
