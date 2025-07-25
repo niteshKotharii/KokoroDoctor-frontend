@@ -326,7 +326,9 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                         disabled={!selectedTimeSlot}
                         onPress={() => {
                           if (selectedTimeSlot) {
-                            navigation.navigate("DoctorsPaymentScreen"); // navigate or process booking
+                            navigation.navigate("DoctorsBookingPaymentScreen", {
+                              doctors,
+                            }); // navigate or process booking
                           }
                         }}
                       >
@@ -1100,7 +1102,7 @@ const styles = StyleSheet.create({
   reviewTextBox: {
     height: "80%",
     width: "100%",
-   // borderWidth: 1,
+    // borderWidth: 1,
   },
   reviewText: {
     fontSize: 13,
@@ -1114,7 +1116,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: "2%",
-   // borderWidth: 1,
+    // borderWidth: 1,
   },
   reviewerName: {
     fontSize: 12,
