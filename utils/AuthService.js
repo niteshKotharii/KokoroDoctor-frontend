@@ -63,12 +63,10 @@ export const signup = async (
 ) => {
   const response = await fetch(`${API_URL}/auth/user/signup`, {
     method: "POST",
-    mode:"cors",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ username, email, password, phoneNumber, location }),
-    credentials: 'include',
   });
 
   if (!response.ok) {
@@ -84,12 +82,10 @@ export const signup = async (
 export const login = async (email, password) => {
   const response = await fetch(`${API_URL}/auth/user/login`, {
     method: "POST",
-    mode:"cors",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-    credentials: 'include',
   });
 
   if (!response.ok) {
