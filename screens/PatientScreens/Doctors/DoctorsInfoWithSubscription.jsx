@@ -11,11 +11,13 @@ import {
   Dimensions,
   StatusBar,
   ScrollView,
+  Alert,
+  Linking
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SideBarNavigation from "../../../components/PatientScreenComponents/SideBarNavigation";
 import Header from "../../../components/PatientScreenComponents/Header";
-
+import { payment_api } from "../../../utils/PaymentService";
 const { width, height } = Dimensions.get("window");
 
 const features = [
@@ -26,7 +28,24 @@ const features = [
 
 const DoctorsInfoWithSubscription = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
-  const doctors = route?.params?.doctors || {}; // Get doctor data from navigation
+  const doctors = route?.params?.doctors || {};
+  const handleContinuePayment = async (amount) => {
+    Alert.alert("Processing Payment", "Redirecting to payment gateway...");
+    try {
+      const paymentLink = await payment_api(amount);
+      if (paymentLink) {
+        Linking.openURL(paymentLink).catch((err) => {
+          console.error("Failed to open payment link", err);
+          Alert.alert(
+            "Error",
+            "Unable to open payment link. Please try again."
+          );
+        });
+      }
+    } catch (error) {
+      Alert.alert("Payment Failed", error.message);
+    }
+  };
 
   return (
     <>
@@ -199,7 +218,16 @@ const DoctorsInfoWithSubscription = ({ navigation, route }) => {
                 </Text>
               </View>
             </View>
-
+            <View style={styles.doctorDescription}>
+              <ScrollView
+                nestedScrollEnabled={true}
+                showsVerticalScrollIndicator={false}
+              >
+                <Text style={styles.descriptionText}>
+                  {doctors.description}
+                </Text>
+              </ScrollView>
+            </View>
             <View style={styles.experienceRatingContainer}>
               <View style={styles.experienceSection}>
                 <Image
@@ -261,7 +289,14 @@ const DoctorsInfoWithSubscription = ({ navigation, route }) => {
             </View>
 
             <TouchableOpacity style={styles.bookAppointmentButton}>
-              <Text style={styles.bookAppointmentText}>Subscribe</Text>
+              <Text
+                style={styles.bookAppointmentText}
+                onPress={() => {
+                  handleContinuePayment(1999);
+                }}
+              >
+                Subscribe
+              </Text>
             </TouchableOpacity>
             {/* </View> */}
           </ScrollView>
@@ -280,7 +315,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#F6F6F6",
     borderRadius: 10,
-    padding: 16,
+    padding: "2%",
     width: "100%",
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -352,8 +387,9 @@ const styles = StyleSheet.create({
   appImageContainer: {
     width: "75%",
     //borderWidth: 1,
-    marginVertical: "8%",
+    marginVertical: "6%",
     alignSelf: "center",
+    marginBottom: "3%",
   },
   doctorImage: {
     height: 90,
@@ -372,6 +408,7 @@ const styles = StyleSheet.create({
   doctornamebox: {
     alignSelf: "center",
   },
+
   doctorName: {
     fontSize: 22,
     fontWeight: 600,
@@ -402,6 +439,20 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  doctorDescription: {
+    //borderWidth: 1,
+    height: "18%",
+    width: "88%",
+    alignSelf: "center",
+    marginBottom: "6%",
+    borderRadius: 5,
+    boxShadow: " 0px 0px 4px 3px rgba(0, 0, 0, 0.25)",
+  },
+  descriptionText: {
+    textAlign: "justify",
+    padding: "1%",
+    //fontStyle:"italic",
+  },
   experienceRatingContainer: {
     height: "7%",
     width: "88%",
@@ -412,7 +463,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     boxShadow: " 0px 0px 4px 3px rgba(0, 0, 0, 0.25)",
     backgroundColor: "rgba(255, 252, 252, 1)",
-    padding: "2%",
+    padding: "1%",
     ...Platform.select({
       web: {
         minHeight: 60, // Ensures visibility in web view
@@ -436,9 +487,9 @@ const styles = StyleSheet.create({
   },
   doctorIcon: {
     alignSelf: "center",
-    height: 28,
-    width: 28,
-    marginHorizontal: "3%",
+    height: 26,
+    width: 26,
+    marginHorizontal: "2%",
     borderRadius: 50,
   },
   experienceDetail: {
@@ -503,13 +554,13 @@ const styles = StyleSheet.create({
   },
   bookAppointmentText: {
     alignSelf: "center",
-    paddingVertical: "3.5%",
+    paddingVertical: "2.5%",
     color: "#FFFFFF",
     fontSize: 14,
     fontWeight: 600,
   },
   bookAppointmentButton: {
-    height: "5%",
+    height: "4%",
     width: "70%",
     //borderWidth: 1,
     alignSelf: "center",
