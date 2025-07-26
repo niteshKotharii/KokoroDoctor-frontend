@@ -56,7 +56,7 @@ const ExecutivePlan = ({ navigation, route }) => {
 
         {/* Pricing */}
         <View style={styles.pricingContainer}>
-          <Text style={styles.originalPrice}>₹9,999</Text>
+          <Text style={styles.originalPrice}>₹5,999</Text>
           <Text style={styles.currentPrice}>
             ₹4,499<Text style={styles.perMonth}>/month</Text>
           </Text>

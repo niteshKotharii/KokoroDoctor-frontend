@@ -56,7 +56,7 @@ const ElitePlan = ({ navigation, route }) => {
 
         {/* Pricing */}
         <View style={styles.pricingContainer}>
-          <Text style={styles.originalPrice}>₹2,999</Text>
+          <Text style={styles.originalPrice}>₹2,499</Text>
           <Text style={styles.currentPrice}>
             ₹1,999<Text style={styles.perMonth}>/month</Text>
           </Text>
