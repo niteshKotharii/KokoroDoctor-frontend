@@ -31,33 +31,34 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
   const { setChatbotConfig } = useChatbot();
   const { width } = useWindowDimensions();
   const { user } = useContext(AuthContext);
-  const { date, time, address, doctors, appointmentMode, meetingLink } = route.params || {};
-const [freeConsultationUsed, setFreeConsultationUsed] = useState(false);
+  const { date, time, address, doctors, appointmentMode, meetingLink } =
+    route.params || {};
+  const [freeConsultationUsed, setFreeConsultationUsed] = useState(false);
 
-// State for backend data
-const [doctorId, setDoctorId] = useState(null);
-const [consultationFee, setConsultationFee] = useState(0);
+  // State for backend data
+  const [doctorId, setDoctorId] = useState(null);
+  const [consultationFee, setConsultationFee] = useState(0);
 
-useEffect(() => {
-  async function fetchDoctor() {
-    const data = await fetchDoctorDetails(doctors.doctorname);
-    setDoctorId(data.id);
-    setConsultationFee(data.feeAmount);
-  }
-  fetchDoctor();
-}, [doctors]);
+  useEffect(() => {
+    async function fetchDoctor() {
+      const data = await fetchDoctorDetails(doctors.doctorname);
+      setDoctorId(data.id);
+      setConsultationFee(data.feeAmount);
+    }
+    fetchDoctor();
+  }, [doctors]);
 
-// When booking
-const bookingPayload = {
-  doctorId,
-  patientId: user.id,
-  fee: consultationFee,
-   date,
-   time,
-   appointmentMode,
-   address,
-   meetingLink,
-};
+  // When booking
+  const bookingPayload = {
+    doctorId,
+    patientId: user.id,
+    fee: consultationFee,
+    date,
+    time,
+    appointmentMode,
+    address,
+    meetingLink,
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -70,28 +71,31 @@ const bookingPayload = {
     Alert.alert(`Search Results for: ${searchQuery}`);
   };
 
-const handleContinuePayment = async (amount) => {
-     const amount = freeConsultationUsed ? consultationFee : 0;
-  if (amount === 0) {
-    // Navigate to next screen if no payment is required
-    navigation.navigate("BookingConfirmationScreen", { slotBooked: true });
-    return;
-  }
-  // Otherwise, proceed with payment
-  Alert.alert("Processing Payment", "Redirecting to payment gateway...");
-  try {
-      await createBooking(bookingPayload)
-    const paymentLink = await payment_api(amount);
-    if (paymentLink) {
-      Linking.openURL(paymentLink).catch((err) => {
-        console.error("Failed to open payment link", err);
-        Alert.alert("Error", "Unable to open payment link. Please try again.");
-      });
+  const handleContinuePayment = async (amount) => {
+    const amount = freeConsultationUsed ? consultationFee : 0;
+    if (amount === 0) {
+      // Navigate to next screen if no payment is required
+      navigation.navigate("BookingConfirmationScreen", { slotBooked: true });
+      return;
     }
-  } catch (error) {
-    Alert.alert("Payment Failed", error.message);
-  }
-};
+    // Otherwise, proceed with payment
+    Alert.alert("Processing Payment", "Redirecting to payment gateway...");
+    try {
+      await createBooking(bookingPayload);
+      const paymentLink = await payment_api(amount);
+      if (paymentLink) {
+        Linking.openURL(paymentLink).catch((err) => {
+          console.error("Failed to open payment link", err);
+          Alert.alert(
+            "Error",
+            "Unable to open payment link. Please try again."
+          );
+        });
+      }
+    } catch (error) {
+      Alert.alert("Payment Failed", error.message);
+    }
+  };
 
   return (
     <>
@@ -125,213 +129,226 @@ const handleContinuePayment = async (amount) => {
                   <View style={styles.contentContainer}>
                     {/* Payment confirmation card */}
                     <View style={styles.paymentCard}>
-                        <View style={styles.leftHalf}>
-                      <View style={styles.paymentHeader}>
-                        <TouchableOpacity
-                          style={styles.backButton}
-                          onPress={() => navigation.goBack()}
-                        >
-                          <MaterialIcons
-                            name="arrow-back"
-                            size={24}
-                            color="#000"
-                          />
-                        </TouchableOpacity>
-                        <Text style={styles.paymentTitle}>Confirm and Pay</Text>
-                      </View>
-
-                      <View style={styles.doctorSection}>
-                       <View style={{ flexDirection: "row"}}>
-                         <Text style={styles.sectionLabel}>
-                           Verified cardiologist online now
-                         </Text>
-                         <View
-                           style={{
-                             width: 10,
-                             height: 10,
-                             borderRadius: 5,
-                             backgroundColor: "green",
-                             marginLeft: 6,
-                              marginTop: 7,
-                           }}
-                         />
-                       </View>
-                        <View style={styles.doctorRow}>
-                        <View style={styles.doctorAvatars}>
-                          <Image
-                            source={{ uri: doctors.profilePhoto }}
-                            style={styles.doctorAvatarImage}
-                            resizeMode="cover"
-                          />
+                      <View style={styles.leftHalf}>
+                        <View style={styles.paymentHeader}>
+                          <TouchableOpacity
+                            style={styles.backButton}
+                            onPress={() => navigation.goBack()}
+                          >
+                            <MaterialIcons
+                              name="arrow-back"
+                              size={24}
+                              color="#000"
+                            />
+                          </TouchableOpacity>
+                          <Text style={styles.paymentTitle}>
+                            Confirm and Pay
+                          </Text>
                         </View>
-                        <View style={styles.doctorInfo}>
-                          <Text style={styles.doctorFullName}>
-{/*                             Dr Kislay Shrivastava */}
-                          {doctors.doctorname}
-                          </Text>
-                          <Text style={styles.doctorSpecialization}>
-                          {doctors.doctorSpecialization}
-{/*                             MD,MS (Cardiology) */}
-                          </Text>
-                          <Text style={styles.doctorExperience}>
-{/*                             22 Years Experience */}
-                            {doctors.doctorExperience}
-                          </Text>
-                            <View style={styles.locationSection}>
+
+                        <View style={styles.doctorSection}>
+                          <View style={{ flexDirection: "row" }}>
+                            <Text style={styles.sectionLabel}>
+                              Verified cardiologist online now
+                            </Text>
+                            <View
+                              style={{
+                                width: 10,
+                                height: 10,
+                                borderRadius: 5,
+                                backgroundColor: "green",
+                                marginLeft: 6,
+                                marginTop: 7,
+                              }}
+                            />
+                          </View>
+                          <View style={styles.doctorRow}>
+                            <View style={styles.doctorAvatars}>
+                              <Image
+                                source={{ uri: doctors.profilePhoto }}
+                                style={styles.doctorAvatarImage}
+                                resizeMode="cover"
+                              />
+                            </View>
+                            <View style={styles.doctorInfo}>
+                              <Text style={styles.doctorFullName}>
+                                {/*                             Dr Kislay Shrivastava */}
+                                {doctors.doctorname}
+                              </Text>
+                              <Text style={styles.doctorSpecialization}>
+                                {doctors.doctorSpecialization}
+                                {/*                             MD,MS (Cardiology) */}
+                              </Text>
+                              <Text style={styles.doctorExperience}>
+                                {/*                             22 Years Experience */}
+                                {doctors.doctorExperience}
+                              </Text>
+                              <View style={styles.locationSection}>
                                 <Icon
-                                    name="location-on"
-                                    size={18}
-                                    color="rgba(22, 128, 236, 0.75)"
-                                    style={styles.icon}
+                                  name="location-on"
+                                  size={18}
+                                  color="rgba(22, 128, 236, 0.75)"
+                                  style={styles.icon}
                                 />
                                 <Text style={styles.locationText}>
-                                    {doctors.location}
-{/*                                     Bangabandhu Sheikh Mujib Medical University */}
+                                  {doctors.location}
+                                  {/*                                     Bangabandhu Sheikh Mujib Medical University */}
                                 </Text>
+                              </View>
                             </View>
-                        </View>
-
-                        </View>
-                        <View style={styles.doctorAppointmentSection}>
+                          </View>
+                          <View style={styles.doctorAppointmentSection}>
                             <Text style={styles.AppointmentLabel}>
-                                Appointment Details
+                              Appointment Details
                             </Text>
                             <View style={styles.divider} />
                             <View style={styles.appointmentBox}>
-                            <Icon
+                              <Icon
                                 name="event" // or "calendar-today"
                                 size={18}
                                 color="rgba(255, 0, 0, 0.75)"
                                 style={styles.appointmentIcon}
-                            />
-                            <View style={styles.date}>
+                              />
+                              <View style={styles.date}>
                                 <Text style={styles.dateText}>
-                                    Appointment Date
+                                  Appointment Date
                                 </Text>
                                 <Text style={styles.dateTimeText}>
-                                  {time ? time : "Time N/A"} | {date ? date : "Date N/A"}
-
+                                  {time ? time : "Time N/A"} |{" "}
+                                  {date ? date : "Date N/A"}
                                 </Text>
-                            </View>
-                        </View>
-                            <View style={styles.appointmentBox}>
-                                <Icon
-                                    name="medical-services"
-                                    size={18}
-                                    color="rgba(255, 0, 0, 0.75)"
-                                    style={styles.appointmentIcon}
-                                />
-                                <View style={styles.date}>
-                                    <Text style={styles.dateText}>
-                                        Appointment Mode
-                                    </Text>
-                                    <Text style={styles.dateTimeText}>
-                           {appointmentMode ? appointmentMode.charAt(0).toUpperCase() + appointmentMode.slice(1) : "N/A"}
-{/*                                               Offline */}
-                                        </Text>
-                                </View>
+                              </View>
                             </View>
                             <View style={styles.appointmentBox}>
-                                <Icon
-                                    name="medical-services"
-                                    size={18}
-                                    color="rgba(255, 0, 0, 0.75)"
-                                    style={styles.appointmentIcon}
-                                />
-                                <View style={styles.date}>
-                                    <Text style={styles.dateText}>
-                                     {appointmentMode === "offline" ? "Address" : "Meeting Link"}
-{/*                                                 Address */}
-                                    </Text>
-                                    <Text style={[styles.dateTimeText, {flexWrap:"wrap",width:250}]}>
-                                      {appointmentMode === "offline"
-                                        ? address || "N/A"
-                                        : meetingLink || "N/A"}
-{/*                                         Bangabandhu Sheikh Mujib Medical University */}
-                                    </Text>
-                                </View>
+                              <Icon
+                                name="medical-services"
+                                size={18}
+                                color="rgba(255, 0, 0, 0.75)"
+                                style={styles.appointmentIcon}
+                              />
+                              <View style={styles.date}>
+                                <Text style={styles.dateText}>
+                                  Appointment Mode
+                                </Text>
+                                <Text style={styles.dateTimeText}>
+                                  {appointmentMode
+                                    ? appointmentMode.charAt(0).toUpperCase() +
+                                      appointmentMode.slice(1)
+                                    : "N/A"}
+                                  {/*                                               Offline */}
+                                </Text>
+                              </View>
                             </View>
+                            <View style={styles.appointmentBox}>
+                              <Icon
+                                name="medical-services"
+                                size={18}
+                                color="rgba(255, 0, 0, 0.75)"
+                                style={styles.appointmentIcon}
+                              />
+                              <View style={styles.date}>
+                                <Text style={styles.dateText}>
+                                  {appointmentMode === "offline"
+                                    ? "Address"
+                                    : "Meeting Link"}
+                                  {/*                                                 Address */}
+                                </Text>
+                                <Text
+                                  style={[
+                                    styles.dateTimeText,
+                                    { flexWrap: "wrap", width: 250 },
+                                  ]}
+                                >
+                                  {appointmentMode === "offline"
+                                    ? address || "N/A"
+                                    : meetingLink || "N/A"}
+                                  {/*                                         Bangabandhu Sheikh Mujib Medical University */}
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
                         </View>
                       </View>
-                    </View>
-                        <View style={styles.verticalDivider} />
-                        <View style={styles.rightHalf}>
-
-                               <Text style={styles.rightHeading}>
-                                   Booking Summary
-                               </Text>
-                                 <View style={styles.formSection}>
-                           <View style={styles.freeBox}>
-                             <View style={styles.freeText}>
-                               <Text style={styles.freeConsultationText}>
-                                 Consultation Fee
-                               </Text>
-                               <Text style={styles.subConsultationText}>
-                                 {freeConsultationUsed ? `₹${consultationFee} / Per month` : "Free First Consultation"}
-                               </Text>
-                             </View>
-                             <View style={styles.freeWord}>
-                               <Text style={styles.freeWordText}>
-                                 {freeConsultationUsed ? `₹${consultationFee}` : "Free"}
-                               </Text>
-                             </View>
-                           </View>
-                                   <View style={styles.rightDivider} />
-                                   <View style={styles.totalBox}>
-                                       <View style={styles.totalText}>
-                                           <Text style={styles.totalConsultationText}>
-                                               Total
-                                           </Text>
-                                           <Text style={styles.subTotalConsultationText}>
-                                               All Tax Include
-                                           </Text>
-                                       </View>
-                                       <View style={styles.zeroWord}>
-                                           <Text style={styles.zeroWordText}>
-                                               00.00
-                                           </Text>
-                                       </View>
-
-                               </View>
-                               </View>
-                          <View style={styles.policyBox}>
-                            <Text style={styles.policyText}>
-                              By booking Appointment, you are agreeing to&nbsp;
-                              <Text
-                                  style={styles.linkText}
-                                  onPress={() => navigation.navigate("Terms and Conditions")}
-                              >
-                                Terms and Conditions
+                      <View style={styles.verticalDivider} />
+                      <View style={styles.rightHalf}>
+                        <Text style={styles.rightHeading}>Booking Summary</Text>
+                        <View style={styles.formSection}>
+                          <View style={styles.freeBox}>
+                            <View style={styles.freeText}>
+                              <Text style={styles.freeConsultationText}>
+                                Consultation Fee
                               </Text>
-                              &nbsp;of the usage of 24x7&nbsp;
-                              <Text
-                                  style={styles.linkText}
-                                  onPress={() => navigation.navigate("Privacy Policy")}
-                              >
-                                Privacy Policy
+                              <Text style={styles.subConsultationText}>
+                                {freeConsultationUsed
+                                  ? `₹${consultationFee} / Per month`
+                                  : "Free First Consultation"}
                               </Text>
-                              ,&nbsp;
-                              <Text
-                                  style={styles.linkText}
-                                  onPress={() => navigation.navigate("Refund Policy")}
-                              >
-                                Refund Policy
+                            </View>
+                            <View style={styles.freeWord}>
+                              <Text style={styles.freeWordText}>
+                                {freeConsultationUsed
+                                  ? `₹${consultationFee}`
+                                  : "Free"}
                               </Text>
-                            </Text>
+                            </View>
                           </View>
-                            <TouchableOpacity
-                                style={styles.paymentButton}
-                                onPress={() => {
-                                    handleContinuePayment(1);
-                                }}
-                            >
-                                <Text style={styles.paymentButtonText}>
-                                    Continue to Book
-                                </Text>
-                            </TouchableOpacity>
+                          <View style={styles.rightDivider} />
+                          <View style={styles.totalBox}>
+                            <View style={styles.totalText}>
+                              <Text style={styles.totalConsultationText}>
+                                Total
+                              </Text>
+                              <Text style={styles.subTotalConsultationText}>
+                                All Tax Include
+                              </Text>
+                            </View>
+                            <View style={styles.zeroWord}>
+                              <Text style={styles.zeroWordText}>00.00</Text>
+                            </View>
+                          </View>
                         </View>
-
-
+                        <View style={styles.policyBox}>
+                          <Text style={styles.policyText}>
+                            By booking Appointment, you are agreeing to&nbsp;
+                            <Text
+                              style={styles.linkText}
+                              onPress={() =>
+                                navigation.navigate("Terms and Conditions")
+                              }
+                            >
+                              Terms and Conditions
+                            </Text>
+                            &nbsp;of the usage of 24x7&nbsp;
+                            <Text
+                              style={styles.linkText}
+                              onPress={() =>
+                                navigation.navigate("Privacy Policy")
+                              }
+                            >
+                              Privacy Policy
+                            </Text>
+                            ,&nbsp;
+                            <Text
+                              style={styles.linkText}
+                              onPress={() =>
+                                navigation.navigate("Refund Policy")
+                              }
+                            >
+                              Refund Policy
+                            </Text>
+                          </Text>
+                        </View>
+                        <TouchableOpacity
+                          style={styles.paymentButton}
+                          onPress={() => {
+                            handleContinuePayment(1);
+                          }}
+                        >
+                          <Text style={styles.paymentButtonText}>
+                            Continue to Book
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -504,7 +521,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "85%",
     display: "flex",
-   flexDirection: "column",
+    flexDirection: "column",
   },
   header: {
     // borderWidth: 5,
@@ -540,21 +557,21 @@ const styles = StyleSheet.create({
     marginRight: "8%",
     marginBottom: "8%",
   },
-    paymentCard: {
-        width: "70%",
-        height:"85%",
-        backgroundColor: "#fff",
-        borderRadius: 10,
-        padding: 20,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 3,
-        flexDirection: 'row',
-        justifyContent: 'space-between', // Distribute space between left and right halves
-        alignItems: 'stretch',
-    },
+  paymentCard: {
+    width: "70%",
+    height: "85%",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
+    flexDirection: "row",
+    justifyContent: "space-between", // Distribute space between left and right halves
+    alignItems: "stretch",
+  },
   paymentHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -571,21 +588,21 @@ const styles = StyleSheet.create({
   doctorSection: {
     marginBottom: "2%",
   },
-  doctorRow:{
-    flex:1,
-    flexDirection:"row",
-      alignItems:"flex-start",
+  doctorRow: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "flex-start",
   },
   sectionLabel: {
     fontSize: 15,
-      color: "rgb(0,0,0)",
+    color: "rgb(0,0,0)",
     marginBottom: 10,
   },
   doctorAvatars: {
     height: 50,
     width: 50,
     borderWidth: 1,
-    borderRadius:25,
+    borderRadius: 25,
   },
   doctorAvatar: {
     marginRight: 10,
@@ -597,179 +614,178 @@ const styles = StyleSheet.create({
   doctorAvatarImage: {
     width: 50,
     height: 50,
-
   },
-    doctorInfo:{
-      marginLeft:"5%",
-        marginTop:"0%",
-        flexDirection:"column",
-    },
-    doctorFullName:{
-      fontSize:22,
-        fontWeight: "bold",
-        marginBottom:"1%",
-    },
-    doctorSpecialization:{
-      fontFamily:"Poppins",
-        weight:400,
-        fontSize:14,
-        color:"#888888",
-        marginTop:"2%",
-        marginBottom:"2%",
-        marginLeft:"2%",
-    },
-    doctorExperience:{
-        fontFamily:"Poppins",
-        weight:400,
-        fontSize:14,
-        color:"#888888",
-        marginLeft:"2%",
-    },
-    locationSection: {
-        //borderWidth: 1,
-        height: "30%",
-        width: "90%",
-        marginTop: "3%",
-        flexDirection: "row",
-    },
-    AppointmentLabel:{
-      weight:300,
-        fontSize:16,
-        marginTop:"3%",
-    },
-    doctorAppointmentSection:{
-      marginLeft:"6%",
-        marginTop:"6%",
-    },
-    dateTimeText:{
-        fontFamily:"Poppins",
-        fontWeight:200,
-    },
-    appointmentBox:{
-      flexDirection:"row",
-      marginBottom:"4%",
-    },
-    icon: {
-        marginTop: "1%",
-    },
-    locationText: {
-        fontSize: 14,
-        fontWeight: 500,
-        color: "rgba(136, 136, 136, 1)",
-        marginLeft: "2%",
-    },
-    divider: {
-        height: 1,
-        backgroundColor: "#e0e0e0",
-        width: "80%",
-        marginTop: 8,
-        marginBottom: "3%",
-        marginLeft:"4%",
-    },
-    appointmentIcon:{
-      size:18,
-        marginLeft:"5%",
-    },
-    dateText:{
-        fontFamily:"Poppins",
-        weight:400,
-        fontSize:14,
-        color:"#888888",
-        marginBottom:4,
-    },
-    rightHeading:{
-        fontSize: 15,
-        color: "#FF7072",
-      marginLeft:"15%",
-        marginTop:"25%",
-        fontWeight:400,
-    },
-    date:{
-        marginLeft:"3%",
-    },
-    leftHalf: {
-        flex: 1, // This makes it take up half the available space
-        // Add padding inside leftHalf if needed
-        paddingRight: 10, // Add some padding to separate from the vertical divider
-    },
-    verticalDivider: {
-        width: 1,
-        backgroundColor: "#bdbdbd",
-        marginHorizontal: 10, // Adjust as needed for spacing around the divider
-        height: "100%", // Make the divider span the full height of the card
-        alignSelf: "stretch", // Ensure it stretches vertically
-    },
-    rightHalf: {
-        flex: 1, // This makes it take up the other half of the available space
-        flexDirection: "column", // Keep as column for vertical stacking within rightHalf
-        // Push "Booking Summary" to top, button to bottom// Align contents to the right
-        // Add padding inside rightHalf if needed
-        paddingLeft: 10, // Add some padding to separate from the vertical divider
-    },
-    freeBox:{
-      flexDirection:"row",
-      marginLeft:"15%",
-        marginTop:"5%",
-    },
-    freeConsultationText:{
-      fontFamily:"Poppins",
-fontWeight:600,
-        fontSize:15,
-    },
-    subConsultationText:{
-        color:"#888888",
-    },
-    freeWord:{
-      marginLeft:"20%",
-    },
-    freeWordText:{
-      fontSize:15,
-        fontFamily:"Poppins",
-    },
-    totalBox:{
-        flexDirection:"row",
-        marginLeft:"15%",
-        marginTop:"4%",
-    },
-    totalConsultationText:{
-        fontFamily:"Poppins",
-        fontWeight:600,
-        fontSize:15,
-    },
-    subTotalConsultationText:{
-        color:"#888888",
-    },
-    zeroWord:{
-        marginLeft:"35%",
-    },
-    zeroWordText:{
-        fontSize:15,
-        fontFamily:"Poppins",
-    },
-    rightDivider: {
-        height: 1,
-        backgroundColor: "#e0e0e0",
-        width: "80%",
-        marginTop: "5%",
-        marginBottom: "3%",
-        marginLeft:"7%",
-    },
-  policyText:{
-    fontSize:12,
-    fontFamily:"Poppins",
-    color:"#888888",
+  doctorInfo: {
+    marginLeft: "5%",
+    marginTop: "0%",
+    flexDirection: "column",
   },
-  policyBox:{
-    width:"60%",
-    marginLeft:"20%",
-    marginBottom:"6%",
+  doctorFullName: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: "1%",
+  },
+  doctorSpecialization: {
+    fontFamily: "Poppins",
+    weight: 400,
+    fontSize: 14,
+    color: "#888888",
+    marginTop: "2%",
+    marginBottom: "2%",
+    marginLeft: "2%",
+  },
+  doctorExperience: {
+    fontFamily: "Poppins",
+    weight: 400,
+    fontSize: 14,
+    color: "#888888",
+    marginLeft: "2%",
+  },
+  locationSection: {
+    //borderWidth: 1,
+    height: "30%",
+    width: "90%",
+    marginTop: "3%",
+    flexDirection: "row",
+  },
+  AppointmentLabel: {
+    weight: 300,
+    fontSize: 16,
+    marginTop: "3%",
+  },
+  doctorAppointmentSection: {
+    marginLeft: "6%",
+    marginTop: "6%",
+  },
+  dateTimeText: {
+    fontFamily: "Poppins",
+    fontWeight: 200,
+  },
+  appointmentBox: {
+    flexDirection: "row",
+    marginBottom: "4%",
+  },
+  icon: {
+    marginTop: "1%",
+  },
+  locationText: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: "rgba(136, 136, 136, 1)",
+    marginLeft: "2%",
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "#e0e0e0",
+    width: "80%",
+    marginTop: 8,
+    marginBottom: "3%",
+    marginLeft: "4%",
+  },
+  appointmentIcon: {
+    size: 18,
+    marginLeft: "5%",
+  },
+  dateText: {
+    fontFamily: "Poppins",
+    weight: 400,
+    fontSize: 14,
+    color: "#888888",
+    marginBottom: 4,
+  },
+  rightHeading: {
+    fontSize: 15,
+    color: "#FF7072",
+    marginLeft: "15%",
+    marginTop: "25%",
+    fontWeight: 400,
+  },
+  date: {
+    marginLeft: "3%",
+  },
+  leftHalf: {
+    flex: 1, // This makes it take up half the available space
+    // Add padding inside leftHalf if needed
+    paddingRight: 10, // Add some padding to separate from the vertical divider
+  },
+  verticalDivider: {
+    width: 1,
+    backgroundColor: "#bdbdbd",
+    marginHorizontal: 10, // Adjust as needed for spacing around the divider
+    height: "100%", // Make the divider span the full height of the card
+    alignSelf: "stretch", // Ensure it stretches vertically
+  },
+  rightHalf: {
+    flex: 1, // This makes it take up the other half of the available space
+    flexDirection: "column", // Keep as column for vertical stacking within rightHalf
+    // Push "Booking Summary" to top, button to bottom// Align contents to the right
+    // Add padding inside rightHalf if needed
+    paddingLeft: 10, // Add some padding to separate from the vertical divider
+  },
+  freeBox: {
+    flexDirection: "row",
+    marginLeft: "15%",
+    marginTop: "5%",
+  },
+  freeConsultationText: {
+    fontFamily: "Poppins",
+    fontWeight: 600,
+    fontSize: 15,
+  },
+  subConsultationText: {
+    color: "#888888",
+  },
+  freeWord: {
+    marginLeft: "20%",
+  },
+  freeWordText: {
+    fontSize: 15,
+    fontFamily: "Poppins",
+  },
+  totalBox: {
+    flexDirection: "row",
+    marginLeft: "15%",
+    marginTop: "4%",
+  },
+  totalConsultationText: {
+    fontFamily: "Poppins",
+    fontWeight: 600,
+    fontSize: 15,
+  },
+  subTotalConsultationText: {
+    color: "#888888",
+  },
+  zeroWord: {
+    marginLeft: "35%",
+  },
+  zeroWordText: {
+    fontSize: 15,
+    fontFamily: "Poppins",
+  },
+  rightDivider: {
+    height: 1,
+    backgroundColor: "#e0e0e0",
+    width: "80%",
+    marginTop: "5%",
+    marginBottom: "3%",
+    marginLeft: "7%",
+  },
+  policyText: {
+    fontSize: 12,
+    fontFamily: "Poppins",
+    color: "#888888",
+  },
+  policyBox: {
+    width: "60%",
+    marginLeft: "20%",
+    marginBottom: "6%",
   },
   linkText: {
     textDecorationLine: "underline",
   },
   formSection: {
-    flexDirection:"column",
-      flex:1,
+    flexDirection: "column",
+    flex: 1,
   },
   formGroup: {
     marginBottom: 20,
@@ -802,8 +818,8 @@ fontWeight:600,
     backgroundColor: "#ff7072",
     paddingVertical: 12,
     alignItems: "center",
-    width:"60%",
-    alignSelf:"center",
+    width: "60%",
+    alignSelf: "center",
   },
   paymentButtonText: {
     color: "#fff",
