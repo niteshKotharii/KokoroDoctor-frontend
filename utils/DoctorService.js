@@ -89,3 +89,26 @@ export const registerMedicalProof = async (profileData) => {
     return response.json();
 };
 
+export const fetchDoctorDetails = async(doctorname)=>{
+   const response = await fetch(`${API_URL}/backendurl?name=${encodeURIComponent(doctorname)}`, {
+      method:"GET"
+   });
+   if(!response.ok){
+     throw new Error("Failed to fetch doctor id and consultation fee");
+   }
+   return await response.json();
+};
+
+export async function createBooking(bookingPayload) {
+  const response = await fetch(`${API_URL}/backendurl/`, {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(bookingPayload),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to create booking');
+  }
+  return await response.json();
+}
