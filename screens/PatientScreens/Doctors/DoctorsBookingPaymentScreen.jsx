@@ -71,9 +71,10 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
     Alert.alert(`Search Results for: ${searchQuery}`);
   };
 
-  const handleContinuePayment = async (amount) => {
+  const handleContinuePayment = async () => {
     const amount = freeConsultationUsed ? consultationFee : 0;
     if (amount === 0) {
+        setFreeConsultationUsed(true);
       // Navigate to next screen if no payment is required
       navigation.navigate("BookingConfirmationScreen", { slotBooked: true });
       return;
@@ -340,9 +341,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                         </View>
                         <TouchableOpacity
                           style={styles.paymentButton}
-                          onPress={() => {
-                            handleContinuePayment(1);
-                          }}
+                          onPress={handleContinuePayment}
                         >
                           <Text style={styles.paymentButtonText}>
                             Continue to Book
