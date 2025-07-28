@@ -74,6 +74,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
   const handleContinuePayment = async () => {
     const amount = freeConsultationUsed ? consultationFee : 0;
     if (amount === 0) {
+
         setFreeConsultationUsed(true);
       // Navigate to next screen if no payment is required
       navigation.navigate("BookingConfirmationScreen", { slotBooked: true });
@@ -379,8 +380,8 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                     color="#fff"
                   />
                 </TouchableOpacity>
-                <Text style={styles.doctorName}>Dr Kislay Shrivasatva</Text>
-                <Text style={styles.doctorSpecialty}>(Cardiologist)</Text>
+                <Text style={styles.doctorName}>{doctors.doctorname}</Text>
+                <Text style={styles.doctorSpecialty}>({doctors.doctorSpecialization})</Text>
               </View>
 
               {/* Doctor Info Section */}
@@ -433,11 +434,11 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                 <View style={styles.scheduleContent}>
                   <View style={styles.scheduleTimeContainer}>
                     <MaterialIcons name="access-time" size={18} color="#555" />
-                    <Text style={styles.scheduleTimeText}>07:00</Text>
+                    <Text style={styles.scheduleTimeText}>{time ? time : "Time N/A"}</Text>
                   </View>
                   <View style={styles.scheduleDateContainer}>
                     <MaterialIcons name="event" size={18} color="#555" />
-                    <Text style={styles.scheduleDateText}>17 Feb,2025</Text>
+                    <Text style={styles.scheduleDateText}>{date ? date : "Date N/A"}</Text>
                   </View>
                 </View>
               </View>
@@ -448,7 +449,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                 <Text style={styles.billTitle}>Bill Details</Text>
                 <View style={styles.billRow}>
                   <Text style={styles.billLabel}>Consultation fees:</Text>
-                  <Text style={styles.billValue}>₹800</Text>
+                  <Text style={styles.billValue}>₹{doctors.fee}</Text>
                 </View>
                 <View style={styles.billRow}>
                   <Text style={styles.billLabel}>Booking Fee</Text>
@@ -463,7 +464,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                     Total Pay
                   </Text>
                   <Text style={[styles.billValue, styles.totalValue]}>
-                    ₹850
+                    ₹{doctors.fee + 50}
                   </Text>
                 </View>
               </View>
@@ -472,7 +473,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
               <TouchableOpacity
                 style={styles.continueButton}
                 onPress={() => {
-                  handleContinuePayment(850);
+                  handleContinuePayment(doctors.fee + 50);
                 }}
               >
                 <Text style={styles.continueButtonText}>Continue</Text>
