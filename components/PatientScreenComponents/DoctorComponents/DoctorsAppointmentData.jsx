@@ -88,7 +88,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
       };
 
       // Navigate to detail page with updated doctor info
-      navigation.navigate("DoctorsInfoWithSubscription", {
+      navigation.navigate("DoctorsInfoWithBooking", {
         doctors: updatedDoctor,
       });
     } catch (error) {
@@ -114,7 +114,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                     /> */}
                     <TouchableOpacity
                       onPress={() =>
-                        navigation.navigate("DoctorsInfoWithSubscription", {
+                        navigation.navigate("DoctorsInfoWithBooking", {
                           doctors: item,
                         })
                       }
@@ -231,7 +231,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                       <TouchableOpacity
                         style={styles.imageContainer}
                         onPress={() =>
-                          navigation.navigate("DoctorsInfoWithSubscription", {
+                          navigation.navigate("DoctorsInfoWithBooking", {
                             doctors: item,
                           })
                         }

@@ -7,8 +7,6 @@ import {
   Image,
   Platform,
   Dimensions,
-  useWindowDimensions,
-  
 } from "react-native";
 import Modal from "react-native-modal";
 import { BlurView } from "expo-blur"; // use BlurView from 'react-native-blur' if not using Expo
@@ -38,7 +36,10 @@ const CongratulationsPopup = ({ isVisible, onClose, onBook }) => {
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Text style={styles.closeText}>Close</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bookButton} onPress={onBook}>
+          <TouchableOpacity
+            style={styles.bookButton}
+            onPress={() => navigation.navigate("DoctorsInfoWithBooking")}
+          >
             <Text style={styles.bookText}>Book Slot</Text>
           </TouchableOpacity>
         </View>

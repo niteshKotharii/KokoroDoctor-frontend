@@ -292,7 +292,7 @@ const DoctorsInfoWithSubscription = ({ navigation, route }) => {
               <Text
                 style={styles.bookAppointmentText}
                 onPress={() => {
-                  handleContinuePayment(1999);
+                  handleContinuePayment(1);
                 }}
               >
                 Subscribe
