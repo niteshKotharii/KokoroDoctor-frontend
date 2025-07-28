@@ -32,7 +32,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   const { user } = useContext(AuthContext);
   const { date, time, address, doctors, appointmentMode, meetingLink } =
-    route.params || {};
+    route?.params?.doctors || {};
   const [freeConsultationUsed, setFreeConsultationUsed] = useState(false);
 
   // State for backend data
@@ -50,11 +50,11 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
 
   // When booking
   const bookingPayload = {
-    doctorId,
-    patientId: user.id,
-    fee: consultationFee,
-    date,
-    time,
+    doctorId: doctors.id || doctors.email,
+    user_id: user.email,
+    fee: feesAmount,
+    date: selectedDate,
+    slot: selectedTimeSlot,
     appointmentMode,
     address,
     meetingLink,
@@ -74,8 +74,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
   const handleContinuePayment = async () => {
     const amount = freeConsultationUsed ? consultationFee : 0;
     if (amount === 0) {
-
-        setFreeConsultationUsed(true);
+      setFreeConsultationUsed(true);
       // Navigate to next screen if no payment is required
       navigation.navigate("BookingConfirmationScreen", { slotBooked: true });
       return;
@@ -371,7 +370,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
               <View style={styles.doctorInfoContainer}>
                 <TouchableOpacity style={styles.profileButton}>
                   <Image
-                    source={require("../../../assets/Images/dr_kislay.jpg")}
+                    source={{ uri: doctors.profilePhoto }}
                     style={styles.profileImagei}
                   />
                   <MaterialIcons
@@ -381,7 +380,9 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                   />
                 </TouchableOpacity>
                 <Text style={styles.doctorName}>{doctors.doctorname}</Text>
-                <Text style={styles.doctorSpecialty}>({doctors.doctorSpecialization})</Text>
+                <Text style={styles.doctorSpecialty}>
+                  ({doctors.doctorSpecialization})
+                </Text>
               </View>
 
               {/* Doctor Info Section */}
@@ -434,11 +435,15 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                 <View style={styles.scheduleContent}>
                   <View style={styles.scheduleTimeContainer}>
                     <MaterialIcons name="access-time" size={18} color="#555" />
-                    <Text style={styles.scheduleTimeText}>{time ? time : "Time N/A"}</Text>
+                    <Text style={styles.scheduleTimeText}>
+                      {time ? time : "Time N/A"}
+                    </Text>
                   </View>
                   <View style={styles.scheduleDateContainer}>
                     <MaterialIcons name="event" size={18} color="#555" />
-                    <Text style={styles.scheduleDateText}>{date ? date : "Date N/A"}</Text>
+                    <Text style={styles.scheduleDateText}>
+                      {date ? date : "Date N/A"}
+                    </Text>
                   </View>
                 </View>
               </View>

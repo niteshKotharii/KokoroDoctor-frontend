@@ -22,6 +22,7 @@ import DoctorsInfoWithBooking from "../screens/PatientScreens/Doctors/DoctorsInf
 import DoctorAvailabilitySlots from "../screens/PatientScreens/Doctors/App/DoctorAvailabilitySlots";
 import AppDoctorsRating from "../screens/PatientScreens/Doctors/App/AppDoctorsRating";
 import DoctorsSubscriptionPaymentScreen from "../screens/PatientScreens/Doctors/DoctorsSubscriptionPaymentScreen";
+import DoctorsBookingPaymentScreen from "../screens/PatientScreens/Doctors/DoctorsBookingPaymentScreen";
 import BookingConfirmation from "../screens/PatientScreens/Doctors/App/BookingConfirmation";
 
 //Hospitals
@@ -101,6 +102,11 @@ const DoctorNavigator = () => {
       <Stack.Screen
         name="DoctorsSubscriptionPaymentScreen"
         component={DoctorsSubscriptionPaymentScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DoctorsBookingPaymentScreen"
+        component={DoctorsBookingPaymentScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
