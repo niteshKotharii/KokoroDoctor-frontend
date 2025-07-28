@@ -74,7 +74,8 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
   const handleContinuePayment = async () => {
     const amount = freeConsultationUsed ? consultationFee : 0;
     if (amount === 0) {
-      setFreeConsultationUsed(true);
+
+        setFreeConsultationUsed(true);
       // Navigate to next screen if no payment is required
       navigation.navigate("BookingConfirmationScreen", { slotBooked: true });
       return;

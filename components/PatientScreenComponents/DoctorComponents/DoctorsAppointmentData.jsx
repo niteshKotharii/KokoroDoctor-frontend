@@ -9,6 +9,7 @@ import {
   Pressable,
   Platform,
   useWindowDimensions,
+  Dimensions,
 } from "react-native";
 import { API_URL } from "../../../env-vars";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -87,7 +88,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
       };
 
       // Navigate to detail page with updated doctor info
-      navigation.navigate("DoctorsInfoWithSubscription", {
+      navigation.navigate("DoctorsInfoWithBooking", {
         doctors: updatedDoctor,
       });
     } catch (error) {
@@ -113,7 +114,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                     /> */}
                     <TouchableOpacity
                       onPress={() =>
-                        navigation.navigate("DoctorsInfoWithSubscription", {
+                        navigation.navigate("DoctorsInfoWithBooking", {
                           doctors: item,
                         })
                       }
@@ -230,7 +231,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                       <TouchableOpacity
                         style={styles.imageContainer}
                         onPress={() =>
-                          navigation.navigate("DoctorsInfoWithSubscription", {
+                          navigation.navigate("DoctorsInfoWithBooking", {
                             doctors: item,
                           })
                         }
@@ -314,11 +315,13 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                         <View style={styles.verticalLine} />
                         <View style={styles.docFees}>
                           <Text style={styles.docFeesText}>
-                            Consultation Fees
+                            Subscription Fees
                           </Text>
                           <Text style={styles.feesText}>
-                            {item.consultationFees || `₹${item.fees || 0}`}
+                            1999 / Per month
+                            {/* {item.consultationFees || `₹${item.fees || 0}`} */}
                           </Text>
+                          
                         </View>
                       </View>
                       <TouchableOpacity
@@ -360,6 +363,8 @@ const DoctorAppointmentScreen = ({ navigation }) => {
   );
 };
 
+const windowWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   webContainer: {
     flex: 1,
@@ -375,6 +380,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     flex: 1,
+    
   },
   cardContainer: {
     height: 195,
@@ -387,6 +393,12 @@ const styles = StyleSheet.create({
     boxShadow: " 0px 0px 4px 1px rgba(17, 16, 16, 0.25)",
     padding: "0.5%",
     borderColor: "#dcdcdc",
+    ...Platform.select({
+      web: {
+        height: windowWidth > 1000 ? 195 : 308,
+      },
+    }),
+    
   },
   cardBox: {
     flexDirection: "column",
@@ -464,10 +476,12 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         width: "90%",
-        height: "40%",
-        bottom: "10%",
+        height: windowWidth > 1000 ? "40%" : "70%",
+        bottom: windowWidth > 1000 ? "10%" : "0%",
+        marginTop: windowWidth > 1000 ? "0%" : "3%",
         // marginTop: "0%",
-        borderWidth: 1,
+        borderWidth: windowWidth > 1000 ? 1 : 0,
+        padding: windowWidth > 1000 ? "0%" : "5%",
       },
     }),
   },
@@ -506,6 +520,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "50%",
     //borderWidth: 1,
+    
   },
   docFeesText: {
     paddingHorizontal: "5%",
@@ -638,6 +653,11 @@ const styles = StyleSheet.create({
     width: "60%",
     height: "100%",
     borderColor: "#adff2f",
+    ...Platform.select({
+      web: {
+        width: windowWidth > 1000 ? "60%" : "65%",
+      }
+    }),
   },
   specialization: {
     fontSize: 12,

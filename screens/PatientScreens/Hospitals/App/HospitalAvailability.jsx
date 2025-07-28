@@ -366,13 +366,13 @@ const styles = StyleSheet.create({
   distanceHeading: {
     fontStyle: "Sunflower",
     fontSize: 14,
-    fontWeight: 300,
+    fontWeight: 400,
     color: "#9B9A9A",
   },
   distanceAway: {
     fontStyle: "Poppins",
     fontSize: 10,
-    fontWeight: 300,
+    fontWeight: 500,
     color: "#FF0000",
   },
   arrivalContainer: {
@@ -392,13 +392,13 @@ const styles = StyleSheet.create({
   arrivalHeading: {
     fontStyle: "Sunflower",
     fontSize: 14,
-    fontWeight: 300,
+    fontWeight: 400,
     color: "#9B9A9A",
   },
   arrivingIn: {
     fontStyle: "Poppins",
     fontSize: 10,
-    fontWeight: 300,
+    fontWeight: 500,
     color: "#2CBE5E",
   },
   hospitalDetailsContainer2: {
@@ -446,11 +446,11 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "flex-start",
-    gap: 8,
+	padding:"2%",
   },
   bedHeading: {
     fontStyle: "Poppins",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     padding: "1%",
     color: "#444444",

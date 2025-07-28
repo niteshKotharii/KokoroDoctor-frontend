@@ -56,7 +56,7 @@ const PlatinumPlan = ({ navigation, route }) => {
 
         {/* Pricing */}
         <View style={styles.pricingContainer}>
-          <Text style={styles.originalPrice}>₹24,999</Text>
+          <Text style={styles.originalPrice}>₹19,999</Text>
           <Text style={styles.currentPrice}>
             ₹9,999<Text style={styles.perMonth}>/month</Text>
           </Text>
@@ -64,7 +64,7 @@ const PlatinumPlan = ({ navigation, route }) => {
 
         {/* Discount Banner */}
         <View style={styles.discountBanner}>
-          <Text style={styles.discountText}>Save 78% ~ Limited Time Offer</Text>
+          <Text style={styles.discountText}>Save 50% ~ Limited Time Offer</Text>
         </View>
 
         {/* Plan Features */}
