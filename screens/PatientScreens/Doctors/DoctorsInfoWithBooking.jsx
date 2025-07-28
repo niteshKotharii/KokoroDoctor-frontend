@@ -119,7 +119,7 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
         body: JSON.stringify({
           doctor_id: doctors.email,
           date: selectedDate,
-          start: slot.start,
+          start: selectedTimeSlot,
           user_id: user.email, // from auth context
         }),
       });
@@ -132,7 +132,7 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
         doctors,
         bookingDetails: {
           date: selectedDate,
-          start: slot.start,
+          start: selectedTimeSlot,
           confirmation: data, // backend response
         },
       });
@@ -156,7 +156,7 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
       doctor_id: doctors.email,
       doctorName: doctors.doctorname,
       date: selectedDate,
-      start: slot.start,
+      start: selectedTimeSlot,
       fees: doctors.fees || Free,
     });
   };
