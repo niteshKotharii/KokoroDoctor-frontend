@@ -16,9 +16,7 @@ const App = () => {
 			<ThemeProvider>
 				<ChatbotProvider>
 					<RoleProvider>
-						<NavigationContainer
-							linking={linking}
-							ref={navigationRef}>
+						<NavigationContainer linking={linking} ref={navigationRef}>
 							<RootNavigation />
 							<ChatBotOverlay navigationRef={navigationRef} />
 						</NavigationContainer>

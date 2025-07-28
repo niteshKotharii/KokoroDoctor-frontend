@@ -1,5 +1,3 @@
-
-
 import { API_URL } from "../env-vars";
 import * as FileSystem from "expo-file-system";
 import { Platform } from "react-native";
@@ -76,16 +74,42 @@ export const registerMedicalDetails = async (
   return await response.json();
 };
 export const registerMedicalProof = async (profileData) => {
-    const response = await fetch(`${API_URL}/doctorsService/updateProfile`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(profileData),
-    });
-    if (!response.ok) {
-        throw new Error("Profile update failed");
-    }
-    return response.json();
+  const response = await fetch(`${API_URL}/doctorsService/updateProfile`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(profileData),
+  });
+  if (!response.ok) {
+    throw new Error("Profile update failed");
+  }
+  return response.json();
 };
 
+export const fetchDoctorDetails = async (doctorname) => {
+  const response = await fetch(
+    `${API_URL}/backendurl?name=${encodeURIComponent(doctorname)}`,
+    {
+      method: "GET",
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch doctor id and consultation fee");
+  }
+  return await response.json();
+};
+
+export async function createBooking(bookingPayload) {
+  const response = await fetch(`${API_URL}/backendurl/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(bookingPayload),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to create booking");
+  }
+  return await response.json();
+}
