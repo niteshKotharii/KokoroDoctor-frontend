@@ -50,7 +50,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
 
   // When booking
   const bookingPayload = {
-    doctorId: doctors.id || doctors.email,
+    doctor_id: doctors.email,
     user_id: user.email,
     fee: feesAmount,
     date: selectedDate,
