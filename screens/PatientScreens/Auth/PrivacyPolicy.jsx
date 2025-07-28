@@ -17,7 +17,9 @@ const PrivacyPolicy = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   const [selectedButton, setSelectedButton] = useState(null);
 
-  const BulletItem = ({ children, level = 0 }) => ( // Added level prop for nested bullets
+  const BulletItem = (
+    { children, level = 0 } // Added level prop for nested bullets
+  ) => (
     <View
       style={{
         flexDirection: "row",
@@ -51,14 +53,16 @@ const PrivacyPolicy = ({ navigation, route }) => {
               showsVerticalScrollIndicator={false} // hides scrollbar
             >
               <View style={styles.textHeader}>
-                <Text style={styles.header}>Kokoro.doctor Privacy Policy</Text>
-                <Text style={styles.welcomeTitle}>Welcome</Text>
+                <Text style={styles.header}>
+                  Privacy Policy – Kokoro.Doctor
+                </Text>
+                {/* <Text style={styles.welcomeTitle}>Welcome</Text>
                 <Text style={styles.insertDateText}>
                   Effective Date: [Insert Date]
                 </Text>
                 <Text style={styles.insertDateText}>
                   Last Updated: [Insert Date]
-                </Text>
+                </Text> */}
               </View>
               <View style={styles.mainText}>
                 {/* Main introductory paragraph*/}
@@ -162,9 +166,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   Medilocker is our health record vault, where users can upload
                   their personal medical documents.
                 </Text>
-                <Text style={styles.policyText}>
-                  By using Medilocker, you:
-                </Text>
+                <Text style={styles.policyText}>By using Medilocker, you:</Text>
                 <BulletItem>
                   Retain full ownership of your personal health data
                 </BulletItem>
@@ -285,13 +287,153 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   You have the following rights with respect to your data:
                 </Text>
                 <BulletItem>
-                  We do not collect or store your credit/debit card or UPI
-                  credentials on our servers
+                  Access: Request a copy of your health and personal information
                 </BulletItem>
                 <BulletItem>
-                  Offline services (e.g., hospital admission, diagnostic lab
-                  visits) are billed separately by the healthcare provider
+                  Correction: Request rectification of errors in your profile or
+                  records
                 </BulletItem>
+                <BulletItem>
+                  Deletion: Request permanent deletion (subject to legal
+                  conditions)
+                </BulletItem>
+                <BulletItem>
+                  Data Portability: Download your Medilocker data in a
+                  structured format
+                </BulletItem>
+                <BulletItem>
+                  Withdraw Consent: Limit how your data is used (with service
+                  restrictions)
+                </BulletItem>
+                <BulletItem>
+                  Lodge Complaints: Report concerns to the data protection
+                  authority
+                </BulletItem>
+                <Text style={styles.policyText}>
+                  {"\n"}9. Children’s Data Policy{" "}
+                </Text>
+                <Text style={styles.policyText}>
+                  Kokoro.Doctor does not knowingly collect personal data from
+                  users under the age of 18 unless the account is operated by a
+                  parent or legal guardian. We encourage guardians to monitor
+                  children’s health-related activities.
+                </Text>
+                <Text style={styles.policyText}>
+                  {"\n"}10. Global Legal Compliance{" "}
+                </Text>
+                <Text style={styles.policyText}>
+                  Kokoro.Doctor adheres to relevant data protection frameworks
+                  including:
+                </Text>
+                <BulletItem>
+                  DPDPA (India’s Digital Personal Data Protection Act)
+                </BulletItem>
+                <BulletItem>
+                  HIPAA (US Health Insurance Portability and Accountability Act)
+                </BulletItem>
+                <BulletItem>
+                  GDPR (General Data Protection Regulation for EU residents)
+                </BulletItem>
+                <Text style={styles.policyText}>
+                  We are committed to meeting or exceeding global health data
+                  privacy norms.
+                </Text>
+                <Text style={styles.policyText}>
+                  {"\n"}11. Changes to this Privacy Policy{" "}
+                </Text>
+                <Text style={styles.policyText}>
+                  We may periodically update this Privacy Policy to reflect
+                  legal, technical, or business changes. When we do, we will
+                  update the “Last Updated” date and notify you through in-app
+                  communication or email.
+                </Text>
+                <Text style={styles.policyText}>
+                  {"\n"}Cancellation and Refund Policy{" "}
+                </Text>
+                <Text style={styles.policyText}>
+                  {"\n"}Consultation Cancellations:{" "}
+                </Text>
+                <BulletItem>
+                  Cancellations made at least 2 hours before the scheduled
+                  consultation time are eligible for a full refund.
+                </BulletItem>
+                <BulletItem>
+                  Cancellations made within 2 hours of the consultation time
+                  will not be eligible for a refund.
+                </BulletItem>
+                <Text style={styles.policyText}>
+                  {"\n"}Subscription Plans:{" "}
+                </Text>
+                <BulletItem>
+                  Monthly/annual subscription plans can be canceled anytime but
+                  are non-refundable once activated.
+                </BulletItem>
+                <BulletItem>
+                  In cases of billing errors or non-usage, users may request a
+                  review for partial credits or alternative resolution by
+                  contacting support.
+                </BulletItem>
+                <Text style={styles.policyText}>
+                  {"\n"}Technical Failures and Service Issues:{" "}
+                </Text>
+                <BulletItem>
+                  If users experience technical disruptions during a paid
+                  consultation, Kokoro.Doctor may offer rescheduling or credit
+                  after internal verification.
+                </BulletItem>
+                <Text style={styles.policyText}>
+                  {"\n"}How to Request a Refund:{" "}
+                </Text>
+                <BulletItem>
+                  Email support@kokoro.doctor within 48 hours of the incident.
+                  Include your user ID, transaction ID, and nature of the issue.
+                </BulletItem>
+                <Text style={styles.policyText}>
+                  {"\n"}12. Shipping and Delivery Policy{" "}
+                </Text>
+                <Text style={styles.policyText}>Digital Services:</Text>
+                <BulletItem>
+                  All services such as doctor consultations, AI heart
+                  screenings, Medilocker access, and subscriptions are delivered
+                  instantly within the app or web platform.
+                </BulletItem>
+                <Text style={styles.policyText}>
+                  Physical Deliverables (if applicable):
+                </Text>
+                <BulletItem>
+                  If physical services such as lab testing kits, prescriptions,
+                  or health devices are provided, they will be delivered via
+                  partnered logistics.
+                </BulletItem>
+                <BulletItem>
+                  Delivery timelines vary by location and service partner but
+                  generally range from 3 to 7 working days.
+                </BulletItem>
+                <BulletItem>
+                  Users will receive tracking details through email/SMS.
+                </BulletItem>
+                <Text style={styles.policyText}>Shipping Charges:</Text>
+                <BulletItem>
+                  Any delivery-related fees will be transparently shown at the
+                  time of purchase.
+                </BulletItem>
+                <Text style={styles.policyText}>{"\n"}13. Contact Us </Text>
+                <BulletItem>Email: business.support@profcess.org</BulletItem>
+                <BulletItem>Phone: +91 7470472725</BulletItem>
+                <BulletItem>Registered Office: 1st floor Harvard Innovation Lab, Cambridge, USA</BulletItem>
+                <Text style={styles.policyText}>{"\n"}14. Disclaimer </Text>
+                <Text style={styles.policyText}>
+                  Kokoro.Doctor is a technology platform designed to facilitate
+                  digital health interactions. Our AI and services are for
+                  informational and wellness-support purposes only and should
+                  not be considered a replacement for in-person clinical
+                  diagnosis or emergency treatment. Always consult a licensed
+                  medical professional for serious medical concerns.
+                </Text>
+                <Text style={styles.policyText}>
+                  We thank you for trusting Kokoro.Doctor with your health. Your
+                  privacy is our top priority.
+                </Text>
                 <View style={{ marginVertical: 10 }} />{" "}
               </View>
             </ScrollView>
@@ -361,15 +503,15 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   />
                 </View>
                 <Text style={styles.appPrivacyHeader}>
-                  Kokoro.doctor Privacy Policy
+                Privacy Policy – Kokoro.Doctor
                 </Text>
-                <Text style={styles.appPrivacyWelcome}>Welcome</Text>
+                {/* <Text style={styles.appPrivacyWelcome}>Welcome</Text>
                 <Text style={styles.appPrivacyDate}>
                   Effective Date: [Insert Date]
                 </Text>
                 <Text style={styles.appPrivacyDate}>
                   Last Updated: [Insert Date]
-                </Text>
+                </Text> */}
               </View>
               <View style={styles.appPrivacyMainText}>
                 <Text style={styles.appPrivacyPolicyText}>
@@ -607,19 +749,158 @@ const PrivacyPolicy = ({ navigation, route }) => {
 
                 <View style={{ marginVertical: 10 }} />
 
-                <Text style={styles.appPolicyText}>8. Your Rights</Text>
+                <Text style={styles.appPolicyText}>{"\n"}8. Your Rights</Text>
                 <Text style={styles.appPolicyText}>
                   You have the following rights with respect to your data:
                 </Text>
                 <BulletItem>
-                  We do not collect or store your credit/debit card or UPI
-                  credentials on our servers
+                  Access: Request a copy of your health and personal information
                 </BulletItem>
-
                 <BulletItem>
-                  Offline services (e.g., hospital admission, diagnostic lab
-                  visits) are billed separately by the healthcare provider
+                  Correction: Request rectification of errors in your profile or
+                  records
                 </BulletItem>
+                <BulletItem>
+                  Deletion: Request permanent deletion (subject to legal
+                  conditions)
+                </BulletItem>
+                <BulletItem>
+                  Data Portability: Download your Medilocker data in a
+                  structured format
+                </BulletItem>
+                <BulletItem>
+                  Withdraw Consent: Limit how your data is used (with service
+                  restrictions)
+                </BulletItem>
+                <BulletItem>
+                  Lodge Complaints: Report concerns to the data protection
+                  authority
+                </BulletItem>
+                <Text style={styles.appPolicyText}>
+                  {"\n"}9. Children’s Data Policy{" "}
+                </Text>
+                <Text style={styles.appPolicyText}>
+                  Kokoro.Doctor does not knowingly collect personal data from
+                  users under the age of 18 unless the account is operated by a
+                  parent or legal guardian. We encourage guardians to monitor
+                  children’s health-related activities.
+                </Text>
+                <Text style={styles.appPolicyText}>
+                  {"\n"}10. Global Legal Compliance{" "}
+                </Text>
+                <Text style={styles.appPolicyText}>
+                  Kokoro.Doctor adheres to relevant data protection frameworks
+                  including:
+                </Text>
+                <BulletItem>
+                  DPDPA (India’s Digital Personal Data Protection Act)
+                </BulletItem>
+                <BulletItem>
+                  HIPAA (US Health Insurance Portability and Accountability Act)
+                </BulletItem>
+                <BulletItem>
+                  GDPR (General Data Protection Regulation for EU residents)
+                </BulletItem>
+                <Text style={styles.appPolicyText}>
+                  We are committed to meeting or exceeding global health data
+                  privacy norms.
+                </Text>
+                <Text style={styles.appPolicyText}>
+                  {"\n"}11. Changes to this Privacy Policy{" "}
+                </Text>
+                <Text style={styles.appPolicyText}>
+                  We may periodically update this Privacy Policy to reflect
+                  legal, technical, or business changes. When we do, we will
+                  update the “Last Updated” date and notify you through in-app
+                  communication or email.
+                </Text>
+                <Text style={styles.appPolicyText}>
+                  {"\n"}Cancellation and Refund Policy{" "}
+                </Text>
+                <Text style={styles.appPolicyText}>
+                  {"\n"}Consultation Cancellations:{" "}
+                </Text>
+                <BulletItem>
+                  Cancellations made at least 2 hours before the scheduled
+                  consultation time are eligible for a full refund.
+                </BulletItem>
+                <BulletItem>
+                  Cancellations made within 2 hours of the consultation time
+                  will not be eligible for a refund.
+                </BulletItem>
+                <Text style={styles.appPolicyText}>
+                  {"\n"}Subscription Plans:{" "}
+                </Text>
+                <BulletItem>
+                  Monthly/annual subscription plans can be canceled anytime but
+                  are non-refundable once activated.
+                </BulletItem>
+                <BulletItem>
+                  In cases of billing errors or non-usage, users may request a
+                  review for partial credits or alternative resolution by
+                  contacting support.
+                </BulletItem>
+                <Text style={styles.appPolicyText}>
+                  {"\n"}Technical Failures and Service Issues:{" "}
+                </Text>
+                <BulletItem>
+                  If users experience technical disruptions during a paid
+                  consultation, Kokoro.Doctor may offer rescheduling or credit
+                  after internal verification.
+                </BulletItem>
+                <Text style={styles.appPolicyText}>
+                  {"\n"}How to Request a Refund:{" "}
+                </Text>
+                <BulletItem>
+                  Email support@kokoro.doctor within 48 hours of the incident.
+                  Include your user ID, transaction ID, and nature of the issue.
+                </BulletItem>
+                <Text style={styles.appPolicyText}>
+                  {"\n"}12. Shipping and Delivery Policy{" "}
+                </Text>
+                <Text style={styles.appPolicyText}>Digital Services:</Text>
+                <BulletItem>
+                  All services such as doctor consultations, AI heart
+                  screenings, Medilocker access, and subscriptions are delivered
+                  instantly within the app or web platform.
+                </BulletItem>
+                <Text style={styles.appPolicyText}>
+                  Physical Deliverables (if applicable):
+                </Text>
+                <BulletItem>
+                  If physical services such as lab testing kits, prescriptions,
+                  or health devices are provided, they will be delivered via
+                  partnered logistics.
+                </BulletItem>
+                <BulletItem>
+                  Delivery timelines vary by location and service partner but
+                  generally range from 3 to 7 working days.
+                </BulletItem>
+                <BulletItem>
+                  Users will receive tracking details through email/SMS.
+                </BulletItem>
+                <Text style={styles.appPolicyText}>Shipping Charges:</Text>
+                <BulletItem>
+                  Any delivery-related fees will be transparently shown at the
+                  time of purchase.
+                </BulletItem>
+                <Text style={styles.appPolicyText}>{"\n"}13. Contact Us </Text>
+                <BulletItem>Email: business.support@profcess.org</BulletItem>
+                <BulletItem>Phone: +91 7470472725</BulletItem>
+                <BulletItem>Registered Office: 1st floor Harvard Innovation Lab, Cambridge, USA</BulletItem>
+                <Text style={styles.appPolicyText}>{"\n"}14. Disclaimer </Text>
+                <Text style={styles.appPolicyText}>
+                  Kokoro.Doctor is a technology platform designed to facilitate
+                  digital health interactions. Our AI and services are for
+                  informational and wellness-support purposes only and should
+                  not be considered a replacement for in-person clinical
+                  diagnosis or emergency treatment. Always consult a licensed
+                  medical professional for serious medical concerns.
+                </Text>
+                <Text style={styles.appPolicyText}>
+                  We thank you for trusting Kokoro.Doctor with your health. Your
+                  privacy is our top priority.
+                </Text>
               </View>
             </ScrollView>
             <View style={styles.appPrivacyButtonSection}>
@@ -627,7 +908,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                 style={[
                   styles.appPrivacyButton,
                   selectedButton === "decline" &&
-                  styles.appPrivacyButtonSelected,
+                    styles.appPrivacyButtonSelected,
                 ]}
                 onPress={() => {
                   setSelectedButton("decline");
@@ -638,7 +919,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   style={[
                     styles.appPrivacyButtonText,
                     selectedButton === "decline" &&
-                    styles.appPrivacyButtonTextSelected,
+                      styles.appPrivacyButtonTextSelected,
                   ]}
                 >
                   I Decline
@@ -668,7 +949,7 @@ const PrivacyPolicy = ({ navigation, route }) => {
                   style={[
                     styles.appPrivacyButtonText,
                     selectedButton === "agree" &&
-                    styles.appPrivacyButtonTextSelected,
+                      styles.appPrivacyButtonTextSelected,
                   ]}
                 >
                   I Agree
@@ -734,15 +1015,15 @@ const styles = StyleSheet.create({
   },
   policyText: {
     fontSize: 15,
-    fontWeight: "400",
-    color: "#444444",
+    fontWeight: "500",
+    color: "#000",
     lineHeight: 22,
     marginBottom: 10,
   },
   insertDateText: {
-    fontSize: 12,
-    fontWeight: "400",
-    color: "#777777",
+    fontSize: 13,
+    fontWeight: "500",
+    color: "#444444",
   },
   mainText: {
     width: "100%",
@@ -868,30 +1149,30 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
   },
   appPrivacyPolicyText: {
-    fontSize: 14,
-    color: "#444444",
+    fontSize: 15,
+    color: "#000000",
     textAlign: "justify",
-    fontWeight: "400",
+    fontWeight: "500",
     fontFamily: "Poppins",
     lineHeight: 22,
     marginBottom: 10,
   },
   appPolicyText: {
-    fontSize: 14,
-    color: "#444444",
-    fontWeight: "400",
+    fontSize: 15,
+    color: "#000",
+    fontWeight: "500",
     fontFamily: "Poppins",
     lineHeight: 22,
     marginBottom: 8,
   },
   bulletText: {
-    fontSize: 14,
+    fontSize: 15,
     color: "#444444",
     textAlign: "justify",
-    fontWeight: "400",
+    fontWeight: "500",
     fontFamily: "Poppins",
     flexShrink: 1,
-    lineHeight: 22,
+    lineHeight: 15,
   },
   appPrivacyButtonSection: {
     flexDirection: "row",

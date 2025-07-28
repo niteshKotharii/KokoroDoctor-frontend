@@ -18,43 +18,18 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SideBarNavigation from "../../../components/PatientScreenComponents/SideBarNavigation";
 import Header from "../../../components/PatientScreenComponents/Header";
 import { API_URL } from "../../../env-vars";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const { width, height } = Dimensions.get("window");
 
 const DoctorsInfoWithBooking = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
-  //const [searchQuery, setSearchQuery] = useState("");
-  //const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState("Today");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
-  const doctors = route.params?.doctors || {}; // Get doctor data from navigation
-  const [selectedDay, setSelectedDay] = useState(null);
-  const [selectedSlot, setSelectedSlot] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
-
-  // const handleSearch = () => {
-  //   Alert.alert(`Search Results for: ${searchQuery}`);
-  // };
-
-  // const toggleDropdown = () => {
-  //   setDropdownVisible(!dropdownVisible);
-  // };
-
-  // const handleDateSelect = (date) => {
-  //   setSelectedDate(date);
-  // };
-
-  // const handleTimeSelect = (time) => {
-  //   setSelectedTimeSlot(time);
-  // };
-
-  // Function to handle redirection for booking
-  const handleBooking = (timeSlot, doctorData, clinicData) => {
-    setSelectedTimeSlot(timeSlot);
-    // Navigate to a payment page passing the data through the route params
-    //navigation.navigate("DoctorsPaymentScreen");
-  };
+  const doctors = route.params?.doctors || {}; // Get doctor data from navigation
+  const { user } = useAuth();
 
   useEffect(() => {
     const getDatesAndSlots = async () => {
@@ -128,9 +103,62 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
     setAvailableSlots(selected?.slots || []);
     setSelectedTimeSlot(null);
   };
+  const handleSlotSelect = (slot) => {
+    setSelectedTimeSlot(slot);
+  };
+  const bookSlot = async () => {
+    if (!selectedDate || !selectedTimeSlot) {
+      alert("Please select a date and time slot.");
+      return;
+    }
 
+    try {
+      const res = await fetch(`${API_URL}/doctorBookings/book`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          doctor_id: doctors.email,
+          date: selectedDate,
+          slot: selectedTimeSlot,
+          user_id: user.email, // from auth context
+        }),
+      });
+      
+
+      const data = await res.json();
+      // console.log("Booked successfully:", data);
+      alert("Slot booked successfully!");
+      navigation.navigate("DoctorsBookingPaymentScreen", {
+        doctors,
+        bookingDetails: {
+          date: selectedDate,
+          slot: selectedTimeSlot,
+          confirmation: data, // backend response
+        },
+      });
+    } catch (error) {
+      // console.error("Booking error:", error);
+      alert("Failed to book slot.");
+    }
+    // console.log(user.email, doctors.email);
+  };
+
+  // const handleBookAppointment = () => {
+  //   navigation.navigate("AppDoctorsRating");
+  // };
   const handleBookAppointment = () => {
-    navigation.navigate("AppDoctorsRating");
+    if (!selectedDate || !selectedTimeSlot) {
+      alert("Please select a date and time slot first.");
+      return;
+    }
+
+    navigation.navigate("DoctorsBookingPaymentScreen", {
+      doctorId: doctors.id || doctors.email,
+      doctorName: doctors.doctorname,
+      date: selectedDate,
+      timeSlot: selectedTimeSlot,
+      fees: doctors.fees || Free,
+    });
   };
 
   return (
@@ -324,13 +352,14 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                           }, // greyed out if not selected
                         ]}
                         disabled={!selectedTimeSlot}
-                        onPress={() => {
-                          if (selectedTimeSlot) {
-                            navigation.navigate("DoctorsBookingPaymentScreen", {
-                              doctors,
-                            }); // navigate or process booking
-                          }
-                        }}
+                        // onPress={() => {
+                        //   if (selectedTimeSlot) {
+                        //     navigation.navigate("DoctorsBookingPaymentScreen", {
+                        //       doctors,
+                        //     }); // navigate or process booking
+                        //   }
+                        // }}
+                        onPress={bookSlot}
                       >
                         <Text style={styles.bookSlotText}>
                           {selectedTimeSlot ? "Book Slot" : "Book Slot"}
@@ -414,7 +443,7 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
               <View style={styles.feesBox}>
                 <Text style={styles.fees}>
                   {/* {doctors.consultationFees || `₹${doctors.fees || 0}`} */}
-                  ₹1999 / Per month
+                  Free
                 </Text>
                 <Text style={styles.feesText}>Consultation fees</Text>
               </View>
@@ -507,7 +536,7 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
               style={styles.bookAppointmentButton}
               onPress={handleBookAppointment}
             >
-              <Text style={styles.bookAppointmentText}>Subscribe</Text>
+              <Text style={styles.bookAppointmentText}>Book Slot</Text>
             </TouchableOpacity>
             {/* </View> */}
           </ScrollView>
