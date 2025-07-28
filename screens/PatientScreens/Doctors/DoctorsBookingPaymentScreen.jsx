@@ -54,7 +54,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
     user_id: user.email,
     fee: feesAmount,
     date: selectedDate,
-    slot: selectedTimeSlot,
+    start: slot.start,
     appointmentMode,
     address,
     meetingLink,
