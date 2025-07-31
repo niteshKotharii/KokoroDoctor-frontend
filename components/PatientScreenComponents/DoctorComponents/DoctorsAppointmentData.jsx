@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { API_URL } from "../../../env-vars";
 import { useAuth } from "../../../contexts/AuthContext";
+import { useLinkTo } from "@react-navigation/native";
 
 const DoctorAppointmentScreen = ({ navigation }) => {
   const { width } = useWindowDimensions();
@@ -20,6 +21,7 @@ const DoctorAppointmentScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [subscriberCounts, setSubscriberCounts] = useState({});
   const { user } = useAuth();
+  const linkTo = useLinkTo();
   const [showFull, setShowFull] = useState(false);
 
   useEffect(() => {
@@ -51,12 +53,12 @@ const DoctorAppointmentScreen = ({ navigation }) => {
     }
   }, [doctors]);
 
-  const handleHeartButtonPress = (email) => {
-    setSubscriberCounts((prev) => ({
-      ...prev,
-      [email]: (prev[email] || 0) + 1,
-    }));
-  };
+  // const handleHeartButtonPress = (email) => {
+  //   setSubscriberCounts((prev) => ({
+  //     ...prev,
+  //     [email]: (prev[email] || 0) + 1,
+  //   }));
+  // };
 
   const subscribeToDoctor = async (doctorEmail) => {
     try {
@@ -87,7 +89,21 @@ const DoctorAppointmentScreen = ({ navigation }) => {
         subscriberCount: (subscriberCounts[doctorEmail] || 0) + 1,
       };
 
-      // Navigate to detail page with updated doctor info
+      // navigation.navigate("DoctorsInfoWithBooking", {
+      //   doctors: updatedDoctor,
+      // });
+      // linkTo(
+      //   `/DoctorsInfoWithBooking?doctors=${encodeURIComponent(JSON.stringify(updatedDoctor))}`
+      // );
+      if (Platform.OS === "web") {
+        const encoded = encodeURIComponent(JSON.stringify(updatedDoctor));
+        window.history.pushState(
+          {},
+          "",
+          `/DoctorsInfoWithBooking?doctors=${encoded}`
+        );
+        console.log(window.location.href);
+      }
       navigation.navigate("DoctorsInfoWithBooking", {
         doctors: updatedDoctor,
       });
@@ -321,7 +337,6 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                             1999 / Per month
                             {/* {item.consultationFees || `₹${item.fees || 0}`} */}
                           </Text>
-                          
                         </View>
                       </View>
                       <TouchableOpacity
@@ -380,7 +395,6 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     flex: 1,
-    
   },
   cardContainer: {
     height: 195,
@@ -398,7 +412,6 @@ const styles = StyleSheet.create({
         height: windowWidth > 1000 ? 195 : 308,
       },
     }),
-    
   },
   cardBox: {
     flexDirection: "column",
@@ -520,7 +533,6 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "50%",
     //borderWidth: 1,
-    
   },
   docFeesText: {
     paddingHorizontal: "5%",
@@ -656,7 +668,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         width: windowWidth > 1000 ? "60%" : "65%",
-      }
+      },
     }),
   },
   specialization: {
@@ -682,7 +694,7 @@ const styles = StyleSheet.create({
     width: "100%",
     //borderWidth: 1,
   },
-  addressText:{
+  addressText: {
     fontSize: 13,
     fontWeight: 400,
     color: "#rgba(136, 136, 136, 1)",
