@@ -19,6 +19,7 @@ import SideBarNavigation from "../../../components/PatientScreenComponents/SideB
 import Header from "../../../components/PatientScreenComponents/Header";
 import { API_URL } from "../../../env-vars";
 import { useAuth } from "../../../contexts/AuthContext";
+import { Linking } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
@@ -28,8 +29,52 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
-  const doctors = route.params?.doctors || {}; // Get doctor data from navigation
+  const [doctors, setDoctors] = useState(route.params?.doctors || null);
+  const [isReady, setIsReady] = useState(false); // Delay rendering
+
   const { user } = useAuth();
+
+  useEffect(() => {
+    const tryParseDoctorFromUrl = () => {
+      try {
+        const search = window.location.search; // "?doctors=%7B...%7D"
+        const urlParams = new URLSearchParams(search);
+        const encodedDoctor = urlParams.get("doctors");
+
+        if (encodedDoctor) {
+          const decoded = decodeURIComponent(encodedDoctor);
+          const parsed = JSON.parse(decoded);
+          setDoctors(parsed);
+        }
+      } catch (err) {
+        console.error("Error parsing doctor from URL:", err);
+      } finally {
+        setIsReady(true);
+      }
+    };
+
+    if (!doctors) {
+      if (Platform.OS === "web") {
+        tryParseDoctorFromUrl();
+      } else {
+        Linking.getInitialURL().then((url) => {
+          if (url && url.includes("DoctorsInfoWithBooking")) {
+            const urlObj = new URL(url);
+            const encodedDoctor = urlObj.searchParams.get("doctors");
+
+            if (encodedDoctor) {
+              const decoded = decodeURIComponent(encodedDoctor);
+              const parsed = JSON.parse(decoded);
+              setDoctors(parsed);
+            }
+          }
+          setIsReady(true);
+        });
+      }
+    } else {
+      setIsReady(true);
+    }
+  }, []);
 
   useEffect(() => {
     const getDatesAndSlots = async () => {
@@ -123,18 +168,17 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
           user_id: user.email, // from auth context
         }),
       });
-      
 
       const data = await res.json();
       // console.log("Booked successfully:", data);
       alert("Slot booked successfully!");
+      console.log("Navigating with: ", {
+        doctor: doctors,
+      });
       navigation.navigate("DoctorsBookingPaymentScreen", {
-        doctors,
-        bookingDetails: {
-          date: selectedDate,
-          start: selectedTimeSlot,
-          confirmation: data, // backend response
-        },
+        doctor: doctors,
+        selectedDate: selectedDate,
+        selectedTimeSlot: selectedTimeSlot,
       });
     } catch (error) {
       // console.error("Booking error:", error);
@@ -143,24 +187,16 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
     // console.log(user.email, doctors.email);
   };
 
-  // const handleBookAppointment = () => {
-  //   navigation.navigate("AppDoctorsRating");
-  // };
   const handleBookAppointment = () => {
     if (!selectedDate || !selectedTimeSlot) {
       alert("Please select a date and time slot first.");
       return;
     }
 
-    navigation.navigate("DoctorsBookingPaymentScreen", {
-      doctor_id: doctors.email,
-      doctorName: doctors.doctorname,
-      date: selectedDate,
-      start: selectedTimeSlot,
-      fees: doctors.fees || Free,
-    });
+    navigation.navigate("DoctorsBookingPaymentScreen", { doctors });
   };
-
+  if (!isReady || !doctors) return null;
+  
   return (
     <>
       {Platform.OS === "web" && width > 1000 && (
@@ -364,6 +400,16 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                         <Text style={styles.bookSlotText}>
                           {selectedTimeSlot ? "Book Slot" : "Book Slot"}
                         </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.bookSlotButton}
+                        onPress={() =>
+                          navigation.navigate("DoctorsBookingPaymentScreen", {
+                            doctors,
+                          })
+                        }
+                      >
+                        <Text style={styles.bookSlotText}>Skip</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -1395,7 +1441,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: "3%",
     borderRadius: 5,
-    backgroundColor: "rgba(254, 81, 83, 0.6)",
+    backgroundColor: "rgba(215, 35, 38, 0.6)",
   },
   bookSlotText: {
     fontSize: 16,

@@ -1,6 +1,6 @@
-const { withExpo } = require('@expo/webpack-config');
+import { withExpo } from '@expo/webpack-config';
 
-module.exports = async function (env, argv) {
+export default async function (env, argv) {
   const config = await withExpo(env, argv);
   return config;
 };

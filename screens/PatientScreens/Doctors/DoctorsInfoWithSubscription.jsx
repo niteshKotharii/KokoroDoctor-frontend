@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Text,
@@ -12,7 +12,7 @@ import {
   StatusBar,
   ScrollView,
   Alert,
-  Linking
+  Linking,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SideBarNavigation from "../../../components/PatientScreenComponents/SideBarNavigation";
@@ -28,7 +28,53 @@ const features = [
 
 const DoctorsInfoWithSubscription = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
-  const doctors = route?.params?.doctors || {};
+  // const doctors = route?.params?.doctors || {};
+  const [doctors, setDoctors] = useState(route.params?.doctors || null);
+  const [isReady, setIsReady] = useState(false); // Delay rendering
+  useEffect(() => {
+    const tryParseDoctorFromUrl = () => {
+      try {
+        let encodedDoctor = null;
+
+        // 👇 Works both on Web and Native
+        if (Platform.OS === "web") {
+          const urlObj = new URL(window.location.href);
+          encodedDoctor = urlObj.searchParams.get("doctors");
+        } else {
+          // For native: still fallback to Linking.getInitialURL
+          Linking.getInitialURL().then((url) => {
+            if (url && url.includes("DoctorsInfoWithSubscription")) {
+              const urlObj = new URL(url);
+              const encoded = urlObj.searchParams.get("doctors");
+              if (encoded) {
+                const parsed = JSON.parse(decodeURIComponent(encoded));
+                setDoctors(parsed);
+                setIsReady(true);
+              }
+            }
+          });
+          return;
+        }
+
+        if (encodedDoctor) {
+          const decoded = decodeURIComponent(encodedDoctor);
+          const parsed = JSON.parse(decoded);
+          setDoctors(parsed);
+        }
+      } catch (err) {
+        console.error("Error parsing doctor from URL:", err);
+      } finally {
+        setIsReady(true);
+      }
+    };
+
+    if (!doctors) {
+      tryParseDoctorFromUrl();
+    } else {
+      setIsReady(true);
+    }
+  }, []);
+
   const handleContinuePayment = async (amount) => {
     Alert.alert("Processing Payment", "Redirecting to payment gateway...");
     try {
