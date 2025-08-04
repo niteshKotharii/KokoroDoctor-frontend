@@ -150,13 +150,13 @@ const AllHospitals = ({ navigation, route }) => {
                       <View style={styles.hospCards}>
                         <View style={styles.display}>
                           {/* left button to move cards */}
-                          <View style={styles.leftarrow}>
+                          {/* <View style={styles.leftarrow}>
                             <TouchableOpacity onPress={moveLeft}>
                               <Image
                                 source={require("../../../assets/Icons/LeftButton.png")}
                               />
                             </TouchableOpacity>
-                          </View>
+                          </View> */}
 
                           {hospitals
                             .slice(startIndex, startIndex + 3)
@@ -171,7 +171,7 @@ const AllHospitals = ({ navigation, route }) => {
                             ))}
                           {/* Right button to move cards */}
 
-                          <View style={styles.rightarrow}>
+                          {/* <View style={styles.rightarrow}>
                             <TouchableOpacity
                               onPress={moveRight}
                               activeOpacity={0.7}
@@ -180,7 +180,7 @@ const AllHospitals = ({ navigation, route }) => {
                                 source={require("../../../assets/Icons/RightButton.png")}
                               />
                             </TouchableOpacity>
-                          </View>
+                          </View> */}
                         </View>
                       </View>
                     </View>
@@ -287,9 +287,8 @@ const AllHospitals = ({ navigation, route }) => {
                       </View>
                     </View>
                   </Modal>
-                  {/* Footer section where hospital cards are displayed */}
                   <View style={styles.footer}>
-                    <View style={styles.footerBody}>
+                    {/* <View style={styles.footerBody}>
                       <View style={styles.display1}>
                         <View style={styles.leftarrow}>
                           <TouchableOpacity onPress={slideLeft}>
@@ -304,7 +303,7 @@ const AllHospitals = ({ navigation, route }) => {
                           .map((hospital) => (
                             <View key={hospital.id} style={styles.box1}>
                               <HospitalCard id={hospital.id} />
-                              {/* <Text>Hello</Text> */}
+                            
                             </View>
                           ))}
                         <View style={styles.rightarrow}>
@@ -318,7 +317,7 @@ const AllHospitals = ({ navigation, route }) => {
                           </TouchableOpacity>
                         </View>
                       </View>
-                    </View>
+                    </View> */}
                   </View>
                 </View>
               </View>
@@ -525,15 +524,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     // justifyContent:"flex-end",
+    //borderWidth:1,
+    marginTop:"4%"
   },
 
   display: {
-    height: "90%",
+    height: "100%",
     width: "100%",
     flexDirection: "row",
-    justifyContent: "space-evenly",
     // alignItems: "center",
     // overflow: "hidden",
+    alignItems:"flex-start",
   },
   leftarrow: {
     height: "100%",
@@ -550,8 +551,8 @@ const styles = StyleSheet.create({
 
   box: {
     // flex: 1,
-    height: "90%",
-    width: "26%",
+    height: "100%",
+    width: "36%",
     justifyContent: "center",
     // marginHorizontal: 10,
     // flexShrink: 0,
@@ -561,10 +562,11 @@ const styles = StyleSheet.create({
     width: "25%",
     height: "100%",
     alignItems: "flex-end",
+    marginTop:"3%"
   },
   emergencyCardContainer: {
     width: "70%",
-    height: "80%",
+    height: "90%",
     marginLeft: "20%",
     paddingTop: "5%",
     paddingBottom: "20%",

@@ -135,17 +135,40 @@ const MobileChatbot = () => {
     }
   };
 
-  const toggleTTS = (index, text) => {
-    if (playingMessage === index) {
-      Speech.stop();
-      setPlayingMessage(null);
-    } else {
-      Speech.speak(text, {
-        language: selectedLanguage.value,
-        onDone: () => setPlayingMessage(null),
-        onStopped: () => setPlayingMessage(null),
-      });
-      setPlayingMessage(index);
+  // const toggleTTS = (index, text) => {
+  //   if (playingMessage === index) {
+  //     Speech.stop();
+  //     setPlayingMessage(null);
+  //   } else {
+  //     Speech.speak(text, {
+  //       language: selectedLanguage.value,
+  //       onDone: () => setPlayingMessage(null),
+  //       onStopped: () => setPlayingMessage(null),
+  //     });
+  //     setPlayingMessage(index);
+  //   }
+  // };
+  const toggleTTS = async (index, text) => {
+    try {
+      const { available } = await Speech.getAvailableVoicesAsync();
+      if (!available) {
+        console.warn("Speech not available on this device");
+        return;
+      }
+  
+      if (playingMessage === index) {
+        await Speech.stop();
+        setPlayingMessage(null);
+      } else {
+        await Speech.speak(text, {
+          language: selectedLanguage.value,
+          onDone: () => setPlayingMessage(null),
+          onStopped: () => setPlayingMessage(null),
+        });
+        setPlayingMessage(index);
+      }
+    } catch (error) {
+      console.error("Speech error:", error);
     }
   };
 
