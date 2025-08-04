@@ -475,7 +475,7 @@ const AboutUsMain = ({ navigation, route }) => {
     
             {/* Monthly Plan */}
             <View style={styles.appPricingPlan}>
-              <Text style={styles.appPriceAmount}>₹999</Text>
+              <Text style={styles.appPriceAmount}>₹1999</Text>
               <Text style={styles.appPricePeriod}>per month</Text>
             </View>
     

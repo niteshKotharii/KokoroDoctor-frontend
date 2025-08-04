@@ -10,6 +10,7 @@ import {
   Modal,
   TextInput,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { AuthContext } from "../../contexts/AuthContext";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -334,13 +335,13 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                       <View
                         style={[styles.dropdownMain, styles.dropdownLoggedOut]}
                       >
-                        <Pressable
+                        <TouchableOpacity
                           //onPress={() => handleOptionPress("Login")}
                           onPress={() => navigation.navigate("Login")}
                           style={styles.dropdownItem}
                         >
                           <Text style={styles.dropdownText}>Login</Text>
-                        </Pressable>
+                        </TouchableOpacity>
                         <Pressable
                           ///onPress={() => handleOptionPress("Signup")}
                           onPress={handleOptionPress}

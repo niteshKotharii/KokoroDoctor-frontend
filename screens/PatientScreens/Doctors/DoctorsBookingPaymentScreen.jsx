@@ -26,20 +26,20 @@ import { API_URL } from "../../../env-vars";
 // import Icon from 'react-native-vector-icons/FontAwesome';
 
 const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
-  const [searchQuery, setSearchQuery] = useState("");
   const { setChatbotConfig } = useChatbot();
   const { width } = useWindowDimensions();
   const { user } = useContext(AuthContext);
-  // const doctors = route?.params?.doctors || {};
-  // const {selectedDate} = route?.params?.selectedDate || {};
-  // const {selectedTimeSlot} = route?.params?.selectedTimeSlot || {};e
-  const [booking, setBookings ] = useState();
-
-  const { doctors, selectedDate, selectedTimeSlot } = route?.params;
-  console.log("screen params →", route.params);
-
+  const [booking, setBookings] = useState();
   const [freeConsultationUsed, setFreeConsultationUsed] = useState(false);
   const [consultationFee, setConsultationFee] = useState(0);
+  const params = route?.params || {};
+  const doctors = params.doctor;
+  const selectedDate = params.selectedDate;
+  const selectedTimeSlot = params.selectedTimeSlot
+    ? typeof params.selectedTimeSlot === "string"
+      ? { time: params.selectedTimeSlot }
+      : params.selectedTimeSlot
+    : { time: "Time not specified" };
 
   useEffect(() => {
     if (!doctors) return;
@@ -66,7 +66,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
         }
       } catch (err) {
         console.error("Fetch error", err);
-      } 
+      }
     };
 
     fetchDoctorBookings();
@@ -74,17 +74,24 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
 
   useFocusEffect(
     useCallback(() => {
-      // Reset chatbot height when this screen is focused
       setChatbotConfig({ height: "32%" });
     }, [])
   );
-  
+
   const handleContinuePayment = async () => {
     const amount = freeConsultationUsed ? consultationFee : 0;
     if (amount === 0) {
       setFreeConsultationUsed(true);
       // Navigate to next screen if no payment is required
-      navigation.navigate("BookingConfirmationScreen", { slotBooked: true });
+      navigation.navigate(
+        "BookingConfirmation",
+        {
+          doctor: doctors,
+          selectedDate: selectedDate,
+          selectedTimeSlot: selectedTimeSlot,
+        },
+        { slotBooked: true }
+      );
       return;
     }
     // Otherwise, proceed with payment
@@ -174,9 +181,12 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                           <View style={styles.doctorRow}>
                             <View style={styles.doctorAvatars}>
                               <Image
-                                source={{ uri: doctors.profilePhoto }}
+                                source={
+                                  typeof doctors.profilePhoto === "string"
+                                    ? { uri: doctors.profilePhoto }
+                                    : doctors.profilePhoto
+                                }
                                 style={styles.doctorAvatarImage}
-                                //resizeMode="cover"
                               />
                             </View>
                             <View style={styles.doctorInfo}>
@@ -209,7 +219,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                             <View style={styles.divider} />
                             <View style={styles.appointmentBox}>
                               <Icon
-                                name="event" 
+                                name="event"
                                 size={18}
                                 color="rgba(255, 0, 0, 0.75)"
                                 style={styles.appointmentIcon}
@@ -219,8 +229,9 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                                   Appointment Date
                                 </Text>
                                 <Text style={styles.dateTimeText}>
-                                  Date: {selectedDate || "N/A"}| Time:{" "}
-                                  {selectedTimeSlot?.time || "N/A"}
+                                  {`Date: ${selectedDate || "NA"} | Time: ${
+                                    selectedTimeSlot?.time || "N/A"
+                                  }`}
                                 </Text>
                               </View>
                             </View>
@@ -371,9 +382,13 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
             <View style={styles.mobileContainer}>
               {/* Header with back button and title */}
               <View style={styles.doctorInfoContainer}>
-                <TouchableOpacity style={styles.profileButton}>
+                <View style={styles.profileButton}>
                   <Image
-                    source={{ uri: doctors.profilePhoto }}
+                    source={
+                      typeof doctors.profilePhoto === "string"
+                        ? { uri: doctors.profilePhoto }
+                        : doctors.profilePhoto
+                    }
                     style={styles.profileImagei}
                   />
                   <MaterialIcons
@@ -381,10 +396,10 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                     size={24}
                     color="#fff"
                   />
-                </TouchableOpacity>
+                </View>
                 <Text style={styles.doctorName}>{doctors.doctorname}</Text>
                 <Text style={styles.doctorSpecialty}>
-                  ({doctors.doctorSpecialization})
+                  ({doctors.specialization})
                 </Text>
               </View>
 
@@ -439,13 +454,13 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                   <View style={styles.scheduleTimeContainer}>
                     <MaterialIcons name="access-time" size={18} color="#555" />
                     <Text style={styles.scheduleTimeText}>
-                      {time ? time : "Time N/A"}
+                      Time: {selectedTimeSlot?.time || "N/A"}
                     </Text>
                   </View>
                   <View style={styles.scheduleDateContainer}>
                     <MaterialIcons name="event" size={18} color="#555" />
                     <Text style={styles.scheduleDateText}>
-                      {date ? date : "Date N/A"}
+                      Date: {selectedDate || "N/A"}
                     </Text>
                   </View>
                 </View>
@@ -457,11 +472,11 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                 <Text style={styles.billTitle}>Bill Details</Text>
                 <View style={styles.billRow}>
                   <Text style={styles.billLabel}>Consultation fees:</Text>
-                  <Text style={styles.billValue}>₹{doctors.fee}</Text>
+                  <Text style={styles.billValue}>₹ Free</Text>
                 </View>
                 <View style={styles.billRow}>
                   <Text style={styles.billLabel}>Booking Fee</Text>
-                  <Text style={styles.billValue}>₹50</Text>
+                  <Text style={styles.billValue}>₹0</Text>
                 </View>
                 <View style={styles.billRow}>
                   <Text style={styles.billLabel}>Promo Applied:</Text>
@@ -472,7 +487,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                     Total Pay
                   </Text>
                   <Text style={[styles.billValue, styles.totalValue]}>
-                    ₹{doctors.fee + 50}
+                    ₹Free
                   </Text>
                 </View>
               </View>
@@ -486,6 +501,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
               >
                 <Text style={styles.continueButtonText}>Continue</Text>
               </TouchableOpacity>
+              
             </View>
           </ScrollView>
         </View>
@@ -552,9 +568,9 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   profileImagei: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 70,
+    height: 70,
+    borderRadius: 50,
   },
   contentContainer: {
     flex: 1,
@@ -622,7 +638,7 @@ const styles = StyleSheet.create({
   doctorAvatarImage: {
     width: 50,
     height: 50,
-    borderRadius:50
+    borderRadius: 50,
   },
   doctorInfo: {
     marginLeft: "5%",

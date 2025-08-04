@@ -16,7 +16,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as Speech from "expo-speech";
 import { AuthContext } from "../../../contexts/AuthContext";
-import {askBot}  from "../../../utils/ChatBotService";
+import { askBot } from "../../../utils/ChatBotService";
 
 const languages = [
   { label: "English (In)", value: "en" },
@@ -45,7 +45,7 @@ const MobileChatbot = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [typingText, setTypingText] = useState(".");
   const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
-  const { user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   // Set userID
   useEffect(() => {
@@ -92,8 +92,8 @@ const MobileChatbot = () => {
     setIsLoading(true);
 
     try {
-      const botReply = await askBot(userId, messageToSend, selectedLanguage);
-      if(botReply){
+      const botReply = await askBot(userId, messageToSend, selectedLanguage.value);
+      if (botReply) {
         const botMessage = {
           id: Date.now().toString(),
           sender: "bot",
@@ -103,16 +103,16 @@ const MobileChatbot = () => {
             minute: "2-digit",
           }),
         };
-        setMessages(prevMessages => {
-            const updatedMessages = [...prevMessages, botMessage];
-            const newMessageIndex = updatedMessages.length - 1; // Get the index of the latest bot message
-            setPlayingMessage(newMessageIndex); // Set playingMessage to the new message index
-            Speech.speak(botReply.text, {
-                language: selectedLanguage.value,
-                onDone: () => setPlayingMessage(null),
-                onStopped: () => setPlayingMessage(null),
-            });
-            return updatedMessages;
+        setMessages((prevMessages) => {
+          const updatedMessages = [...prevMessages, botMessage];
+          const newMessageIndex = updatedMessages.length - 1; // Get the index of the latest bot message
+          setPlayingMessage(newMessageIndex); // Set playingMessage to the new message index
+          Speech.speak(botReply.text, {
+            language: selectedLanguage.value,
+            onDone: () => setPlayingMessage(null),
+            onStopped: () => setPlayingMessage(null),
+          });
+          return updatedMessages;
         });
       }
     } catch (error) {
@@ -134,8 +134,6 @@ const MobileChatbot = () => {
       Keyboard.dismiss();
     }
   };
-
-  
 
   const toggleTTS = (index, text) => {
     if (playingMessage === index) {

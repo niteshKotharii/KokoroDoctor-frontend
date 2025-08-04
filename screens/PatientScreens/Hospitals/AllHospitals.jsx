@@ -31,15 +31,15 @@ import HospitalCard from "../../../components/PatientScreenComponents/HospitalCo
 
 const hospitals = [
   { id: "1" },
-  { id: "2" },
-  { id: "3" },
-  { id: "4" },
-  { id: "5" },
-  { id: "6" },
-  { id: "7" },
-  { id: "8" },
-  { id: "9" },
-  { id: "10" },
+  // { id: "2" },
+  // { id: "3" },
+  // { id: "4" },
+  // { id: "5" },
+  // { id: "6" },
+  // { id: "7" },
+  // { id: "8" },
+  // { id: "9" },
+  // { id: "10" },
 ];
 
 const AllHospitals = ({ navigation, route }) => {
@@ -351,7 +351,7 @@ const AllHospitals = ({ navigation, route }) => {
             />
           </View>
 
-          <View style={styles.Phoneicon}>
+          {/* <View style={styles.Phoneicon}>
             <TouchableOpacity
               onPress={() => navigation.navigate("EmergencyLocation")}
             >
@@ -361,7 +361,7 @@ const AllHospitals = ({ navigation, route }) => {
               />
               <Text style={styles.phoneiconText}>Emergency</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       )}
     </>

@@ -69,8 +69,14 @@ export const signup = async (
     body: JSON.stringify({ username, email, password, phoneNumber, location }),
   });
 
+  // if (!response.ok) {
+  //   throw new Error("Signup Failed");
+  // }
   if (!response.ok) {
-    throw new Error("Signup Failed");
+    const data = await response.json(); // Parse error response
+    const errorMessage =
+      data?.detail || `SignUp Failed ${response.status}`;
+    throw new Error(errorMessage);
   }
   const data = await response.json();
   const { user } = data;
@@ -89,7 +95,10 @@ export const login = async (email, password) => {
   });
 
   if (!response.ok) {
-    throw new Error(response.error);
+    const data = await response.json(); // Parse error response
+    const errorMessage =
+      data?.detail || `Login failed with status ${response.status}`;
+    throw new Error(errorMessage);
   }
 
   const data = await response.json();

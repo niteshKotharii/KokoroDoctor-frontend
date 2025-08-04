@@ -20,6 +20,7 @@ import Header from "../../../components/PatientScreenComponents/Header";
 import { API_URL } from "../../../env-vars";
 import { useAuth } from "../../../contexts/AuthContext";
 import { Linking } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get("window");
 
@@ -153,38 +154,74 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
   };
   const bookSlot = async () => {
     if (!selectedDate || !selectedTimeSlot) {
-      alert("Please select a date and time slot.");
+      Alert.alert("Error", "Please select a date and time slot.");
       return;
     }
 
     try {
+      console.log("Booking request payload:", {
+        doctor_id: doctors.email,
+        date: selectedDate,
+        start: selectedTimeSlot,
+        user_id: user.email,
+      });
+
       const res = await fetch(`${API_URL}/doctorBookings/book`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(user.token && { Authorization: `Bearer ${user.token}` }),
+        },
         body: JSON.stringify({
           doctor_id: doctors.email,
           date: selectedDate,
           start: selectedTimeSlot,
-          user_id: user.email, // from auth context
+          user_id: user.email,
+          platform: Platform.OS === "web" ? "web" : "mobile",
         }),
       });
 
+      console.log("Booking response status:", res.status);
       const data = await res.json();
-      // console.log("Booked successfully:", data);
-      alert("Slot booked successfully!");
-      console.log("Navigating with: ", {
-        doctor: doctors,
-      });
+      console.log("Booking response data:", data);
+
+      if (!res.ok) throw new Error(data.detail || "Booking failed");
+
+      // Update local state
+      setAvailableDates((prevDates) =>
+        prevDates.map((date) => {
+          if (date.date === selectedDate) {
+            return {
+              ...date,
+              slots: date.slots.map((slot) =>
+                slot.start === selectedTimeSlot
+                  ? { ...slot, available: slot.available - 1 }
+                  : slot
+              ),
+            };
+          }
+          return date;
+        })
+      );
+
+      setAvailableSlots((prevSlots) =>
+        prevSlots.map((slot) =>
+          slot.start === selectedTimeSlot
+            ? { ...slot, available: slot.available - 1 }
+            : slot
+        )
+      );
+
+      Alert.alert("Success", "Slot booked successfully!");
       navigation.navigate("DoctorsBookingPaymentScreen", {
         doctor: doctors,
         selectedDate: selectedDate,
         selectedTimeSlot: selectedTimeSlot,
       });
     } catch (error) {
-      // console.error("Booking error:", error);
-      alert("Failed to book slot.");
+      console.error("Booking error:", error);
+      Alert.alert("Error", error.message || "Failed to book slot");
     }
-    // console.log(user.email, doctors.email);
   };
 
   const handleBookAppointment = () => {
@@ -193,10 +230,48 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
       return;
     }
 
-    navigation.navigate("DoctorsBookingPaymentScreen", { doctors });
+    navigation.navigate("DoctorsBookingPaymentScreen", {
+      doctor: doctors,
+      selectedDate: selectedDate,
+      selectedTimeSlot: selectedTimeSlot,
+    });
   };
+  // const handleBookAppointment = async () => {
+  //   if (!selectedDate || !selectedTimeSlot) {
+  //     alert("Please select a date and time slot first.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const user_email = await AsyncStorage.getItem("@user_email");
+
+  //     if (!user_email) {
+  //       console.error("❌ User ID not found in AsyncStorage");
+  //       alert("User not logged in properly. Please try logging in again.");
+  //       return;
+  //     }
+
+  //     // 🔍 Debug the data
+  //     console.log("🚀 Booking Info:", {
+  //       doctor_id: doctors.email,
+  //       date: selectedDate,
+  //       start: selectedTimeSlot,
+  //       user_id: user_email,
+  //     });
+
+  //     navigation.navigate("DoctorsBookingPaymentScreen", {
+  //       doctor: doctors,
+  //       selectedDate: selectedDate,
+  //       selectedTimeSlot: selectedTimeSlot,
+  //     });
+  //   } catch (error) {
+  //     console.error("❌ Booking Error:", error);
+  //     alert("Something went wrong. Please try again.");
+  //   }
+  // };
+
   if (!isReady || !doctors) return null;
-  
+
   return (
     <>
       {Platform.OS === "web" && width > 1000 && (
@@ -336,40 +411,41 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                             showsVerticalScrollIndicator={false}
                           >
                             {availableSlots.map((slot, idx) => {
-                              const isFull = slot.available === 0;
+                              const isAvailable = slot.available > 0;
                               return (
                                 <TouchableOpacity
                                   key={idx}
-                                  disabled={isFull}
+                                  disabled={!isAvailable}
                                   style={[
                                     styles.timeSlot,
                                     selectedTimeSlot === slot.start &&
                                       styles.selectedTimeSlot,
-                                    isFull && { backgroundColor: "#ccc" },
+                                    !isAvailable && styles.unavailableTimeSlot,
                                   ]}
-                                  onPress={() => {
-                                    setSelectedTimeSlot(slot.start);
-                                  }}
+                                  onPress={() =>
+                                    isAvailable && handleSlotSelect(slot.start)
+                                  }
                                 >
                                   <Text
                                     style={[
                                       styles.timeSlotText,
                                       selectedTimeSlot === slot.start &&
                                         styles.selectedTimeSlotText,
+                                      !isAvailable &&
+                                        styles.unavailableTimeSlotText,
                                     ]}
                                   >
                                     {slot.start} - {slot.end}
                                   </Text>
-                                  {/* <Text style={styles.bookNowText}>
-                                    {isFull ? "Full" : `${slot.available}`}
+                                  {/* <Text
+                                    style={[
+                                      styles.bookNowText,
+                                      !isAvailable &&
+                                        styles.unavailableTimeSlotText,
+                                    ]}
+                                  >
+                                    {isAvailable ? `${slot.available}` : ""}
                                   </Text> */}
-                                  <Text style={styles.bookNowText}>
-                                    {isFull
-                                      ? "Full"
-                                      : typeof slot.available === "number"
-                                      ? `${slot.available}`
-                                      : ""}
-                                  </Text>
                                 </TouchableOpacity>
                               );
                             })}
@@ -388,29 +464,13 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                           }, // greyed out if not selected
                         ]}
                         disabled={!selectedTimeSlot}
-                        // onPress={() => {
-                        //   if (selectedTimeSlot) {
-                        //     navigation.navigate("DoctorsBookingPaymentScreen", {
-                        //       doctors,
-                        //     }); // navigate or process booking
-                        //   }
-                        // }}
                         onPress={bookSlot}
                       >
                         <Text style={styles.bookSlotText}>
                           {selectedTimeSlot ? "Book Slot" : "Book Slot"}
                         </Text>
                       </TouchableOpacity>
-                      <TouchableOpacity
-                        style={styles.bookSlotButton}
-                        onPress={() =>
-                          navigation.navigate("DoctorsBookingPaymentScreen", {
-                            doctors,
-                          })
-                        }
-                      >
-                        <Text style={styles.bookSlotText}>Skip</Text>
-                      </TouchableOpacity>
+                      
                     </View>
                   </View>
                 </View>
@@ -498,17 +558,6 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
             <View style={styles.availabilityContainer}>
               <Text style={styles.availabilityTimeText}>Available Time</Text>
               <View style={styles.availabilityShowBox}>
-                {/* <TouchableOpacity
-                style={styles.viewAllButton}
-                onPress={() =>
-                  navigation.navigate("DoctorAvailabilitySlots", {
-                    doctors: doctors,
-                  })
-                }
-              >
-                <Text style={styles.viewAllText}>View All Availability →</Text>
-              </TouchableOpacity> */}
-
                 <View style={styles.dateSelector}>
                   {availableDates.map((date) => (
                     <TouchableOpacity
@@ -534,7 +583,7 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                       style={styles.timeSlotScroll}
                       contentContainerStyle={styles.timeSlotsContainer}
                     >
-                      {availableSlots.map((slot, idx) => {
+                      {/* {availableSlots.map((slot, idx) => {
                         const isFull = slot.available === 0;
                         return (
                           <TouchableOpacity
@@ -547,25 +596,66 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                               isFull && { backgroundColor: "#ccc" },
                             ]}
                             onPress={() => {
-                              setSelectedTimeSlot(slot.start);
+                              handleSlotSelect(slot.start);
                             }}
+                          >
+                            
+                            <Text
+                              style={[
+                                styles.timeSlotText,
+                                selectedTimeSlot === slot.start &&
+                                  styles.selectedTimeSlotText,
+                                isFull && { color: "#888" },
+                              ]}
+                            >
+                              {slot.start} - {slot.end}
+                            </Text>
+
+                            <Text
+                              style={[
+                                styles.bookNowText,
+                                isFull && { color: "#888" },
+                              ]}
+                            >
+                              {isFull ? `${slot.available}` : ""}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      })} */}
+                      {availableSlots.map((slot, idx) => {
+                        const isAvailable = slot.available > 0;
+                        return (
+                          <TouchableOpacity
+                            key={idx}
+                            disabled={!isAvailable}
+                            style={[
+                              styles.timeSlot,
+                              selectedTimeSlot === slot.start &&
+                                styles.selectedTimeSlot,
+                              !isAvailable && styles.unavailableTimeSlot,
+                            ]}
+                            onPress={() =>
+                              isAvailable && handleSlotSelect(slot.start)
+                            }
                           >
                             <Text
                               style={[
                                 styles.timeSlotText,
                                 selectedTimeSlot === slot.start &&
                                   styles.selectedTimeSlotText,
+                                !isAvailable && styles.unavailableTimeSlotText,
                               ]}
                             >
                               {slot.start} - {slot.end}
                             </Text>
-                            <Text style={styles.bookNowText}>
-                              {isFull
-                                ? "Full"
-                                : typeof slot.available === "number"
-                                ? `${slot.available}`
-                                : ""}
-                            </Text>
+                            {/* <Text
+                              style={[
+                                styles.bookNowText,
+                                !isAvailable && styles.unavailableTimeSlotText,
+                              ]}
+                            >
+                              {isAvailable ? `${slot.available}` : ""}
+                            </Text> */}
                           </TouchableOpacity>
                         );
                       })}
@@ -576,6 +666,20 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                     </Text>
                   )}
                 </View>
+                {/* <TouchableOpacity
+                  style={[
+                    styles.bookSlotButton,
+                    !selectedTimeSlot && {
+                      backgroundColor: "rgba(255, 112, 114, 0.6)",
+                    }, // greyed out if not selected
+                  ]}
+                  disabled={!selectedTimeSlot}
+                  onPress={bookSlot}
+                >
+                  <Text style={styles.bookSlotText}>
+                    {selectedTimeSlot ? "Book Slot" : "Book Slot"}
+                  </Text>
+                </TouchableOpacity> */}
               </View>
             </View>
             <TouchableOpacity
@@ -814,8 +918,8 @@ const styles = StyleSheet.create({
     color: " rgb(94, 93, 93)",
   },
   availabilityContainer: {
-    height: "40%",
-    width: "88%",
+    height: "50%",
+    width: "90%",
     //borderWidth: 1,
     alignSelf: "center",
     marginVertical: "4%",
@@ -833,13 +937,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: "2%",
   },
   availabilityShowBox: {
-    height: "91%",
+    height: "92%",
     width: "98%",
-    //borderWidth:1,
+    borderWidth:1,
     alignSelf: "center",
     borderRadius: 15,
     boxShadow: " 0px 0px 4px 1px rgba(0, 0, 0, 0.25)",
-    marginVertical: "2%",
+    marginVertical: "1%",
     flexDirection: "column",
   },
   availabilityBox: {
@@ -960,13 +1064,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   bookAppointmentButton: {
-    height: "5%",
+    height: "6%",
     width: "70%",
     //borderWidth: 1,
     alignSelf: "center",
     borderRadius: 8,
     backgroundColor: "rgb(237, 109, 111)",
-    marginTop: "5%",
+    marginTop: "2%",
     ...Platform.select({
       web: {
         marginBottom: "15%",
@@ -1229,7 +1333,7 @@ const styles = StyleSheet.create({
 
   dateSelector: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     borderWidth: 2,
     borderColor: "#d3d3d3",
     //boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
@@ -1238,7 +1342,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    paddingHorizontal: "2.2%",
+    paddingHorizontal: "0.5%",
     ...Platform.select({
       web: {
         flexDirection: "row",
@@ -1259,7 +1363,7 @@ const styles = StyleSheet.create({
   },
   dateOption: {
     width: "34%",
-    padding: "1%",
+    paddingRight: "2.4%",
     alignItems: "center",
     borderBottomWidth: 2,
     borderBottomColor: "transparent",
@@ -1285,7 +1389,7 @@ const styles = StyleSheet.create({
     }),
   },
   dateLabel: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: "bold",
     color: "#333",
     ...Platform.select({
@@ -1309,7 +1413,7 @@ const styles = StyleSheet.create({
   },
   timeSlotSection: {
     marginTop: "2%",
-    height: "65%",
+    height: "75%",
     width: "95%",
     alignSelf: "center",
     //borderWidth: 1,
@@ -1380,16 +1484,17 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     borderWidth: 1,
     borderColor: "rgba(22, 128, 236, 0.75)",
-    height: "22%",
+    height: "25%",
     marginTop: "4%",
     marginLeft: "3%",
+    alignItems: "center",
     ...Platform.select({
       web: {
         backgroundColor: "#fff",
         paddingVertical: "2%",
         paddingHorizontal: "3%",
         borderRadius: 3,
-        borderWidth: 1,
+        //borderWidth: 1,
         borderColor: "rgba(22, 128, 236, 0.75)",
         height: "22%",
         marginTop: "4%",
@@ -1427,6 +1532,24 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         color: "#ffffff",
+      },
+    }),
+  },
+  unavailableTimeSlot: {
+    backgroundColor: "#f0f0f0",
+    borderColor: "#ccc",
+    ...Platform.select({
+      web: {
+        backgroundColor: "#f0f0f0",
+        borderColor: "#ccc",
+      },
+    }),
+  },
+  unavailableTimeSlotText: {
+    color: "#888",
+    ...Platform.select({
+      web: {
+        color: "#888",
       },
     }),
   },

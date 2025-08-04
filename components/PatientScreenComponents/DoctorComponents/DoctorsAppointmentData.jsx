@@ -265,6 +265,9 @@ const DoctorAppointmentScreen = ({ navigation }) => {
                             <Text style={styles.specialization}>
                               {item.specialization}
                             </Text>
+                            <Text style={styles.locationText}>
+                              {item.location}
+                            </Text>
                           </View>
                           <View style={styles.verifiedByMCI}>
                             <Image
@@ -665,6 +668,7 @@ const styles = StyleSheet.create({
     width: "60%",
     height: "100%",
     borderColor: "#adff2f",
+    flexDirection:"column",
     ...Platform.select({
       web: {
         width: windowWidth > 1000 ? "60%" : "65%",
@@ -682,6 +686,11 @@ const styles = StyleSheet.create({
         color: "#444444",
       },
     }),
+  },
+  locationText:{
+   fontSize:11,
+   fontWeight:400,
+   color:"#444444"
   },
   experience: {
     fontSize: 13,

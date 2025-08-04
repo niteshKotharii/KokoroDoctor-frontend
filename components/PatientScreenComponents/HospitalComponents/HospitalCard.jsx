@@ -110,7 +110,7 @@ const HospitalCard = ({ navigation }) => {
                     Emergency Beds Available
                   </Text>
                 </View>
-                <View style={styles.app_container3Right}>
+                {/* <View style={styles.app_container3Right}>
                   <TouchableOpacity>
                     <Icon
                       style={styles.app_icondesign}
@@ -120,7 +120,7 @@ const HospitalCard = ({ navigation }) => {
                     />
                   </TouchableOpacity>
                   <Text style={styles.app_callHospital}>Call Hospital</Text>
-                </View>
+                </View> */}
               </View>
             </View>
           </View>
