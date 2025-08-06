@@ -318,7 +318,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                   </View>
 
                   <View style={styles.authButtonsApp}>
-                    <Pressable
+                    <Pressable style={styles.authButtonBox}
                       onPress={() => setDropdownVisible(!dropdownVisible)}
                     >
 
@@ -360,7 +360,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                       style={{
                         fontWeight: "600",
                         color: "#000000",
-                        fontSize: 20,
+                        fontSize: 19,
                       }}
                     >
                       Hello,
@@ -369,7 +369,7 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                       style={{
                         fontWeight: "800",
                         color: "#000000",
-                        fontSize: 20,
+                        fontSize: 19,
                       }}
                     >
                       {" "}
@@ -407,11 +407,14 @@ const styles = StyleSheet.create({
   },
   appHeader: {
     width: "100%",
-    height: 70,
+    height: 65,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 15,
+    paddingHorizontal: "4%",
+    //borderWidth:1,
+    marginTop:"3%",
+    boxShadow: "rgba(235, 152, 157, 0.23) 0px 30px 60px -12px inset, rgba(199, 196, 196, 0.3) 0px 18px 36px -18px inset",
     ...Platform.select({
       web: {
         //gap: 100,
@@ -419,7 +422,7 @@ const styles = StyleSheet.create({
     }),
   },
   hamburger: {
-    marginHorizontal: 5,
+    marginHorizontal:"2%",
   },
   overlay: {
     position: "absolute",
@@ -454,7 +457,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 15,
-    marginRight: "5%",
+    marginRight: "3%",
+  },
+  authButtonBox:{
+    //borderWidth:1,
   },
   authButton: {
     height: 50,
@@ -499,7 +505,8 @@ const styles = StyleSheet.create({
   },
   usernameApp: {
     flexDirection: "row",
-    marginLeft: 20,
+    marginLeft: "6%",
+    marginTop:"2%"
   },
   logoutButton: {
     padding: 8,

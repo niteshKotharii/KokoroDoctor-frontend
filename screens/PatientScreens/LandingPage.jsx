@@ -285,7 +285,9 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     resizeMode: "contain",
   },
-  searchBar: {},
+  searchBar: {
+    marginTop:"2%"
+  },
   cards: {
     height: "60%",
     width: "100%",
