@@ -470,7 +470,6 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                           {selectedTimeSlot ? "Book Slot" : "Book Slot"}
                         </Text>
                       </TouchableOpacity>
-                      
                     </View>
                   </View>
                 </View>
@@ -581,47 +580,9 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
                   {availableSlots.length > 0 ? (
                     <ScrollView
                       style={styles.timeSlotScroll}
+                      keyboardShouldPersistTaps="handled" 
                       contentContainerStyle={styles.timeSlotsContainer}
                     >
-                      {/* {availableSlots.map((slot, idx) => {
-                        const isFull = slot.available === 0;
-                        return (
-                          <TouchableOpacity
-                            key={idx}
-                            disabled={isFull}
-                            style={[
-                              styles.timeSlot,
-                              selectedTimeSlot === slot.start &&
-                                styles.selectedTimeSlot,
-                              isFull && { backgroundColor: "#ccc" },
-                            ]}
-                            onPress={() => {
-                              handleSlotSelect(slot.start);
-                            }}
-                          >
-                            
-                            <Text
-                              style={[
-                                styles.timeSlotText,
-                                selectedTimeSlot === slot.start &&
-                                  styles.selectedTimeSlotText,
-                                isFull && { color: "#888" },
-                              ]}
-                            >
-                              {slot.start} - {slot.end}
-                            </Text>
-
-                            <Text
-                              style={[
-                                styles.bookNowText,
-                                isFull && { color: "#888" },
-                              ]}
-                            >
-                              {isFull ? `${slot.available}` : ""}
-                            </Text>
-                          </TouchableOpacity>
-                        );
-                      })} */}
                       {availableSlots.map((slot, idx) => {
                         const isAvailable = slot.available > 0;
                         return (
@@ -685,6 +646,8 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
             <TouchableOpacity
               style={styles.bookAppointmentButton}
               onPress={handleBookAppointment}
+              activeOpacity={0.7}
+              hitSlop={{ top: 10, bottom: 10, left: 25, right: 25 }}
             >
               <Text style={styles.bookAppointmentText}>Book Slot</Text>
             </TouchableOpacity>
@@ -939,7 +902,7 @@ const styles = StyleSheet.create({
   availabilityShowBox: {
     height: "92%",
     width: "98%",
-    borderWidth:1,
+    borderWidth: 1,
     alignSelf: "center",
     borderRadius: 15,
     boxShadow: " 0px 0px 4px 1px rgba(0, 0, 0, 0.25)",
@@ -1074,6 +1037,9 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         marginBottom: "15%",
+      },
+      ios: {
+        minHeight: 44, // Apple's minimum touch target
       },
     }),
   },
