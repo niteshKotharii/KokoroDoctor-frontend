@@ -13,6 +13,7 @@ import {
   Linking,
   useWindowDimensions,
   StatusBar,
+  SafeAreaView,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../../../contexts/ChatbotContext";
@@ -381,7 +382,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
           >
             <View style={styles.mobileContainer}>
               {/* Header with back button and title */}
-              <View style={styles.doctorInfoContainer}>
+              <SafeAreaView style={styles.doctorInfoContainer}>
                 <View style={styles.profileButton}>
                   <Image
                     source={
@@ -401,7 +402,7 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
                 <Text style={styles.doctorSpecialty}>
                   ({doctors.specialization})
                 </Text>
-              </View>
+              </SafeAreaView>
 
               {/* Doctor Info Section */}
               <View style={styles.mobileHeader}>
@@ -501,7 +502,6 @@ const DoctorsBookingPaymentScreen = ({ navigation, route }) => {
               >
                 <Text style={styles.continueButtonText}>Continue</Text>
               </TouchableOpacity>
-              
             </View>
           </ScrollView>
         </View>

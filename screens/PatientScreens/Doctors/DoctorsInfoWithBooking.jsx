@@ -13,6 +13,8 @@ import {
   Dimensions,
   StatusBar,
   ScrollView,
+  Pressable,
+  SafeAreaView,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SideBarNavigation from "../../../components/PatientScreenComponents/SideBarNavigation";
@@ -478,182 +480,187 @@ const DoctorsInfoWithBooking = ({ navigation, route }) => {
           </View>
         </View>
       )}
+
       {(Platform.OS !== "web" || width < 1000) && (
-        <View style={styles.appContainer}>
-          <ScrollView>
-            <StatusBar barStyle="light-content" backgroundColor="#fff" />
-            {/* <View style={{ flex: 1 }}> */}
-            <View style={styles.appImageContainer}>
-              <Image
-                source={{ uri: doctors.profilePhoto }}
-                style={styles.doctorImage}
-              />
-              <View style={styles.firstText}>
-                <Text style={styles.doctorName}>{doctors.doctorname}</Text>
-              </View>
-              <View style={styles.secondText}>
-                <Text style={styles.doctorCredentials}>
-                  ({doctors.specialization})
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.experienceRatingContainer}>
-              <View style={styles.experienceSection}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <View style={styles.appContainer}>
+            <ScrollView>
+              <StatusBar barStyle="light-content" backgroundColor="#fff" />
+              {/* <View style={{ flex: 1 }}> */}
+              <View style={styles.appImageContainer}>
                 <Image
-                  source={require("../../../assets/Icons/doctorTool.png")}
-                  style={styles.doctorIcon}
+                  source={{ uri: doctors.profilePhoto }}
+                  style={styles.doctorImage}
                 />
-                <View style={styles.experienceDetail}>
-                  <Text style={styles.experienceText}>Total Experience</Text>
-                  <Text style={styles.experience}>{doctors.experience}</Text>
+                <View style={styles.firstText}>
+                  <Text style={styles.doctorName}>{doctors.doctorname}</Text>
                 </View>
-              </View>
-              <View style={styles.verticalLine} />
-              <View style={styles.ratingSection}>
-                <Image
-                  source={require("../../../assets/Icons/Star.png")}
-                  style={styles.doctorIcon}
-                />
-                <TouchableOpacity style={styles.ratingDetail}>
-                  <Text style={styles.ratingText}>Rating & Reviews</Text>
-                  <Text style={styles.rating}>{4.5}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.OfflineOnlineMode}>
-              <TouchableOpacity style={styles.OfflineMode}>
-                <Image
-                  source={require("../../../assets/Icons/offline.png")}
-                  style={styles.offlineIcon}
-                />
-                <Text style={styles.offlineText}>Offline Appointment</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.OnlineMode}>
-                <Image
-                  source={require("../../../assets/Icons/videocall.png")}
-                  style={styles.onlineIcon}
-                />
-                <Text style={styles.onlineText}>Online Appointment</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.consultationFess}>
-              <View style={styles.iconBox}>
-                <Image
-                  source={require("../../../assets/Icons/dollarIcon.png")}
-                  style={styles.dollarIcon}
-                />
-              </View>
-              <View style={styles.feesBox}>
-                <Text style={styles.fees}>
-                  {/* {doctors.consultationFees || `₹${doctors.fees || 0}`} */}
-                  Free
-                </Text>
-                <Text style={styles.feesText}>Consultation fees</Text>
-              </View>
-            </View>
-
-            <View style={styles.availabilityContainer}>
-              <Text style={styles.availabilityTimeText}>Available Time</Text>
-              <View style={styles.availabilityShowBox}>
-                <View style={styles.dateSelector}>
-                  {availableDates.map((date) => (
-                    <TouchableOpacity
-                      key={date.id}
-                      style={[
-                        styles.dateOption,
-                        selectedDate === date.date && styles.selectedDate,
-                      ]}
-                      onPress={() => handleDateSelect(date.date)}
-                    >
-                      <Text style={styles.dateLabel}>{date.label}</Text>
-                      <Text style={styles.slotsAvailable}>
-                        {date.slots.length > 0
-                          ? `${date.slots.length} slots Available`
-                          : "No slot"}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-                <View style={styles.timeSlotSection}>
-                  {availableSlots.length > 0 ? (
-                    <ScrollView
-                      style={styles.timeSlotScroll}
-                      keyboardShouldPersistTaps="handled" 
-                      contentContainerStyle={styles.timeSlotsContainer}
-                    >
-                      {availableSlots.map((slot, idx) => {
-                        const isAvailable = slot.available > 0;
-                        return (
-                          <TouchableOpacity
-                            key={idx}
-                            disabled={!isAvailable}
-                            style={[
-                              styles.timeSlot,
-                              selectedTimeSlot === slot.start &&
-                                styles.selectedTimeSlot,
-                              !isAvailable && styles.unavailableTimeSlot,
-                            ]}
-                            onPress={() =>
-                              isAvailable && handleSlotSelect(slot.start)
-                            }
-                          >
-                            <Text
-                              style={[
-                                styles.timeSlotText,
-                                selectedTimeSlot === slot.start &&
-                                  styles.selectedTimeSlotText,
-                                !isAvailable && styles.unavailableTimeSlotText,
-                              ]}
-                            >
-                              {slot.start} - {slot.end}
-                            </Text>
-                            {/* <Text
-                              style={[
-                                styles.bookNowText,
-                                !isAvailable && styles.unavailableTimeSlotText,
-                              ]}
-                            >
-                              {isAvailable ? `${slot.available}` : ""}
-                            </Text> */}
-                          </TouchableOpacity>
-                        );
-                      })}
-                    </ScrollView>
-                  ) : (
-                    <Text style={styles.noSlotText}>
-                      No slots available for this date
-                    </Text>
-                  )}
-                </View>
-                {/* <TouchableOpacity
-                  style={[
-                    styles.bookSlotButton,
-                    !selectedTimeSlot && {
-                      backgroundColor: "rgba(255, 112, 114, 0.6)",
-                    }, // greyed out if not selected
-                  ]}
-                  disabled={!selectedTimeSlot}
-                  onPress={bookSlot}
-                >
-                  <Text style={styles.bookSlotText}>
-                    {selectedTimeSlot ? "Book Slot" : "Book Slot"}
+                <View style={styles.secondText}>
+                  <Text style={styles.doctorCredentials}>
+                    ({doctors.specialization})
                   </Text>
-                </TouchableOpacity> */}
+                </View>
               </View>
-            </View>
-            <TouchableOpacity
+
+              <View style={styles.experienceRatingContainer}>
+                <View style={styles.experienceSection}>
+                  <Image
+                    source={require("../../../assets/Icons/doctorTool.png")}
+                    style={styles.doctorIcon}
+                  />
+                  <View style={styles.experienceDetail}>
+                    <Text style={styles.experienceText}>Total Experience</Text>
+                    <Text style={styles.experience}>{doctors.experience}</Text>
+                  </View>
+                </View>
+                <View style={styles.verticalLine} />
+                <View style={styles.ratingSection}>
+                  <Image
+                    source={require("../../../assets/Icons/Star.png")}
+                    style={styles.doctorIcon}
+                  />
+                  <TouchableOpacity style={styles.ratingDetail}>
+                    <Text style={styles.ratingText}>Rating & Reviews</Text>
+                    <Text style={styles.rating}>{4.5}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              {/* <View style={styles.OfflineOnlineMode}>
+                <TouchableOpacity style={styles.OfflineMode}>
+                  <Image
+                    source={require("../../../assets/Icons/offline.png")}
+                    style={styles.offlineIcon}
+                  />
+                  <Text style={styles.offlineText}>Offline Appointment</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.OnlineMode}>
+                  <Image
+                    source={require("../../../assets/Icons/videocall.png")}
+                    style={styles.onlineIcon}
+                  />
+                  <Text style={styles.onlineText}>Online Appointment</Text>
+                </TouchableOpacity>
+              </View> */}
+
+              <View style={styles.consultationFess}>
+                <View style={styles.iconBox}>
+                  <Image
+                    source={require("../../../assets/Icons/dollarIcon.png")}
+                    style={styles.dollarIcon}
+                  />
+                </View>
+                <View style={styles.feesBox}>
+                  <Text style={styles.fees}>
+                    {/* {doctors.consultationFees || `₹${doctors.fees || 0}`} */}
+                    Free
+                  </Text>
+                  <Text style={styles.feesText}>Consultation fees</Text>
+                </View>
+              </View>
+
+              <View style={styles.availabilityContainer}>
+                <Text style={styles.availabilityTimeText}>Available Time</Text>
+                <View style={styles.availabilityShowBox}>
+                  <View style={styles.dateSelector}>
+                    {availableDates.map((date) => (
+                      <TouchableOpacity
+                        key={date.id}
+                        style={[
+                          styles.dateOption,
+                          selectedDate === date.date && styles.selectedDate,
+                        ]}
+                        onPress={() => handleDateSelect(date.date)}
+                      >
+                        <Text style={styles.dateLabel}>{date.label}</Text>
+                        <Text style={styles.slotsAvailable}>
+                          {date.slots.length > 0
+                            ? `${date.slots.length} slots Available`
+                            : "No slot"}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                  <View style={styles.timeSlotSection}>
+                    {availableSlots.length > 0 ? (
+                      <ScrollView
+                        style={styles.timeSlotScroll}
+                        keyboardShouldPersistTaps="handled"
+                        contentContainerStyle={styles.timeSlotsContainer}
+                      >
+                        {availableSlots.map((slot, idx) => {
+                          const isAvailable = slot.available > 0;
+                          return (
+                            <TouchableOpacity
+                              key={idx}
+                              disabled={!isAvailable}
+                              style={[
+                                styles.timeSlot,
+                                selectedTimeSlot === slot.start &&
+                                  styles.selectedTimeSlot,
+                                !isAvailable && styles.unavailableTimeSlot,
+                              ]}
+                              onPress={() =>
+                                isAvailable && handleSlotSelect(slot.start)
+                              }
+                            >
+                              <Text
+                                style={[
+                                  styles.timeSlotText,
+                                  selectedTimeSlot === slot.start &&
+                                    styles.selectedTimeSlotText,
+                                  !isAvailable &&
+                                    styles.unavailableTimeSlotText,
+                                ]}
+                              >
+                                {slot.start} - {slot.end}
+                              </Text>
+                              {/* <Text
+                                style={[
+                                  styles.bookNowText,
+                                  !isAvailable && styles.unavailableTimeSlotText,
+                                ]}
+                              >
+                                {isAvailable ? `${slot.available}` : ""}
+                              </Text> */}
+                            </TouchableOpacity>
+                          );
+                        })}
+                      </ScrollView>
+                    ) : (
+                      <Text style={styles.noSlotText}>
+                        No slots available for this date
+                      </Text>
+                    )}
+                  </View>
+                  {/* <TouchableOpacity
+                    style={[
+                      styles.bookSlotButton,
+                      !selectedTimeSlot && {
+                        backgroundColor: "rgba(255, 112, 114, 0.6)",
+                      }, // greyed out if not selected
+                    ]}
+                    disabled={!selectedTimeSlot}
+                    onPress={bookSlot}
+                  >
+                    <Text style={styles.bookSlotText}>
+                      {selectedTimeSlot ? "Book Slot" : "Book Slot"}
+                    </Text>
+                  </TouchableOpacity> */}
+                </View>
+              </View>
+
+              {/* </View> */}
+            </ScrollView>
+            <Pressable
               style={styles.bookAppointmentButton}
               onPress={handleBookAppointment}
               activeOpacity={0.7}
-              hitSlop={{ top: 10, bottom: 10, left: 25, right: 25 }}
+              // hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             >
               <Text style={styles.bookAppointmentText}>Book Slot</Text>
-            </TouchableOpacity>
-            {/* </View> */}
-          </ScrollView>
-        </View>
+            </Pressable>
+          </View>
+        </SafeAreaView>
       )}
     </>
   );
@@ -693,12 +700,13 @@ const styles = StyleSheet.create({
     }),
   },
   experienceRatingContainer: {
-    height: "7%",
+    height: "9%",
     width: "88%",
     //borderWidth: 1,
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "space-around",
+    marginVertical: "4%",
     borderRadius: 5,
     boxShadow: " 0px 0px 4px 3px rgba(0, 0, 0, 0.25)",
     backgroundColor: "rgba(255, 252, 252, 1)",
@@ -824,11 +832,11 @@ const styles = StyleSheet.create({
     fontWeight: 500,
   },
   consultationFess: {
-    height: "7%",
+    height: "9%",
     width: "88%",
     //borderWidth: 1,
     alignSelf: "center",
-    marginVertical: "0.4%",
+    marginVertical: "1%",
     borderRadius: 5,
     //borderColor:"red",
     boxShadow: " 0px 0px 4px 3px rgba(0, 0, 0, 0.25)",
@@ -885,7 +893,7 @@ const styles = StyleSheet.create({
     width: "90%",
     //borderWidth: 1,
     alignSelf: "center",
-    marginVertical: "4%",
+    marginVertical: "8%",
     overflow: "hidden",
     ...Platform.select({
       web: {
@@ -897,7 +905,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: 600,
     color: "#444444",
-    paddingHorizontal: "2%",
+    paddingHorizontal: "4%",
   },
   availabilityShowBox: {
     height: "92%",
@@ -1027,13 +1035,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   bookAppointmentButton: {
-    height: "6%",
+    height: "7%",
     width: "70%",
     //borderWidth: 1,
     alignSelf: "center",
-    borderRadius: 8,
+    borderRadius: 14,
     backgroundColor: "rgb(237, 109, 111)",
-    marginTop: "2%",
+    marginTop: "0%",
     ...Platform.select({
       web: {
         marginBottom: "15%",
@@ -1045,9 +1053,9 @@ const styles = StyleSheet.create({
   },
   bookAppointmentText: {
     alignSelf: "center",
-    paddingVertical: "3.5%",
+    paddingVertical: "6%",
     color: "#FFFFFF",
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 600,
   },
   imageBackground: {

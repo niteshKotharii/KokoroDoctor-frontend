@@ -286,7 +286,9 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#fff",
   },
-  searchBar: {},
+  searchBar: {
+    marginTop: "4%",
+  },
 
   imageContainer: {
     height: "100%",

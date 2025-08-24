@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Kokoro.doctor",
-    "slug": "Kokoro-doctor",
-    "version": "1.0.1",
+    "slug": "kokoro-doctor",
+    "version": "1.0.0",
     "platforms": [
       "ios",
       "android",
@@ -10,19 +10,16 @@
     ],
     "newArchEnabled": true,
     "plugins": [
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./assets/fonts/OpenSans-Regular.ttf",
-            "./assets/fonts/OpenSans-Bold.ttf"
-          ]
-        }
-      ],
+      "expo-font",
       "expo-router"
     ],
     "ios": {
-      "bundleIdentifier": "com.kokoro.doctor"
+      "bundleIdentifier": "com.profcess.kokoro.doctor.app",
+      "buildNumber": "3",
+      "icon": "/Users/niteshkothari/Projects/KokoroDoctor/kokoro.doctor-frontend/assets/Icons/kokoro.png",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "web": {
       "bundler": "metro"
@@ -36,9 +33,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "34f5f564-16d6-49a6-8b83-8c7f1f43efa7"
+        "projectId": "6888dd46-a5c9-42fa-8a60-cbb4a6e0eb5a"
       }
-    }
-  },
-  "name": "Kokoro.doctor"
+    },
+    "owner": "kokoro_doctor"
+  }
 }

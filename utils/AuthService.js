@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-
+import { makeRedirectUri } from "expo-auth-session";
 WebBrowser.maybeCompleteAuthSession();
 
 import {
@@ -11,14 +11,30 @@ import {
   webClientId,
 } from "../env-vars";
 
+// // Google Auth Request
+// export const useGoogleAuth = () => {
+//   return Google.useAuthRequest({
+//     androidClientId: androidClientId,
+//     iosClientId: iosClientId,
+//     webClientId: webClientId,
+//     // redirectUri: "https://kokoro.doctor",
+//     redirectUri: makeRedirectUri({
+//     native: "com.kokoro.doctor:/oauthredirect",
+//     }),
+//     useProxy: false,
+//   });
+// };
+
 // Google Auth Request
 export const useGoogleAuth = () => {
   return Google.useAuthRequest({
     androidClientId: androidClientId,
     iosClientId: iosClientId,
     webClientId: webClientId,
-    redirectUri: "https://kokoro.doctor",
-    useProxy: false,
+    redirectUri: makeRedirectUri({
+      useProxy: true, //  Use Expo proxy for dev (HTTPS URL)
+    }),
+    useProxy: true, // Important for dev — avoids local IP in redirect URI
   });
 };
 

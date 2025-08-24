@@ -19,6 +19,7 @@ import {
   FlatList,
   Dimensions,
   StatusBar,
+  SafeAreaView,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useChatbot } from "../../../contexts/ChatbotContext";
@@ -377,6 +378,7 @@ const styles = StyleSheet.create({
   headContainer: {
     height: 60,
     width: "100%",
+    marginTop: "14%",
     justifyContent: "center",
     alignItems: "center",
     zIndex: 2,
@@ -399,6 +401,7 @@ const styles = StyleSheet.create({
     height: "78%",
     width: "90%",
     marginLeft: "5%",
+    marginTop: "10%",
     alignItems: "center",
     gap: 5,
   },
@@ -525,7 +528,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // justifyContent:"flex-end",
     //borderWidth:1,
-    marginTop:"4%"
+    marginTop: "4%",
   },
 
   display: {
@@ -534,7 +537,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     // alignItems: "center",
     // overflow: "hidden",
-    alignItems:"flex-start",
+    alignItems: "flex-start",
   },
   leftarrow: {
     height: "100%",
@@ -562,7 +565,7 @@ const styles = StyleSheet.create({
     width: "25%",
     height: "100%",
     alignItems: "flex-end",
-    marginTop:"3%"
+    marginTop: "3%",
   },
   emergencyCardContainer: {
     width: "70%",

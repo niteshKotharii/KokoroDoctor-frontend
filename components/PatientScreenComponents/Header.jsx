@@ -11,13 +11,12 @@ import {
   TextInput,
   Dimensions,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import { AuthContext } from "../../contexts/AuthContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import SideBarNavigation from "./SideBarNavigation";
-import NewSideNav from "../DoctorsPortalComponents/NewSideNav";
 import NewestSidebar from "../DoctorsPortalComponents/NewestSidebar";
-//import DoctorPatientLandingPage from "../../screens/DoctorScreens/DoctorRegistration/DoctorPatientLandingPage1";
 
 const { width, height } = Dimensions.get("window");
 
@@ -51,7 +50,10 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
   // };
 
   return (
-    <View style={styles.header}>
+    // <SafeAreaView
+    //   style={[styles.safeArea, Platform.OS === "ios" && styles.iosExtraPadding]}
+    // >
+    <SafeAreaView style={styles.header}>
       {user ? (
         // Show user info when logged in
         <>
@@ -106,11 +108,21 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                   </Pressable>
                   {dropdownVisible && (
                     <View style={[styles.dropdownMain, styles.dropdownWeb]}>
-                      <Pressable onPress={() => {}} style={styles.dropdownItem}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate("PatientAppNavigation", {
+                            screen: "Settings",
+                          })
+                        }
+                        style={styles.dropdownItem}
+                      >
                         <Text style={styles.dropdownText}>Profile</Text>
-                      </Pressable>
+                      </TouchableOpacity>
                       <Pressable onPress={logout} style={styles.dropdownItem}>
                         <Text style={styles.dropdownText}>Logout</Text>
+                      </Pressable>
+                      <Pressable onPress={logout} style={styles.dropdownItem}>
+                        <Text style={styles.dropdownText}>Delete Account</Text>
                       </Pressable>
                     </View>
                   )}
@@ -191,7 +203,11 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                         style={[styles.dropdownMain, styles.dropdownLoggedIn]}
                       >
                         <Pressable
-                          onPress={() => {}}
+                          onPress={() =>
+                            navigation.navigate("PatientAppNavigation", {
+                              screen: "Settings",
+                            })
+                          }
                           style={styles.dropdownItem}
                         >
                           <Text style={styles.dropdownText}>Profile</Text>
@@ -267,7 +283,6 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
 
           {(Platform.OS !== "web" || width < 1000) && (
             <>
-
               <Modal
                 visible={isSideBarVisible}
                 transparent={true}
@@ -318,10 +333,10 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                   </View>
 
                   <View style={styles.authButtonsApp}>
-                    <Pressable style={styles.authButtonBox}
+                    <Pressable
+                      style={styles.authButtonBox}
                       onPress={() => setDropdownVisible(!dropdownVisible)}
                     >
-
                       <MaterialIcons name="person" size={30} color="black" />
                     </Pressable>
                     <Pressable>
@@ -350,7 +365,6 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
                           <Text style={styles.dropdownText}>Signup</Text>
                         </Pressable>
                       </View>
-
                     )}
                   </View>
                 </View>
@@ -382,16 +396,22 @@ const Header = ({ navigation, isDoctorPortal = false }) => {
           )}
         </>
       )}
-    </View>
+    </SafeAreaView>
+    // </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    //backgroundColor: "#fff",
+  },
+  iosExtraPadding: {
+    paddingTop: "0%",
+  },
   header: {
     //height: "100%",
-    marginTop: "2%",
+    marginTop: "0%",
     justifyContent: "center",
-    //alignItems: "center",
     ...Platform.select({
       web: {
         marginTop: 5,
@@ -412,9 +432,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: "4%",
-    //borderWidth:1,
-    marginTop:"3%",
-    boxShadow: "rgba(235, 152, 157, 0.23) 0px 30px 60px -12px inset, rgba(199, 196, 196, 0.3) 0px 18px 36px -18px inset",
+    // borderWidth: 1,
+    marginTop: "0%",
+    // boxShadow:
+    //   "rgba(235, 152, 157, 0.23) 0px 30px 60px -12px inset, rgba(199, 196, 196, 0.3) 0px 18px 36px -18px inset",
     ...Platform.select({
       web: {
         //gap: 100,
@@ -422,7 +443,7 @@ const styles = StyleSheet.create({
     }),
   },
   hamburger: {
-    marginHorizontal:"2%",
+    marginHorizontal: "2%",
   },
   overlay: {
     position: "absolute",
@@ -437,7 +458,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 0,
-    width: "70%",
+    width: "60%",
     height: "100%",
     backgroundColor: "#fff",
     zIndex: 51,
@@ -459,7 +480,7 @@ const styles = StyleSheet.create({
     gap: 15,
     marginRight: "3%",
   },
-  authButtonBox:{
+  authButtonBox: {
     //borderWidth:1,
   },
   authButton: {
@@ -506,7 +527,7 @@ const styles = StyleSheet.create({
   usernameApp: {
     flexDirection: "row",
     marginLeft: "6%",
-    marginTop:"2%"
+    marginTop: "0%",
   },
   logoutButton: {
     padding: 8,
@@ -537,6 +558,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     zIndex: 100,
+    marginRight: "2%",
   },
   dropdownLoggedOut: {
     top: 30,
@@ -548,13 +570,13 @@ const styles = StyleSheet.create({
   },
   dropdownWeb: {
     top: 40,
-    right: -70,
+    right: "2%",
   },
   dropdownItem: {
     padding: 10,
   },
   dropdownText: {
-    fontSize: 16,
+    fontSize: 14,
   },
   welcomeContainer: {},
   welcomeText: {

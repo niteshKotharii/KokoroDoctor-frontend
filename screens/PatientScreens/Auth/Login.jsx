@@ -10,6 +10,7 @@ import {
   ImageBackground,
   Platform,
   useWindowDimensions,
+  SafeAreaView,
 } from "react-native";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { useGoogleAuth } from "../../../utils/AuthService";
@@ -59,11 +60,7 @@ const Login = ({ navigation }) => {
       {/* Web Version (for larger screens) */}
       {Platform.OS === "web" && width > 1000 && (
         <View style={styles.container}>
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor="transparent"
-
-          />
+          <StatusBar barStyle="light-content" backgroundColor="transparent" />
 
           <View style={styles.mainContainer}>
             {/* Left side with background image - 40% */}
@@ -183,13 +180,13 @@ const Login = ({ navigation }) => {
       {(Platform.OS !== "web" || width < 1000) && (
         <View style={styles.mobileContainer}>
           <StatusBar barStyle="light-content" backgroundColor="#fff" />
-          <View style={styles.logoContainer}>
+          <SafeAreaView style={styles.logoContainer}>
             <Image
               source={require("../../../assets/Images/KokoroLogo.png")}
               style={styles.logoImage}
             />
             <Text style={styles.logoText}>Kokoro.Doctor</Text>
-          </View>
+          </SafeAreaView>
 
           <View style={styles.mobileFormContainer}>
             <Text style={styles.mobileTitle}>Welcome Back!</Text>
@@ -264,14 +261,14 @@ const Login = ({ navigation }) => {
             </TouchableOpacity>
 
             {/* Or Divider */}
-            <View style={styles.mobileOrContainer}>
+            {/* <View style={styles.mobileOrContainer}>
               <View style={styles.mobileOrLine} />
               <Text style={styles.mobileOrText}>Or</Text>
               <View style={styles.mobileOrLine} />
-            </View>
+            </View> */}
 
             {/* Google Sign In */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.mobileGoogleButton}
               onPress={handleGoogleLogin}
             >
@@ -280,7 +277,7 @@ const Login = ({ navigation }) => {
                 style={styles.mobileGoogleIcon}
               />
               <Text style={styles.mobileGoogleText}>Continue with Google</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       )}

@@ -170,7 +170,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: "5%",
-    marginBottom: 40,
+    marginBottom: "20%",
+    marginTop: "24%",
+    // borderWidth: 1,
+    ...Platform.select({
+      web: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: "5%",
+        marginBottom: 40,
+        marginTop: "5%",
+        // borderWidth: 1,
+      },
+    }),
   },
   topimage_sidebar: {
     // height: "90%",

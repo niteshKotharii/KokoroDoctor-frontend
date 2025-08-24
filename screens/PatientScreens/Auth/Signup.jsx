@@ -397,13 +397,13 @@ const Signup = ({ navigation, route }) => {
               <Text style={styles.signInButtonText}>Sign Up</Text>
             </TouchableOpacity>
 
-            <View style={styles.orContainer}>
+            {/* <View style={styles.orContainer}>
               <View style={styles.orLine} />
               <Text style={styles.orText}>Or</Text>
               <View style={styles.orLine} />
-            </View>
+            </View> */}
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.googleButton}
               onPress={handleGoogleLogin}
             >
@@ -412,7 +412,7 @@ const Signup = ({ navigation, route }) => {
                 style={styles.googleIcon}
               />
               <Text style={styles.googleButtonText}>Continue with Google</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       )}

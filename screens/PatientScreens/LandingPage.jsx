@@ -23,7 +23,6 @@ const LandingPage = ({ navigation, route }) => {
   const { setChatbotConfig, isChatExpanded, setIsChatExpanded } = useChatbot();
   //const [selectedButton, setSelectedButton] = useState(null);
 
-
   useFocusEffect(
     useCallback(() => {
       setChatbotConfig({ height: "57%" });
@@ -286,7 +285,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   searchBar: {
-    marginTop:"2%"
+    marginTop: "6%",
   },
   cards: {
     height: "60%",
